@@ -1,0 +1,42 @@
+* {
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  box-sizing: border-box;
+  font-family: kanit;
+}
+
+.flex {
+  display: flex;
+}
+
+.nav {
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background-color: #021c2c;
+  padding: 0 20px;
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 10;
+}
+.nav .log {
+  width: 200px;
+  align-items: center;
+  gap: 10px;
+}
+.nav .log img {
+  width: 40px;
+  height: 40px;
+}
+
+h1 {
+  color: #f2f2f2;
+  bottom: 60%;
+  font-family: "Kanit", sans-serif;
+  font-weight: 600;
+}
+
+.hover-opcity {
+  opacity: 0.7;
+}/*# sourceMappingURL=base.css.map */
