@@ -1,14 +1,19 @@
-.kv-wrapper {
-  background-image: url(/static/images/wrapper-backgroud-image.jpeg);
-  background-size: cover;
+body {
+  background-image: url(/static/images/fugi.jpeg);
   width: 100vw;
   height: 100vh;
+  background-size: cover;
+}
+
+.kv-wrapper {
+  width: 1200px;
+  height: 100vh;
+  margin: auto;
 }
 
 main {
   position: relative;
   top: 10vh;
-  padding: 20px;
   justify-content: space-between;
   align-items: center;
   gap: 20px;
@@ -27,23 +32,43 @@ main {
   margin-bottom: 10px;
   font-size: 45px;
 }
-.slogan p {
+.slogan .subtitle {
   font-size: 28px;
   position: relative;
   left: 20px;
 }
-.slogan p #slogan-CODE {
+.slogan .subtitle #slogan-CODE {
   font-size: 42px;
   font-weight: 800;
   color: green;
 }
-.slogan #slogan-nextLine {
+.slogan .subtitle #slogan-nextLine {
   position: relative;
   left: 170px;
 }
+.slogan .CODE {
+  margin-top: 50px;
+}
+.slogan .CODE p {
+  font-size: 24px;
+}
+.slogan .CODE p {
+  position: relative;
+  left: 20px;
+}
+.slogan .initials {
+  color: green;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.signInUp-area {
+  width: 420px;
+  transition: all 0.2s ease-in-out;
+}
 
 .blurry-background {
-  width: 420px;
+  width: 100%;
   height: 500px;
   position: relative;
   right: 20px;

@@ -21,81 +21,103 @@
       <main class="flex">
         <section class="slogan">
           <h2>Collaborate with partners</h2>
-          <p>Build your second brain</p>
-          <p id="slogan-nextLine">
-            with <span id="slogan-CODE">CODE</span> Method.
-          </p>
+          <div class="subtitle">
+            <p>Build your second brain</p>
+            <p id="slogan-nextLine">
+              with <span id="slogan-CODE">CODE</span> Method.
+            </p>
+          </div>
+
+          <div class="CODE">
+            <!-- <p>What is the CODE?</p> -->
+            <p><span class="initials">C</span>apture</p>
+            <p><span class="initials">O</span>rganization</p>
+            <p><span class="initials">D</span>istill</p>
+            <p><span class="initials">E</span>xpress</p>
+          </div>
         </section>
+        <section class="signInUp-area">
+          <div class="login-ctn blurry-background">
+            <form action="" class="flex">
+              <p id="login-text">SignIn</p>
+              <div class="email flex input-box">
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="Email"
+                />
+                <div class="icon">
+                  <img src="/static/images/email.png" alt="email" />
+                </div>
+              </div>
+              <div class="password flex input-box">
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  placeholder="Password"
+                />
+                <div class="icon">
+                  <img src="/static/images/password.png" alt="password" />
+                </div>
+              </div>
+              <!-- <p class="error-msg">username or password incorrect</p> -->
+              <button>SignIn</button>
 
-        <div class="login-ctn blurry-background">
-          <form action="" class="flex">
-            <p id="login-text">Login</p>
-            <div class="email flex input-box">
-              <input type="email" name="email" id="email" placeholder="Email" />
-              <div class="icon">
-                <img src="/static/images/email.png" alt="email" />
+              <div class="switch-form">
+                <p>Don't have an account? Click<span> Register</span></p>
               </div>
-            </div>
-            <div class="password flex input-box">
-              <input
-                type="password"
-                name="password"
-                id="password"
-                placeholder="Password"
-              />
-              <div class="icon">
-                <img src="/static/images/password.png" alt="password" />
-              </div>
-            </div>
-            <!-- <p class="error-msg">username or password incorrect</p> -->
-            <button>Login</button>
+            </form>
+          </div>
 
-            <div class="switch-form">
-              <p>Don't have an account? Click<span> Register</span></p>
-            </div>
-          </form>
-        </div>
+          <div class="signup-ctn blurry-background form-none">
+            <form action="" class="flex">
+              <p id="login-text">SignUp</p>
+              <div class="email flex input-box">
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="Email"
+                />
+                <div class="icon">
+                  <img src="/static/images/email.png" alt="email" />
+                </div>
+              </div>
+              <div class="password flex input-box">
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  placeholder="Password"
+                />
+                <div class="icon">
+                  <img src="/static/images/password.png" alt="password" />
+                </div>
+              </div>
+              <div class="password flex input-box">
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  id="confirmPassword"
+                  placeholder="Confirm Your Password"
+                />
+                <div class="icon">
+                  <img src="/static/images/password.png" alt="password" />
+                </div>
+              </div>
+              <!-- <p class="error-msg">The email has already been registered</p> -->
+              <button>SignUp</button>
 
-        <div class="signup-ctn blurry-background form-none">
-          <form action="" class="flex">
-            <p id="login-text">Login</p>
-            <div class="email flex input-box">
-              <input type="email" name="email" id="email" placeholder="Email" />
-              <div class="icon">
-                <img src="/static/images/email.png" alt="email" />
+              <div class="switch-form">
+                <p>Back to <span>Sigin</span></p>
               </div>
-            </div>
-            <div class="password flex input-box">
-              <input
-                type="password"
-                name="password"
-                id="password"
-                placeholder="Password"
-              />
-              <div class="icon">
-                <img src="/static/images/password.png" alt="password" />
-              </div>
-            </div>
-            <div class="password flex input-box">
-              <input
-                type="password"
-                name="confirmPassword"
-                id="confirmPassword"
-                placeholder="Confirm Your Password"
-              />
-              <div class="icon">
-                <img src="/static/images/password.png" alt="password" />
-              </div>
-            </div>
-            <!-- <p class="error-msg">The email has already been registered</p> -->
-            <button>SignUp</button>
-
-            <div class="switch-form">
-              <p>Back to <span>Sigin</span></p>
-            </div>
-          </form>
-        </div>
+            </form>
+          </div>
+        </section>
       </main>
     </div>
+    <script src="js/index.js"></script>
   </body>
 </html>
