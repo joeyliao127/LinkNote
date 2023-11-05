@@ -1,0 +1,204 @@
+* {
+  font-family: "Kanit", sans-serif;
+}
+
+.nav {
+  padding: 10px 20px 0 20px;
+  height: 10vh;
+  .logo {
+    width: 200px;
+    align-items: center;
+    gap: 10px;
+    img {
+      width: 40px;
+      height: 40px;
+    }
+  }
+  h1 {
+    font-size: 36px;
+    color: #263935;
+    bottom: 60%;
+
+    font-weight: 600;
+    //   font-family: "Titillium Web", sans-serif;
+  }
+}
+
+.kv-wrapper {
+  // background-color: #021c2c;
+  width: 1200px;
+  height: 90vh;
+  padding: 20px;
+  //讓1200px保持在正中間
+  margin: auto;
+}
+
+main {
+  // padding: 20px;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+
+.slogan-ctn {
+  width: 540px;
+  position: relative;
+  top: -40px;
+  color: #f2f2f2;
+  h2 {
+    color: #f2f2f2;
+    display: block;
+    margin-bottom: 10px;
+    font-size: 45px;
+  }
+  .subtitle {
+    font-size: 28px;
+    position: relative;
+    left: 20px;
+    & {
+      // border: 1px red solid;
+    }
+    #slogan-CODE {
+      font-size: 42px;
+      font-weight: 800;
+      color: green;
+    }
+    #slogan-nextLine {
+      position: relative;
+      left: 170px;
+    }
+  }
+
+  .CODE {
+    margin-top: 50px;
+    flex-direction: column;
+    gap: 10px;
+
+    p {
+      font-size: 24px;
+    }
+    p {
+      position: relative;
+      left: 20px;
+    }
+    // p:not(:first-child) {
+    //   position: relative;
+    //   left: 20px;
+    // }
+  }
+  .initials {
+    color: green;
+    font-size: 32px;
+    font-weight: 600;
+  }
+}
+
+.signInUp-area {
+  width: 420px;
+  transition: all 0.2s ease-in-out;
+}
+
+//模糊背景區
+.blurry-background {
+  width: 100%;
+  height: 500px;
+  // position: relative;
+  right: 20px;
+  flex-grow: 0;
+  border-radius: 20px;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+  padding: 40px 50px 10px 50px;
+}
+
+.blurry-background form {
+  flex-direction: column;
+  gap: 25px;
+  .input-box {
+    position: relative; //讓icon根據input-box做定位，定位在input上。
+    input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: #052940 2px solid;
+      position: relative;
+      padding: 0 5px;
+      &::placeholder {
+        padding: 0 5px;
+        color: #dddddd;
+      }
+      &:focus {
+        //消除點擊時出現的方匡
+        outline: none;
+      }
+    }
+    .icon {
+      position: absolute;
+      top: -10px;
+      right: 10px;
+    }
+  }
+
+  img {
+    width: 25px;
+    height: 25px;
+  }
+  #login-text {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 500;
+    color: #263935;
+  }
+  button {
+    width: 100%;
+    height: 40px;
+    margin: 10px auto 0 auto;
+    border-radius: 12px;
+    border: 1px solid #263935;
+    background-color: #263935;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  .error-msg {
+    text-align: center;
+    color: rgb(204, 12, 12);
+  }
+
+  .switch-form {
+    text-align: center;
+    p {
+      color: #dddddd;
+    }
+    span {
+      cursor: pointer;
+      text-decoration: underline;
+      color: #778b86;
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
+  // .toSignin {
+  //   margin: auto;
+  //   span {
+  //     text-decoration: underline;
+  //     &:hover {
+  //     }
+  //   }
+  // }
+}
+
+.form-none {
+  display: none;
+}
+// @font-face {
+//   font-family: kanit;
+//   src: url(/static/font/Kanit/Kanit-Regular.ttf);
+// }

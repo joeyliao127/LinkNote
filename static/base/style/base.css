@@ -1,0 +1,40 @@
+* {
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.f-k {
+  font-family: kanit;
+}
+
+.flex {
+  display: flex;
+}
+
+body {
+  background-image: url(/static/images/fugi.jpeg);
+  background-repeat: no-repeat;
+  width: 100vw;
+  height: 100vh;
+  background-size: cover;
+}
+
+.b-3-7 {
+  color: rgba(3, 3, 3, 0.7);
+}
+
+.b-5 {
+  color: #555;
+}
+
+.b-6 {
+  color: #666;
+}
+
+.b-c {
+  color: #ccc;
+}
+
+.w-10 {
+  color: white;
+}/*# sourceMappingURL=base.css.map */
