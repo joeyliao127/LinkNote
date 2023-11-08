@@ -1,0 +1,246 @@
+* {
+  font-family: "Kanit", sans-serif;
+}
+.wrapper {
+  height: 100%;
+}
+.sideBar-wrapper {
+  padding: 20px;
+  width: 270px;
+  background-color: rgba(34, 34, 34, 0.9);
+  flex-direction: column;
+  gap: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  color: white;
+  position: relative;
+  //為了將登出btn定位在底部
+}
+
+//===========歡迎===============
+.sideBar-ctn-welcome {
+  margin-bottom: 10px;
+  padding: 20px 10px;
+  border-radius: 10px;
+  background-color: rgba(51, 51, 51, 0.7);
+  font-family: "Kanit", sans-serif;
+  user-select: none;
+  p {
+    text-align: center;
+    font-size: 24px;
+  }
+  h1 {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 10px;
+  }
+}
+
+.sideBar-ctn-welcome p::before {
+  content: "";
+  display: inline-block;
+  background-image: url(/static/resource/images/person.png);
+  width: 30px;
+  height: 30px;
+  background-size: cover;
+  vertical-align: bottom;
+  position: relative;
+  left: -10px;
+  bottom: -4px;
+}
+
+//search & New notebook
+.sideBar-ctn-feature {
+  border-top: 1px solid #444444;
+  padding-top: 12px;
+  text-align: center;
+  user-select: none;
+}
+.sideBar-searchBtn {
+  background-color: #666666;
+  border-radius: 10px;
+  padding: 8px 20px 8px 35px;
+  gap: 10px;
+  cursor: pointer;
+  input {
+    font-size: 20px;
+    font-weight: 500;
+    background-color: transparent;
+    border: transparent;
+    color: white;
+    width: 140px;
+    font-size: 16px;
+    &::placeholder {
+      //   text-align: center;
+
+      color: #aaaaaa;
+    }
+  }
+  img {
+    width: 22px;
+    height: 22px;
+    position: relative;
+    bottom: -2px;
+  }
+}
+
+.sideBar-newSubjectBtn {
+  background-color: #3d8344;
+  padding: 5px 25px 15px 25px;
+  border-radius: 10px;
+  margin-top: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    background-color: #2e6433;
+  }
+  p {
+    font-size: 18px;
+  }
+  & p::before {
+    content: "";
+    display: inline-block;
+    background-image: url(/static/resource/images/add.png);
+    width: 25px;
+    height: 25px;
+    background-size: cover;
+    position: relative;
+    left: -10px;
+    bottom: -7px;
+  }
+}
+
+//計算Notebooks高度
+//Notebooks區域
+.sideBar-ctn-subjects {
+  border-top: 1px solid #444444;
+  padding-top: 10px;
+  position: relative;
+  user-select: none;
+  .toMyNotebooks {
+    transform: translate(230px);
+  }
+
+  .toCoNotebooks {
+    transform: translate(-230px);
+  }
+}
+
+//切換筆記區域
+.sideBar-group-notebooksType {
+  position: absolute;
+  inset: auto 0 auto 0;
+  img {
+    width: 25px;
+    height: 25px;
+    border: 1px solid white;
+    padding: 3px;
+    border-radius: 5px;
+    position: absolute;
+    z-index: 10;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+    &:hover {
+      background-color: #444444;
+    }
+  }
+}
+
+//扣除welcom, feature btn, bottom後的高度 = 375px, 保險抓400px h
+.sideBar-group-subjects {
+  width: 230px;
+  position: relative;
+  top: 25px;
+  height: calc(100vh - 400px);
+
+  transition: all 0.3s ease-in-out;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+  .myNotebook {
+    width: 230px;
+    flex-shrink: 0;
+  }
+  .coNotebook {
+    width: 230px;
+    flex-shrink: 0;
+  }
+  p {
+    color: #aaaaaa;
+    font-weight: 500;
+    font-size: 18px;
+  }
+}
+
+.sideBar-item-subject {
+  border: 1px solid #aaaaaa;
+  padding: 12px 10px 12px 20px;
+  margin-top: 13px;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+  &:hover {
+    background-color: #999999;
+  }
+}
+
+//將signout btn定位在底部
+.sideBar-ctn-bottom {
+  width: 230px;
+  position: relative;
+  bottom: 0px;
+  flex-direction: column;
+  gap: 10px;
+}
+.sideBar-item-userEmail {
+  border-top: 1px solid #444444;
+  padding-top: 10px;
+  user-select: none;
+  p {
+    background-color: #333333;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+
+    &::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      display: inline-block;
+      border-radius: 50%;
+      background-color: green;
+      position: relative;
+      left: -10px;
+    }
+  }
+}
+.sideBar-item-signoutBtn {
+  background-color: #253431;
+  border-radius: 10px;
+  padding: 8px 8px 12px 12px;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+  &:hover {
+    background-color: #1e2a27;
+  }
+  p {
+    text-align: center;
+    &::before {
+      content: "";
+      background-image: url(/static/resource/images/signout.png);
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      background-size: cover;
+      position: relative;
+      left: -10px;
+      bottom: -3px;
+    }
+  }
+}

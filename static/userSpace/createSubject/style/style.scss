@@ -1,0 +1,342 @@
+.main-wrapper {
+  width: calc(100vw - 270px);
+  //   padding: 20px 0 20px 20px;
+  position: relative;
+  gap: 30px;
+
+  overflow: hidden;
+}
+
+.toForm {
+  transform: translate(calc(300px - 100vw));
+}
+//=====================表單頁面樣式=====================
+.main-area-createNotebook {
+  width: 100%;
+  flex-shrink: 0;
+  margin: auto;
+}
+
+.main-ctn-createNotebook {
+  width: 500px;
+  height: 600px;
+  padding: 30px 20px 20px 20px;
+  margin: auto;
+  background-color: rgba(36, 49, 45, 0.6);
+  border-radius: 20px;
+  position: relative;
+  flex-shrink: 0;
+  p {
+    font-size: 24px;
+    color: white;
+    text-align: center;
+  }
+}
+.main-area-createNotebook form {
+  width: 460px;
+  padding: 20px 30px;
+  transition: all 0.3s ease-in-out;
+  gap: 30px;
+  overflow: hidden;
+  label {
+    color: white;
+  }
+  input {
+    border: none;
+    border-bottom: 1px solid #666666;
+    background: transparent;
+    padding: 0px 10px 7px 10px;
+    color: white;
+    &::placeholder {
+      color: #aaaaaa;
+    }
+  }
+}
+
+.createNotebookPage {
+  width: 100%;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 15px;
+  position: relative;
+}
+
+.addTag {
+  position: relative;
+  #addBtn {
+    padding: 7px;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #1a491a;
+    position: absolute;
+    top: -5px;
+    right: 0;
+  }
+  input {
+    width: 100%;
+  }
+}
+
+.tags {
+  width: 100%;
+  gap: 10px;
+  p {
+    padding: 7px;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #1a491a;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+.description {
+  margin-top: 10px;
+  flex-direction: column;
+  gap: 10px;
+  textarea {
+    width: 100%;
+    height: 180px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    background-color: transparent;
+    color: white;
+    resize: none;
+  }
+}
+
+.createNotebookFormbottomBtn {
+  position: absolute;
+  inset: auto 0px -80px 0px;
+  justify-content: space-between;
+  div {
+    color: #dddddd;
+    padding: 7px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+  & div:nth-child(1) {
+    background-color: #666666;
+  }
+  & div:nth-child(2) {
+    background-color: green;
+  }
+}
+
+.inviteInput {
+  position: relative;
+  #addEmailBtn {
+    padding: 7px;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #1a491a;
+    position: absolute;
+    top: -5px;
+    right: 0;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+  input {
+    width: 100%;
+  }
+}
+
+.addEmailList {
+  flex-direction: column;
+  gap: 8px;
+}
+.email-item {
+  position: relative;
+  img {
+    position: absolute;
+    right: 20px;
+    bottom: 0;
+    width: 25px;
+    height: 25px;
+  }
+  p {
+    font-size: 20px;
+    background-color: #1a491a;
+    padding: 7px 10px;
+    border-radius: 5px;
+    max-width: 320px;
+    overflow: hidden;
+  }
+}
+
+#createFormCtn {
+  position: relative;
+  inset: 0 0 -30px 0;
+}
+
+//直接在createNotebookPage上面加上pagwTwo即可滑動
+.pageTwo {
+  transform: translate(-440px);
+}
+
+//=====================筆記管理頁面=====================
+
+.main-area-noteConsole {
+  width: calc(100% - 40px);
+  background-color: rgba(42, 42, 42, 0.8);
+  border-radius: 20px;
+  padding: 30px 20px;
+  flex-shrink: 0;
+}
+
+.main-ctn-topToolsBar {
+  justify-content: space-between;
+  h2 {
+    color: white;
+    font-size: 24px;
+    font-weight: 500;
+  }
+}
+
+.main-group-tools {
+  gap: 5px;
+  user-select: none;
+}
+.main-item-toolsBtn {
+  width: 38px;
+  height: 38px;
+  padding: 5px;
+  border: 1px solid #666666;
+  border-radius: 5px;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  &:hover {
+    background-color: #666666;
+  }
+  img {
+    width: 100%;
+    height: 100%;
+    vertical-align: bottom;
+  }
+}
+.main-item-toolsSearchBar {
+  gap: 15px;
+  position: relative;
+  input {
+    width: 200px;
+    background-color: transparent;
+    border: 1px solid #666666;
+    border-radius: 5px;
+    font-size: 16px;
+    padding: 6px 35px 6px 15px;
+    color: white;
+  }
+  img {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    right: 7px;
+    bottom: 7px;
+    cursor: pointer;
+  }
+}
+
+.main-ctn-noteConsole {
+  width: calc(100% - 40px);
+  height: calc(100% - 40px);
+  background-color: rgba(41, 53, 45, 0.5);
+  border-radius: 20px;
+  margin: 10px auto 0 auto;
+  padding: 20px;
+  position: relative;
+}
+
+.newNoteBtn {
+  position: absolute;
+  right: 20px;
+  width: 100px;
+  color: white;
+  background-color: #3d8344;
+  text-align: center;
+  border-radius: 10px;
+  padding: 8px 5px;
+}
+
+.main-group-subjectInfo {
+  color: white;
+  h2 {
+    font-size: 24px;
+    padding: 10px 0;
+  }
+  p {
+    width: 85%;
+    padding: 10px;
+  }
+}
+
+.main-group-notes {
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+  @media (min-width: 1500px) {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  @media (min-width: 1350px) and (max-width: 1500px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  @media (min-width: 1200px) and (max-width: 1350px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 960px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+.main-item-noteCard {
+  background-color: #666666;
+  border-radius: 15px;
+  padding: 10px 15px 35px 15px;
+  position: relative;
+  color: white;
+  flex-direction: column;
+  gap: 10px;
+  transition: all 0.2s ease-in-out;
+
+  h3 {
+    font-size: 22px;
+    padding-left: 2px;
+  }
+  p {
+    margin-top: 5px;
+    font-size: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    &:hover {
+      color: #dddddd;
+    }
+  }
+  img {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    width: 25px;
+    height: 25px;
+  }
+}
+.date {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}

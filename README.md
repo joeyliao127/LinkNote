@@ -1,4 +1,1 @@
 # LinkNote
-
-\*.map
-\*.scss
