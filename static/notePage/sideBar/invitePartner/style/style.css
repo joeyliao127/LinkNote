@@ -1,5 +1,6 @@
 .sideBar-wrapper {
   flex-direction: column;
+  flex-grow: 0;
   gap: 10px;
   width: 250px;
   height: calc(100vh - 65px);

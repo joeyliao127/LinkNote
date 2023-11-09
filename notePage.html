@@ -96,15 +96,48 @@
         </div>
       </section>
       <main class="edit-wrapper">
-        <div class="edit-ctn-tools flex"></div>
-        <div class="edit-ctn-noteContent">
-          <div class="noteContent-tools flex">
-            <img src="/static/resource/images/blod.png" alt="blod" />
-            <img src="/static/resource/images/italics.png" alt="blod" />
-            <img src="/static/resource/images/underline.png" alt="blod" />
-            <img src="/static/resource/images/align-left.png" alt="blod" />
-            <img src="/static/resource/images/align-center.png" alt="blod" />
-            <img src="/static/resource/images/align-right.png" alt="blod" />
+        <div class="edit-area">
+          <div class="edit-ctn-tools flex">
+            <input type="text" id="noteName" value="New note" />
+            <div class="edit-group-tools flex">
+              <img src="/static/resource/images/lock.png" alt="lock" />
+              <img src="/static/resource/images/star-empty.png" alt="lock" />
+              <img src="/static/resource/images/tag.png" alt="lock" />
+              <img src="/static/resource/images/share-white.png" alt="lock" />
+              <div id="discard">Delete</div>
+              <div id="save">Save</div>
+            </div>
+          </div>
+          <div class="edit-ctn-noteContent">
+            <div class="noteContent-tools flex">
+              <img src="/static/resource/images/blod.png" alt="blod" />
+              <img src="/static/resource/images/italics.png" alt="blod" />
+              <img src="/static/resource/images/underline.png" alt="blod" />
+              <div></div>
+              <img src="/static/resource/images/align-left.png" alt="blod" />
+              <img src="/static/resource/images/align-center.png" alt="blod" />
+              <img src="/static/resource/images/align-right.png" alt="blod" />
+            </div>
+            <div class="edit-itme-noteContent flex">
+              <div class="question-box">
+                <h3>Question</h3>
+                <input
+                  type="text"
+                  placeholder="What is the purpose of writing this note in this subject?"
+                  id="question"
+                />
+              </div>
+              <textarea
+                name="noteContent"
+                id="noteContent"
+                placeholder="Capture your ideas and record them in this note."
+              ></textarea>
+              <textarea
+                name="distill"
+                id="Capture your ideas and record them in this note."
+                placeholder="Distill up to three key points"
+              ></textarea>
+            </div>
           </div>
         </div>
       </main>
