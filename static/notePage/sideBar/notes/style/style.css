@@ -1,1 +1,69 @@
-/*# sourceMappingURL=style.css.map */
+.sideBar-ctn-notes {
+  padding: 10px;
+  background-color: rgba(33, 33, 33, 0.7);
+  border-radius: 10px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  height: calc(100vh - 425px);
+  overflow-y: scroll;
+}
+.sideBar-ctn-notes::-webkit-scrollbar {
+  display: none;
+  border: 1px solid white;
+}
+
+.notes-topToolsBar {
+  justify-content: space-between;
+  align-items: center;
+}
+.notes-topToolsBar p {
+  color: #cccccc;
+  font-weight: 500;
+}
+.notes-topToolsBar .tools {
+  gap: 5px;
+}
+.notes-topToolsBar .tools img {
+  border: 1px solid #aaaaaa;
+  border-radius: 5px;
+  padding: 3px;
+  width: 28px;
+  height: 28px;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+.notes-topToolsBar .tools img:hover {
+  background-color: #aaaaaa;
+}
+
+.notes-group {
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+  overflow-y: scroll;
+}
+.notes-group::-webkit-scrollbar {
+  display: none;
+}
+
+.note-item {
+  border: 1px solid #aaaaaa;
+  border-radius: 8px;
+  padding: 8px 5px 8px 10px;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.note-item:hover {
+  background-color: #999999;
+}
+.note-item p {
+  font-size: 14px;
+  color: #cccccc;
+  margin: auto 0;
+}
+.note-item img {
+  width: 15px;
+  height: 15px;
+}/*# sourceMappingURL=style.css.map */

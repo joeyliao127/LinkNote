@@ -3,7 +3,6 @@
   //   padding: 20px 0 20px 20px;
   position: relative;
   gap: 30px;
-
   overflow: hidden;
 }
 
@@ -192,6 +191,7 @@
   border-radius: 20px;
   padding: 30px 20px;
   flex-shrink: 0;
+  margin: 20px 0 20px 20px;
 }
 
 .main-ctn-topToolsBar {
@@ -283,6 +283,12 @@
   display: grid;
   gap: 10px;
   margin-top: 10px;
+  height: calc(100vh - 300px);
+  border-radius: 20px;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   @media (min-width: 1500px) {
     grid-template-columns: repeat(5, 1fr);
   }
@@ -309,7 +315,10 @@
   flex-direction: column;
   gap: 10px;
   transition: all 0.2s ease-in-out;
-
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+  }
   h3 {
     font-size: 22px;
     padding-left: 2px;
@@ -318,13 +327,10 @@
     margin-top: 5px;
     font-size: 16px;
     overflow: hidden;
-    cursor: pointer;
+
     transition: all 0.1s ease-in-out;
     &::-webkit-scrollbar {
       display: none;
-    }
-    &:hover {
-      color: #dddddd;
     }
   }
   img {

@@ -1,6 +1,15 @@
+@import url(/static/base/style.css);
+@import url(/static/notePage/nav/style/style.css);
 @import url(/static/notePage/main/toolBar/style/style.css);
 @import url(/static/notePage/main/writingArea/style/style.css);
 @import url(/static/notePage/sideBar/editor/style/style.css);
 @import url(/static/notePage/sideBar/invitePartner/style/style.css);
 @import url(/static/notePage/sideBar/notes/style/style.css);
 @import url(/static/notePage/notification/style/style.css);
+
+.wrapper {
+  max-width: 1200px;
+  width: 100vw;
+  margin: auto;
+  justify-content: space-evenly;
+}

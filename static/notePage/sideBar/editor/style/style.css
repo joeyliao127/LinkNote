@@ -1,1 +1,70 @@
-/*# sourceMappingURL=style.css.map */
+.sideBar-ctn-editors {
+  background-color: rgba(33, 33, 33, 0.7);
+  border-radius: 10px;
+  padding: 15px;
+}
+.sideBar-ctn-editors img {
+  width: 22px;
+  height: 22px;
+}
+
+.editor-type {
+  color: #aaaaaa;
+  margin-bottom: 10px;
+}
+
+.editor-item {
+  justify-content: space-between;
+  margin-bottom: 7px;
+}
+.editor-item p {
+  margin-block: auto;
+  font-size: 14px;
+  padding-left: 10px;
+  color: white;
+}
+.editor-item img {
+  padding: 3px;
+  border-radius: 5px;
+  border: 1px solid #aaaaaa;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.editor-item img:hover {
+  background-color: #aaaaaa;
+}
+
+.sideBar-ctn-editors .editor-item p::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  border-radius: 50%;
+  position: relative;
+  top: -1px;
+  left: -10px;
+}
+
+.sideBar-ctn-editors .editor-item:nth-child(2) p::before {
+  background-color: green;
+}
+
+.sideBar-ctn-editors .editor-item:nth-child(4) p::before {
+  background-color: rgb(140, 0, 255);
+}
+
+.sideBar-ctn-editors .editor-item:nth-child(5) p::before {
+  background-color: rgb(255, 247, 0);
+}
+
+.sideBar-ctn-editors .editor-item:nth-child(6) p::before {
+  background-color: rgb(255, 149, 0);
+}
+
+.sideBar-ctn-editors .editor-item:nth-child(7) p::before {
+  background-color: rgb(0, 255, 149);
+}
+
+.editor-item:last-child {
+  margin-bottom: 0;
+}/*# sourceMappingURL=style.css.map */

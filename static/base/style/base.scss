@@ -31,6 +31,10 @@ body {
   background-repeat: no-repeat;
   height: 100%;
   background-size: cover;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .b-3-7 {

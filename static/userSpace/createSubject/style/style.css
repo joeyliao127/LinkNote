@@ -192,6 +192,7 @@
   border-radius: 20px;
   padding: 30px 20px;
   flex-shrink: 0;
+  margin: 20px 0 20px 20px;
 }
 
 .main-ctn-topToolsBar {
@@ -287,6 +288,12 @@
   display: grid;
   gap: 10px;
   margin-top: 10px;
+  height: calc(100vh - 300px);
+  border-radius: 20px;
+  overflow-y: scroll;
+}
+.main-group-notes::-webkit-scrollbar {
+  display: none;
 }
 @media (min-width: 1500px) {
   .main-group-notes {
@@ -323,6 +330,10 @@
   flex-direction: column;
   gap: 10px;
   transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+.main-item-noteCard:hover {
+  opacity: 0.8;
 }
 .main-item-noteCard h3 {
   font-size: 22px;
@@ -332,14 +343,10 @@
   margin-top: 5px;
   font-size: 16px;
   overflow: hidden;
-  cursor: pointer;
   transition: all 0.1s ease-in-out;
 }
 .main-item-noteCard p::-webkit-scrollbar {
   display: none;
-}
-.main-item-noteCard p:hover {
-  color: #dddddd;
 }
 .main-item-noteCard img {
   position: absolute;
