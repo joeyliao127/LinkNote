@@ -1,1 +1,42 @@
-/*# sourceMappingURL=style.css.map */
+.wrapper-notification {
+  position: fixed;
+  top: 20px;
+  right: 0;
+  color: white;
+}
+
+.notice {
+  padding: 10px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  text-align: center;
+  margin-top: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+#success {
+  background-color: green;
+}
+#success:hover {
+  transform: translate(-100px, 200px);
+}
+
+#failed {
+  background-color: red;
+}
+
+#joined {
+  background-color: #52aecc;
+}
+
+#left {
+  background-color: #666666;
+}
+
+#unlock {
+  background-color: #e9a218;
+}
+
+#copied {
+  background-color: #3ea794;
+}/*# sourceMappingURL=style.css.map */
