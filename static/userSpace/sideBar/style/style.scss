@@ -84,7 +84,7 @@
   }
 }
 
-.sideBar-newSubjectBtn {
+.sideBar-newNotebookBtn {
   background-color: #3d8344;
   padding: 5px 25px 15px 25px;
   border-radius: 10px;
@@ -117,10 +117,6 @@
   padding-top: 10px;
   position: relative;
   user-select: none;
-  .toMyNotebooks {
-    transform: translate(230px);
-  }
-
   .toCoNotebooks {
     transform: translate(-230px);
   }
@@ -147,14 +143,18 @@
     }
   }
 }
-
+.myNotebook {
+  transition: all 0.3s ease-in-out;
+}
+.coNotebook {
+  transition: all 0.3s ease-in-out;
+}
 //扣除welcom, feature btn, bottom後的高度 = 375px, 保險抓400px h
 .sideBar-group-subjects {
   width: 230px;
   position: relative;
   top: 25px;
   height: calc(100vh - 400px);
-
   transition: all 0.3s ease-in-out;
   overflow-x: hidden;
   overflow-y: scroll;

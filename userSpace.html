@@ -19,10 +19,8 @@
   </head>
   <body>
     <div class="wrapper flex">
-      <!-- sideBar-area用來將sidebar設定flex width -->
       <section class="sideBar-wrapper flex">
         <div class="sideBar-ctn-welcome">
-          <!-- <img src="/static/resource/images/person.png" alt="person" /> -->
           <p>Hi Joey</p>
           <h1>Welcome to LinkNote！</h1>
         </div>
@@ -31,7 +29,7 @@
             <img src="/static/resource/images/search.png" alt="search" />
             <input type="text" placeholder="Search Notebook" />
           </div>
-          <div class="sideBar-newSubjectBtn">
+          <div class="sideBar-newNotebookBtn">
             <p>New Notebook</p>
           </div>
         </div>
@@ -60,7 +58,6 @@
               <div class="sideBar-item-subject">Notebooks3</div>
             </div>
             <div class="coNotebook">
-              <p>Co-edit Notebook</p>
               <div class="sideBar-item-subject">share subject</div>
               <div class="sideBar-item-subject">share Subject</div>
               <div class="sideBar-item-subject">share subject</div>
@@ -112,7 +109,7 @@
       <!-- main-wrapper用來將main設定flex width -->
       <!-- <main class="main-wrapper" style="display: none"> -->
       <main class="main-wrapper flex">
-        <div class="main-area-noteConsole">
+        <div class="main-area-noteConsole toNote">
           <!-- main上方工具列 -->
           <div class="main-ctn-topToolsBar flex">
             <h2>Your Notes</h2>
@@ -1250,11 +1247,11 @@
             </article>
           </div>
         </div>
-        <div class="main-area-createNotebook">
+        <div class="main-area-createNotebook toNote">
           <div class="main-ctn-createNotebook">
             <p>Create a new notebook</p>
             <form action="" class="flex" method="post">
-              <div class="createNotebookPage flex pageTwo">
+              <div class="createNotebookPage pageOne flex">
                 <label for="notebookName">Nmae</label>
                 <input
                   type="text"
@@ -1285,7 +1282,7 @@
                   <div id="nextPage">Next</div>
                 </div>
               </div>
-              <div class="createNotebookPage flex pageTwo">
+              <div class="createNotebookPage pageOne flex">
                 <label for="invite">Invite your partner</label>
                 <div class="inviteInput">
                   <input
@@ -1331,5 +1328,7 @@
         </div>
       </main>
     </div>
+    <script src="/static/userSpace/sideBar/js/userSpaceSidebar.js"></script>
+    <script src="/static/userSpace/createNotebook/js/createNotebookForm.js"></script>
   </body>
 </html>
