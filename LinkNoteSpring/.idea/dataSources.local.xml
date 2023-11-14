@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal" created-in="IU-232.10203.10">
+    <data-source name="MySQL101" uuid="cc934641-988d-4188-8485-5b7bb96e1802">
+      <database-info product="MySQL" version="8.0.35-0ubuntu0.22.04.1" jdbc-version="4.2" driver-name="MySQL Connector/J" driver-version="mysql-connector-java-8.0.25 (Revision: 08be9e9b4cba6aa115f9b27b215887af40b159e0)" dbms="MYSQL" exact-version="8.0.35" exact-driver-version="8.0">
+        <extra-name-characters>#@</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+        <jdbc-catalog-is-schema>true</jdbc-catalog-is-schema>
+      </database-info>
+      <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>joey</user-name>
+      <schema-mapping>
+        <introspection-scope>
+          <node kind="schema" qname="@" />
+        </introspection-scope>
+      </schema-mapping>
+      <ssh-properties>
+        <enabled>false</enabled>
+        <ssh-config-id>ecf8876a-0dd8-4e8a-8057-28d034ee9fa1</ssh-config-id>
+        <local-port>22</local-port>
+      </ssh-properties>
+    </data-source>
+  </component>
+</project>
