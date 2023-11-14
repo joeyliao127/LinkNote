@@ -45,8 +45,8 @@
             <p><span class="initials">E</span>xpress</p>
           </div>
         </section>
-        <section class="signInUp-area">
-          <div class="login-ctn blurry-background">
+        <section class="signInUp-area flex">
+          <div class="signin-ctn blurry-background">
             <form action="" class="flex">
               <p id="login-text">SignIn</p>
               <div class="email flex input-box">
@@ -78,12 +78,16 @@
               <button>SignIn</button>
 
               <div class="switch-form">
-                <p>Don't have an account? Click<span> Register</span></p>
+                <p>
+                  Don't have an account? Click<span id="toSignup">
+                    Register</span
+                  >
+                </p>
               </div>
             </form>
           </div>
 
-          <div class="signup-ctn blurry-background form-none">
+          <div class="signup-ctn blurry-background display-none">
             <form action="" class="flex">
               <p id="login-text">SignUp</p>
               <div class="email flex input-box">
@@ -129,12 +133,13 @@
               <button>SignUp</button>
 
               <div class="switch-form">
-                <p>Back to <span>Sigin</span></p>
+                <p>Back to <span id="toSignin">Sigin</span></p>
               </div>
             </form>
           </div>
         </section>
       </main>
     </div>
+    <script src="/static/index/js/index.js"></script>
   </body>
 </html>
