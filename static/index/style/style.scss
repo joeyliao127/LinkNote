@@ -116,7 +116,7 @@ main {
   padding: 40px 50px 10px 50px;
 }
 
-.blurry-background form {
+.blurry-background .form-ctn {
   flex-direction: column;
   gap: 25px;
   .input-box {
@@ -128,6 +128,7 @@ main {
       border-bottom: #052940 2px solid;
       position: relative;
       padding: 0 5px;
+      color: white;
       &::placeholder {
         padding: 0 5px;
         color: #dddddd;
@@ -169,7 +170,11 @@ main {
     }
   }
 
-  .error-msg {
+  #signin-error-msg {
+    text-align: center;
+    columns: red;
+  }
+  #signup-error-msg {
     text-align: center;
     color: rgb(204, 12, 12);
   }

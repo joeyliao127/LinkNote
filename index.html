@@ -47,15 +47,10 @@
         </section>
         <section class="signInUp-area flex">
           <div class="signin-ctn blurry-background">
-            <form action="" class="flex">
+            <div class="form-ctn flex">
               <p id="login-text">SignIn</p>
               <div class="email flex input-box">
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  placeholder="Email"
-                />
+                <input type="email" id="signin-email" placeholder="Email" />
                 <div class="icon">
                   <img src="/static/resource/images/email.png" alt="email" />
                 </div>
@@ -64,7 +59,7 @@
                 <input
                   type="password"
                   name="password"
-                  id="password"
+                  id="signin-password"
                   placeholder="Password"
                 />
                 <div class="icon">
@@ -74,7 +69,7 @@
                   />
                 </div>
               </div>
-              <!-- <p class="error-msg">username or password incorrect</p> -->
+              <p id="signin-error-msg"></p>
               <button>SignIn</button>
 
               <div class="switch-form">
@@ -84,28 +79,40 @@
                   >
                 </p>
               </div>
-            </form>
+            </div>
           </div>
 
           <div class="signup-ctn blurry-background display-none">
-            <form action="" class="flex">
+            <div class="form-ctn flex">
               <p id="login-text">SignUp</p>
+              <div class="username flex input-box">
+                <input
+                  type="text"
+                  name="username"
+                  id="username"
+                  placeholder="username"
+                />
+                <div class="icon">
+                  <img src="/static/resource/images/person.png" alt="email" />
+                </div>
+              </div>
               <div class="email flex input-box">
                 <input
                   type="email"
                   name="email"
-                  id="email"
+                  id="signup-email"
                   placeholder="Email"
                 />
                 <div class="icon">
                   <img src="/static/resource/images/email.png" alt="email" />
                 </div>
               </div>
+
               <div class="password flex input-box">
                 <input
                   type="password"
                   name="password"
-                  id="password"
+                  id="signup-password"
                   placeholder="Password"
                 />
                 <div class="icon">
@@ -129,17 +136,18 @@
                   />
                 </div>
               </div>
-              <!-- <p class="error-msg">The email has already been registered</p> -->
+              <p id="signup-error-msg"></p>
               <button>SignUp</button>
 
               <div class="switch-form">
                 <p>Back to <span id="toSignin">Sigin</span></p>
               </div>
-            </form>
+            </div>
           </div>
         </section>
       </main>
     </div>
+    <script src="/static/base/js/apiURL.js"></script>
     <script src="/static/index/js/index.js"></script>
   </body>
 </html>

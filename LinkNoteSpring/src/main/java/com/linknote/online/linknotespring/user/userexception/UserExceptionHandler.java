@@ -1,5 +1,6 @@
 package com.linknote.online.linknotespring.user.userexception;
 
+import com.linknote.online.linknotespring.genericexception.DatabaseOperationException;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,12 +12,12 @@ public class UserExceptionHandler {
   @ExceptionHandler(EmailAlreadyRegisteredException.class)
   public ResponseEntity<Object> emailAlreadyRegisterdHandler(EmailAlreadyRegisteredException e){
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-        Map.of("error", true, "message", "email already exist"));
+        Map.of("message", "email already exist"));
   }
 
   @ExceptionHandler(DatabaseOperationException.class)
   public ResponseEntity<Object> databaseOperationHandler(DatabaseOperationException e){
-    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", true, "message", e.getMessage()));
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of( "message", e.getMessage()));
   }
 
 }
