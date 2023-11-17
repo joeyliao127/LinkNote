@@ -1,8 +1,7 @@
 package com.linknote.online.linknotespring.user.userservice;
 
-import com.linknote.online.linknotespring.user.model.RegisterModel;
-import com.linknote.online.linknotespring.user.model.UserEmailModel;
+import com.linknote.online.linknotespring.user.userdto.RegisterRequest;
 
 public interface UserService {
-  Boolean createUser(RegisterModel registerModel);
+  String register(RegisterRequest registerRequest);
 }

@@ -1,8 +1,15 @@
-package com.linknote.online.linknotespring.user.model;
+package com.linknote.online.linknotespring.user.userdto;
 
-public class RegisterModel {
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
+public class RegisterRequest {
+  @NotBlank
+  @Email
   private String email;
+  @NotBlank
   private String username;
+  @NotBlank
   private String password;
 
   public String getEmail() {

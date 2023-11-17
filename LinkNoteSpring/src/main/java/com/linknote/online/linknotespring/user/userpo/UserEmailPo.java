@@ -1,6 +1,6 @@
-package com.linknote.online.linknotespring.user.model;
+package com.linknote.online.linknotespring.user.userpo;
 
-public class UserEmailModel {
+public class UserEmailPo {
   private String email;
 
   public String getEmail() {

@@ -1,6 +1,6 @@
 package com.linknote.online.linknotespring.user.userexception;
 
-import com.linknote.online.linknotespring.genericexception.DatabaseOperationException;
+import com.linknote.online.linknotespring.generic.exception.DatabaseOperationException;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
