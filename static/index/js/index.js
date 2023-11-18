@@ -6,7 +6,7 @@ async function init() {
   }
   switchFormBtn();
   register();
-  signin();
+  signinListener();
 }
 
 function switchFormBtn() {
@@ -89,25 +89,31 @@ async function fetchRegisterEndpoint(username, email, password) {
 }
 
 //return boolean
-function validateEmailFormat(email) {
+function validateSigninValue(email, password) {
+  console.log(`email: ${email}\npassowrd: ${password}`);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
+  return emailRegex.test(email) && password;
 }
 
-async function signin() {
-  const email = document.querySelector("#signin-email");
-  const password = document.querySelector("#signin-password");
+function signinListener() {
   const signinBtn = document.querySelector(".signin-ctn button");
-
   signinBtn.addEventListener("click", async () => {
-    const token = await verfityUsernameAndPassword(email.value, password.value)
-      .token;
-    console.log(token);
-    localStorage.setItem("token", token);
-    window.location.href = "/userSpace.html";
+    const email = document.querySelector("#signin-email").value;
+    const password = document.querySelector("#signin-password").value;
+    const checkResult = validateSigninValue(email, password);
+    if (checkResult) {
+      const token = await verfityUsernameAndPassword(
+        email.value,
+        password.value
+      ).token;
+      localStorage.setItem("token", token);
+      window.location.href = "/userSpace.html";
+    } else {
+      errMsg.textContent =
+        "Please enter the correct format for your email and password can not be null ";
+    }
   });
 }
-
 async function verfityUsernameAndPassword(email, password) {
   const endpoint = apiUrl + "/api/user/auth";
   const reqBody = { email: email, password: password };
@@ -129,7 +135,7 @@ async function verfityUsernameAndPassword(email, password) {
   } catch (e) {
     errMsg.textContent = e.message;
     console.log(e);
-    return 0;
+    return false;
   }
 }
 
