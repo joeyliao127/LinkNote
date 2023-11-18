@@ -44,6 +44,7 @@ public class UserController {
     String token = tokenService.genJWTToken(verifyResult.getUserId()
                                            ,verifyResult.getEmail()
                                            ,verifyResult.getUsername());
+    System.out.println("允許使用者登入:"+ verifyResult.getUsername());
     return ResponseEntity.status(HttpStatus.OK)
         .body(Map.of(
             "token", token,
@@ -53,7 +54,7 @@ public class UserController {
   }
 
 
-  @GetMapping("/api/tokenParse")
+  @GetMapping("/api/user")
   public ResponseEntity<Claims> parseToken(@RequestHeader String Authorization){
     String token = Authorization.substring(7);
     Claims payload = tokenService.parserJWTToken(token);

@@ -58,9 +58,9 @@ public class UserServiceImpl implements UserService{
   @Override
   public UserInfoPO signInVerify(SignInRequestDto signInRequestDto) {
     signInRequestDto.setPassword(md5DigestAsHex(signInRequestDto.getPassword().getBytes()));
-    System.out.println("MD5:" + signInRequestDto.getPassword());
     List<UserInfoPO> userInfoPOS = userDAO.getByEmailAndPassword(signInRequestDto);
     if(userInfoPOS.isEmpty()){
+      log.warn("使用者帳號或密碼錯誤，嘗試登入的email:" + signInRequestDto.getEmail());
       throw new VerifyUserFailedException("email or password incorrect");
     }else{
       return userInfoPOS.get(0);

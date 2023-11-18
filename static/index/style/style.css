@@ -159,8 +159,7 @@ main {
 }
 .blurry-background .form-ctn #signin-error-msg {
   text-align: center;
-  -moz-columns: red;
-       columns: red;
+  color: red;
 }
 .blurry-background .form-ctn #signup-error-msg {
   text-align: center;

@@ -1,3 +1,4 @@
+let errMsg = document.querySelector("#signin-error-msg");
 async function init() {
   const token = localStorage.getItem("token");
   if (token) {
@@ -98,8 +99,9 @@ async function signin() {
   const password = document.querySelector("#signin-password");
   const signinBtn = document.querySelector(".signin-ctn button");
 
-  signinBtn.addEventListener("click", () => {
-    const token = verfityUsernameAndPassword(email.value, password.value).token;
+  signinBtn.addEventListener("click", async () => {
+    const token = await verfityUsernameAndPassword(email.value, password.value)
+      .token;
     console.log(token);
     localStorage.setItem("token", token);
     window.location.href = "/userSpace.html";
@@ -108,24 +110,26 @@ async function signin() {
 
 async function verfityUsernameAndPassword(email, password) {
   const endpoint = apiUrl + "/api/user/auth";
-  let errMsg = document.querySelector("#signin-error-msg");
+  const reqBody = { email: email, password: password };
+
   try {
     const response = await fetch(endpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email: email, password: password }),
+      body: JSON.stringify(reqBody),
     });
-    if (!response.ok) {
-      throw new Error(`HTTP error. Status: ${response.status}`);
+    const data = await response.json();
+    if (response.ok) {
+      return data;
+    } else {
+      throw new Error(data.msg);
     }
-    const verifyResult = await response.json();
-    return verifyResult;
   } catch (e) {
-    errMsg.textContent = "Internal error...";
-    clearErrorMsg();
+    errMsg.textContent = e.message;
     console.log(e);
+    return 0;
   }
 }
 
