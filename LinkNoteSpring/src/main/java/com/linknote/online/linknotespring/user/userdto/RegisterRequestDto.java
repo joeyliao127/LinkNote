@@ -3,7 +3,7 @@ package com.linknote.online.linknotespring.user.userdto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-public class RegisterRequest {
+public class RegisterRequestDto {
   @NotBlank
   @Email
   private String email;

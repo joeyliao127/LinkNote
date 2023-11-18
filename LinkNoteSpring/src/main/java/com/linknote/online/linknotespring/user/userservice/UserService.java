@@ -1,7 +1,10 @@
 package com.linknote.online.linknotespring.user.userservice;
 
-import com.linknote.online.linknotespring.user.userdto.RegisterRequest;
+import com.linknote.online.linknotespring.user.userdto.SignInRequestDto;
+import com.linknote.online.linknotespring.user.userdto.RegisterRequestDto;
+import com.linknote.online.linknotespring.user.userpo.UserInfoPO;
 
 public interface UserService {
-  String register(RegisterRequest registerRequest);
+  String register(RegisterRequestDto registerRequestDto);
+  UserInfoPO signInVerify(SignInRequestDto signInRequestDto);
 }

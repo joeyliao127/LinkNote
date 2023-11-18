@@ -1,43 +1,46 @@
 package com.linknote.online.linknotespring.user.userservice;
-
+import static org.springframework.util.DigestUtils.md5DigestAsHex;
 import com.linknote.online.linknotespring.generic.exception.DatabaseOperationException;
+import com.linknote.online.linknotespring.user.userdto.SignInRequestDto;
 import com.linknote.online.linknotespring.user.userexception.EmailAlreadyRegisteredException;
-import com.linknote.online.linknotespring.user.userdto.RegisterRequest;
+import com.linknote.online.linknotespring.user.userdto.RegisterRequestDto;
+import com.linknote.online.linknotespring.user.userexception.VerifyUserFailedException;
 import com.linknote.online.linknotespring.user.userpo.UserEmailPo;
 import com.linknote.online.linknotespring.user.userdao.UserDAO;
+import com.linknote.online.linknotespring.user.userpo.UserInfoPO;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.DigestUtils;
 
 @Service
 public class UserServiceImpl implements UserService{
   @Autowired
   UserDAO userDAO;
 
+
   @Autowired
   TokenService tokenService;
   private final static Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
   @Override
-  public String register(RegisterRequest registerRequest) {
+  public String register(RegisterRequestDto registerRequestDto) {
     System.out.println("開始驗證email");
-    List<UserEmailPo> userEmailPo = userDAO.getByEmail(registerRequest.getEmail());
+    List<UserEmailPo> userEmailPo = userDAO.getByEmail(registerRequestDto.getEmail());
     if(userEmailPo.isEmpty()){
       System.out.println("通過email check");
       try{
-        String hashedPassword = DigestUtils.md5DigestAsHex(registerRequest.getPassword().getBytes());
-        registerRequest.setPassword(hashedPassword);
-        Integer userId = userDAO.createUser(registerRequest);
-        log.info("Create eamil {}", registerRequest.getEmail());
+        String hashedPassword = md5DigestAsHex(registerRequestDto.getPassword().getBytes());
+        registerRequestDto.setPassword(hashedPassword);
+        Integer userId = userDAO.createUser(registerRequestDto);
+        log.info("Create eamil {}", registerRequestDto.getEmail());
         if(userId != null) {
           //gen JWT token
           return tokenService.genJWTToken(
               userId,
-              registerRequest.getEmail(),
-              registerRequest.getUsername()
+              registerRequestDto.getEmail(),
+              registerRequestDto.getUsername()
           );
         }
       }catch (DatabaseOperationException e){
@@ -46,9 +49,21 @@ public class UserServiceImpl implements UserService{
       }
     }else{
       System.out.println("沒通過email check");
-      log.warn("email {} already registeed.", registerRequest.getEmail());
+      log.warn("email {} already registeed.", registerRequestDto.getEmail());
       throw new EmailAlreadyRegisteredException("email already registed");
     }
     return null;
+  }
+
+  @Override
+  public UserInfoPO signInVerify(SignInRequestDto signInRequestDto) {
+    signInRequestDto.setPassword(md5DigestAsHex(signInRequestDto.getPassword().getBytes()));
+    System.out.println("MD5:" + signInRequestDto.getPassword());
+    List<UserInfoPO> userInfoPOS = userDAO.getByEmailAndPassword(signInRequestDto);
+    if(userInfoPOS.isEmpty()){
+      throw new VerifyUserFailedException("email or password incorrect");
+    }else{
+      return userInfoPOS.get(0);
+    }
   }
 }

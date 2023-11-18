@@ -5,36 +5,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="31befe92-750a-4d2c-ab08-ee48786e5281" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userdto/AuthenticationRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userrowmapper/AuthenticationRowMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userservice/TokenService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userservice/TokenServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/cc934641-988d-4188-8485-5b7bb96e1802.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/cc934641-988d-4188-8485-5b7bb96e1802.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/cc934641-988d-4188-8485-5b7bb96e1802/storage_v2/_src_/schema/linkNote.DEcrRw.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/cc934641-988d-4188-8485-5b7bb96e1802/storage_v2/_src_/schema/linkNote.DEcrRw.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userexception/VerifyUserFailedException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userpo/UserInfoPO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userrowmapper/SignInRowMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/genericexception/DatabaseOperationException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/generic/exception/DatabaseOperationException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/model/RegisterModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userdto/RegisterRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/model/UserEmailModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userpo/UserEmailPo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/rowmapper/RegisterRowMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userrowmapper/RegisterRowMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/usercontroller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/usercontroller/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userdao/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userdao/UserDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userdao/UserDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userdao/UserDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userdao/UserDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userdao/UserDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userdto/AuthenticationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userdto/SignInRequestDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userdto/RegisterRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userdto/RegisterRequestDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userexception/EmailAlreadyRegisteredException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userexception/EmailAlreadyRegisteredException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userexception/UserExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userexception/UserExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userrowmapper/AuthenticationRowMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userservice/TokenServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userservice/TokenServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userservice/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userservice/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userservice/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userservice/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/genericexception/DatabaseOperationException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/model/RegisterModel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/model/UserEmailModel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/rowmapper/RegisterRowMapper.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/usercontroller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/usercontroller/UserController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userdao/UserDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userdao/UserDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userdao/UserDaoImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userdao/UserDaoImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userdao/UserDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userdto/AuthenticationRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userdto/RegisterRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userexception/EmailAlreadyRegisteredException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userexception/EmailAlreadyRegisteredException.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userexception/UserExceptionHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userexception/UserExceptionHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userrowmapper/AuthenticationRowMapper.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userservice/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userservice/UserService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userservice/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userservice/UserServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../static/index/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../static/index/js/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,30 +59,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="LinkNoteSpringApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="LinkNoteSpring" />
@@ -112,6 +108,17 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -1,9 +1,10 @@
 function sideBarInit() {
-  switchNotebooksTpye();
-  newNotbook();
+  switchNotebooksTpyeBtn();
+  newNotbookBtn();
+  signOutBtn();
 }
 
-function switchNotebooksTpye() {
+function switchNotebooksTpyeBtn() {
   const switchNotebookBtn = document.querySelector(
     ".sideBar-group-notebooksType img"
   );
@@ -25,7 +26,7 @@ function switchNotebooksTpye() {
   });
 }
 
-function newNotbook() {
+function newNotbookBtn() {
   const newNoteBookBtn = document.querySelector(".sideBar-newNotebookBtn");
   const noteConsoleArea = document.querySelector(".main-area-noteConsole");
   const createNotebookArea = document.querySelector(
@@ -36,6 +37,14 @@ function newNotbook() {
     createNotebookArea.classList.add("toForm");
     noteConsoleArea.classList.remove("toNote");
     createNotebookArea.classList.remove("toNote");
+  });
+}
+
+function signOutBtn() {
+  const btn = document.querySelector(".sideBar-item-signoutBtn");
+  btn.addEventListener("click", () => {
+    localStorage.removeItem("token");
+    window.location.href = "/";
   });
 }
 

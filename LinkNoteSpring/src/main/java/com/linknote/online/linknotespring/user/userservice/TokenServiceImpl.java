@@ -18,7 +18,6 @@ public class TokenServiceImpl implements TokenService{
 
   @Override
   public String genJWTToken(Integer userId, String email, String username) {
-    System.out.println("Secret key = " + SECRET);
     byte[] decodekey = Base64.getDecoder().decode(SECRET.getBytes(StandardCharsets.UTF_8));
     return Jwts.builder()
           .issuedAt(new Date())

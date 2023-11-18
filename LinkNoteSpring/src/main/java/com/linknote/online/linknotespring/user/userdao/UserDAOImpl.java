@@ -1,7 +1,9 @@
 package com.linknote.online.linknotespring.user.userdao;
 
-import com.linknote.online.linknotespring.user.userdto.AuthenticationRequest;
-import com.linknote.online.linknotespring.user.userdto.RegisterRequest;
+import com.linknote.online.linknotespring.user.userdto.SignInRequestDto;
+import com.linknote.online.linknotespring.user.userdto.RegisterRequestDto;
+import com.linknote.online.linknotespring.user.userpo.UserInfoPO;
+import com.linknote.online.linknotespring.user.userrowmapper.SignInRowMapper;
 import com.linknote.online.linknotespring.user.userrowmapper.RegisterRowMapper;
 import com.linknote.online.linknotespring.user.userpo.UserEmailPo;
 import java.util.HashMap;
@@ -22,21 +24,24 @@ public class UserDAOImpl implements UserDAO{
 
   @Override
   public List<UserEmailPo> getByEmail(String email) {
+    System.out.println("進入驗證DAO");
     String sql = "SELECT email FROM members WHERE email = :email";
     Map<String, Object> map = new HashMap<>();
+    System.out.println("製作hashmap");
     map.put("email", email);
+    System.out.print("製作完成");
     return namedParameterJdbcTemplate.query(sql, map, new RegisterRowMapper());
   }
 
   @Override
-  public Integer createUser(RegisterRequest registerRequest) {
+  public Integer createUser(RegisterRequestDto registerRequestDto) {
     String sql = "INSERT INTO "
                + "members(username, password, email) "
                + "VALUES(:username, :password, :email)";
     Map<String, Object> map = new HashMap<>();
-    map.put("email", registerRequest.getEmail());
-    map.put("username", registerRequest.getUsername());
-    map.put("password", registerRequest.getPassword());
+    map.put("email", registerRequestDto.getEmail());
+    map.put("username", registerRequestDto.getUsername());
+    map.put("password", registerRequestDto.getPassword());
     KeyHolder keyHolder = new GeneratedKeyHolder();
     int impactRow = namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource(map), keyHolder);
     if(impactRow == 1){
@@ -48,13 +53,12 @@ public class UserDAOImpl implements UserDAO{
   }
 
   @Override
-  public List<AuthenticationRequest> getByEmailAndPassword(
-      AuthenticationRequest authenticationRequest) {
-    String sql = "SELECT email, password FROM members WHERE email = :email and password = :password";
+  public List<UserInfoPO> getByEmailAndPassword(
+      SignInRequestDto signInRequestDto) {
+    String sql = "SELECT id as userId, username, email FROM members WHERE email = :email and password = :password";
     Map<String, String> map = new HashMap<>();
-    map.put("email", authenticationRequest.getEmail());
-    map.put("password", authenticationRequest.getPassword());
-
-    return null;
+    map.put("email", signInRequestDto.getEmail());
+    map.put("password", signInRequestDto.getPassword());
+    return namedParameterJdbcTemplate.query(sql, map, new SignInRowMapper());
   }
 }
