@@ -32,4 +32,11 @@ public class UserExceptionHandler {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("msg", e.getMessage()));
   }
 
+  @ExceptionHandler(TokenParseException.class)
+  public ResponseEntity<Object> tokenParseException(TokenParseException e){
+    log.warn("token解析失敗");
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("msg", e.getMessage()));
+  }
+
+
 }

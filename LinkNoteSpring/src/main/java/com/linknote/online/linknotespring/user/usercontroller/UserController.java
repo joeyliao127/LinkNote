@@ -58,7 +58,6 @@ public class UserController {
   public ResponseEntity<Claims> parseToken(@RequestHeader String Authorization){
     String token = Authorization.substring(7);
     Claims payload = tokenService.parserJWTToken(token);
-
     return ResponseEntity.status(HttpStatus.OK).body(payload);
   }
 
