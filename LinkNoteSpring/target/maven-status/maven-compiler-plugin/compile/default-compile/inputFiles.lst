@@ -1,8 +1,10 @@
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/user/userexception/VerifyUserFailedException.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/user/userdao/UserDAO.java
+/Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/user/userexception/TokenExpirationException.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/user/userexception/EmailAlreadyRegisteredException.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/LinkNoteSpringApplication.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/generic/exception/DatabaseOperationException.java
+/Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/user/userexception/EmailAlreadyDisabledException.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/user/userdto/RegisterRequestDto.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/user/usercontroller/UserController.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/user/userdto/SignInRequestDto.java
@@ -12,6 +14,7 @@
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/user/userrowmapper/SignInRowMapper.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/user/userexception/TokenParseException.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/user/userservice/UserService.java
+/Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/user/userexception/TokenInvalidException.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/user/userexception/UserExceptionHandler.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/user/userdao/UserDAOImpl.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/user/userpo/UserEmailPo.java

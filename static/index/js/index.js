@@ -148,8 +148,6 @@ async function verfityUsernameAndPassword(email, password) {
     return false;
   }
 }
-
-//return boolean
 async function verifyUserToken(token) {
   const response = await fetch(apiUrl + "/api/user/auth", {
     headers: {
@@ -161,12 +159,9 @@ async function verifyUserToken(token) {
   const verifyResult = await response.json();
   console.log(`token驗證結果：`);
   console.log(verifyResult);
-  if (verifyResult.parseResult) {
-    window.location.href = "/userSpace.html";
-  } else {
+  if (!verifyResult.parseResult) {
     localStorage.removeItem("token");
     window.location.href = "/";
   }
 }
-
 init();

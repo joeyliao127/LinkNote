@@ -5,13 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="31befe92-750a-4d2c-ab08-ee48786e5281" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/usercontroller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/usercontroller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userdao/UserDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userdao/UserDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/usercontroller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/usercontroller/UserController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/base/js/apiURL.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/LinkNoteSpring-0.0.1-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/LinkNoteSpring-0.0.1-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/LinkNoteSpring-0.0.1-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/LinkNoteSpring-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.linknote.online.linknotespring.LinkNoteSpringApplicationTests.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.linknote.online.linknotespring.LinkNoteSpringApplicationTests.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.linknote.online.linknotespring.LinkNoteSpringApplicationTests.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.linknote.online.linknotespring.LinkNoteSpringApplicationTests.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../static/index/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../static/index/js/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
