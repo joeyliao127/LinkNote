@@ -1,9 +1,9 @@
 let errMsg = document.querySelector("#signin-error-msg");
 async function init() {
   const token = localStorage.getItem("token");
-  if (token) {
-    window.location.href = "/userspace.html";
-  }
+  // if (token) {
+  //   window.location.href = "/userspace.html";
+  // }
   switchFormBtn();
   register();
   signinListener();
@@ -102,12 +102,9 @@ function signinListener() {
     const password = document.querySelector("#signin-password").value;
     const checkResult = validateSigninValue(email, password);
     if (checkResult) {
-      const token = await verfityUsernameAndPassword(
-        email.value,
-        password.value
-      ).token;
+      const token = await verfityUsernameAndPassword(email, password).token;
       localStorage.setItem("token", token);
-      window.location.href = "/userSpace.html";
+      // window.location.href = "/userSpace.html";
     } else {
       errMsg.textContent =
         "Please enter the correct format for your email and password can not be null ";
@@ -117,7 +114,7 @@ function signinListener() {
 async function verfityUsernameAndPassword(email, password) {
   const endpoint = apiUrl + "/api/user/auth";
   const reqBody = { email: email, password: password };
-
+  console.log(`email: ${email}, ps:${password}`);
   try {
     const response = await fetch(endpoint, {
       method: "POST",
@@ -128,6 +125,7 @@ async function verfityUsernameAndPassword(email, password) {
     });
     const data = await response.json();
     if (response.ok) {
+      console.log(`response: ok!`);
       return data;
     } else {
       throw new Error(data.msg);

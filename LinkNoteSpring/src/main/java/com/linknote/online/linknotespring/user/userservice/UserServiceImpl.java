@@ -57,6 +57,8 @@ public class UserServiceImpl implements UserService{
 
   @Override
   public UserInfoPO signInVerify(SignInRequestDto signInRequestDto) {
+    System.out.println("email:"+signInRequestDto.getEmail());
+    System.out.println("passowrd"+signInRequestDto.getPassword());
     signInRequestDto.setPassword(md5DigestAsHex(signInRequestDto.getPassword().getBytes()));
     List<UserInfoPO> userInfoPOS = userDAO.getByEmailAndPassword(signInRequestDto);
     if(userInfoPOS.isEmpty()){
