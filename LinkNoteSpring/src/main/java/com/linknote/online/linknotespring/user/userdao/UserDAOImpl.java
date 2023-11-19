@@ -64,7 +64,7 @@ public class UserDAOImpl implements UserDAO{
 
   @Override
   public List<UserInfoPO> getByTokenUserIdAndEmailForToken(String email, Integer userId) {
-    String sql = "SELECT id as userId, username, email, status FROM members WHERE email = :email and id = :userId";
+    String sql = "SELECT id as userId, username, email, status FROM members WHERE email = :email and id = :userId and status = 1";
     Map<String, Object> map = new HashMap<>();
     map.put("email", email);
     map.put("userId", userId);

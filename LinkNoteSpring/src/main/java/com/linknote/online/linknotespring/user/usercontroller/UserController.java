@@ -42,8 +42,8 @@ public class UserController {
     return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("token", JWTToken));
   }
   @PostMapping("/api/user/auth")
-  public ResponseEntity<Object> signInAuthentication(@RequestBody @Valid SignInRequestDto signInRequestDto,
-                                                     @RequestHeader String Authorization){
+  public ResponseEntity<Object> signInAuthentication(@RequestBody(required = false) @Valid SignInRequestDto signInRequestDto,
+                                                     @RequestHeader(required = false) String Authorization){
     if(Authorization == null){
       UserInfoPO verifyResult = userService.signInVerify(signInRequestDto);
       log.info("接收到登入請求：" + signInRequestDto.getEmail());

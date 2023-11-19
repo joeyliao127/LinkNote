@@ -8,7 +8,7 @@ function switchNotebooksTpyeBtn() {
   const switchNotebookBtn = document.querySelector(
     ".sideBar-group-notebooksType img"
   );
-  console.log(switchNotebookBtn);
+
   const typeName = document.querySelector(".sideBar-group-notebooksType p");
   const myNotebooksCtn = document.querySelector(".myNotebook");
   const coNotebookCtn = document.querySelector(".coNotebook");

@@ -2,11 +2,11 @@ let errMsg = document.querySelector("#signin-error-msg");
 async function init() {
   const token = localStorage.getItem("token");
   if (token) {
-    window.location.href = "/userspace.html";
+    verifyUserToken(token);
   }
   switchFormBtn();
   register();
-  signinListener();
+  signInBtnListener();
 }
 
 function switchFormBtn() {
@@ -93,18 +93,18 @@ async function fetchRegisterEndpoint(username, email, password) {
 }
 
 //return boolean
-function validateSigninValue(email, password) {
+function validateEmailFormatAndPassword(email, password) {
   console.log(`email: ${email}\npassowrd: ${password}`);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email) && password;
 }
 
-function signinListener() {
+function signInBtnListener() {
   const signinBtn = document.querySelector(".signin-ctn button");
   signinBtn.addEventListener("click", async () => {
     const email = document.querySelector("#signin-email").value;
     const password = document.querySelector("#signin-password").value;
-    const checkResult = validateSigninValue(email, password);
+    const checkResult = validateEmailFormatAndPassword(email, password);
     if (checkResult) {
       const data = await verfityUsernameAndPassword(email, password);
       console.log(`data:`);
@@ -112,7 +112,6 @@ function signinListener() {
       localStorage.setItem("token", data.token);
       if (localStorage.getItem("token")) {
         window.location.href = "/userSpace.html";
-        console.log(`find token:`);
       } else {
         console.log(`token not found`);
       }
@@ -122,6 +121,7 @@ function signinListener() {
     }
   });
 }
+
 async function verfityUsernameAndPassword(email, password) {
   const endpoint = apiUrl + "/api/user/auth";
   const reqBody = { email: email, password: password };
@@ -150,6 +150,23 @@ async function verfityUsernameAndPassword(email, password) {
 }
 
 //return boolean
-async function verifyUserToken(token) {}
+async function verifyUserToken(token) {
+  const response = await fetch(apiUrl + "/api/user/auth", {
+    headers: {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json",
+    },
+    method: "POST",
+  });
+  const verifyResult = await response.json();
+  console.log(`token驗證結果：`);
+  console.log(verifyResult);
+  if (verifyResult.parseResult) {
+    window.location.href = "/userSpace.html";
+  } else {
+    localStorage.removeItem("token");
+    window.location.href = "/";
+  }
+}
 
 init();
