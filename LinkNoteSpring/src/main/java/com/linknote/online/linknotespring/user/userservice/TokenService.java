@@ -7,4 +7,6 @@ public interface TokenService {
   String genJWTToken(Integer userId, String email, String username);
   Claims parserJWTToken(String token);
 
+  Boolean verifyToken(String token);
+
 }

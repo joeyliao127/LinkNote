@@ -6,6 +6,16 @@ public class UserInfoPO {
   private Integer userId;
   private String email;
 
+  public Boolean getStatus() {
+    return status;
+  }
+
+  public void setStatus(Boolean status) {
+    this.status = status;
+  }
+
+  private Boolean status;
+
   public String getUsername() {
     return username;
   }

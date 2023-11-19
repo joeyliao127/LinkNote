@@ -14,4 +14,5 @@ public interface UserDAO {
 
   List<UserInfoPO> getByEmailAndPassword(
       SignInRequestDto signInRequestDto);
+  List<UserInfoPO> getByTokenUserIdAndEmailForToken(String email, Integer userId);
 }

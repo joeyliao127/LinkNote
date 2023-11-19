@@ -13,6 +13,7 @@ public class SignInRowMapper implements RowMapper<UserInfoPO> {
     userInfoPO.setEmail(rs.getString("email"));
     userInfoPO.setUserId(rs.getInt("userId"));
     userInfoPO.setUsername(rs.getString("username"));
+    userInfoPO.setStatus(rs.getBoolean("status"));
     return userInfoPO;
   }
 }

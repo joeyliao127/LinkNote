@@ -9,6 +9,8 @@ import com.linknote.online.linknotespring.user.userservice.UserServiceImpl;
 import io.jsonwebtoken.Claims;
 import jakarta.validation.Valid;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +29,10 @@ public class UserController {
   UserServiceImpl userService;
   @Autowired
   TokenService tokenService;
-  @PostMapping("/api/user")
+  private final static Logger log = LoggerFactory.getLogger(UserController.class);
+
+
+  @PostMapping("/api/user/register")
   public ResponseEntity<Object> register(@RequestBody @Valid RegisterRequestDto registerRequestDto)
   throws DatabaseOperationException, EmailAlreadyRegisteredException {
     System.out.println(registerRequestDto.getUsername());
@@ -37,20 +42,33 @@ public class UserController {
     return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("token", JWTToken));
   }
   @PostMapping("/api/user/auth")
-  public ResponseEntity<Object> signInAuthentication(@RequestBody SignInRequestDto signInRequestDto){
-    System.out.println("開始處理signin requsest");
-    UserInfoPO verifyResult = userService.signInVerify(signInRequestDto);
-    System.out.println("將要打包載token中的Username：" + verifyResult.getUsername());
-    String token = tokenService.genJWTToken(verifyResult.getUserId()
-                                           ,verifyResult.getEmail()
-                                           ,verifyResult.getUsername());
-    System.out.println("允許使用者登入:"+ verifyResult.getUsername());
-    return ResponseEntity.status(HttpStatus.OK)
-        .body(Map.of(
-            "token", token,
-            "username", verifyResult.getUsername(),
-            "email",verifyResult.getEmail()
-            ));
+  public ResponseEntity<Object> signInAuthentication(@RequestBody @Valid SignInRequestDto signInRequestDto,
+                                                     @RequestHeader String Authorization){
+    if(Authorization == null){
+      UserInfoPO verifyResult = userService.signInVerify(signInRequestDto);
+      log.info("接收到登入請求：" + signInRequestDto.getEmail());
+      String token = tokenService.genJWTToken(verifyResult.getUserId()
+          ,verifyResult.getEmail()
+          ,verifyResult.getUsername());
+      log.info("允許使用者登入:"+ verifyResult.getUsername());
+      return ResponseEntity.status(HttpStatus.OK)
+          .body(Map.of(
+              "token", token,
+              "username", verifyResult.getUsername(),
+              "email",verifyResult.getEmail()
+          ));
+    }else{
+      log.info("使用token登入，Bearer token");
+      String token = Authorization.substring(7);
+      Boolean verifyResult = tokenService.verifyToken(token);
+      if(verifyResult){
+       log.info("允許登入");
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of("parseResult", true));
+      }else{
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("parseResult", false));
+      }
+    }
+
   }
 
 

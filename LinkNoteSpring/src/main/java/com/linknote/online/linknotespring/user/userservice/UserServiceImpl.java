@@ -2,6 +2,7 @@ package com.linknote.online.linknotespring.user.userservice;
 import static org.springframework.util.DigestUtils.md5DigestAsHex;
 import com.linknote.online.linknotespring.generic.exception.DatabaseOperationException;
 import com.linknote.online.linknotespring.user.userdto.SignInRequestDto;
+import com.linknote.online.linknotespring.user.userexception.EmailAlreadyDisabledException;
 import com.linknote.online.linknotespring.user.userexception.EmailAlreadyRegisteredException;
 import com.linknote.online.linknotespring.user.userdto.RegisterRequestDto;
 import com.linknote.online.linknotespring.user.userexception.VerifyUserFailedException;
@@ -64,8 +65,10 @@ public class UserServiceImpl implements UserService{
     if(userInfoPOS.isEmpty()){
       log.warn("使用者帳號或密碼錯誤，嘗試登入的email:" + signInRequestDto.getEmail());
       throw new VerifyUserFailedException("email or password incorrect");
-    }else{
-      return userInfoPOS.get(0);
+    }else if(!userInfoPOS.get(0).getStatus()){
+      log.warn("使用者帳號已停用");
+      throw new EmailAlreadyDisabledException("Email already disabled");
     }
+    return userInfoPOS.get(0);
   }
 }

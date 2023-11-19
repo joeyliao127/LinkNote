@@ -1,11 +1,11 @@
 package com.linknote.online.linknotespring.user.userdto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 public class SignInRequestDto {
-  @NotBlank
+  @Email(message = "invalid email format")
   private String email;
-  @NotBlank
   private String password;
 
   public String getEmail() {

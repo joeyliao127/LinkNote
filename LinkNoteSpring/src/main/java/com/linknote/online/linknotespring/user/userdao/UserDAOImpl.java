@@ -55,10 +55,19 @@ public class UserDAOImpl implements UserDAO{
   @Override
   public List<UserInfoPO> getByEmailAndPassword(
       SignInRequestDto signInRequestDto) {
-    String sql = "SELECT id as userId, username, email FROM members WHERE email = :email and password = :password";
+    String sql = "SELECT id as userId, username, email, status FROM members WHERE email = :email and password = :password";
     Map<String, String> map = new HashMap<>();
     map.put("email", signInRequestDto.getEmail());
     map.put("password", signInRequestDto.getPassword());
+    return namedParameterJdbcTemplate.query(sql, map, new SignInRowMapper());
+  }
+
+  @Override
+  public List<UserInfoPO> getByTokenUserIdAndEmailForToken(String email, Integer userId) {
+    String sql = "SELECT id as userId, username, email, status FROM members WHERE email = :email and id = :userId";
+    Map<String, Object> map = new HashMap<>();
+    map.put("email", email);
+    map.put("userId", userId);
     return namedParameterJdbcTemplate.query(sql, map, new SignInRowMapper());
   }
 }

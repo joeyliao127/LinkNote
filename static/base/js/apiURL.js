@@ -1,1 +1,2 @@
-const apiUrl = "http://127.0.0.1:8080";
+const apiUrl = "http://localhost:8080";
+// const apiUrl = "https://linknote.online";

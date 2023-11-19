@@ -1,9 +1,9 @@
 let errMsg = document.querySelector("#signin-error-msg");
 async function init() {
   const token = localStorage.getItem("token");
-  // if (token) {
-  //   window.location.href = "/userspace.html";
-  // }
+  if (token) {
+    window.location.href = "/userspace.html";
+  }
   switchFormBtn();
   register();
   signinListener();
@@ -55,8 +55,12 @@ function register() {
   });
 }
 
+function validateEmailFormat(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
 async function fetchRegisterEndpoint(username, email, password) {
-  const endpoint = apiUrl + "/api/user";
+  const endpoint = apiUrl + "/api/user/register";
   console.log(endpoint);
   console.log(`username:`, username);
   console.log(`email:`, email);
@@ -76,7 +80,7 @@ async function fetchRegisterEndpoint(username, email, password) {
   if (response.status == 201) {
     localStorage.setItem("token", data.token);
     window.alert("Success!");
-    window.location.href = "/userspace.html";
+    window.location.href = "/userSpace.html";
   } else if (response.status == 400) {
     document.querySelector("#signup-error-msg").textContent =
       "Email already exist.";
@@ -102,9 +106,16 @@ function signinListener() {
     const password = document.querySelector("#signin-password").value;
     const checkResult = validateSigninValue(email, password);
     if (checkResult) {
-      const token = await verfityUsernameAndPassword(email, password).token;
-      localStorage.setItem("token", token);
-      // window.location.href = "/userSpace.html";
+      const data = await verfityUsernameAndPassword(email, password);
+      console.log(`data:`);
+      console.log(data);
+      localStorage.setItem("token", data.token);
+      if (localStorage.getItem("token")) {
+        window.location.href = "/userSpace.html";
+        console.log(`find token:`);
+      } else {
+        console.log(`token not found`);
+      }
     } else {
       errMsg.textContent =
         "Please enter the correct format for your email and password can not be null ";
@@ -125,7 +136,8 @@ async function verfityUsernameAndPassword(email, password) {
     });
     const data = await response.json();
     if (response.ok) {
-      console.log(`response: ok!`);
+      console.log(`response: ok! data:`);
+      console.log(data);
       return data;
     } else {
       throw new Error(data.msg);

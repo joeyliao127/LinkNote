@@ -13,6 +13,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class UserExceptionHandler {
   private final static Logger log = LoggerFactory.getLogger(UserExceptionHandler.class);
+
+  @ExceptionHandler(RuntimeException.class)
+  public ResponseEntity<Object> runTimeException(RuntimeException e){
+    log.warn("RunTime Exception. 非預期錯誤，錯誤訊息：" + e.getMessage());
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("msg", "Internal error"));
+  }
+
   @ExceptionHandler(EmailAlreadyRegisteredException.class)
   public ResponseEntity<Object> emailAlreadyRegisterdHandler(EmailAlreadyRegisteredException e){
     log.warn("Email已經被註冊");
@@ -38,5 +45,20 @@ public class UserExceptionHandler {
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("msg", e.getMessage()));
   }
 
+  @ExceptionHandler(EmailAlreadyDisabledException.class)
+  public ResponseEntity<Object> emailAlreadyDisabledException(EmailAlreadyDisabledException e){
+    log.warn("Email already disabled");
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("msg", e.getMessage()));
+  }
 
+  @ExceptionHandler(TokenExpirationException.class)
+  public ResponseEntity<Object> tokenExpirationException(TokenExpirationException e){
+    log.warn("Token 已經過期.");
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("msg", e.getMessage()));
+  }
+  @ExceptionHandler(TokenInvalidException.class)
+  public ResponseEntity<Object> tokenInvalidException(TokenInvalidException e){
+    log.warn("無效的Token，DB尚未找到資料。");
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("msg", e.getMessage()));
+  }
 }
