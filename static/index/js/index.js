@@ -1,3 +1,5 @@
+const apiUrl = "http://localhost:8080";
+// const apiUrl = "https://linknote.online";
 let errMsg = document.querySelector("#signin-error-msg");
 async function init() {
   const token = localStorage.getItem("token");
@@ -32,6 +34,11 @@ function clearErrorMsg() {
   }, 5000);
 }
 
+function validateEmailFormat(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
 function register() {
   const signUpBtn = document.querySelector(".signup-ctn .form-ctn button");
   signUpBtn.addEventListener("click", async () => {
@@ -55,16 +62,8 @@ function register() {
   });
 }
 
-function validateEmailFormat(email) {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-}
 async function fetchRegisterEndpoint(username, email, password) {
   const endpoint = apiUrl + "/api/user/register";
-  console.log(endpoint);
-  console.log(`username:`, username);
-  console.log(`email:`, email);
-  console.log(`password:`, password);
   const requestBody = { username, email, password };
   const request = {
     method: "POST",
@@ -93,7 +92,7 @@ async function fetchRegisterEndpoint(username, email, password) {
 }
 
 //return boolean
-function validateEmailFormatAndPassword(email, password) {
+function validateEmailFormatAndPasswordNotNull(email, password) {
   console.log(`email: ${email}\npassowrd: ${password}`);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email) && password;
@@ -104,50 +103,37 @@ function signInBtnListener() {
   signinBtn.addEventListener("click", async () => {
     const email = document.querySelector("#signin-email").value;
     const password = document.querySelector("#signin-password").value;
-    const checkResult = validateEmailFormatAndPassword(email, password);
-    if (checkResult) {
-      const data = await verfityUsernameAndPassword(email, password);
-      console.log(`data:`);
-      console.log(data);
-      localStorage.setItem("token", data.token);
-      if (localStorage.getItem("token")) {
-        window.location.href = "/userSpace.html";
-      } else {
-        console.log(`token not found`);
-      }
-    } else {
+    const endpoint = apiUrl + "/api/user/auth";
+    const reqBody = { email: email, password: password };
+    console.log(`email: ${email}, ps:${password}`);
+    const checkInput = validateEmailFormatAndPasswordNotNull(email, password);
+    if (!checkInput) {
       errMsg.textContent =
         "Please enter the correct format for your email and password can not be null ";
+      return 0;
+    }
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(reqBody),
+      });
+      const data = await response.json();
+      console.log(data);
+      if (data.result) {
+        localStorage.setItem("token", data.token);
+        window.location.href = "/userSpace.html";
+      } else {
+        errMsg.textContent = "Email or password incorrect. ";
+      }
+    } catch (e) {
+      console.log(`網路或Server異常: ${e}`);
     }
   });
 }
 
-async function verfityUsernameAndPassword(email, password) {
-  const endpoint = apiUrl + "/api/user/auth";
-  const reqBody = { email: email, password: password };
-  console.log(`email: ${email}, ps:${password}`);
-  try {
-    const response = await fetch(endpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(reqBody),
-    });
-    const data = await response.json();
-    if (response.ok) {
-      console.log(`response: ok! data:`);
-      console.log(data);
-      return data;
-    } else {
-      throw new Error(data.msg);
-    }
-  } catch (e) {
-    errMsg.textContent = e.message;
-    console.log(e);
-    return false;
-  }
-}
 async function verifyUserToken(token) {
   const response = await fetch(apiUrl + "/api/user/auth", {
     headers: {

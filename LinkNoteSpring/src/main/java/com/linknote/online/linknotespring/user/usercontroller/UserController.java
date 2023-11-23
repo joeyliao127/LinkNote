@@ -45,20 +45,19 @@ public class UserController {
   public ResponseEntity<Object> signInAuthentication(@RequestBody(required = false) @Valid SignInRequestDto signInRequestDto,
                                                      @RequestHeader(required = false) String Authorization){
     if(Authorization == null){
+      log.info("接收到帳密登入請求：" + signInRequestDto.getEmail());
       UserInfoPO verifyResult = userService.signInVerify(signInRequestDto);
-      log.info("接收到登入請求：" + signInRequestDto.getEmail());
       String token = tokenService.genJWTToken(verifyResult.getUserId()
           ,verifyResult.getEmail()
           ,verifyResult.getUsername());
       log.info("允許使用者登入:"+ verifyResult.getUsername());
       return ResponseEntity.status(HttpStatus.OK)
           .body(Map.of(
-              "token", token,
-              "username", verifyResult.getUsername(),
-              "email",verifyResult.getEmail()
+              "result", true,
+              "token", token
           ));
     }else{
-      log.info("使用token登入，Bearer token");
+      log.info("接收到token登入請求，Bearer token");
       String token = Authorization.substring(7);
       Boolean verifyResult = tokenService.verifyToken(token);
       if(verifyResult){
@@ -73,10 +72,13 @@ public class UserController {
 
 
   @GetMapping("/api/user")
-  public ResponseEntity<Claims> parseToken(@RequestHeader String Authorization){
+  public ResponseEntity<Object> parseToken(@RequestHeader String Authorization){
     String token = Authorization.substring(7);
     Claims payload = tokenService.parserJWTToken(token);
-    return ResponseEntity.status(HttpStatus.OK).body(payload);
+    return ResponseEntity.status(HttpStatus.OK).body(Map.of(
+        "result", true,
+        "email", payload.get("email", String.class),
+        "username", payload.getSubject()));
   }
 
 }

@@ -25,7 +25,7 @@ public class UserDAOImpl implements UserDAO{
   @Override
   public List<UserEmailPo> getByEmail(String email) {
     System.out.println("進入驗證DAO");
-    String sql = "SELECT email FROM members WHERE email = :email";
+    String sql = "SELECT email FROM users WHERE email = :email";
     Map<String, Object> map = new HashMap<>();
     System.out.println("製作hashmap");
     map.put("email", email);
@@ -36,7 +36,7 @@ public class UserDAOImpl implements UserDAO{
   @Override
   public Integer createUser(RegisterRequestDto registerRequestDto) {
     String sql = "INSERT INTO "
-               + "members(username, password, email) "
+               + "users(username, password, email) "
                + "VALUES(:username, :password, :email)";
     Map<String, Object> map = new HashMap<>();
     map.put("email", registerRequestDto.getEmail());
@@ -55,7 +55,7 @@ public class UserDAOImpl implements UserDAO{
   @Override
   public List<UserInfoPO> getByEmailAndPassword(
       SignInRequestDto signInRequestDto) {
-    String sql = "SELECT id as userId, username, email, status FROM members WHERE email = :email and password = :password";
+    String sql = "SELECT id as userId, username, email, status FROM users WHERE email = :email and password = :password";
     Map<String, String> map = new HashMap<>();
     map.put("email", signInRequestDto.getEmail());
     map.put("password", signInRequestDto.getPassword());
@@ -64,7 +64,7 @@ public class UserDAOImpl implements UserDAO{
 
   @Override
   public List<UserInfoPO> getByTokenUserIdAndEmailForToken(String email, Integer userId) {
-    String sql = "SELECT id as userId, username, email, status FROM members WHERE email = :email and id = :userId and status = 1";
+    String sql = "SELECT id as userId, username, email, status FROM users WHERE email = :email and id = :userId and status = 1";
     Map<String, Object> map = new HashMap<>();
     map.put("email", email);
     map.put("userId", userId);

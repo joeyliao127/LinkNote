@@ -5,13 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="31befe92-750a-4d2c-ab08-ee48786e5281" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/generic/config/config/AppConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/generic/interceptor/TokenVerifyInterceptor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/cc934641-988d-4188-8485-5b7bb96e1802.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/cc934641-988d-4188-8485-5b7bb96e1802.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/cc934641-988d-4188-8485-5b7bb96e1802/storage_v2/_src_/schema/linkNote.DEcrRw.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/cc934641-988d-4188-8485-5b7bb96e1802/storage_v2/_src_/schema/linkNote.DEcrRw.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/LinkNoteSpring-0.0.1-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/LinkNoteSpring-0.0.1-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/LinkNoteSpring-0.0.1-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/LinkNoteSpring-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.linknote.online.linknotespring.LinkNoteSpringApplicationTests.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.linknote.online.linknotespring.LinkNoteSpringApplicationTests.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.linknote.online.linknotespring.LinkNoteSpringApplicationTests.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.linknote.online.linknotespring.LinkNoteSpringApplicationTests.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/usercontroller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/usercontroller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userdao/UserDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userdao/UserDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userexception/UserExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userexception/UserExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userservice/TokenServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userservice/TokenServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/usercontroller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/usercontroller/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userdao/UserDaoImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userdao/UserDaoImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userexception/UserExceptionHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userexception/UserExceptionHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userservice/TokenServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userservice/TokenServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../static/base/js/base.js" beforeDir="false" afterPath="$PROJECT_DIR$/../static/base/js/base.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../static/index/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../static/index/js/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../static/notePage/nav/js/notePageNav.js" beforeDir="false" afterPath="$PROJECT_DIR$/../static/notePage/nav/js/notePageNav.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../static/notePage/sideBar/js/notePageSideBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/../static/notePage/sideBar/js/notePageSideBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../static/userSpace/noteConsole/js/userSpaceNoteConsole.js" beforeDir="false" afterPath="$PROJECT_DIR$/../static/userSpace/noteConsole/js/userSpaceNoteConsole.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../static/userSpace/sideBar/js/userSpaceSidebar.js" beforeDir="false" afterPath="$PROJECT_DIR$/../static/userSpace/sideBar/js/userSpaceSidebar.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,6 +78,12 @@
     ]
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note" />
+      <recent name="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="LinkNoteSpringApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="LinkNoteSpring" />

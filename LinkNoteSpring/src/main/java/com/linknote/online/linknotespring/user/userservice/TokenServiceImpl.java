@@ -2,6 +2,7 @@ package com.linknote.online.linknotespring.user.userservice;
 import com.linknote.online.linknotespring.user.userdao.UserDAO;
 import com.linknote.online.linknotespring.user.userexception.TokenExpirationException;
 import com.linknote.online.linknotespring.user.userexception.TokenInvalidException;
+import com.linknote.online.linknotespring.user.userexception.TokenParseException;
 import com.linknote.online.linknotespring.user.userpo.UserInfoPO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -50,8 +51,9 @@ public class TokenServiceImpl implements TokenService{
       Claims payload = Jwts.parser().verifyWith(key).build().parseClaimsJws(token).getPayload();
       return payload;
     }catch (RuntimeException e){
+      log.warn("token解析錯誤：" + e.getMessage());
       e.getMessage();
-      throw new RuntimeException("Token解析錯誤：" + e.getMessage());
+      throw new TokenParseException("Token解析錯誤：");
     }
   }
 
