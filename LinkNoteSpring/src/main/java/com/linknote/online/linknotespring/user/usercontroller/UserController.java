@@ -31,7 +31,6 @@ public class UserController {
   TokenService tokenService;
   private final static Logger log = LoggerFactory.getLogger(UserController.class);
 
-
   @PostMapping("/api/user/register")
   public ResponseEntity<Object> register(@RequestBody @Valid RegisterRequestDto registerRequestDto)
   throws DatabaseOperationException, EmailAlreadyRegisteredException {
@@ -69,7 +68,6 @@ public class UserController {
     }
 
   }
-
 
   @GetMapping("/api/user")
   public ResponseEntity<Object> parseToken(@RequestHeader String Authorization){
