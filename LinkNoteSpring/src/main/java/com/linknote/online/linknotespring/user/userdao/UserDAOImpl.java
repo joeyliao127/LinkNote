@@ -3,6 +3,7 @@ package com.linknote.online.linknotespring.user.userdao;
 import com.linknote.online.linknotespring.user.userdto.SignInRequestDto;
 import com.linknote.online.linknotespring.user.userdto.RegisterRequestDto;
 import com.linknote.online.linknotespring.user.userpo.UserInfoPO;
+import com.linknote.online.linknotespring.user.userrowmapper.UeserIdRowMapper;
 import com.linknote.online.linknotespring.user.userrowmapper.SignInRowMapper;
 import com.linknote.online.linknotespring.user.userrowmapper.RegisterRowMapper;
 import com.linknote.online.linknotespring.user.userpo.UserEmailPo;
@@ -22,6 +23,7 @@ public class UserDAOImpl implements UserDAO{
   @Autowired
   NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+
   @Override
   public List<UserEmailPo> getByEmail(String email) {
     System.out.println("進入驗證DAO");
@@ -31,6 +33,14 @@ public class UserDAOImpl implements UserDAO{
     map.put("email", email);
     System.out.print("製作完成");
     return namedParameterJdbcTemplate.query(sql, map, new RegisterRowMapper());
+  }
+
+  @Override
+  public List<Integer> getUserIdByEmail(String email) {
+    String sql = "SELECT id FROM users WHERE email = :email";
+    Map<String, Object> map = new HashMap<>();
+    map.put("email", email);
+    return namedParameterJdbcTemplate.query(sql, map, new UeserIdRowMapper());
   }
 
   @Override

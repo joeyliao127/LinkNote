@@ -10,7 +10,7 @@ public interface UserDAO {
   List<UserEmailPo> getByEmail(String email);
   Integer createUser(RegisterRequestDto registerRequestDto);
 
-
+  List<Integer> getUserIdByEmail(String email);
 
   List<UserInfoPO> getByEmailAndPassword(
       SignInRequestDto signInRequestDto);
