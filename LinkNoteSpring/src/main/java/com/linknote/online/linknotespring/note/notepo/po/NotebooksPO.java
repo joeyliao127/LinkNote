@@ -5,7 +5,7 @@ public class NotebooksPO {
   private String name;
   private Integer notebookId;
   private Boolean selected;
-  private String description;
+
 
   public String getName() {
     return name;
@@ -31,11 +31,4 @@ public class NotebooksPO {
     this.selected = selected;
   }
 
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
 }

@@ -20,12 +20,12 @@ public class TokenVerifyInterceptor implements HandlerInterceptor {
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
       throws Exception {
     try {
-      String token = request.getHeader("Authorization").substring(7);
+      String Authorization = request.getHeader("Authorization");
       log.info("攔截器：驗證token.");
-      return tokenService.verifyToken(token);
+      return tokenService.verifyToken(Authorization);
     }catch (RuntimeException e){
       log.warn("Token攔截器：無效的token，錯誤訊息。\n " + e);
-      throw new TokenInvalidException("未檢測到token");
+      throw new TokenInvalidException("invalid token");
     }
   }
 }

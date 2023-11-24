@@ -71,12 +71,10 @@ public class UserController {
 
   @GetMapping("/api/user")
   public ResponseEntity<Object> parseToken(@RequestHeader String Authorization){
-    String token = Authorization.substring(7);
-    Claims payload = tokenService.parserJWTToken(token);
+    Claims payload = tokenService.parserJWTToken(Authorization);
     return ResponseEntity.status(HttpStatus.OK).body(Map.of(
         "result", true,
         "email", payload.get("email", String.class),
         "username", payload.getSubject()));
   }
-
 }

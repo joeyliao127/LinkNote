@@ -5,8 +5,8 @@ import io.jsonwebtoken.Claims;
 public interface TokenService {
 
   String genJWTToken(Integer userId, String email, String username);
-  Claims parserJWTToken(String token);
+  Claims parserJWTToken(String Authorization);
 
-  Boolean verifyToken(String token);
+  Boolean verifyToken(String Authorization);
 
 }

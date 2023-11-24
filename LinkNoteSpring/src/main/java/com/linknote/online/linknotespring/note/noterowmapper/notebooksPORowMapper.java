@@ -10,9 +10,8 @@ public class notebooksPORowMapper implements RowMapper<NotebooksPO> {
   @Override
   public NotebooksPO mapRow(ResultSet rs, int rowNum) throws SQLException {
     NotebooksPO notebooksPO = new NotebooksPO();
-    notebooksPO.setName(rs.getString("name"));
+    notebooksPO.setName(rs.getString("notebookName"));
     notebooksPO.setNotebookId(rs.getInt("notebookId"));
-    notebooksPO.setDescription(rs.getString("description"));
     notebooksPO.setSelected(rs.getBoolean("selected"));
     return notebooksPO;
   }

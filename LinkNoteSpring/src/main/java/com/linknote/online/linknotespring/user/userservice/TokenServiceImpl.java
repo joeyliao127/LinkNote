@@ -44,7 +44,8 @@ public class TokenServiceImpl implements TokenService{
   }
 
   @Override
-  public Claims parserJWTToken(String token) {
+  public Claims parserJWTToken(String Authorization) {
+    String token = Authorization.substring(7);
     byte[] decodekey = Base64.getDecoder().decode(SECRET.getBytes(StandardCharsets.UTF_8));
     SecretKey key = new SecretKeySpec(decodekey, "HmacSHA256");
     try{
@@ -58,19 +59,21 @@ public class TokenServiceImpl implements TokenService{
   }
 
   @Override
-  public Boolean verifyToken(String token) {
-    Claims claims = this.parserJWTToken(token);
+  public Boolean verifyToken(String Authorization) {
+    Claims claims = this.parserJWTToken(Authorization);
     if(System.currentTimeMillis() < claims.getExpiration().getTime()){
       List<UserInfoPO> userInfoPOS = userDAO.getByTokenUserIdAndEmailForToken(
           claims.get("email", String.class),
           claims.get("userId", Integer.class));
       if(userInfoPOS.isEmpty()){
+        log.warn("無效的token. (TokenImpl)");
         throw new TokenInvalidException("Invalid token");
       }else{
         log.info("TokenService - JWT token驗證成功，允許使用者登入。 User: " + claims.getSubject() + " UserId: " + claims.get("userId", Integer.class));
         return true;
       }
     }else{
+      log.warn("token已過期. (TokenImpl)");
       throw new TokenExpirationException("token expired");
     }
   }
