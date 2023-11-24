@@ -18,26 +18,21 @@ public class NoteDaoImpl implements NoteDao{
   public List<NotebooksPO> getNotebooks(NotebooksQueryParams params, Boolean getCoNotebook) {
     String sql;
     if(getCoNotebook){
-      System.out.println("取得coNotebook");
       sql = "SELECT n.id as notebookId, n.name as notebookName, n.selected FROM notebooks n "
           + "JOIN notebookCollaborators c ON c.notebookId = n.id "
           + "JOIN users u ON u.id = c.userId "
           + "WHERE u.id = :userId LIMIT :limit OFFSET :offset";
 
     }else{
-      System.out.println("取得notebook");
-      sql = "SELECT n.id as notebookId, n.name, n.selected, n.description FROM notebooks n "
+      sql = "SELECT n.id as notebookId, n.name as notebookName, n.selected FROM notebooks n "
           + "JOIN users u ON u.id = n.userId "
           + "WHERE userId = :userId LIMIT :limit OFFSET :offset";
-    }
 
+    }
     Map<String, Object> map = new HashMap<>();
     map.put("userId", params.getUserId());
     map.put("offset", params.getOffset());
-    map.put("limit", params.getLimit());
-    System.out.println(params.getLimit());
-    System.out.println(params.getOffset());
-    System.out.println(params.getUserId());
+    map.put("limit", params.getLimit() + 1); //+1為了驗證是否有nextPage
     return namedParameterJdbcTemplate.query(sql, map, new notebooksPORowMapper());
   }
 
