@@ -1,10 +1,10 @@
 package com.linknote.online.linknotespring.note.notecontroller;
 
 import com.linknote.online.linknotespring.note.noteService.NotebookService;
-import com.linknote.online.linknotespring.note.notedao.NotebookDao;
 import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.CreateNotebookTagsParamsDto;
 import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDto;
+import com.linknote.online.linknotespring.note.notedto.NotebookParamDto;
 import com.linknote.online.linknotespring.note.notepo.response.NotebooksResPO;
 import com.linknote.online.linknotespring.user.userservice.TokenService;
 import jakarta.validation.Valid;
@@ -72,4 +72,23 @@ public class NotebookController {
 
     return null;
   }
+
+  @PutMapping("/api/notebooks/{notebookId}")
+  public ResponseEntity<Object> updateNotebookName(
+      @PathVariable Integer notebookId,
+      @RequestBody NotebookParamDto params,
+      @RequestHeader String Authorization
+  ){
+    params.setUserId(tokenService.parserJWTToken(Authorization).get("userId", Integer.class));
+    params.setNotebookId(notebookId);
+    Boolean result = notebookService.updateNotebookName(params);
+    if(result){
+      return ResponseEntity.status(200).body(Map.of("result", true));
+    }else {
+      return ResponseEntity.status(500).body(Map.of("result", false, "msg", "internal error"));
+    }
+
+  }
 }
+
+

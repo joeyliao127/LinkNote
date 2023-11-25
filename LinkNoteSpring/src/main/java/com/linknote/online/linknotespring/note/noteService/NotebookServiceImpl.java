@@ -3,6 +3,7 @@ package com.linknote.online.linknotespring.note.noteService;
 import com.linknote.online.linknotespring.note.notedao.NotebookDao;
 import com.linknote.online.linknotespring.note.notedao.TagDao;
 import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDto;
+import com.linknote.online.linknotespring.note.notedto.NotebookParamDto;
 import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDto;
 import com.linknote.online.linknotespring.note.notepo.po.NotebooksPO;
 import com.linknote.online.linknotespring.note.notepo.response.NotebooksResPO;
@@ -99,5 +100,13 @@ public class NotebookServiceImpl implements NotebookService {
   public Boolean createNotebookTag(String tag, Integer notebookId, Integer userId) {
     tagService.createTag(tag, notebookId, userId);
     return null;
+  }
+
+  @Override
+  public Boolean updateNotebookName(NotebookParamDto params) {
+
+    Integer result = notebookDAO.updateNotebookName(params);
+    return result == 1;
+
   }
 }

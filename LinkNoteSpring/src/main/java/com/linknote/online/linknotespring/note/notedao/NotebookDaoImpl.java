@@ -1,6 +1,7 @@
 package com.linknote.online.linknotespring.note.notedao;
 
 import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDto;
+import com.linknote.online.linknotespring.note.notedto.NotebookParamDto;
 import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDto;
 import com.linknote.online.linknotespring.note.notepo.po.NotebooksPO;
 import com.linknote.online.linknotespring.note.noterowmapper.NotebookIdRowMapper;
@@ -85,6 +86,16 @@ public class NotebookDaoImpl implements NotebookDao {
     }else{
       return notebookId.get(0);
     }
+  }
+
+  @Override
+  public Integer updateNotebookName(NotebookParamDto params) {
+    String sql = "UPDATE notebooks SET name=:name WHERE id=:notebookId AND userId=:userId";
+    Map<String, Object> map = new HashMap<>();
+    map.put("name", params.getName());
+    map.put("notebookId", params.getNotebookId());
+    map.put("userId", params.getUserId());
+    return namedParameterJdbcTemplate.update(sql, map);
   }
 
   @Override
