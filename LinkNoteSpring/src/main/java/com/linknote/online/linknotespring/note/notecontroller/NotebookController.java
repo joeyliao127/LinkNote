@@ -1,8 +1,8 @@
 package com.linknote.online.linknotespring.note.notecontroller;
 
 import com.linknote.online.linknotespring.note.noteService.NotebookService;
-import com.linknote.online.linknotespring.note.notedto.NotebookCreateParamsDTO;
-import com.linknote.online.linknotespring.note.notedto.NotebooksQueryParamsDTO;
+import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDTO;
+import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDTO;
 import com.linknote.online.linknotespring.note.notepo.response.NotebooksResPO;
 import com.linknote.online.linknotespring.user.userservice.TokenService;
 import jakarta.validation.Valid;
@@ -37,7 +37,7 @@ public class NotebookController {
       @RequestParam(defaultValue = "0") @Max(20) @Min(0) Integer limit
       ){
     Integer userId = tokenService.parserJWTToken(Authorization).get("userId", Integer.class);
-    NotebooksQueryParamsDTO params = new NotebooksQueryParamsDTO();
+    QueryNotebooksParamsDTO params = new QueryNotebooksParamsDTO();
     params.setLimit(limit);
     params.setOffset(offset);
     params.setUserId(userId);
@@ -46,7 +46,7 @@ public class NotebookController {
 
   @PostMapping("/api/notebooks")
   public ResponseEntity<Object> createNotebook(
-      @RequestBody @Valid NotebookCreateParamsDTO params,
+      @RequestBody @Valid CreateNotebookParamsDTO params,
       @RequestHeader String Authorization
   ){
     Integer userId = tokenService.parserJWTToken(Authorization).get("userId", Integer.class);

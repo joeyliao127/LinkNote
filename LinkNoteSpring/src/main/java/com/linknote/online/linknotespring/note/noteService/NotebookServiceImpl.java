@@ -2,9 +2,8 @@ package com.linknote.online.linknotespring.note.noteService;
 
 import com.linknote.online.linknotespring.note.notedao.NotebookDao;
 import com.linknote.online.linknotespring.note.notedao.TagDao;
-import com.linknote.online.linknotespring.note.notedao.TagDaoImpl;
-import com.linknote.online.linknotespring.note.notedto.NotebookCreateParamsDTO;
-import com.linknote.online.linknotespring.note.notedto.NotebooksQueryParamsDTO;
+import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDTO;
+import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDTO;
 import com.linknote.online.linknotespring.note.notepo.po.NotebooksPO;
 import com.linknote.online.linknotespring.note.notepo.response.NotebooksResPO;
 import com.linknote.online.linknotespring.user.userdao.UserDAO;
@@ -29,7 +28,7 @@ public class NotebookServiceImpl implements NotebookService {
 
   private static final Logger log = LoggerFactory.getLogger(NotebookServiceImpl.class);
   @Override
-  public NotebooksResPO getNotebooks(NotebooksQueryParamsDTO params) {
+  public NotebooksResPO getNotebooks(QueryNotebooksParamsDTO params) {
     List<NotebooksPO> notebooks = notebookDAO.getNotebooks(params, false);
     log.info("notebook長度：" + notebooks.size());
     List<NotebooksPO> coNotebooks = notebookDAO.getNotebooks(params, true);
@@ -65,7 +64,7 @@ public class NotebookServiceImpl implements NotebookService {
 
   @Override
   @Transactional
-  public void createNotebook(NotebookCreateParamsDTO params, Integer userId) {
+  public void createNotebook(CreateNotebookParamsDTO params, Integer userId) {
     notebookDAO.createNotebook(params, userId);
     log.info("先新增notebook");
     Integer notebookId = notebookDAO.getNotebookIdByNotebookName(params.getName());
@@ -88,10 +87,13 @@ public class NotebookServiceImpl implements NotebookService {
     List<Integer> collaboratorList = new ArrayList<>();
     for(int i=0; i<params.getEmails().size(); i++){
       String email = params.getEmails().get(i).getEmail();
-      if(userDAO.getUserIdByEmail(email) == null){
+      int emailId = params.getEmails().get(i).getEmailId();
+      log.info("驗證email" + email);
+      if(userDAO.verifuUserIdAndEmail(email, emailId) == null){
+        log.info("找不到此email ＆ id");
         continue;
       }
-      int emailId = params.getEmails().get(i).getEmailId();
+      log.info("驗證email和userId通過，插入email ID");
       Integer collaboratorsId = userDAO.getCollaboratorsId(emailId,notebookId);
       if(collaboratorsId == null){
         collaboratorList.add(emailId);

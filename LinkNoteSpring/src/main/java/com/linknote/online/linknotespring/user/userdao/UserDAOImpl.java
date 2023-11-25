@@ -7,6 +7,7 @@ import com.linknote.online.linknotespring.user.userrowmapper.UeserIdRowMapper;
 import com.linknote.online.linknotespring.user.userrowmapper.SignInRowMapper;
 import com.linknote.online.linknotespring.user.userrowmapper.RegisterRowMapper;
 import com.linknote.online.linknotespring.user.userpo.UserEmailPo;
+import io.swagger.v3.oas.models.security.SecurityScheme.In;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -44,6 +45,20 @@ public class UserDAOImpl implements UserDAO{
     Map<String, Object> map = new HashMap<>();
     map.put("email", email);
     return namedParameterJdbcTemplate.query(sql, map, new UeserIdRowMapper());
+  }
+
+  @Override
+  public Integer verifuUserIdAndEmail(String email, Integer userId) {
+    String sql = "SELECT id FROM users WHERE email = :email AND id = :userId";
+    Map<String, Object> map = new HashMap<>();
+    map.put("email", email);
+    map.put("userId", userId);
+    List<Integer> result = namedParameterJdbcTemplate.query(sql, map, new UeserIdRowMapper());
+    if(result.isEmpty()){
+      return null;
+    }else {
+      return result.get(0);
+    }
   }
 
   @Override

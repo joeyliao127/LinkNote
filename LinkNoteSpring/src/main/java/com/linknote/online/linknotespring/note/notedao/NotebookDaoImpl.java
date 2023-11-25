@@ -1,10 +1,9 @@
 package com.linknote.online.linknotespring.note.notedao;
 
-import com.linknote.online.linknotespring.note.notedto.NotebookCreateParamsDTO;
-import com.linknote.online.linknotespring.note.notedto.NotebooksQueryParamsDTO;
+import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDTO;
+import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDTO;
 import com.linknote.online.linknotespring.note.notepo.po.NotebooksPO;
 import com.linknote.online.linknotespring.note.noterowmapper.NotebookIdRowMapper;
-import com.linknote.online.linknotespring.note.noterowmapper.TagRowMapper;
 import com.linknote.online.linknotespring.note.noterowmapper.notebooksPORowMapper;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +21,7 @@ public class NotebookDaoImpl implements NotebookDao {
 
   private static final Logger log = LoggerFactory.getLogger(NotebookDaoImpl.class);
   @Override
-  public List<NotebooksPO> getNotebooks(NotebooksQueryParamsDTO params, Boolean getCoNotebook) {
+  public List<NotebooksPO> getNotebooks(QueryNotebooksParamsDTO params, Boolean getCoNotebook) {
     String sql;
     if(getCoNotebook){
       sql = "SELECT n.id as notebookId, n.name as notebookName, n.selected FROM notebooks n "
@@ -44,7 +43,7 @@ public class NotebookDaoImpl implements NotebookDao {
   }
 
   @Override
-  public void createNotebook(NotebookCreateParamsDTO params, Integer userId) {
+  public void createNotebook(CreateNotebookParamsDTO params, Integer userId) {
     String sql = "INSERT INTO notebooks (name, description, userId) VALUES(:name, :description, :userId)";
     Map<String, Object> map = new HashMap<>();
     map.put("name",params.getName());

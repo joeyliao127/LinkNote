@@ -1,15 +1,15 @@
 package com.linknote.online.linknotespring.note.notedao;
 
-import com.linknote.online.linknotespring.note.notedto.NotebookCreateParamsDTO;
-import com.linknote.online.linknotespring.note.notedto.NotebooksQueryParamsDTO;
+import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDTO;
+import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDTO;
 import com.linknote.online.linknotespring.note.notepo.po.NotebooksPO;
 import java.util.List;
 
 public interface NotebookDao {
 
-  List<NotebooksPO> getNotebooks(NotebooksQueryParamsDTO params, Boolean getCoNotebook);
+  List<NotebooksPO> getNotebooks(QueryNotebooksParamsDTO params, Boolean getCoNotebook);
 
-  void createNotebook(NotebookCreateParamsDTO params, Integer userId);
+  void createNotebook(CreateNotebookParamsDTO params, Integer userId);
 
 
 

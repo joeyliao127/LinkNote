@@ -1,6 +1,6 @@
 package com.linknote.online.linknotespring.note.notedto;
 
-public class NotebooksQueryParamsDTO {
+public class QueryNotebooksParamsDTO {
   private Integer userId;
   private Integer offset;
   private Integer limit;

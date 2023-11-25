@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 
 @Valid
-public class NotebookCreateParamsDTO {
+public class CreateNotebookParamsDTO {
   @NotBlank
   private String name;
 

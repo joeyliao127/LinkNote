@@ -11,6 +11,7 @@ public interface UserDAO {
   Integer createUser(RegisterRequestDto registerRequestDto);
 
   List<Integer> getUserIdByEmail(String email);
+  Integer verifuUserIdAndEmail(String email, Integer userId);
 
   List<UserInfoPO> getByEmailAndPassword(
       SignInRequestDto signInRequestDto);
@@ -19,4 +20,6 @@ public interface UserDAO {
   Integer getCollaboratorsId(Integer userId, Integer notebookId);
 
   void updatyCollaborator(List<Integer> collaboratorList, Integer notebookId);
+
+
 }
