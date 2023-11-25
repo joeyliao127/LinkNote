@@ -2,8 +2,7 @@ package com.linknote.online.linknotespring.note.notecontroller;
 
 import com.linknote.online.linknotespring.note.noteService.NoteService;
 import com.linknote.online.linknotespring.note.notedto.CreateNoteParamsDto;
-import com.linknote.online.linknotespring.user.userservice.TokenService;
-import io.swagger.v3.oas.models.security.SecurityScheme.In;
+import com.linknote.online.linknotespring.note.notedto.CreateNotebookTagsParamsDto;
 import jakarta.validation.Valid;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +31,8 @@ public class NoteController {
 
 
   }
+
+
   @PutMapping("/api/notebooks/{notebookId}/notes")
   public ResponseEntity<Object> updateNote(
       @RequestBody
@@ -40,5 +41,6 @@ public class NoteController {
 //    noteService.updateNote()
     return ResponseEntity.ok().body(Map.of("result", true));
   }
+
 
 }

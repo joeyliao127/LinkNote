@@ -1,8 +1,10 @@
 package com.linknote.online.linknotespring.note.notecontroller;
 
 import com.linknote.online.linknotespring.note.noteService.NotebookService;
-import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDTO;
-import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDTO;
+import com.linknote.online.linknotespring.note.notedao.NotebookDao;
+import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDto;
+import com.linknote.online.linknotespring.note.notedto.CreateNotebookTagsParamsDto;
+import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDto;
 import com.linknote.online.linknotespring.note.notepo.response.NotebooksResPO;
 import com.linknote.online.linknotespring.user.userservice.TokenService;
 import jakarta.validation.Valid;
@@ -37,7 +39,7 @@ public class NotebookController {
       @RequestParam(defaultValue = "0") @Max(20) @Min(0) Integer limit
       ){
     Integer userId = tokenService.parserJWTToken(Authorization).get("userId", Integer.class);
-    QueryNotebooksParamsDTO params = new QueryNotebooksParamsDTO();
+    QueryNotebooksParamsDto params = new QueryNotebooksParamsDto();
     params.setLimit(limit);
     params.setOffset(offset);
     params.setUserId(userId);
@@ -46,7 +48,7 @@ public class NotebookController {
 
   @PostMapping("/api/notebooks")
   public ResponseEntity<Object> createNotebook(
-      @RequestBody @Valid CreateNotebookParamsDTO params,
+      @RequestBody @Valid CreateNotebookParamsDto params,
       @RequestHeader String Authorization
   ){
     Integer userId = tokenService.parserJWTToken(Authorization).get("userId", Integer.class);
@@ -54,9 +56,20 @@ public class NotebookController {
     return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("result", true));
   }
 
+  @PostMapping("/api/notebooks/{notebookId}/tags")
+  public ResponseEntity<Object> createTag(
+      @RequestBody @Valid CreateNotebookTagsParamsDto params,
+      @PathVariable Integer notebookId,
+      @RequestHeader String Authorization
+  ){
+    Integer userId = tokenService.parserJWTToken(Authorization).get("userId", Integer.class);
+    notebookService.createNotebookTag(params.getTag(), notebookId, userId);
+    return ResponseEntity.status(201).body(Map.of("result", true));
+  }
   //用來更新權限表，一次可以丟很多筆資料
   @PutMapping("/api/notebooks/{notebookId}/collaborators")
   public ResponseEntity<Object> updateCollaborators(@PathVariable Integer notebookId){
+
     return null;
   }
 }

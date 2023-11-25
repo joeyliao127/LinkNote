@@ -14,5 +14,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class NoteExceptionHandler {
   private final static Logger log = LoggerFactory.getLogger(NoteExceptionHandler.class);
 
+  @ExceptionHandler(NotebookIdAndUserIdNotMatchException.class)
+  public ResponseEntity<Object> notebookIdAndUserIdNotMatchException(NotebookIdAndUserIdNotMatchException e){
+    log.warn("NoteExceptionHandler: notebookID and user id not match\nmsg:" + e);
+    return ResponseEntity.status(400).body(Map.of("result", false, "msg", e.getMessage()));
+  }
+
 
 }

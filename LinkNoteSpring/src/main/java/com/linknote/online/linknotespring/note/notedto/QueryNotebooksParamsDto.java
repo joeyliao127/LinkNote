@@ -1,6 +1,11 @@
 package com.linknote.online.linknotespring.note.notedto;
 
-public class QueryNotebooksParamsDTO {
+
+import jakarta.validation.constraints.NotNull;
+
+public class QueryNotebooksParamsDto {
+
+  @NotNull
   private Integer userId;
   private Integer offset;
   private Integer limit;

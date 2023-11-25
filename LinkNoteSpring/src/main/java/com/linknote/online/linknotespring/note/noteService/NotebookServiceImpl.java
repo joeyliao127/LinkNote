@@ -2,8 +2,8 @@ package com.linknote.online.linknotespring.note.noteService;
 
 import com.linknote.online.linknotespring.note.notedao.NotebookDao;
 import com.linknote.online.linknotespring.note.notedao.TagDao;
-import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDTO;
-import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDTO;
+import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDto;
+import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDto;
 import com.linknote.online.linknotespring.note.notepo.po.NotebooksPO;
 import com.linknote.online.linknotespring.note.notepo.response.NotebooksResPO;
 import com.linknote.online.linknotespring.user.userdao.UserDAO;
@@ -30,7 +30,7 @@ public class NotebookServiceImpl implements NotebookService {
   private TagService tagService;
   private static final Logger log = LoggerFactory.getLogger(NotebookServiceImpl.class);
   @Override
-  public NotebooksResPO getNotebooks(QueryNotebooksParamsDTO params) {
+  public NotebooksResPO getNotebooks(QueryNotebooksParamsDto params) {
     List<NotebooksPO> notebooks = notebookDAO.getNotebooks(params, false);
     log.info("notebook長度：" + notebooks.size());
     List<NotebooksPO> coNotebooks = notebookDAO.getNotebooks(params, true);
@@ -66,14 +66,14 @@ public class NotebookServiceImpl implements NotebookService {
 
   @Override
   @Transactional
-  public void createNotebook(CreateNotebookParamsDTO params, Integer userId) {
+  public void createNotebook(CreateNotebookParamsDto params, Integer userId) {
     notebookDAO.createNotebook(params, userId);
     log.info("先新增notebook");
     Integer notebookId = notebookDAO.getNotebookIdByNotebookName(params.getName());
     log.info("開始新增tag，首先檢查tag，tag為：");
     for(int i=0; i<params.getTags().size(); i++){
       String tag = params.getTags().get(i);
-      tagService.createTag(tag, notebookId);
+      tagService.createTag(tag, notebookId, userId);
     }
 
     List<Integer> collaboratorList = new ArrayList<>();
@@ -93,5 +93,11 @@ public class NotebookServiceImpl implements NotebookService {
     }
     log.info("email id list完成： " + collaboratorList);
     userDAO.updatyCollaborator(collaboratorList, notebookId);
+  }
+
+  @Override
+  public Boolean createNotebookTag(String tag, Integer notebookId, Integer userId) {
+    tagService.createTag(tag, notebookId, userId);
+    return null;
   }
 }

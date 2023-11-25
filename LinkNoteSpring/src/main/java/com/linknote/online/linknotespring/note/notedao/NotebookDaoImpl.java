@@ -1,16 +1,19 @@
 package com.linknote.online.linknotespring.note.notedao;
 
-import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDTO;
-import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDTO;
+import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDto;
+import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDto;
 import com.linknote.online.linknotespring.note.notepo.po.NotebooksPO;
 import com.linknote.online.linknotespring.note.noterowmapper.NotebookIdRowMapper;
 import com.linknote.online.linknotespring.note.noterowmapper.notebooksPORowMapper;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -21,7 +24,7 @@ public class NotebookDaoImpl implements NotebookDao {
 
   private static final Logger log = LoggerFactory.getLogger(NotebookDaoImpl.class);
   @Override
-  public List<NotebooksPO> getNotebooks(QueryNotebooksParamsDTO params, Boolean getCoNotebook) {
+  public List<NotebooksPO> getNotebooks(QueryNotebooksParamsDto params, Boolean getCoNotebook) {
     String sql;
     if(getCoNotebook){
       sql = "SELECT n.id as notebookId, n.name as notebookName, n.selected FROM notebooks n "
@@ -43,13 +46,32 @@ public class NotebookDaoImpl implements NotebookDao {
   }
 
   @Override
-  public void createNotebook(CreateNotebookParamsDTO params, Integer userId) {
+  public void createNotebook(CreateNotebookParamsDto params, Integer userId) {
     String sql = "INSERT INTO notebooks (name, description, userId) VALUES(:name, :description, :userId)";
     Map<String, Object> map = new HashMap<>();
     map.put("name",params.getName());
     map.put("description", params.getDescription());
     map.put("userId", userId);
     namedParameterJdbcTemplate.update(sql, map);
+  }
+
+  @Override
+  public Integer getNotebookIdByUserId(Integer userId, Integer notebookId) {
+    String sql = "SELECT id FROM notebooks WHERE userId = :userId AND id = :notebookId";
+    Map<String, Object> map = new HashMap<>();
+    map.put("userId", userId);
+    map.put("notebookId", notebookId);
+    List<Integer> result = namedParameterJdbcTemplate.query(sql, map, new RowMapper<Integer>() {
+      @Override
+      public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return rs.getInt("id");
+      }
+    });
+    if(result.isEmpty()){
+      return null;
+    }else{
+      return result.get(0);
+    }
   }
 
   @Override
