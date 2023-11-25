@@ -45,6 +45,7 @@ public class TokenServiceImpl implements TokenService{
 
   @Override
   public Claims parserJWTToken(String Authorization) {
+    log.info("Token service: 接收到前端的Authorization，內容\n" + Authorization);
     String token = Authorization.substring(7);
     byte[] decodekey = Base64.getDecoder().decode(SECRET.getBytes(StandardCharsets.UTF_8));
     SecretKey key = new SecretKeySpec(decodekey, "HmacSHA256");

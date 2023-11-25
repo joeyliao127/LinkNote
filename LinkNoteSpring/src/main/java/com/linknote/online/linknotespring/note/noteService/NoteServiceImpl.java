@@ -11,7 +11,7 @@ public class NoteServiceImpl implements NoteService{
   @Autowired
   NoteDao noteDao;
   @Override
-  public void createNote(CreateNoteParamsDto params, Integer notebookId) {
-    noteDao.createNote(params, notebookId);
+  public Integer createNote(CreateNoteParamsDto params, Integer notebookId) {
+    return noteDao.createNote(params, notebookId);
   }
 }

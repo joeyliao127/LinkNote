@@ -1,8 +1,36 @@
 package com.linknote.online.linknotespring.note.noteService;
 
+import com.linknote.online.linknotespring.note.notedao.TagDao;
+import com.linknote.online.linknotespring.note.notedao.UpdateIntermediaryDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TagServiceImpl implements TagService{
 
+  @Autowired
+  private TagDao tagDao;
+  @Autowired
+  private UpdateIntermediaryDao updateIntermediaryDao;
+
+  private static final Logger log = LoggerFactory.getLogger(TagService.class);
+
+  @Override
+  public Boolean createTag(String tag, Integer notebookId) {
+    Integer tagId = tagDao.getTagIdByTagName(tag);
+    log.info("是否有此tag: " + tag);
+    if(tagId == null){
+      log.info("沒有，建立新tag");
+      tagDao.createTag(tag);
+      tagId = tagDao.getTagIdByTagName(tag);
+      Integer impactRow = updateIntermediaryDao.updateNotebookTags(notebookId, tagId);
+      return impactRow != 0;
+    }else{
+      log.info("有");
+      Integer impactRow = updateIntermediaryDao.updateNotebookTags(notebookId, tagId);
+      return impactRow != 0;
+    }
+  }
 }

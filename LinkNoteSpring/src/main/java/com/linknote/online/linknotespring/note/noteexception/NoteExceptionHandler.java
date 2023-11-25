@@ -13,11 +13,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class NoteExceptionHandler {
   private final static Logger log = LoggerFactory.getLogger(NoteExceptionHandler.class);
-  @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
-  public ResponseEntity<Object> sqlInegerityConstraintViolationHanlder(SQLIntegrityConstraintViolationException e){
-    log.warn("已經有此筆記本名稱");
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(Map.of("result", false, "msg", "已經有重複的名稱"));
-  }
+
 
 }

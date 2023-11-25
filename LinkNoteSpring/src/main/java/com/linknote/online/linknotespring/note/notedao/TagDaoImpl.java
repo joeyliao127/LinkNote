@@ -35,8 +35,6 @@ public class TagDaoImpl implements TagDao{
       return tagId.get(0);
     }
   }
-  @Override
-  public void addTagByUserId(Integer id) {
 
-  }
+
 }

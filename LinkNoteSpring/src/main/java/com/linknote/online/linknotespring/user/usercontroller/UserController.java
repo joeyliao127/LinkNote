@@ -57,8 +57,7 @@ public class UserController {
           ));
     }else{
       log.info("接收到token登入請求，Bearer token");
-      String token = Authorization.substring(7);
-      Boolean verifyResult = tokenService.verifyToken(token);
+      Boolean verifyResult = tokenService.verifyToken(Authorization);
       if(verifyResult){
        log.info("允許登入");
         return ResponseEntity.status(HttpStatus.OK).body(Map.of("parseResult", true));

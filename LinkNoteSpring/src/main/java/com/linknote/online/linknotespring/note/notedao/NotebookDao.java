@@ -12,12 +12,9 @@ public interface NotebookDao {
   void createNotebook(CreateNotebookParamsDTO params, Integer userId);
 
 
-
-
   Integer getNotebookIdByNotebookName(String notebookName);
 
   void updateCollaborators(Integer notebookId, Integer userId);
-  void updateNotebookTags(Integer notebookId, Integer tagId);
   void updateNoteTags(Integer noteId, Integer tagId);
 
 

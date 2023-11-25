@@ -26,6 +26,8 @@ public class NotebookServiceImpl implements NotebookService {
   @Autowired
   private UserDAO userDAO;
 
+  @Autowired
+  private TagService tagService;
   private static final Logger log = LoggerFactory.getLogger(NotebookServiceImpl.class);
   @Override
   public NotebooksResPO getNotebooks(QueryNotebooksParamsDTO params) {
@@ -71,17 +73,7 @@ public class NotebookServiceImpl implements NotebookService {
     log.info("開始新增tag，首先檢查tag，tag為：");
     for(int i=0; i<params.getTags().size(); i++){
       String tag = params.getTags().get(i);
-      Integer tagId = tagDao.getTagIdByTagName(tag);
-      log.info("是否有此tag: " + tag);
-      if(tagId == null){
-        log.info("沒有，建立新tag");
-        tagDao.createTag(tag);
-        tagId = tagDao.getTagIdByTagName(tag);
-        notebookDAO.updateNotebookTags(notebookId, tagId);
-      }else{
-        log.info("有");
-        notebookDAO.updateNotebookTags(notebookId, tagId);
-      }
+      tagService.createTag(tag, notebookId);
     }
 
     List<Integer> collaboratorList = new ArrayList<>();

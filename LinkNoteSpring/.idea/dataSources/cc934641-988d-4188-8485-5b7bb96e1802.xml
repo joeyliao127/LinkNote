@@ -1130,8 +1130,8 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     </schema>
     <schema id="289" parent="1" name="linkNote">
       <Current>1</Current>
-      <IntrospectionTimestamp>2023-11-25.19:40:16</IntrospectionTimestamp>
-      <LocalIntrospectionTimestamp>2023-11-25.03:40:16</LocalIntrospectionTimestamp>
+      <IntrospectionTimestamp>2023-11-25.20:10:05</IntrospectionTimestamp>
+      <LocalIntrospectionTimestamp>2023-11-25.04:10:05</LocalIntrospectionTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <schema id="290" parent="1" name="mysql">
@@ -1390,152 +1390,160 @@ userId</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="347" parent="302" name="index_name">
+    <index id="347" parent="302" name="name">
+      <ColNames>name</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <index id="348" parent="302" name="index_name">
       <ColNames>name</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="348" parent="302" name="notebookId">
+    <index id="349" parent="302" name="notebookId">
       <ColNames>notebookId</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="349" parent="302" name="PRIMARY">
+    <key id="350" parent="302" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="350" parent="303" name="id">
+    <key id="351" parent="302" name="name">
+      <UnderlyingIndexName>name</UnderlyingIndexName>
+    </key>
+    <column id="352" parent="303" name="id">
       <AutoIncrement>1</AutoIncrement>
       <DasType>bigint|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="351" parent="303" name="noteId">
+    <column id="353" parent="303" name="noteId">
       <DasType>bigint|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="352" parent="303" name="tagId">
+    <column id="354" parent="303" name="tagId">
       <DasType>bigint|0s</DasType>
       <Position>3</Position>
     </column>
-    <foreign-key id="353" parent="303" name="notes_tags_ibfk_1">
+    <foreign-key id="355" parent="303" name="notes_tags_ibfk_1">
       <ColNames>noteId</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>notes</RefTableName>
     </foreign-key>
-    <foreign-key id="354" parent="303" name="notes_tags_ibfk_2">
+    <foreign-key id="356" parent="303" name="notes_tags_ibfk_2">
       <ColNames>tagId</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>tags</RefTableName>
     </foreign-key>
-    <index id="355" parent="303" name="PRIMARY">
+    <index id="357" parent="303" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="356" parent="303" name="noteId">
+    <index id="358" parent="303" name="noteId">
       <ColNames>noteId</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="357" parent="303" name="tagId">
+    <index id="359" parent="303" name="tagId">
       <ColNames>tagId</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="358" parent="303" name="PRIMARY">
+    <key id="360" parent="303" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="359" parent="304" name="id">
+    <column id="361" parent="304" name="id">
       <AutoIncrement>1</AutoIncrement>
       <DasType>bigint|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="360" parent="304" name="name">
+    <column id="362" parent="304" name="name">
       <DasType>varchar(255)|0s</DasType>
       <Position>2</Position>
     </column>
-    <index id="361" parent="304" name="PRIMARY">
+    <index id="363" parent="304" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="362" parent="304" name="name">
+    <index id="364" parent="304" name="name">
       <ColNames>name</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="363" parent="304" name="index_name">
+    <index id="365" parent="304" name="index_name">
       <ColNames>name</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="364" parent="304" name="PRIMARY">
+    <key id="366" parent="304" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <key id="365" parent="304" name="name">
+    <key id="367" parent="304" name="name">
       <UnderlyingIndexName>name</UnderlyingIndexName>
     </key>
-    <column id="366" parent="305" name="id">
+    <column id="368" parent="305" name="id">
       <AutoIncrement>1</AutoIncrement>
       <DasType>bigint|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="367" parent="305" name="username">
+    <column id="369" parent="305" name="username">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="368" parent="305" name="email">
+    <column id="370" parent="305" name="email">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="369" parent="305" name="password">
+    <column id="371" parent="305" name="password">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="370" parent="305" name="status">
+    <column id="372" parent="305" name="status">
       <DasType>tinyint(1)|0s</DasType>
       <DefaultExpression>1</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="371" parent="305" name="create_date">
+    <column id="373" parent="305" name="create_date">
       <DasType>timestamp|0s</DasType>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <column id="372" parent="305" name="last_modified_date">
+    <column id="374" parent="305" name="last_modified_date">
       <DasType>timestamp|0s</DasType>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>7</Position>
     </column>
-    <column id="373" parent="305" name="coNotebook">
+    <column id="375" parent="305" name="coNotebook">
       <DasType>bigint|0s</DasType>
       <Position>8</Position>
     </column>
-    <index id="374" parent="305" name="PRIMARY">
+    <index id="376" parent="305" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="375" parent="305" name="email">
+    <index id="377" parent="305" name="email">
       <ColNames>email</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="376" parent="305" name="PRIMARY">
+    <key id="378" parent="305" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <key id="377" parent="305" name="email">
+    <key id="379" parent="305" name="email">
       <UnderlyingIndexName>email</UnderlyingIndexName>
     </key>
   </database-model>

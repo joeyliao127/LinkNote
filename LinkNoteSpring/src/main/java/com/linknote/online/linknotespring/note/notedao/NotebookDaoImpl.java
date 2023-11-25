@@ -70,15 +70,6 @@ public class NotebookDaoImpl implements NotebookDao {
 
   }
 
-  @Override
-  public void updateNotebookTags(Integer notebookId, Integer tagId) {
-    String sql = "INSERT INTO notebooks_tags (notebookId, tagId)"
-        + " VALUES (:notebookId, :tagId)";
-    Map<String, Object> map = new HashMap<>();
-    map.put("notebookId", notebookId);
-    map.put("tagId", tagId);
-    namedParameterJdbcTemplate.update(sql, map);
-  }
 
   @Override
   public void updateNoteTags(Integer noteId, Integer tagId) {

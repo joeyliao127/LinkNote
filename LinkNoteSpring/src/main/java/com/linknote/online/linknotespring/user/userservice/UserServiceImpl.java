@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService{
         }
       }catch (DatabaseOperationException e){
         log.error("database error");
-        throw new DatabaseOperationException("database error", e);
+        throw new RuntimeException("database error", e);
       }
     }else{
       System.out.println("沒通過email check");
