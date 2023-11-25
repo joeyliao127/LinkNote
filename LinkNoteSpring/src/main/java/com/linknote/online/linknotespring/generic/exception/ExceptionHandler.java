@@ -15,8 +15,8 @@ public class ExceptionHandler {
   private final static Logger log = LoggerFactory.getLogger(NoteExceptionHandler.class);
   @org.springframework.web.bind.annotation.ExceptionHandler(SQLIntegrityConstraintViolationException.class)
   public ResponseEntity<Object> sqlInegerityConstraintViolationHanlder(SQLIntegrityConstraintViolationException e){
-    log.warn("generic exception handler: 已經有此筆記名稱");
+    log.warn("generic exception handler: 資料庫新增或更新資料錯誤" + e.getMessage());
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(Map.of("result", false, "msg", "已經有重複的名稱"));
+        .body(Map.of("result", false, "msg", "新增或更新資料錯誤"));
   }
 }

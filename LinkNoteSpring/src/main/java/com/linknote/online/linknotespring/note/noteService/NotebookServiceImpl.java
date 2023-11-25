@@ -71,10 +71,9 @@ public class NotebookServiceImpl implements NotebookService {
     notebookDAO.createNotebook(params, userId);
     log.info("先新增notebook");
     Integer notebookId = notebookDAO.getNotebookIdByNotebookName(params.getName());
-    log.info("開始新增tag，首先檢查tag，tag為：");
     for(int i=0; i<params.getTags().size(); i++){
       String tag = params.getTags().get(i);
-      tagService.createTag(tag, notebookId, userId);
+      tagService.createNotebookTag(tag, notebookId, userId);
     }
 
     List<Integer> collaboratorList = new ArrayList<>();
@@ -98,7 +97,7 @@ public class NotebookServiceImpl implements NotebookService {
 
   @Override
   public Boolean createNotebookTag(String tag, Integer notebookId, Integer userId) {
-    tagService.createTag(tag, notebookId, userId);
+    tagService.createNotebookTag(tag, notebookId, userId);
     return null;
   }
 

@@ -76,7 +76,7 @@ public class NotebookController {
   @PutMapping("/api/notebooks/{notebookId}")
   public ResponseEntity<Object> updateNotebookName(
       @PathVariable Integer notebookId,
-      @RequestBody NotebookParamDto params,
+      @RequestBody @Valid NotebookParamDto params,
       @RequestHeader String Authorization
   ){
     params.setUserId(tokenService.parserJWTToken(Authorization).get("userId", Integer.class));

@@ -1,6 +1,7 @@
 package com.linknote.online.linknotespring.note.notedao;
 
 import com.linknote.online.linknotespring.note.notedto.CreateNoteParamsDto;
+import com.linknote.online.linknotespring.note.notedto.UpdateNoteParamsDto;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -26,5 +27,34 @@ public class NoteDaoImpl implements NoteDao{
     namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource(map), keyHolder);
 
     return Objects.requireNonNull(keyHolder.getKey()).intValue();
+  }
+
+  @Override
+  public Integer updateNote(UpdateNoteParamsDto params) {
+    Map<String , Object> map = new HashMap<>();
+    String sql = "UPDATE notes SET ";
+    if(!params.getContent().isEmpty()){
+      sql += "content = :content, ";
+      map.put("content", params.getContent());
+    }
+    if(!params.getQuestion().isEmpty()){
+      sql += "question = :question, ";
+      map.put("question", params.getQuestion());
+    }
+    if(!params.getKeypoint().isEmpty()){
+      sql += "keypoint = :keypoint, ";
+      map.put("keypoint", params.getKeypoint());
+    }
+    if(params.getSharedPermission() != null){
+     sql += "sharedPermission = :sharedPermission, ";
+      map.put("sharedPermission", params.getSharedPermission());
+    }
+    if(params.getStar() != null){
+      sql += "star = :star ";
+      map.put("star", params.getStar());
+    }
+    sql += "Where notebookId = :notebookId";
+    map.put("notebookId", params.getNotebookId());
+    return namedParameterJdbcTemplate.update(sql, map);
   }
 }

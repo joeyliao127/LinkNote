@@ -4,6 +4,7 @@ import com.linknote.online.linknotespring.note.notedao.NotebookDao;
 import com.linknote.online.linknotespring.note.notedao.TagDao;
 import com.linknote.online.linknotespring.note.notedao.UpdateIntermediaryDao;
 import com.linknote.online.linknotespring.note.noteexception.NotebookIdAndUserIdNotMatchException;
+import java.util.List;
 import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,7 @@ public class TagServiceImpl implements TagService{
   //先檢查notebookId是否屬於此使用者
   //createTag有自動檢查是否有重複的tag，並且插入notebookTag中介表關聯資訊
   @Override
-  public Boolean createTag(String tag, Integer notebookId, Integer userId) {
+  public Boolean createNotebookTag(String tag, Integer notebookId, Integer userId) {
     Integer result = notebookDao.getNotebookIdByUserId(userId, notebookId);
     if(!Objects.equals(result, notebookId)){
       throw new NotebookIdAndUserIdNotMatchException("notebookID and user id not match");
@@ -44,5 +45,10 @@ public class TagServiceImpl implements TagService{
       Integer impactRow = updateIntermediaryDao.updateNotebookTags(notebookId, tagId);
       return impactRow != 0;
     }
+  }
+
+  @Override
+  public Boolean createNoteTag(List<String> tagList, Integer noteId, Integer userId) {
+    return null;
   }
 }

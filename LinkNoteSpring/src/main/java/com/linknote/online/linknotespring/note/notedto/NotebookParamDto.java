@@ -1,6 +1,9 @@
 package com.linknote.online.linknotespring.note.notedto;
 
+import jakarta.validation.constraints.NotNull;
+
 public class NotebookParamDto {
+  @NotNull
   private String name;
   private Integer userId;
   private Integer notebookId;
