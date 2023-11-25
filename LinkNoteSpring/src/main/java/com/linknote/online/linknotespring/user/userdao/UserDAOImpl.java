@@ -7,11 +7,14 @@ import com.linknote.online.linknotespring.user.userrowmapper.UeserIdRowMapper;
 import com.linknote.online.linknotespring.user.userrowmapper.SignInRowMapper;
 import com.linknote.online.linknotespring.user.userrowmapper.RegisterRowMapper;
 import com.linknote.online.linknotespring.user.userpo.UserEmailPo;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -79,5 +82,37 @@ public class UserDAOImpl implements UserDAO{
     map.put("email", email);
     map.put("userId", userId);
     return namedParameterJdbcTemplate.query(sql, map, new SignInRowMapper());
+  }
+
+  @Override
+  public Integer getCollaboratorsId(Integer userId, Integer notebookId) {
+    String sql = "SELECT userId FROM notebookCollaborators"
+        + " WHERE notebookId = :notebookId AND userId = :userId";
+    Map<String , Object> map = new HashMap<>();
+    map.put("notebookId", notebookId);
+    map.put("userId", userId);
+    List<Integer> result = namedParameterJdbcTemplate.query(sql, map, new RowMapper<Integer>() {
+      @Override
+      public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return rs.getInt("userId");
+      }
+    });
+    if(result.isEmpty()){
+      return null;
+    }else{
+      return result.get(0);
+    }
+  }
+
+  @Override
+  public void updatyCollaborator(List<Integer> collaboratorList, Integer notebookId) {
+    String sql = "INSERT INTO notebookCollaborators (userId, notebookId) VALUES (:userId, :notebookId)";
+    MapSqlParameterSource[] parameterSources = new MapSqlParameterSource[collaboratorList.size()];
+    for(int i=0; i<collaboratorList.size(); i++){
+      parameterSources[i] = new MapSqlParameterSource();
+      parameterSources[i].addValue("userId", collaboratorList.get(i));
+      parameterSources[i].addValue("notebookId", notebookId);
+    }
+    namedParameterJdbcTemplate.batchUpdate(sql, parameterSources);
   }
 }

@@ -12,7 +12,27 @@ public class NotebookCreateParamsDTO {
   private List<String> tags;
   private String description;
 
-  private List<Integer> emails;
+  private List<Email> emails;
+  public static class Email{
+    private String email;
+    private Integer emailId;
+
+    public String getEmail() {
+      return email;
+    }
+
+    public void setEmail(String email) {
+      this.email = email;
+    }
+
+    public Integer getEmailId() {
+      return emailId;
+    }
+
+    public void setEmailId(Integer emailId) {
+      this.emailId = emailId;
+    }
+  }
 
 
 
@@ -40,11 +60,12 @@ public class NotebookCreateParamsDTO {
     this.description = description;
   }
 
-  public List<Integer> getEmails() {
+  public List<Email> getEmails() {
     return emails;
   }
 
-  public void setEmails(List<Integer> emails) {
+  public void setEmails(
+      List<Email> emails) {
     this.emails = emails;
   }
 }

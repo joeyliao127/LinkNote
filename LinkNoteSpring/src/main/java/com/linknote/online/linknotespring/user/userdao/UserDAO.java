@@ -15,4 +15,8 @@ public interface UserDAO {
   List<UserInfoPO> getByEmailAndPassword(
       SignInRequestDto signInRequestDto);
   List<UserInfoPO> getByTokenUserIdAndEmailForToken(String email, Integer userId);
+
+  Integer getCollaboratorsId(Integer userId, Integer notebookId);
+
+  void updatyCollaborator(List<Integer> collaboratorList, Integer notebookId);
 }

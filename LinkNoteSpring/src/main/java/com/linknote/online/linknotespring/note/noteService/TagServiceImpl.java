@@ -3,6 +3,6 @@ package com.linknote.online.linknotespring.note.noteService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class NoteServiceImpl implements NoteService{
+public class TagServiceImpl implements TagService{
 
 }

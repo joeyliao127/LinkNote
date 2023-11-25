@@ -1,6 +1,6 @@
 package com.linknote.online.linknotespring.note.notecontroller;
 
-import com.linknote.online.linknotespring.note.noteService.NoteService;
+import com.linknote.online.linknotespring.note.noteService.NotebookService;
 import com.linknote.online.linknotespring.note.notedto.NotebookCreateParamsDTO;
 import com.linknote.online.linknotespring.note.notedto.NotebooksQueryParamsDTO;
 import com.linknote.online.linknotespring.note.notepo.response.NotebooksResPO;
@@ -8,10 +8,7 @@ import com.linknote.online.linknotespring.user.userservice.TokenService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,9 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Validated
-public class noteController {
+public class NotebookController {
   @Autowired
-  NoteService noteService;
+  NotebookService notebookService;
 
   @Autowired
   TokenService tokenService;
@@ -44,7 +41,7 @@ public class noteController {
     params.setLimit(limit);
     params.setOffset(offset);
     params.setUserId(userId);
-    return ResponseEntity.status(HttpStatus.OK).body(noteService.getNotebooks(params));
+    return ResponseEntity.status(HttpStatus.OK).body(notebookService.getNotebooks(params));
   }
 
   @PostMapping("/api/notebooks")
@@ -53,7 +50,7 @@ public class noteController {
       @RequestHeader String Authorization
   ){
     Integer userId = tokenService.parserJWTToken(Authorization).get("userId", Integer.class);
-    noteService.createNotebook(params, userId);
+    notebookService.createNotebook(params, userId);
     return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("result", true));
   }
 
