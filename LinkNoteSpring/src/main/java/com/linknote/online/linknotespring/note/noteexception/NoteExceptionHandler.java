@@ -16,8 +16,16 @@ public class NoteExceptionHandler {
 
   @ExceptionHandler(NotebookIdAndUserIdNotMatchException.class)
   public ResponseEntity<Object> notebookIdAndUserIdNotMatchException(NotebookIdAndUserIdNotMatchException e){
-    log.warn("NoteExceptionHandler: notebookID and user id not match\nmsg:" + e);
+    log.warn("NoteExceptionHandler catch error");
+    log.info(e.getMessage());
     return ResponseEntity.status(400).body(Map.of("result", false, "msg", e.getMessage()));
+  }
+
+  @ExceptionHandler(NotebookAlreadyExistsException.class)
+  public ResponseEntity<Object> notebookAlreadyExistsException(NotebookAlreadyExistsException e){
+    log.warn("NoteExceptionHandler:");
+    log.info(e.getMessage());
+    return ResponseEntity.status(400).body(Map.of("result", false, "msg", "筆記本名稱重複"));
   }
 
 

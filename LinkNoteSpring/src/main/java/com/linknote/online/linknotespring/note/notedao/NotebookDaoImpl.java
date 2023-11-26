@@ -1,10 +1,11 @@
 package com.linknote.online.linknotespring.note.notedao;
-
 import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.NotebookParamDto;
 import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDto;
 import com.linknote.online.linknotespring.note.notepo.po.NotebooksPO;
+import com.linknote.online.linknotespring.note.notepo.po.TagPO;
 import com.linknote.online.linknotespring.note.noterowmapper.NotebookIdRowMapper;
+import com.linknote.online.linknotespring.note.noterowmapper.TagRowMapper;
 import com.linknote.online.linknotespring.note.noterowmapper.notebooksPORowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -58,20 +59,21 @@ public class NotebookDaoImpl implements NotebookDao {
 
   @Override
   public Integer getNotebookIdByUserId(Integer userId, Integer notebookId) {
+    log.info("notebook dao: 收到的userId, nbId:"+ userId + notebookId);
     String sql = "SELECT id FROM notebooks WHERE userId = :userId AND id = :notebookId";
     Map<String, Object> map = new HashMap<>();
     map.put("userId", userId);
     map.put("notebookId", notebookId);
-    List<Integer> result = namedParameterJdbcTemplate.query(sql, map, new RowMapper<Integer>() {
+    List<Integer> tagId = namedParameterJdbcTemplate.query(sql, map, new RowMapper<Integer>() {
       @Override
       public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
         return rs.getInt("id");
       }
     });
-    if(result.isEmpty()){
+    if(tagId.isEmpty()){
       return null;
     }else{
-      return result.get(0);
+      return tagId.get(0);
     }
   }
 
@@ -86,6 +88,36 @@ public class NotebookDaoImpl implements NotebookDao {
     }else{
       return notebookId.get(0);
     }
+  }
+
+  @Override
+  public String getNotebookNameByUserId(Integer userId, String newNotebook) {
+    String sql = "SELECT name FROM notebooks WHERE userId = :userId AND name = :name";
+    Map<String,Object> map = new HashMap<>();
+    map.put("userId", userId);
+    map.put("name", newNotebook);
+    List<String> result = namedParameterJdbcTemplate.query(sql, map, new RowMapper<String>() {
+      @Override
+      public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return rs.getString("name");
+      }
+    });
+    if(result.isEmpty()){
+      return null;
+    }else {
+      return result.get(0);
+    }
+  }
+
+  @Override
+  public List<TagPO> getNotebookTags(Integer notebookId) {
+    String sql = "SELECT t.id as is, t.name as name FROM tag t "
+        + "JOIN notebooks_tags nt ON t.id = nt.tagId "
+        + "JOIN notebooks n ON n.id = nt.notebookId "
+        + "WHERE n.id = :notebookId";
+    Map<String, Object> map = new HashMap<>();
+    map.put("notebookId", notebookId);
+    return namedParameterJdbcTemplate.query(sql, map, new TagRowMapper());
   }
 
   @Override

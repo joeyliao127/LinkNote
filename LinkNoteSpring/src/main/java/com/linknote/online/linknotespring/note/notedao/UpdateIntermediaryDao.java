@@ -1,6 +1,9 @@
 package com.linknote.online.linknotespring.note.notedao;
 
+import java.util.List;
+
 public interface UpdateIntermediaryDao {
-  public Integer updateNotebookTags(Integer notebookId, Integer tagId);
+  Integer updateNotebookTags(Integer notebookId, Integer tagId);
+  Integer updateNotTags(List<Integer> tags, Integer noteId);
 
 }

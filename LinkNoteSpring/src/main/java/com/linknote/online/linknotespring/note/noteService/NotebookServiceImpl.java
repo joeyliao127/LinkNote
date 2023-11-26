@@ -5,6 +5,7 @@ import com.linknote.online.linknotespring.note.notedao.TagDao;
 import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.NotebookParamDto;
 import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDto;
+import com.linknote.online.linknotespring.note.noteexception.NotebookAlreadyExistsException;
 import com.linknote.online.linknotespring.note.notepo.po.NotebooksPO;
 import com.linknote.online.linknotespring.note.notepo.response.NotebooksResPO;
 import com.linknote.online.linknotespring.user.userdao.UserDAO;
@@ -68,9 +69,14 @@ public class NotebookServiceImpl implements NotebookService {
   @Override
   @Transactional
   public void createNotebook(CreateNotebookParamsDto params, Integer userId) {
+    String checkNotebookName = notebookDAO.getNotebookNameByUserId(userId, params.getName());
+    log.info("查詢到的notebookName，找到代表已經存在:" + checkNotebookName);
+    if(checkNotebookName != null){
+      throw new NotebookAlreadyExistsException("NotebookService: 名稱已重複");
+    }
     notebookDAO.createNotebook(params, userId);
-    log.info("先新增notebook");
     Integer notebookId = notebookDAO.getNotebookIdByNotebookName(params.getName());
+    log.info("先新增notebook，新增後的id: " + notebookId);
     for(int i=0; i<params.getTags().size(); i++){
       String tag = params.getTags().get(i);
       tagService.createNotebookTag(tag, notebookId, userId);

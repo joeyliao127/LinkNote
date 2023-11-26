@@ -33,26 +33,41 @@ public class NoteDaoImpl implements NoteDao{
   public Integer updateNote(UpdateNoteParamsDto params) {
     Map<String , Object> map = new HashMap<>();
     String sql = "UPDATE notes SET ";
-    if(!params.getContent().isEmpty()){
-      sql += "content = :content, ";
-      map.put("content", params.getContent());
+
+    if(!params.getContent().isEmpty() &&
+        !Objects.equals(params.getContent(), " ")){
+        sql += "content = :content, ";
+        map.put("content", params.getContent());
+    }else if(Objects.equals(params.getContent(), " ")){
+      sql += "content = ' ', ";
     }
-    if(!params.getQuestion().isEmpty()){
+
+    if(!params.getQuestion().isEmpty() &&
+        !Objects.equals(params.getQuestion(), " ")){
       sql += "question = :question, ";
       map.put("question", params.getQuestion());
+    }else if(Objects.equals(params.getQuestion(), " ")){
+      sql += "question = ' ', ";
     }
-    if(!params.getKeypoint().isEmpty()){
+
+    if(!params.getKeypoint().isEmpty() &&
+        !Objects.equals(params.getKeypoint(), " ")){
       sql += "keypoint = :keypoint, ";
       map.put("keypoint", params.getKeypoint());
+    }else if(Objects.equals(params.getKeypoint(), " ")){
+      sql += "keypoint = ' ', ";
     }
+
     if(params.getSharedPermission() != null){
      sql += "sharedPermission = :sharedPermission, ";
       map.put("sharedPermission", params.getSharedPermission());
     }
+
     if(params.getStar() != null){
       sql += "star = :star ";
       map.put("star", params.getStar());
     }
+
     sql += "Where notebookId = :notebookId";
     map.put("notebookId", params.getNotebookId());
     return namedParameterJdbcTemplate.update(sql, map);

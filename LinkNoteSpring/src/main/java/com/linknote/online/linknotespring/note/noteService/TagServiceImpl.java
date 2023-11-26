@@ -29,8 +29,11 @@ public class TagServiceImpl implements TagService{
   @Override
   public Boolean createNotebookTag(String tag, Integer notebookId, Integer userId) {
     Integer result = notebookDao.getNotebookIdByUserId(userId, notebookId);
+    log.info("userId:" + userId);
+    log.info("result id: " + result);
+    log.info("notebook id:" + notebookId);
     if(!Objects.equals(result, notebookId)){
-      throw new NotebookIdAndUserIdNotMatchException("notebookID and user id not match");
+      throw new NotebookIdAndUserIdNotMatchException("TagService: notebookID and user id not match");
     }
     Integer tagId = tagDao.getTagIdByTagName(tag);
     log.info("是否有此tag: " + tag);
@@ -47,8 +50,4 @@ public class TagServiceImpl implements TagService{
     }
   }
 
-  @Override
-  public Boolean createNoteTag(List<String> tagList, Integer noteId, Integer userId) {
-    return null;
-  }
 }

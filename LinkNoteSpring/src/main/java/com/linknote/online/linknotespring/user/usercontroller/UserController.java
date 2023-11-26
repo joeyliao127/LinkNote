@@ -34,9 +34,6 @@ public class UserController {
   @PostMapping("/api/user/register")
   public ResponseEntity<Object> register(@RequestBody @Valid RegisterRequestDto registerRequestDto)
   throws DatabaseOperationException, EmailAlreadyRegisteredException {
-    System.out.println(registerRequestDto.getUsername());
-    System.out.println(registerRequestDto.getEmail());
-    System.out.println(registerRequestDto.getPassword());
     String JWTToken = userService.register(registerRequestDto);
     return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("token", JWTToken));
   }
