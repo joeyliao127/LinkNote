@@ -1,5 +1,6 @@
 package com.linknote.online.linknotespring.note.noteService;
 
+import com.linknote.online.linknotespring.note.notedao.NotebookDao;
 import com.linknote.online.linknotespring.note.notedto.CreateCollaboratorParamsDto;
 import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteCollaboraotrsParamDto;
@@ -20,5 +21,7 @@ public interface NotebookService {
   void updateNotebookName(UpdateNotebookNameParamDto params);
 
   void deleteCollaborators(DeleteCollaboraotrsParamDto params);
+
+  void verifyNotebookOwnerByUserId (Integer userId, Integer notebookId, NotebookDao notebookDao );
 
 }

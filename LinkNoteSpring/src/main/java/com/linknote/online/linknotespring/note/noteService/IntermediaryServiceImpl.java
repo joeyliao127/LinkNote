@@ -2,6 +2,7 @@ package com.linknote.online.linknotespring.note.noteService;
 
 import com.linknote.online.linknotespring.note.notedao.IntermediaryDao;
 import com.linknote.online.linknotespring.note.notedto.CreateCollaboratorParamsDto;
+import com.linknote.online.linknotespring.note.notedto.CreateTagParamDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteCollaboraotrsParamDto;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +47,8 @@ public class IntermediaryServiceImpl implements  IntermediaryService{
   }
 
   @Override
-  public void createNotTags(Integer tagId, Integer noteId) {
-    intermediaryDao.createNotTags(tagId, noteId);
+  public void createNotTags(CreateTagParamDto param) {
+
+    intermediaryDao.createNotTags(param.getTagId(), param.getNoteId());
   }
 }

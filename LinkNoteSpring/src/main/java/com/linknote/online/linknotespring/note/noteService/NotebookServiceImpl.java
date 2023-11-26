@@ -110,50 +110,42 @@ public class NotebookServiceImpl implements NotebookService {
 
   @Override
   public void createNotebookTag(String tag, Integer notebookId, Integer userId) {
-    Boolean res = verifyNotebookOwnerByUserId(userId, notebookId, notebookDao);
-    if(res){
-      tagService.createNotebookTag(tag, notebookId, userId);
-    }
+    verifyNotebookOwnerByUserId(userId, notebookId, notebookDao);
+    tagService.createNotebookTag(tag, notebookId, userId);
   }
   @Override
   public void createCollaborator(CreateCollaboratorParamsDto params) {
-    Boolean res = verifyNotebookOwnerByUserId(params.getUserId(), params.getNotebookId(), notebookDao);
+    verifyNotebookOwnerByUserId(params.getUserId(), params.getNotebookId(), notebookDao);
     if(intermediaryService.verifyCollaboratorsCount(params.getUserId(), params.getCollaboratorId())){
       throw new CollaboratorsAreLimitException("超過共編人數上限");
     }
-    if(res){
       Integer collaboratorId = userService.getUserIdByEmail(params.getEmail());
       if(collaboratorId == null){
         throw new EmailDoesNotExistException("此email不存在");
       }
       params.setCollaboratorId(collaboratorId);
       intermediaryService.createNotebookCollaborator(params);
-    }
   }
 
   @Override
   public void updateNotebookName(UpdateNotebookNameParamDto params) {
-    Boolean res = verifyNotebookOwnerByUserId(params.getUserId(), params.getNotebookId(), notebookDao);
-    if(res){
-      notebookDao.updateNotebookName(params);
-    }
+    verifyNotebookOwnerByUserId(params.getUserId(), params.getNotebookId(), notebookDao);
+    notebookDao.updateNotebookName(params);
   }
 
   @Override
   public void deleteCollaborators(DeleteCollaboraotrsParamDto params) {
-    Boolean res = verifyNotebookOwnerByUserId(params.getUserId(), params.getNotebookId(), notebookDao);
-    if(res){
-      intermediaryService.deleteCollaborators(params);
-    }
+    verifyNotebookOwnerByUserId(params.getUserId(), params.getNotebookId(), notebookDao);
+    intermediaryService.deleteCollaborators(params);
   }
 
 
   //只有insert的service才需要驗證筆記本的owner
-  public static Boolean verifyNotebookOwnerByUserId(Integer userId, Integer notebookId, NotebookDao notebookDao ){
+  @Override
+  public void verifyNotebookOwnerByUserId(Integer userId, Integer notebookId, NotebookDao notebookDao ){
     Integer result = notebookDao.verifyNotebookOwnerByUserId(userId, notebookId);
     if(result == null){
       throw new NotebookIdAndUserIdNotMatchException("Notebook Service: 筆記本不署於此userId");
     }
-    return true;
   }
 }

@@ -5,6 +5,7 @@ import com.linknote.online.linknotespring.note.notedao.TagDao;
 import com.linknote.online.linknotespring.note.notedao.IntermediaryDao;
 import com.linknote.online.linknotespring.note.notedto.CreateTagParamDto;
 import com.linknote.online.linknotespring.note.noteexception.NotebookIdAndUserIdNotMatchException;
+import com.linknote.online.linknotespring.note.noteexception.TagNotFoundException;
 import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,10 +19,7 @@ public class TagServiceImpl implements TagService{
   private TagDao tagDao;
 
   @Autowired
-  private IntermediaryDao intermediaryDao;
-
-  @Autowired
- private IntermediaryService intermediaryService;
+  private IntermediaryService intermediaryService;
 
   private static final Logger log = LoggerFactory.getLogger(TagService.class);
 
@@ -43,10 +41,11 @@ public class TagServiceImpl implements TagService{
 
   @Override
   public void createNoteTag(CreateTagParamDto params) {
-    Integer result = intermediaryService.getNoteTagPair(params.getTagId(), params.getNoteId());
-    if(result == null){
-     intermediaryService.createNotTags(params.getTagId(), params.getNoteId());
+    Integer tagId = tagDao.getTagIdByTagNameAndNotebookId(params.getNotebookId(), params.getTag());
+    if(tagId == null){
+      throw new TagNotFoundException("在"+ params.getNotebookId()+"筆記本中找不到" + params.getTag());
     }
+    params.setTagId(tagId);
+     intermediaryService.createNotTags(params);
   }
-
 }

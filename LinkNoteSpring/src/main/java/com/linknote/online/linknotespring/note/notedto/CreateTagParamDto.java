@@ -1,12 +1,20 @@
 package com.linknote.online.linknotespring.note.notedto;
 
 public class CreateTagParamDto {
+  private String tag;
   private Integer tagId;
-
   private Integer userId;
   private Integer notebookId;
 
   private Integer noteId;
+
+  public Integer getTagId() {
+    return tagId;
+  }
+
+  public void setTagId(Integer tagId) {
+    this.tagId = tagId;
+  }
 
   public Integer getNoteId() {
     return noteId;
@@ -16,12 +24,12 @@ public class CreateTagParamDto {
     this.noteId = noteId;
   }
 
-  public Integer getTagId() {
-    return tagId;
+  public String getTag() {
+    return tag;
   }
 
-  public void setTagId(Integer tagId) {
-    this.tagId = tagId;
+  public void setTag(String tag) {
+    this.tag = tag;
   }
 
   public Integer getUserId() {

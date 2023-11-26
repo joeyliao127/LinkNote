@@ -1,6 +1,7 @@
 package com.linknote.online.linknotespring.note.notedao;
 
 import com.linknote.online.linknotespring.note.noterowmapper.TagRowMapper;
+import io.swagger.v3.oas.models.security.SecurityScheme.In;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -24,6 +25,28 @@ public class TagDaoImpl implements TagDao{
     map.put("tag", tag);
     namedParameterJdbcTemplate.update(sql, map);
     return null;
+  }
+
+  @Override
+  public Integer getTagIdByTagNameAndNotebookId(Integer notebookId, String tag) {
+    String sql = "SELECT t.id as tagId FROM tags t "
+        + "JOIN notebooks_tags nt ON nt.tagId = t.id "
+        + "JOIN notebooks n ON n.id = nt.notebookId "
+        + "WHERE n.id = :notebookId AND t.name = :tag";
+    Map<String, Object> map = new HashMap<>();
+    map.put("notebookId", notebookId);
+    map.put("tag", tag);
+   List<Integer> result = namedParameterJdbcTemplate.query(sql, map, new RowMapper<Integer>() {
+      @Override
+      public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return rs.getInt("tagId");
+      }
+    });
+   if(result.isEmpty()){
+     return null;
+   }else {
+     return result.get(0);
+   }
   }
 
   @Override

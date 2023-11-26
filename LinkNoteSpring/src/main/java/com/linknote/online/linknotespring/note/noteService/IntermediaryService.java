@@ -1,6 +1,7 @@
 package com.linknote.online.linknotespring.note.noteService;
 
 import com.linknote.online.linknotespring.note.notedto.CreateCollaboratorParamsDto;
+import com.linknote.online.linknotespring.note.notedto.CreateTagParamDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteCollaboraotrsParamDto;
 import io.swagger.v3.oas.models.security.SecurityScheme.In;
 import java.util.List;
@@ -20,7 +21,7 @@ public interface IntermediaryService {
 
   void updateNotebookTags(Integer notebookId, Integer tagId);
 
-  void createNotTags(Integer tagId, Integer noteId);
+  void createNotTags(CreateTagParamDto param);
 
 
 

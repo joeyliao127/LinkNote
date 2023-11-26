@@ -30,6 +30,7 @@ public class NoteController {
   @Autowired
   TagService tagService;
 
+  //新建note
   @PostMapping("/api/notebooks/{notebookId}/notes")
   public ResponseEntity<Object> createNote(
       @RequestBody @Valid CreateNoteParamsDto params,
@@ -39,6 +40,7 @@ public class NoteController {
       return ResponseEntity.status(201).body(Map.of("result", true, "noteId", noteId));
   }
 
+  //新建note的tag
   @PostMapping("/api/notebooks/{notebookId}/notes/{noteId}/tags")
   public ResponseEntity<Object> createNoteTag(
       @PathVariable Integer notebookId,
@@ -51,11 +53,10 @@ public class NoteController {
     params.setNotebookId(notebookId);
     params.setNoteId(noteId);
     tagService.createNoteTag(params);
-
     return ResponseEntity.status(200).body(Map.of("result", true));
 
   }
-
+  //更新筆記內容
   @PutMapping("/api/notebooks/{notebookId}/notes/{noteId}")
   public ResponseEntity<Object> updateNote(
       @RequestBody UpdateNoteParamsDto params,

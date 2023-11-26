@@ -34,6 +34,12 @@ public class NoteExceptionHandler {
     log.warn(e.getMessage());
     return ResponseEntity.status(400).body(Map.of("result", false, "msg", "超過共編人數上限(最多四人)"));
   }
+  @ExceptionHandler(TagNotFoundException.class)
+  public ResponseEntity<Object> tagNotFoundException(TagNotFoundException e){
+    log.warn("NoteExceptionHandler: TagNotFoundException");
+    log.warn(e.getMessage());
+    return ResponseEntity.status(400).body(Map.of("result", false,"msg", "Tag not found"));
+  }
 
 
 
