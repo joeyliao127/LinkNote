@@ -1,8 +1,10 @@
 package com.linknote.online.linknotespring.note.notecontroller;
 
 import com.linknote.online.linknotespring.note.noteService.NoteService;
+import com.linknote.online.linknotespring.note.noteService.TagService;
 import com.linknote.online.linknotespring.note.notedto.CreateNoteParamsDto;
 import com.linknote.online.linknotespring.note.notedto.CreateNotebookTagsParamsDto;
+import com.linknote.online.linknotespring.note.notedto.CreateTagParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteParamsDto;
 import com.linknote.online.linknotespring.user.userservice.TokenService;
 import jakarta.validation.Valid;
@@ -25,6 +27,9 @@ public class NoteController {
   @Autowired
   TokenService tokenService;
 
+  @Autowired
+  TagService tagService;
+
   @PostMapping("/api/notebooks/{notebookId}/notes")
   public ResponseEntity<Object> createNote(
       @RequestBody @Valid CreateNoteParamsDto params,
@@ -32,6 +37,26 @@ public class NoteController {
       ){
     Integer noteId = noteService.createNote(params, notebookId);
       return ResponseEntity.status(201).body(Map.of("result", true, "noteId", noteId));
+  }
+
+  @PostMapping("/api/notebooks/{notebookId}/notes/{noteId}/tags")
+  public ResponseEntity<Object> createNoteTag(
+      @PathVariable Integer notebookId,
+      @PathVariable Integer noteId,
+      @RequestBody CreateTagParamDto params,
+      @RequestHeader String Authorization
+  ){
+    Integer userId = tokenService.parserJWTToken(Authorization).get("userId", Integer.class);
+    params.setUserId(userId);
+    params.setNotebookId(notebookId);
+    params.setNoteId(noteId);
+    boolean result = tagService.createNoteTag(params);
+    if(result){
+      return ResponseEntity.status(200).body(Map.of("result", true));
+    }else{
+      return ResponseEntity.status(400).body(Map.of("result", false, "result", "bad request"));
+    }
+
   }
 
   @PutMapping("/api/notebooks/{notebookId}/notes/{noteId}")
@@ -54,6 +79,7 @@ public class NoteController {
     }
 
   }
+
 
 
 }

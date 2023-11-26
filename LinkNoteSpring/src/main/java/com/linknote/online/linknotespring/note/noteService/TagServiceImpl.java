@@ -2,9 +2,9 @@ package com.linknote.online.linknotespring.note.noteService;
 
 import com.linknote.online.linknotespring.note.notedao.NotebookDao;
 import com.linknote.online.linknotespring.note.notedao.TagDao;
-import com.linknote.online.linknotespring.note.notedao.UpdateIntermediaryDao;
+import com.linknote.online.linknotespring.note.notedao.IntermediaryDao;
+import com.linknote.online.linknotespring.note.notedto.CreateTagParamDto;
 import com.linknote.online.linknotespring.note.noteexception.NotebookIdAndUserIdNotMatchException;
-import java.util.List;
 import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,7 @@ public class TagServiceImpl implements TagService{
   @Autowired
   private TagDao tagDao;
   @Autowired
-  private UpdateIntermediaryDao updateIntermediaryDao;
+  private IntermediaryDao intermediaryDao;
 
   @Autowired
   private NotebookDao notebookDao;
@@ -41,13 +41,23 @@ public class TagServiceImpl implements TagService{
       log.info("沒有，建立新tag");
       tagDao.createTag(tag);
       tagId = tagDao.getTagIdByTagName(tag);
-      Integer impactRow = updateIntermediaryDao.updateNotebookTags(notebookId, tagId);
+      Integer impactRow = intermediaryDao.updateNotebookTags(notebookId, tagId);
       return impactRow != 0;
     }else{
       log.info("有");
-      Integer impactRow = updateIntermediaryDao.updateNotebookTags(notebookId, tagId);
+      Integer impactRow = intermediaryDao.updateNotebookTags(notebookId, tagId);
       return impactRow != 0;
     }
+  }
+
+  @Override
+  public Boolean createNoteTag(CreateTagParamDto params) {
+    Integer result = intermediaryDao.getNoteTagPair(params.getTagId(), params.getNoteId());
+    if(result == null){
+     Integer impactRow = intermediaryDao.createNotTags(params.getTagId(), params.getNoteId());
+     return impactRow == 1;
+    }
+    return false;
   }
 
 }
