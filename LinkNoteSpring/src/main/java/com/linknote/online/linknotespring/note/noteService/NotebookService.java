@@ -1,6 +1,7 @@
 package com.linknote.online.linknotespring.note.noteService;
 
 import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDto;
+import com.linknote.online.linknotespring.note.notedto.DeleteCollaboraotrsParamDto;
 import com.linknote.online.linknotespring.note.notedto.NotebookParamDto;
 import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDto;
 import com.linknote.online.linknotespring.note.notepo.response.NotebooksResPO;
@@ -11,8 +12,10 @@ public interface NotebookService {
 
   void createNotebook(CreateNotebookParamsDto params, Integer userId);
 
-  Boolean createNotebookTag(String tag, Integer notebookId, Integer userId);
+  void createNotebookTag(String tag, Integer notebookId, Integer userId);
 
   Boolean updateNotebookName(NotebookParamDto params);
+
+  void deleteCollaborators(DeleteCollaboraotrsParamDto params);
 
 }

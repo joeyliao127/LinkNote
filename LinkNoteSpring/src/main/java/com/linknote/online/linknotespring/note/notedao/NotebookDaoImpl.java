@@ -59,7 +59,7 @@ public class NotebookDaoImpl implements NotebookDao {
 
   @Override
   public Integer getNotebookIdByUserId(Integer userId, Integer notebookId) {
-    log.info("notebook dao: 收到的userId, nbId:"+ userId + notebookId);
+    log.info("notebook dao: 收到的userId: "+ userId + " notebookId: "+notebookId);
     String sql = "SELECT id FROM notebooks WHERE userId = :userId AND id = :notebookId";
     Map<String, Object> map = new HashMap<>();
     map.put("userId", userId);
@@ -67,6 +67,7 @@ public class NotebookDaoImpl implements NotebookDao {
     List<Integer> tagId = namedParameterJdbcTemplate.query(sql, map, new RowMapper<Integer>() {
       @Override
       public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+        log.info("驗證owner的Dao: 取得的id為 = " + rs.getInt("id"));
         return rs.getInt("id");
       }
     });
@@ -78,10 +79,11 @@ public class NotebookDaoImpl implements NotebookDao {
   }
 
   @Override
-  public Integer getNotebookIdByNotebookName(String notebookName) {
-    String sql = "SELECT id as notebookId FROM notebooks WHERE name = :notebookName";
+  public Integer getNotebookIdByNotebookName(String notebookName, Integer userId) {
+    String sql = "SELECT id as notebookId FROM notebooks WHERE name = :notebookName AND userId = :userId";
     Map<String ,Object> map = new HashMap<>();
     map.put("notebookName", notebookName);
+    map.put("userId", userId);
     List<Integer> notebookId = namedParameterJdbcTemplate.query(sql, map, new NotebookIdRowMapper());
     if(notebookId.isEmpty()){
       return null;

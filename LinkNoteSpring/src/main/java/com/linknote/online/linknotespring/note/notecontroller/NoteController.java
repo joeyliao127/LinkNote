@@ -50,12 +50,9 @@ public class NoteController {
     params.setUserId(userId);
     params.setNotebookId(notebookId);
     params.setNoteId(noteId);
-    boolean result = tagService.createNoteTag(params);
-    if(result){
-      return ResponseEntity.status(200).body(Map.of("result", true));
-    }else{
-      return ResponseEntity.status(400).body(Map.of("result", false, "result", "bad request"));
-    }
+    tagService.createNoteTag(params);
+
+    return ResponseEntity.status(200).body(Map.of("result", true));
 
   }
 
@@ -70,16 +67,8 @@ public class NoteController {
     params.setUserId(userId);
     params.setNoteId(noteId);
     params.setNotebookId(notebookId);
-    boolean result = noteService.updateNote(params);
+    noteService.updateNote(params);
 
-    if(result){
-      return ResponseEntity.ok().body(Map.of("result", true));
-    }else {
-      return ResponseEntity.status(500).body(Map.of("result", false,"msg", "internal error"));
-    }
-
+    return ResponseEntity.ok().body(Map.of("result", true));
   }
-
-
-
 }

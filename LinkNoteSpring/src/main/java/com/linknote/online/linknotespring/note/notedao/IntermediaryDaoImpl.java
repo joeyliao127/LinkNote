@@ -1,5 +1,6 @@
 package com.linknote.online.linknotespring.note.notedao;
 
+import com.linknote.online.linknotespring.note.notedto.DeleteCollaboraotrsParamDto;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -52,5 +53,14 @@ public class IntermediaryDaoImpl implements IntermediaryDao {
     }else {
       return result.get(0);
     }
+  }
+
+  @Override
+  public void deleteCollaborators(DeleteCollaboraotrsParamDto params) {
+    String sql = "DELETE FROM ntoebookCollaborators WHERE userId = :userId AND notebookId = :notebookId";
+    Map<String, Object> map = new HashMap<>();
+    map.put("userId", params.getUserId());
+    map.put("notebookId", params.getNotebookId());
+    namedParameterJdbcTemplate.update(sql, map);
   }
 }

@@ -13,11 +13,11 @@ public interface NotebookDao {
 
   void createNotebook(CreateNotebookParamsDto params, Integer userId);
 
-  //For verify notebook owner
+  //驗證筆記本是否為此userId
   Integer getNotebookIdByUserId(Integer userId, Integer notebookId);
 
   //用途：建立notebook後，取得剛建立notebookId
-  Integer getNotebookIdByNotebookName(String notebookName);
+  Integer getNotebookIdByNotebookName(String notebookName, Integer userId);
 
   //檢查使用者是否已經有相同名稱的notebook
   String getNotebookNameByUserId(Integer userId, String newNotebook);

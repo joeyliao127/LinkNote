@@ -3,6 +3,7 @@ package com.linknote.online.linknotespring.note.notecontroller;
 import com.linknote.online.linknotespring.note.noteService.NotebookService;
 import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.CreateNotebookTagsParamsDto;
+import com.linknote.online.linknotespring.note.notedto.DeleteCollaboraotrsParamDto;
 import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDto;
 import com.linknote.online.linknotespring.note.notedto.NotebookParamDto;
 import com.linknote.online.linknotespring.note.notepo.response.NotebooksResPO;
@@ -11,10 +12,12 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import java.util.Map;
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,6 +49,7 @@ public class NotebookController {
     return ResponseEntity.status(HttpStatus.OK).body(notebookService.getNotebooks(params));
   }
 
+  //新增筆記本
   @PostMapping("/api/notebooks")
   public ResponseEntity<Object> createNotebook(
       @RequestBody @Valid CreateNotebookParamsDto params,
@@ -56,6 +60,7 @@ public class NotebookController {
     return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("result", true));
   }
 
+  //新增notebook tag
   @PostMapping("/api/notebooks/{notebookId}/tags")
   public ResponseEntity<Object> createTag(
       @RequestBody @Valid CreateNotebookTagsParamsDto params,
@@ -66,13 +71,26 @@ public class NotebookController {
     notebookService.createNotebookTag(params.getTag(), notebookId, userId);
     return ResponseEntity.status(201).body(Map.of("result", true));
   }
-  //用來更新權限表，一次可以丟很多筆資料
-  @PutMapping("/api/notebooks/{notebookId}/collaborators")
-  public ResponseEntity<Object> updateCollaborators(@PathVariable Integer notebookId){
 
+
+  //刪除共編
+  @DeleteMapping("/api/notebooks/{notebookId}/collaborators/{collaboratorId}")
+  public ResponseEntity<Object> deleteCollaborators(
+      @PathVariable Integer notebookId,
+      @PathVariable Integer collaboratorId,
+      @RequestHeader String Authorization
+      ){
+
+    Integer userId = tokenService.parserJWTToken(Authorization).get("userId", Integer.class);
+    DeleteCollaboraotrsParamDto params = new DeleteCollaboraotrsParamDto();
+    params.setCollaboratorId(collaboratorId);
+    params.setUserId(userId);
+    params.setNotebookId(notebookId);
+    notebookService.deleteCollaborators(params);
     return null;
   }
 
+  //更新notebook name
   @PutMapping("/api/notebooks/{notebookId}")
   public ResponseEntity<Object> updateNotebookName(
       @PathVariable Integer notebookId,

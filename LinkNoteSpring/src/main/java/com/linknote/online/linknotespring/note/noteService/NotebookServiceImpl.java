@@ -1,11 +1,14 @@
 package com.linknote.online.linknotespring.note.noteService;
 
+import com.linknote.online.linknotespring.note.notedao.IntermediaryDao;
 import com.linknote.online.linknotespring.note.notedao.NotebookDao;
 import com.linknote.online.linknotespring.note.notedao.TagDao;
 import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDto;
+import com.linknote.online.linknotespring.note.notedto.DeleteCollaboraotrsParamDto;
 import com.linknote.online.linknotespring.note.notedto.NotebookParamDto;
 import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDto;
 import com.linknote.online.linknotespring.note.noteexception.NotebookAlreadyExistsException;
+import com.linknote.online.linknotespring.note.noteexception.NotebookIdAndUserIdNotMatchException;
 import com.linknote.online.linknotespring.note.notepo.po.NotebooksPO;
 import com.linknote.online.linknotespring.note.notepo.response.NotebooksResPO;
 import com.linknote.online.linknotespring.user.userdao.UserDAO;
@@ -30,6 +33,9 @@ public class NotebookServiceImpl implements NotebookService {
 
   @Autowired
   private TagService tagService;
+
+  @Autowired
+  private IntermediaryDao intermediaryDao;
   private static final Logger log = LoggerFactory.getLogger(NotebookServiceImpl.class);
   @Override
   public NotebooksResPO getNotebooks(QueryNotebooksParamsDto params) {
@@ -39,7 +45,6 @@ public class NotebookServiceImpl implements NotebookService {
     NotebooksResPO response = new NotebooksResPO();
 
     if(notebooks.size() <= params.getLimit() & !notebooks.isEmpty()){
-      log.info("notebook沒有下一頁，list長度：" + notebooks.size());
       response.setNotebookNextPage(false);
       response.setNotebooks(notebooks);
     }else if(notebooks.size() > params.getLimit()){
@@ -75,7 +80,7 @@ public class NotebookServiceImpl implements NotebookService {
       throw new NotebookAlreadyExistsException("NotebookService: 名稱已重複");
     }
     notebookDAO.createNotebook(params, userId);
-    Integer notebookId = notebookDAO.getNotebookIdByNotebookName(params.getName());
+    Integer notebookId = notebookDAO.getNotebookIdByNotebookName(params.getName(), userId);
     log.info("先新增notebook，新增後的id: " + notebookId);
     for(int i=0; i<params.getTags().size(); i++){
       String tag = params.getTags().get(i);
@@ -102,9 +107,8 @@ public class NotebookServiceImpl implements NotebookService {
   }
 
   @Override
-  public Boolean createNotebookTag(String tag, Integer notebookId, Integer userId) {
+  public void createNotebookTag(String tag, Integer notebookId, Integer userId) {
     tagService.createNotebookTag(tag, notebookId, userId);
-    return null;
   }
 
   @Override
@@ -113,5 +117,14 @@ public class NotebookServiceImpl implements NotebookService {
     Integer result = notebookDAO.updateNotebookName(params);
     return result == 1;
 
+  }
+
+  @Override
+  public void deleteCollaborators(DeleteCollaboraotrsParamDto params) {
+    Integer result = notebookDAO.getNotebookIdByUserId(params.getUserId(), params.getNotebookId());
+    if(result == null){
+      throw new NotebookIdAndUserIdNotMatchException("Notebook Service: 刪除筆記本失敗，筆記本id部署於此userId");
+    }
+    intermediaryDao.deleteCollaborators(params);
   }
 }
