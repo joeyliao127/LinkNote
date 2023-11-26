@@ -31,6 +31,7 @@ public class UserController {
   TokenService tokenService;
   private final static Logger log = LoggerFactory.getLogger(UserController.class);
 
+
   @PostMapping("/api/user/register")
   public ResponseEntity<Object> register(@RequestBody @Valid RegisterRequestDto registerRequestDto)
   throws DatabaseOperationException, EmailAlreadyRegisteredException {
@@ -38,8 +39,9 @@ public class UserController {
     return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("token", JWTToken));
   }
   @PostMapping("/api/user/auth")
-  public ResponseEntity<Object> signInAuthentication(@RequestBody(required = false) @Valid SignInRequestDto signInRequestDto,
-                                                     @RequestHeader(required = false) String Authorization){
+  public ResponseEntity<Object> signInAuthentication(
+      @RequestBody(required = false) @Valid SignInRequestDto signInRequestDto,
+      @RequestHeader(required = false) String Authorization){
     if(Authorization == null){
       log.info("接收到帳密登入請求：" + signInRequestDto.getEmail());
       UserInfoPO verifyResult = userService.signInVerify(signInRequestDto);

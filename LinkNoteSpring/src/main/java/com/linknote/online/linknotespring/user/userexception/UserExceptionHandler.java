@@ -20,6 +20,13 @@ public class UserExceptionHandler {
 //    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("msg", "Internal error", "result", false));
 //  }
 
+  @ExceptionHandler(EmailDoesNotExistException.class)
+  public ResponseEntity<Object> emailDoesNotExistException(EmailDoesNotExistException e){
+    log.warn("UserExceptionHandler: EmailDoesNotExistException");
+    log.warn(e.getMessage());
+    return ResponseEntity.status(400).body(Map.of("result", false, "msg", "email doesn't exist"));
+  }
+
   @ExceptionHandler(EmailAlreadyRegisteredException.class)
   public ResponseEntity<Object> emailAlreadyRegisterdHandler(EmailAlreadyRegisteredException e){
     log.warn("Email已經被註冊");

@@ -1,6 +1,6 @@
 package com.linknote.online.linknotespring.note.notedao;
 import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDto;
-import com.linknote.online.linknotespring.note.notedto.NotebookParamDto;
+import com.linknote.online.linknotespring.note.notedto.UpdateNotebookNameParamDto;
 import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDto;
 import com.linknote.online.linknotespring.note.notepo.po.NotebooksPO;
 import com.linknote.online.linknotespring.note.notepo.po.TagPO;
@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -58,7 +59,7 @@ public class NotebookDaoImpl implements NotebookDao {
   }
 
   @Override
-  public Integer getNotebookIdByUserId(Integer userId, Integer notebookId) {
+  public Integer verifyNotebookOwnerByUserId(Integer userId, Integer notebookId) {
     log.info("notebook dao: 收到的userId: "+ userId + " notebookId: "+notebookId);
     String sql = "SELECT id FROM notebooks WHERE userId = :userId AND id = :notebookId";
     Map<String, Object> map = new HashMap<>();
@@ -123,18 +124,13 @@ public class NotebookDaoImpl implements NotebookDao {
   }
 
   @Override
-  public Integer updateNotebookName(NotebookParamDto params) {
+  public void updateNotebookName(UpdateNotebookNameParamDto params) {
     String sql = "UPDATE notebooks SET name=:name WHERE id=:notebookId AND userId=:userId";
     Map<String, Object> map = new HashMap<>();
     map.put("name", params.getName());
     map.put("notebookId", params.getNotebookId());
     map.put("userId", params.getUserId());
-    return namedParameterJdbcTemplate.update(sql, map);
-  }
-
-  @Override
-  public void updateCollaborators(Integer notebookId, Integer userId) {
-
+    namedParameterJdbcTemplate.update(sql, map);
   }
 
 

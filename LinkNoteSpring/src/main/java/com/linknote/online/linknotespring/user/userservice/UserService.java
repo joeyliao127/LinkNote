@@ -7,4 +7,6 @@ import com.linknote.online.linknotespring.user.userpo.UserInfoPO;
 public interface UserService {
   String register(RegisterRequestDto registerRequestDto);
   UserInfoPO signInVerify(SignInRequestDto signInRequestDto);
+
+  Integer getUserIdByEmail(String email);
 }

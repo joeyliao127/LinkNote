@@ -71,4 +71,9 @@ public class UserServiceImpl implements UserService{
     }
     return userInfoPOS.get(0);
   }
+
+  @Override
+  public Integer getUserIdByEmail(String email) {
+    return userDAO.getUserIdByEmail(email);
+  }
 }

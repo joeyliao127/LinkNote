@@ -1,18 +1,18 @@
 package com.linknote.online.linknotespring.note.notecontroller;
 
 import com.linknote.online.linknotespring.note.noteService.NotebookService;
+import com.linknote.online.linknotespring.note.notedto.CreateCollaboratorParamsDto;
 import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.CreateNotebookTagsParamsDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteCollaboraotrsParamDto;
 import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDto;
-import com.linknote.online.linknotespring.note.notedto.NotebookParamDto;
+import com.linknote.online.linknotespring.note.notedto.UpdateNotebookNameParamDto;
 import com.linknote.online.linknotespring.note.notepo.response.NotebooksResPO;
 import com.linknote.online.linknotespring.user.userservice.TokenService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import java.util.Map;
-import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +35,8 @@ public class NotebookController {
 
   @Autowired
   TokenService tokenService;
+
+  //取得使用者資訊
   @GetMapping("/api/notebooks")
   public ResponseEntity<NotebooksResPO> getNotebooks(
       @RequestHeader String Authorization,
@@ -55,6 +57,9 @@ public class NotebookController {
       @RequestBody @Valid CreateNotebookParamsDto params,
       @RequestHeader String Authorization
   ){
+    if(params.getEmails().size() > 4){
+      return ResponseEntity.status(400).body(Map.of("result", false, "msg", "collaborators最多四人"));
+    }
     Integer userId = tokenService.parserJWTToken(Authorization).get("userId", Integer.class);
     notebookService.createNotebook(params, userId);
     return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("result", true));
@@ -72,6 +77,32 @@ public class NotebookController {
     return ResponseEntity.status(201).body(Map.of("result", true));
   }
 
+  //新增協作者
+@PostMapping("/api/notebooks/{notebookId}/collaborator")
+public ResponseEntity<Object> createCollaborator(
+    @PathVariable Integer notebookId,
+    @RequestHeader String Authorization,
+    @RequestBody @Valid CreateCollaboratorParamsDto params
+){
+   Integer userId = tokenService.parserJWTToken(Authorization).get("userId", Integer.class);
+   params.setUserId(userId);
+   params.setNotebookId(notebookId);
+   notebookService.createCollaborator(params);
+   return ResponseEntity.status(201).body(Map.of("result", true));
+}
+
+  //更新notebook name
+  @PutMapping("/api/notebooks/{notebookId}")
+  public ResponseEntity<Object> updateNotebookName(
+      @PathVariable Integer notebookId,
+      @RequestBody @Valid UpdateNotebookNameParamDto params,
+      @RequestHeader String Authorization
+  ){
+    params.setUserId(tokenService.parserJWTToken(Authorization).get("userId", Integer.class));
+    params.setNotebookId(notebookId);
+    notebookService.updateNotebookName(params);
+    return ResponseEntity.status(200).body(Map.of("result", true));
+  }
 
   //刪除共編
   @DeleteMapping("/api/notebooks/{notebookId}/collaborators/{collaboratorId}")
@@ -90,23 +121,6 @@ public class NotebookController {
     return null;
   }
 
-  //更新notebook name
-  @PutMapping("/api/notebooks/{notebookId}")
-  public ResponseEntity<Object> updateNotebookName(
-      @PathVariable Integer notebookId,
-      @RequestBody @Valid NotebookParamDto params,
-      @RequestHeader String Authorization
-  ){
-    params.setUserId(tokenService.parserJWTToken(Authorization).get("userId", Integer.class));
-    params.setNotebookId(notebookId);
-    Boolean result = notebookService.updateNotebookName(params);
-    if(result){
-      return ResponseEntity.status(200).body(Map.of("result", true));
-    }else {
-      return ResponseEntity.status(500).body(Map.of("result", false, "msg", "internal error"));
-    }
-
-  }
 }
 
 

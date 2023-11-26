@@ -40,11 +40,16 @@ public class UserDAOImpl implements UserDAO{
   }
 
   @Override
-  public List<Integer> getUserIdByEmail(String email) {
+  public Integer getUserIdByEmail(String email) {
     String sql = "SELECT id FROM users WHERE email = :email";
     Map<String, Object> map = new HashMap<>();
     map.put("email", email);
-    return namedParameterJdbcTemplate.query(sql, map, new UeserIdRowMapper());
+    List<Integer> result = namedParameterJdbcTemplate.query(sql, map, new UeserIdRowMapper());
+    if(result.isEmpty()) {
+      return null;
+    }else{
+      return result.get(0);
+    }
   }
 
   @Override
@@ -117,17 +122,5 @@ public class UserDAOImpl implements UserDAO{
     }else{
       return result.get(0);
     }
-  }
-
-  @Override
-  public void updatyCollaborator(List<Integer> collaboratorList, Integer notebookId) {
-    String sql = "INSERT INTO notebookCollaborators (userId, notebookId) VALUES (:userId, :notebookId)";
-    MapSqlParameterSource[] parameterSources = new MapSqlParameterSource[collaboratorList.size()];
-    for(int i=0; i<collaboratorList.size(); i++){
-      parameterSources[i] = new MapSqlParameterSource();
-      parameterSources[i].addValue("userId", collaboratorList.get(i));
-      parameterSources[i].addValue("notebookId", notebookId);
-    }
-    namedParameterJdbcTemplate.batchUpdate(sql, parameterSources);
   }
 }

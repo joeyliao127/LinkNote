@@ -10,7 +10,7 @@ public interface UserDAO {
   List<UserEmailPo> getByEmail(String email);
   Integer createUser(RegisterRequestDto registerRequestDto);
 
-  List<Integer> getUserIdByEmail(String email);
+  Integer getUserIdByEmail(String email);
   Integer verifuUserIdAndEmail(String email, Integer userId);
 
   List<UserInfoPO> getByEmailAndPassword(
@@ -19,7 +19,7 @@ public interface UserDAO {
 
   Integer getCollaboratorsId(Integer userId, Integer notebookId);
 
-  void updatyCollaborator(List<Integer> collaboratorList, Integer notebookId);
+
 
 
 }

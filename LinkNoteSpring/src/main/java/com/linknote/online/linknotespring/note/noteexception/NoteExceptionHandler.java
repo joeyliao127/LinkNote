@@ -16,17 +16,25 @@ public class NoteExceptionHandler {
 
   @ExceptionHandler(NotebookIdAndUserIdNotMatchException.class)
   public ResponseEntity<Object> notebookIdAndUserIdNotMatchException(NotebookIdAndUserIdNotMatchException e){
-    log.warn("NoteExceptionHandler catch error");
+    log.warn("NoteExceptionHandler: notebookId And UserId Not Match Exception");
     log.info(e.getMessage());
-    return ResponseEntity.status(400).body(Map.of("result", false, "msg", e.getMessage()));
+    return ResponseEntity.status(401).body(Map.of("result", false, "msg", e.getMessage()));
   }
 
   @ExceptionHandler(NotebookAlreadyExistsException.class)
   public ResponseEntity<Object> notebookAlreadyExistsException(NotebookAlreadyExistsException e){
-    log.warn("NoteExceptionHandler:");
+    log.warn("NoteExceptionHandler: notebookAlreadyExistsException");
     log.info(e.getMessage());
     return ResponseEntity.status(400).body(Map.of("result", false, "msg", "筆記本名稱重複"));
   }
+
+  @ExceptionHandler(CollaboratorsAreLimitException.class)
+  public ResponseEntity<Object> collaboratorsAreLimitException(CollaboratorsAreLimitException e){
+    log.warn("NoteExceptionHandler: CollaboratorsAreLimitException");
+    log.warn(e.getMessage());
+    return ResponseEntity.status(400).body(Map.of("result", false, "msg", "超過共編人數上限(最多四人)"));
+  }
+
 
 
 }

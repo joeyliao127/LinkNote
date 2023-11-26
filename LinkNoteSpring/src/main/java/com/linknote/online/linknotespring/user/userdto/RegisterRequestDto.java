@@ -4,12 +4,12 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 public class RegisterRequestDto {
-  @NotBlank
-  @Email
+  @NotBlank(message = "email不能為空")
+  @Email(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,6}$", message = "Email格式不正確")
   private String email;
-  @NotBlank
+  @NotBlank(message = "username不能為空")
   private String username;
-  @NotBlank
+  @NotBlank(message = "password不能為空")
   private String password;
 
   public String getEmail() {

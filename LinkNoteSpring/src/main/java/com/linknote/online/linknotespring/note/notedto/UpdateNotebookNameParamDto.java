@@ -2,7 +2,7 @@ package com.linknote.online.linknotespring.note.notedto;
 
 import jakarta.validation.constraints.NotNull;
 
-public class NotebookParamDto {
+public class UpdateNotebookNameParamDto {
   @NotNull
   private String name;
   private Integer userId;
