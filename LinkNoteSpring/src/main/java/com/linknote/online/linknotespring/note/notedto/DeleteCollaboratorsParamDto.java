@@ -1,8 +1,6 @@
 package com.linknote.online.linknotespring.note.notedto;
 
-import io.swagger.v3.oas.models.security.SecurityScheme.In;
-
-public class DeleteCollaboraotrsParamDto {
+public class DeleteCollaboratorsParamDto {
 
   private Integer notebookId;
   private Integer userId;

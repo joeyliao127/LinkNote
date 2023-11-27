@@ -1,6 +1,7 @@
 package com.linknote.online.linknotespring.note.notedao;
 
 import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDto;
+import com.linknote.online.linknotespring.note.notedto.DeleteNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNotebookNameParamDto;
 import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDto;
 import com.linknote.online.linknotespring.note.notepo.po.NotebooksPO;
@@ -27,6 +28,8 @@ public interface NotebookDao {
   void updateNotebookName(UpdateNotebookNameParamDto params);
 
   void updateNoteTags(Integer noteId, Integer tagId);
+
+  void deleteNotebookByNotbookId(DeleteNotebookParamsDto params);
 
 
 }

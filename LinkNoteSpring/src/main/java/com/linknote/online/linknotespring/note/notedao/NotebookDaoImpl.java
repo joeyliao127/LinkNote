@@ -1,5 +1,6 @@
 package com.linknote.online.linknotespring.note.notedao;
 import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDto;
+import com.linknote.online.linknotespring.note.notedto.DeleteNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNotebookNameParamDto;
 import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDto;
 import com.linknote.online.linknotespring.note.notepo.po.NotebooksPO;
@@ -139,6 +140,13 @@ public class NotebookDaoImpl implements NotebookDao {
 
   }
 
+  @Override
+  public void deleteNotebookByNotbookId(DeleteNotebookParamsDto params) {
+    String sql ="DELETE notebooks FROM notebooks WHERE id = :notebookId";
+    Map<String, Object> map = new HashMap<>();
+    map.put("notebookId", params.getNotebookId());
+    namedParameterJdbcTemplate.update(sql, map);
+  }
 
 
 }

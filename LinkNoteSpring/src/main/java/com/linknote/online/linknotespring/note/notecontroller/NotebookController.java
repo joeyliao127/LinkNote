@@ -4,7 +4,9 @@ import com.linknote.online.linknotespring.note.noteService.NotebookService;
 import com.linknote.online.linknotespring.note.notedto.CreateCollaboratorParamsDto;
 import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.CreateNotebookTagsParamsDto;
-import com.linknote.online.linknotespring.note.notedto.DeleteCollaboraotrsParamDto;
+import com.linknote.online.linknotespring.note.notedto.DeleteCollaboratorsParamDto;
+import com.linknote.online.linknotespring.note.notedto.DeleteNotebookParamsDto;
+import com.linknote.online.linknotespring.note.notedto.DeleteNotebookTagParamDto;
 import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNotebookNameParamDto;
 import com.linknote.online.linknotespring.note.notepo.response.NotebooksResPO;
@@ -13,6 +15,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import java.util.Map;
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -113,14 +116,41 @@ public ResponseEntity<Object> createCollaborator(
       ){
 
     Integer userId = tokenService.parserJWTToken(Authorization).get("userId", Integer.class);
-    DeleteCollaboraotrsParamDto params = new DeleteCollaboraotrsParamDto();
+    DeleteCollaboratorsParamDto params = new DeleteCollaboratorsParamDto();
     params.setCollaboratorId(collaboratorId);
     params.setUserId(userId);
     params.setNotebookId(notebookId);
     notebookService.deleteCollaborators(params);
-    return null;
+    return ResponseEntity.status(200).body(Map.of("result", true));
   }
 
+  @DeleteMapping("/api/notebooks/{notebookId}")
+  public ResponseEntity<Object> deleteNotebook(
+      @PathVariable Integer notebookId,
+      @RequestHeader String Authorization
+  ){
+    Integer userId = tokenService.parserJWTToken(Authorization).get("userId", Integer.class);
+    DeleteNotebookParamsDto params = new DeleteNotebookParamsDto();
+    params.setNotebookId(notebookId);
+    params.setUserId(userId);
+    notebookService.deleteNotebook(params);
+    return ResponseEntity.status(200).body(Map.of("result", true));
+  }
+
+  @DeleteMapping("/api/notebooks/{notebookId}/tags/{tag}")
+  public ResponseEntity<Object> deleteNotebookTag(
+      @PathVariable Integer notebookId,
+      @PathVariable String tag,
+      @RequestHeader String  Authorization
+  ){
+    Integer userId = tokenService.parserJWTToken(Authorization).get("userId", Integer.class);
+    DeleteNotebookTagParamDto param = new DeleteNotebookTagParamDto();
+    param.setTag(tag);
+    param.setNotebookId(notebookId);
+    param.setUserId(userId);
+    notebookService.deleteNotebookTag(param);
+    return ResponseEntity.status(200).body(Map.of("result", true));
+  }
 }
 
 

@@ -4,7 +4,7 @@ let errMsg = document.querySelector("#signin-error-msg");
 async function init() {
   const token = localStorage.getItem("token");
   if (token) {
-    verifyUserToken(token);
+    verifyUserByToken(token);
   }
   switchFormBtn();
   register();
@@ -134,7 +134,7 @@ function signInBtnListener() {
   });
 }
 
-async function verifyUserToken(token) {
+async function verifyUserByToken(token) {
   const response = await fetch(apiUrl + "/api/user/auth", {
     headers: {
       Authorization: "Bearer " + token,

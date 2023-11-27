@@ -1,7 +1,9 @@
 package com.linknote.online.linknotespring.note.notedao;
 
 import com.linknote.online.linknotespring.note.notedto.CreateCollaboratorParamsDto;
-import com.linknote.online.linknotespring.note.notedto.DeleteCollaboraotrsParamDto;
+import com.linknote.online.linknotespring.note.notedto.DeleteCollaboratorsParamDto;
+import com.linknote.online.linknotespring.note.notedto.DeleteNotebookParamsDto;
+import com.linknote.online.linknotespring.note.notedto.DeleteNotebookTagParamDto;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -43,6 +45,8 @@ public class IntermediaryDaoImpl implements IntermediaryDao {
     String sql = "SELECT COUNT(*) as count FROM notebookCollaborators"
         + " WHERE owner = :ownerId AND notebookId = :notebookId";
     Map<String, Object> map = new HashMap<>();
+    System.out.println("ownerId: " + ownerId);
+    System.out.println("notebookId: " + notebookId);
     map.put("ownerId", ownerId);
     map.put("notebookId", notebookId);
 
@@ -97,10 +101,39 @@ public class IntermediaryDaoImpl implements IntermediaryDao {
   }
 
   @Override
-  public void deleteCollaborators(DeleteCollaboraotrsParamDto params) {
-    String sql = "DELETE FROM ntoebookCollaborators WHERE userId = :userId AND notebookId = :notebookId";
+  public void deleteCollaborator(DeleteCollaboratorsParamDto params) {
+    String sql = "DELETE FROM notebookCollaborators WHERE userId = :userId AND notebookId = :notebookId AND owner = :ownerId";
     Map<String, Object> map = new HashMap<>();
-    map.put("userId", params.getUserId());
+    map.put("userId", params.getCollaboratorId());
+    map.put("notebookId", params.getNotebookId());
+    map.put("ownerId", params.getUserId());
+    namedParameterJdbcTemplate.update(sql, map);
+  }
+
+  @Override
+  public void deleteCollaborators(DeleteNotebookParamsDto params) {
+    String sql = "DELETE FROM notebookCollaborators WHERE notebookId = :notebookId";
+    Map<String, Object> map = new HashMap<>();
+    map.put("notebookId", params.getNotebookId());
+    namedParameterJdbcTemplate.update(sql, map);
+  }
+
+  @Override
+  public void deleteNotebooksTag(DeleteNotebookTagParamDto param) {
+    String sql = "DELETE notebooks_tags FROM notebooks_tags "
+        + "JOIN linkNote.tags t on t.id = notebooks_tags.tagId "
+        + "WHERE notebookId = :notebookId AND t.name = :tag;";
+    Map<String, Object> map = new HashMap<>();
+    map.put("notebookId", param.getNotebookId());
+    map.put("tag", param.getTag());
+    namedParameterJdbcTemplate.update(sql, map);
+  }
+
+  @Override
+  public void deleteNotebooksTags(DeleteNotebookParamsDto params) {
+    System.out.println("notebookId: " + params.getNotebookId());
+    String sql = "DELETE notebooks_tags FROM notebooks_tags WHERE notebookId = :notebookId";
+    Map<String, Object> map = new HashMap<>();
     map.put("notebookId", params.getNotebookId());
     namedParameterJdbcTemplate.update(sql, map);
   }

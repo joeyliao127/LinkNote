@@ -3,7 +3,9 @@ package com.linknote.online.linknotespring.note.noteService;
 import com.linknote.online.linknotespring.note.notedao.NotebookDao;
 import com.linknote.online.linknotespring.note.notedto.CreateCollaboratorParamsDto;
 import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDto;
-import com.linknote.online.linknotespring.note.notedto.DeleteCollaboraotrsParamDto;
+import com.linknote.online.linknotespring.note.notedto.DeleteCollaboratorsParamDto;
+import com.linknote.online.linknotespring.note.notedto.DeleteNotebookParamsDto;
+import com.linknote.online.linknotespring.note.notedto.DeleteNotebookTagParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNotebookNameParamDto;
 import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDto;
 import com.linknote.online.linknotespring.note.noteexception.CollaboratorsAreLimitException;
@@ -116,7 +118,7 @@ public class NotebookServiceImpl implements NotebookService {
   @Override
   public void createCollaborator(CreateCollaboratorParamsDto params) {
     verifyNotebookOwnerByUserId(params.getUserId(), params.getNotebookId(), notebookDao);
-    if(intermediaryService.verifyCollaboratorsCount(params.getUserId(), params.getCollaboratorId())){
+    if(intermediaryService.verifyCollaboratorsCount(params.getUserId(), params.getNotebookId())){
       throw new CollaboratorsAreLimitException("超過共編人數上限");
     }
       Integer collaboratorId = userService.getUserIdByEmail(params.getEmail());
@@ -134,9 +136,9 @@ public class NotebookServiceImpl implements NotebookService {
   }
 
   @Override
-  public void deleteCollaborators(DeleteCollaboraotrsParamDto params) {
+  public void deleteCollaborators(DeleteCollaboratorsParamDto params) {
     verifyNotebookOwnerByUserId(params.getUserId(), params.getNotebookId(), notebookDao);
-    intermediaryService.deleteCollaborators(params);
+    intermediaryService.deleteCollaborator(params);
   }
 
 
@@ -148,4 +150,23 @@ public class NotebookServiceImpl implements NotebookService {
       throw new NotebookIdAndUserIdNotMatchException("Notebook Service: 筆記本不署於此userId");
     }
   }
+
+  @Transactional
+  @Override
+  public void deleteNotebook(DeleteNotebookParamsDto params) {
+    //1. 刪除共編表notebook = notebookId
+    //2. 刪除notebooks_tags所屬的tag
+    //3. 刪除筆記tag
+    //4. 刪除筆記
+    //5. 刪除notebook
+//    intermediaryService.deleteNotebooksTags(params);
+//    intermediaryService.deleteCollaborators(params);
+    notebookDao.deleteNotebookByNotbookId(params);
+  }
+
+  @Override
+  public void deleteNotebookTag(DeleteNotebookTagParamDto param){
+    intermediaryService.deleteNotebooksTag(param);
+  }
+
 }

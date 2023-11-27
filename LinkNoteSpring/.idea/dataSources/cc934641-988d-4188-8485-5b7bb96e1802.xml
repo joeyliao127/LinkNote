@@ -1130,8 +1130,8 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     </schema>
     <schema id="289" parent="1" name="linkNote">
       <Current>1</Current>
-      <IntrospectionTimestamp>2023-11-27.01:21:20</IntrospectionTimestamp>
-      <LocalIntrospectionTimestamp>2023-11-26.09:21:19</LocalIntrospectionTimestamp>
+      <IntrospectionTimestamp>2023-11-27.20:44:49</IntrospectionTimestamp>
+      <LocalIntrospectionTimestamp>2023-11-27.04:44:49</LocalIntrospectionTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <schema id="290" parent="1" name="mysql">
@@ -1213,16 +1213,19 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     </column>
     <foreign-key id="309" parent="299" name="notebookCollaborators_ibfk_1">
       <ColNames>notebookId</ColNames>
+      <OnDelete>cascade</OnDelete>
       <RefColNames>id</RefColNames>
       <RefTableName>notebooks</RefTableName>
     </foreign-key>
     <foreign-key id="310" parent="299" name="notebookCollaborators_ibfk_2">
       <ColNames>userId</ColNames>
+      <OnDelete>cascade</OnDelete>
       <RefColNames>id</RefColNames>
       <RefTableName>users</RefTableName>
     </foreign-key>
     <foreign-key id="311" parent="299" name="notebookCollaborators_ibfk_3">
       <ColNames>owner</ColNames>
+      <OnDelete>cascade</OnDelete>
       <RefColNames>id</RefColNames>
       <RefTableName>users</RefTableName>
     </foreign-key>
@@ -1309,11 +1312,13 @@ userId</ColNames>
     </column>
     <foreign-key id="329" parent="301" name="notebooks_tags_ibfk_1">
       <ColNames>notebookId</ColNames>
+      <OnDelete>cascade</OnDelete>
       <RefColNames>id</RefColNames>
       <RefTableName>notebooks</RefTableName>
     </foreign-key>
     <foreign-key id="330" parent="301" name="notebooks_tags_ibfk_2">
       <ColNames>tagId</ColNames>
+      <OnDelete>cascade</OnDelete>
       <RefColNames>id</RefColNames>
       <RefTableName>tags</RefTableName>
     </foreign-key>
@@ -1376,6 +1381,7 @@ tagId</ColNames>
     </column>
     <foreign-key id="343" parent="302" name="notes_ibfk_1">
       <ColNames>notebookId</ColNames>
+      <OnDelete>cascade</OnDelete>
       <RefColNames>id</RefColNames>
       <RefTableName>notebooks</RefTableName>
     </foreign-key>
@@ -1409,11 +1415,13 @@ tagId</ColNames>
     </column>
     <foreign-key id="350" parent="303" name="notes_tags_ibfk_1">
       <ColNames>noteId</ColNames>
+      <OnDelete>cascade</OnDelete>
       <RefColNames>id</RefColNames>
       <RefTableName>notes</RefTableName>
     </foreign-key>
     <foreign-key id="351" parent="303" name="notes_tags_ibfk_2">
       <ColNames>tagId</ColNames>
+      <OnDelete>cascade</OnDelete>
       <RefColNames>id</RefColNames>
       <RefTableName>tags</RefTableName>
     </foreign-key>
@@ -1465,7 +1473,7 @@ tagId</ColNames>
       <UnderlyingIndexName>name</UnderlyingIndexName>
     </key>
     <column id="362" parent="305" name="id">
-      <AutoIncrement>8</AutoIncrement>
+      <AutoIncrement>13</AutoIncrement>
       <DasType>bigint|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
