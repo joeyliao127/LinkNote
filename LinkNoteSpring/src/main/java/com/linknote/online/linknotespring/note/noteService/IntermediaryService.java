@@ -1,15 +1,13 @@
 package com.linknote.online.linknotespring.note.noteService;
 
 import com.linknote.online.linknotespring.note.notedto.CreateCollaboratorParamsDto;
-import com.linknote.online.linknotespring.note.notedto.CreateTagParamDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteCollaboratorsParamDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookParamsDto;
-import com.linknote.online.linknotespring.note.notedto.DeleteNotebookTagParamDto;
 import java.util.List;
 
 public interface IntermediaryService {
 
-  Integer getNoteTagPair (Integer noteId, Integer tagId);
+//  Integer getNoteTagPair (Integer noteId, Integer tagId);
 
   Boolean verifyCollaboratorsCount(Integer ownerId, Integer notebookId);
 
@@ -18,18 +16,20 @@ public interface IntermediaryService {
 
   void createNotebookCollaborator(CreateCollaboratorParamsDto params);
 
-  void createNotTags(CreateTagParamDto param);
-
-  void updateNotebookTags(Integer notebookId, Integer tagId);
-
   void deleteCollaborator(DeleteCollaboratorsParamDto param);
 
   void deleteCollaborators(DeleteNotebookParamsDto params);
 
-  void deleteNotebooksTag(DeleteNotebookTagParamDto param);
+//  void createNotTags(CreateTagParamDto param);
+//
+//  void updateNotebookTags(Integer notebookId, Integer tagId);
 
-  //當筆記本刪除時才會使用
-  void deleteNotebooksTags(DeleteNotebookParamsDto params);
+
+
+//  void deleteNotebooksTag(DeleteNotebookTagParamDto param);
+//
+//  //當筆記本刪除時才會使用
+//  void deleteNotebooksTags(DeleteNotebookParamsDto params);
 
 
 }

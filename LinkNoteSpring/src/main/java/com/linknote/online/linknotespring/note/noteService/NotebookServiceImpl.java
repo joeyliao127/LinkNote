@@ -6,7 +6,7 @@ import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteCollaboratorsParamDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookTagParamDto;
-import com.linknote.online.linknotespring.note.notedto.UpdateNotebookNameParamDto;
+import com.linknote.online.linknotespring.note.notedto.UpdateNotebookParamDto;
 import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDto;
 import com.linknote.online.linknotespring.note.noteexception.CollaboratorsAreLimitException;
 import com.linknote.online.linknotespring.note.noteexception.NotebookAlreadyExistsException;
@@ -79,20 +79,15 @@ public class NotebookServiceImpl implements NotebookService {
 
   @Override
   @Transactional
-  public void createNotebook(CreateNotebookParamsDto params, Integer userId) {
-    String checkNotebookName = notebookDao.getNotebookNameByUserId(userId, params.getName());
+  public void createNotebook(CreateNotebookParamsDto params) {
+    String checkNotebookName = notebookDao.getNotebookNameByUserId(params.getUserId(), params.getName());
     log.info("查詢到的notebookName，找到代表已經存在: " + checkNotebookName);
     if(checkNotebookName != null){
       throw new NotebookAlreadyExistsException("NotebookService: 名稱已重複");
     }
-    notebookDao.createNotebook(params, userId);
-    Integer notebookId = notebookDao.getNotebookIdByNotebookName(params.getName(), userId);
-    log.info("先新增notebook，新增後的id: " + notebookId);
-    for(int i=0; i<params.getTags().size(); i++){
-      String tag = params.getTags().get(i);
-      tagService.createNotebookTag(tag, notebookId, userId);
-    }
-
+    notebookDao.createNotebook(params, params.getUserId());
+    Integer notebookId = notebookDao.getNotebookIdByNotebookName(params.getName(), params.getUserId());
+    tagService.createNotebookTag(params.getTags(), notebookId);
     log.info("開始新增筆記本的協作者，先驗證前端傳來的email和eamil對應的id，確認有此user資訊");
     List<Integer> collaboratorList = new ArrayList<>();
     for(int i=0; i<params.getEmails().size(); i++){
@@ -106,14 +101,13 @@ public class NotebookServiceImpl implements NotebookService {
       log.info("驗證email和userId通過，插入email ID");
       collaboratorList.add(emailId);
     }
-    log.info("email id list完成： " + collaboratorList);
-   intermediaryService.createNotebookCollaborators(collaboratorList, notebookId, userId);
+   intermediaryService.createNotebookCollaborators(collaboratorList, notebookId, params.getUserId());
   }
 
   @Override
   public void createNotebookTag(String tag, Integer notebookId, Integer userId) {
     verifyNotebookOwnerByUserId(userId, notebookId, notebookDao);
-    tagService.createNotebookTag(tag, notebookId, userId);
+    tagService.createNotebookTag(tag, notebookId);
   }
   @Override
   public void createCollaborator(CreateCollaboratorParamsDto params) {
@@ -130,9 +124,9 @@ public class NotebookServiceImpl implements NotebookService {
   }
 
   @Override
-  public void updateNotebookName(UpdateNotebookNameParamDto params) {
+  public void updateNotebook(UpdateNotebookParamDto params) {
     verifyNotebookOwnerByUserId(params.getUserId(), params.getNotebookId(), notebookDao);
-    notebookDao.updateNotebookName(params);
+    notebookDao.updateNotebook(params);
   }
 
   @Override
@@ -151,22 +145,15 @@ public class NotebookServiceImpl implements NotebookService {
     }
   }
 
-  @Transactional
   @Override
   public void deleteNotebook(DeleteNotebookParamsDto params) {
-    //1. 刪除共編表notebook = notebookId
-    //2. 刪除notebooks_tags所屬的tag
-    //3. 刪除筆記tag
-    //4. 刪除筆記
-    //5. 刪除notebook
-//    intermediaryService.deleteNotebooksTags(params);
-//    intermediaryService.deleteCollaborators(params);
+    verifyNotebookOwnerByUserId(params.getUserId(), params.getNotebookId(), notebookDao);
     notebookDao.deleteNotebookByNotbookId(params);
   }
 
   @Override
   public void deleteNotebookTag(DeleteNotebookTagParamDto param){
-    intermediaryService.deleteNotebooksTag(param);
+   notebookDao.deleteNotebookTag(param);
   }
 
 }

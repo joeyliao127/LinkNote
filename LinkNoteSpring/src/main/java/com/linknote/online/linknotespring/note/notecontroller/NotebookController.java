@@ -8,14 +8,13 @@ import com.linknote.online.linknotespring.note.notedto.DeleteCollaboratorsParamD
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookTagParamDto;
 import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDto;
-import com.linknote.online.linknotespring.note.notedto.UpdateNotebookNameParamDto;
+import com.linknote.online.linknotespring.note.notedto.UpdateNotebookParamDto;
 import com.linknote.online.linknotespring.note.notepo.response.NotebooksResPO;
 import com.linknote.online.linknotespring.user.userservice.TokenService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import java.util.Map;
-import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -63,14 +62,14 @@ public class NotebookController {
     if(params.getEmails().size() > 4){
       return ResponseEntity.status(400).body(Map.of("result", false, "msg", "collaborators最多四人"));
     }
-    Integer userId = tokenService.parserJWTToken(Authorization).get("userId", Integer.class);
-    notebookService.createNotebook(params, userId);
+    params.setUserId(tokenService.parserJWTToken(Authorization).get("userId", Integer.class));
+    notebookService.createNotebook(params);
     return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("result", true));
   }
 
   //新增notebook tag
   @PostMapping("/api/notebooks/{notebookId}/tags")
-  public ResponseEntity<Object> createTag(
+  public ResponseEntity<Object> createNotebookTag(
       @RequestBody @Valid CreateNotebookTagsParamsDto params,
       @PathVariable Integer notebookId,
       @RequestHeader String Authorization
@@ -96,14 +95,14 @@ public ResponseEntity<Object> createCollaborator(
 
   //更新notebook name
   @PutMapping("/api/notebooks/{notebookId}")
-  public ResponseEntity<Object> updateNotebookName(
+  public ResponseEntity<Object> updateNotebook(
       @PathVariable Integer notebookId,
-      @RequestBody @Valid UpdateNotebookNameParamDto params,
+      @RequestBody @Valid UpdateNotebookParamDto params,
       @RequestHeader String Authorization
   ){
     params.setUserId(tokenService.parserJWTToken(Authorization).get("userId", Integer.class));
     params.setNotebookId(notebookId);
-    notebookService.updateNotebookName(params);
+    notebookService.updateNotebook(params);
     return ResponseEntity.status(200).body(Map.of("result", true));
   }
 

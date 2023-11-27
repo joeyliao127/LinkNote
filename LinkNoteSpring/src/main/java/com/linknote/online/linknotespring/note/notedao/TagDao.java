@@ -1,12 +1,19 @@
 package com.linknote.online.linknotespring.note.notedao;
 
+import com.linknote.online.linknotespring.note.notedto.CreateNoteTagParamDto;
+import com.linknote.online.linknotespring.note.notedto.DeleteNoteParamDto;
+import java.util.List;
+
 public interface TagDao {
+  String verifyTagExist(Integer notebookId, String tag);
 
-  Integer getTagIdByTagNameAndNotebookId(Integer notebookId, String tag);
+  void createNotebookTag(String tag ,Integer notebookId);
 
-  Integer getTagIdByTagName(String tag);
+  void createNotebookTags(List<String> tagList ,Integer notebookId);
 
-  Integer createTag(String tag);
+  void createNoteTag(CreateNoteTagParamDto param);
+
+  void deleteNoteTag(DeleteNoteParamDto param);
 
 
 

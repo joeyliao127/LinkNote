@@ -2,7 +2,7 @@ package com.linknote.online.linknotespring.note.noteService;
 
 import com.linknote.online.linknotespring.note.notedao.IntermediaryDao;
 import com.linknote.online.linknotespring.note.notedto.CreateCollaboratorParamsDto;
-import com.linknote.online.linknotespring.note.notedto.CreateTagParamDto;
+import com.linknote.online.linknotespring.note.notedto.CreateNoteTagParamDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteCollaboratorsParamDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookTagParamDto;
@@ -16,10 +16,6 @@ public class IntermediaryServiceImpl implements  IntermediaryService{
   @Autowired
   IntermediaryDao intermediaryDao;
 
-  @Override
-  public Integer getNoteTagPair(Integer noteId, Integer tagId) {
-    return intermediaryDao.getNoteTagPair(noteId, tagId);
-  }
 
   @Override
   public Boolean verifyCollaboratorsCount(Integer ownerId, Integer notebookId) {
@@ -39,18 +35,6 @@ public class IntermediaryServiceImpl implements  IntermediaryService{
   }
 
   @Override
-  public void createNotTags(CreateTagParamDto param) {
-
-    intermediaryDao.createNotTags(param.getTagId(), param.getNoteId());
-  }
-
-  @Override
-  public void updateNotebookTags(Integer notebookId, Integer tagId) {
-    intermediaryDao.updateNotebookTags(notebookId, tagId);
-  }
-
-
-  @Override
   public void deleteCollaborator(DeleteCollaboratorsParamDto param) {
     intermediaryDao.deleteCollaborator(param);
   }
@@ -60,15 +44,4 @@ public class IntermediaryServiceImpl implements  IntermediaryService{
     intermediaryDao.deleteCollaborators(params);
   }
 
-  @Override
-  public void deleteNotebooksTag(DeleteNotebookTagParamDto param) {
-    intermediaryDao.deleteNotebooksTag(param);
-
-  }
-
-  @Override
-  public void deleteNotebooksTags(DeleteNotebookParamsDto params) {
-    intermediaryDao.deleteNotebooksTags(params);
-
-  }
 }

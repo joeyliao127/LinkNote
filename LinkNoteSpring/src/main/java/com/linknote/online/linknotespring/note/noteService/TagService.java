@@ -1,14 +1,21 @@
 package com.linknote.online.linknotespring.note.noteService;
 
-import com.linknote.online.linknotespring.note.notedto.CreateTagParamDto;
+import com.linknote.online.linknotespring.note.notedto.CreateNoteTagParamDto;
+import com.linknote.online.linknotespring.note.notedto.DeleteNoteParamDto;
 import java.util.List;
 
 public interface TagService {
 
-  //createTag有自動檢查是否有重複的tag，並且插入notebookTag中介表關聯資訊
-  void createNotebookTag(String tagName, Integer notebookId, Integer userId);
+  //單筆新增tag
+  void createNotebookTag(String tagName, Integer notebookId);
 
-  void createNoteTag(CreateTagParamDto params);
+  //批量新增tag，用於建立notebook時。
+  void createNotebookTag(List<String> tagList, Integer notebookId);
+
+  void createNoteTag(CreateNoteTagParamDto params);
+
+  void deleteNoteTag(DeleteNoteParamDto param);
+
 
 
 

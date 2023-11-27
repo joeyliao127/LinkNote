@@ -3,12 +3,14 @@ package com.linknote.online.linknotespring.note.notedto;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import java.util.List;
+import lombok.Data;
 
 @Valid
 public class CreateNotebookParamsDto {
   @NotBlank
   private String name;
 
+  private Integer userId;
   private List<String> tags;
   private String description;
 
@@ -35,6 +37,13 @@ public class CreateNotebookParamsDto {
   }
 
 
+  public Integer getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Integer userId) {
+    this.userId = userId;
+  }
 
   public String getName() {
     return name;

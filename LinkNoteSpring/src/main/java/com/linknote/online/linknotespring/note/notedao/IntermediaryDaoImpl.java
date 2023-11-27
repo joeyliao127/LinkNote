@@ -42,7 +42,7 @@ public class IntermediaryDaoImpl implements IntermediaryDao {
 
   @Override
   public Integer getCollaboratorsCount(Integer ownerId, Integer notebookId) {
-    String sql = "SELECT COUNT(*) as count FROM notebookCollaborators"
+    String sql = "SELECT COUNT(*) as count FROM collaborators"
         + " WHERE owner = :ownerId AND notebookId = :notebookId";
     Map<String, Object> map = new HashMap<>();
     System.out.println("ownerId: " + ownerId);
@@ -69,7 +69,7 @@ public class IntermediaryDaoImpl implements IntermediaryDao {
 
   @Override
   public void createNotebookCollaborators(List<Integer> collaboratorList, Integer notebookId, Integer ownerId) {
-    String sql = "INSERT INTO notebookCollaborators (userId, notebookId, owner) VALUES (:userId, :notebookId, :ownerId)";
+    String sql = "INSERT INTO collaborators (userId, notebookId, owner) VALUES (:userId, :notebookId, :ownerId)";
     MapSqlParameterSource[] parameterSources = new MapSqlParameterSource[collaboratorList.size()];
     for(int i=0; i<collaboratorList.size(); i++){
       parameterSources[i] = new MapSqlParameterSource();
@@ -82,7 +82,7 @@ public class IntermediaryDaoImpl implements IntermediaryDao {
 
   @Override
   public void createCollaborator(CreateCollaboratorParamsDto params) {
-    String sql = "INSERT INTO notebookCollaborators (owner, notebookId, userId) VALUES (:ownerId, :notebookId, :userId)";
+    String sql = "INSERT INTO collaborators (owner, notebookId, userId) VALUES (:ownerId, :notebookId, :userId)";
     Map<String, Object> map = new HashMap<>();
     map.put("ownerId", params.getUserId());
     map.put("notebookId", params.getNotebookId());
@@ -102,7 +102,10 @@ public class IntermediaryDaoImpl implements IntermediaryDao {
 
   @Override
   public void deleteCollaborator(DeleteCollaboratorsParamDto params) {
-    String sql = "DELETE FROM notebookCollaborators WHERE userId = :userId AND notebookId = :notebookId AND owner = :ownerId";
+    String sql = "DELETE FROM collaborators "
+        + "WHERE userId = :userId "
+        + "AND notebookId = :notebookId "
+        + "AND owner = :ownerId";
     Map<String, Object> map = new HashMap<>();
     map.put("userId", params.getCollaboratorId());
     map.put("notebookId", params.getNotebookId());
@@ -112,7 +115,7 @@ public class IntermediaryDaoImpl implements IntermediaryDao {
 
   @Override
   public void deleteCollaborators(DeleteNotebookParamsDto params) {
-    String sql = "DELETE FROM notebookCollaborators WHERE notebookId = :notebookId";
+    String sql = "DELETE FROM collaborators WHERE notebookId = :notebookId";
     Map<String, Object> map = new HashMap<>();
     map.put("notebookId", params.getNotebookId());
     namedParameterJdbcTemplate.update(sql, map);

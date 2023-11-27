@@ -1,7 +1,9 @@
 package com.linknote.online.linknotespring.note.notedao;
 
 import com.linknote.online.linknotespring.note.notedto.CreateNoteParamsDto;
+import com.linknote.online.linknotespring.note.notedto.DeleteNoteParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteParamsDto;
+import com.linknote.online.linknotespring.note.notedto.UpdateNoteStarParamDto;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -18,19 +20,16 @@ public class NoteDaoImpl implements NoteDao{
   NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
   @Override
-  public Integer createNote(CreateNoteParamsDto params, Integer notebookId) {
+  public void createNote(CreateNoteParamsDto params, Integer notebookId) {
     String sql = "INSERT INTO notes (name, notebookId) VALUES (:noteName, :notebookId)";
     Map<String, Object> map = new HashMap<>();
     map.put("noteName", params.getNoteName());
     map.put("notebookId", notebookId);
-    KeyHolder keyHolder = new GeneratedKeyHolder();
-    namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource(map), keyHolder);
-
-    return Objects.requireNonNull(keyHolder.getKey()).intValue();
+    namedParameterJdbcTemplate.update(sql,map);
   }
 
   @Override
-  public Integer updateNote(UpdateNoteParamsDto params) {
+  public void updateNote(UpdateNoteParamsDto params) {
     Map<String , Object> map = new HashMap<>();
     String sql = "UPDATE notes SET ";
 
@@ -70,6 +69,24 @@ public class NoteDaoImpl implements NoteDao{
 
     sql += "Where notebookId = :notebookId";
     map.put("notebookId", params.getNotebookId());
-    return namedParameterJdbcTemplate.update(sql, map);
+    namedParameterJdbcTemplate.update(sql, map);
+  }
+
+  @Override
+  public void updateNoteStar(UpdateNoteStarParamDto params) {
+    String sql = "UPDATE notes SET star = :star WHERE notebookId = :notebookId AND id = :noteId";
+    Map<String, Object> map = new HashMap<>();
+    map.put("notebookId", params.getNotebookId());
+    map.put("noteId", params.getNoteId());
+    namedParameterJdbcTemplate.update(sql, map);
+  }
+
+  @Override
+  public void deleteNote(DeleteNoteParamDto param) {
+    String sql = "DELETE FROM notes WHERE id = :noteId AND notebookId = :notebookId";
+    Map<String, Object> map = new HashMap<>();
+    map.put("noteId", param.getNoteId());
+    map.put("notebookId", param.getNotebookId());
+    namedParameterJdbcTemplate.update(sql, map);
   }
 }

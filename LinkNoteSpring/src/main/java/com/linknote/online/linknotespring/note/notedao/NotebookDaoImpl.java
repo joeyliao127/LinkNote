@@ -1,7 +1,8 @@
 package com.linknote.online.linknotespring.note.notedao;
 import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookParamsDto;
-import com.linknote.online.linknotespring.note.notedto.UpdateNotebookNameParamDto;
+import com.linknote.online.linknotespring.note.notedto.DeleteNotebookTagParamDto;
+import com.linknote.online.linknotespring.note.notedto.UpdateNotebookParamDto;
 import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDto;
 import com.linknote.online.linknotespring.note.notepo.po.NotebooksPO;
 import com.linknote.online.linknotespring.note.notepo.po.TagPO;
@@ -17,7 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -125,12 +125,21 @@ public class NotebookDaoImpl implements NotebookDao {
   }
 
   @Override
-  public void updateNotebookName(UpdateNotebookNameParamDto params) {
-    String sql = "UPDATE notebooks SET name=:name WHERE id=:notebookId AND userId=:userId";
+  public void updateNotebook(UpdateNotebookParamDto params) {
+    String sql = "UPDATE notebooks SET";
     Map<String, Object> map = new HashMap<>();
-    map.put("name", params.getName());
     map.put("notebookId", params.getNotebookId());
     map.put("userId", params.getUserId());
+    if(!params.getName().isEmpty() && !params.getDescription().isEmpty()){
+      sql += "  name=:name, description = :description";
+    }else if(!params.getName().isEmpty()){
+      sql += " name = :name";
+      map.put("description", params.getDescription());
+    } else if(!params.getDescription().isEmpty()){
+      sql += " description = :description";
+      map.put("description", params.getDescription());
+    }
+    sql += " WHERE id=:notebookId AND userId=:userId";
     namedParameterJdbcTemplate.update(sql, map);
   }
 
@@ -142,11 +151,20 @@ public class NotebookDaoImpl implements NotebookDao {
 
   @Override
   public void deleteNotebookByNotbookId(DeleteNotebookParamsDto params) {
-    String sql ="DELETE notebooks FROM notebooks WHERE id = :notebookId";
+    String sql ="DELETE notebooks FROM notebooks "
+        + "WHERE id = :notebookId AND userId = :userId";
     Map<String, Object> map = new HashMap<>();
     map.put("notebookId", params.getNotebookId());
+    map.put("userId", params.getUserId());
     namedParameterJdbcTemplate.update(sql, map);
   }
 
-
+  @Override
+  public void deleteNotebookTag(DeleteNotebookTagParamDto param) {
+    String sql = "DELETE FROM tags WHERE notebookId = :notebookId AND tag = :tag";
+    Map<String, Object> map = new HashMap<>();
+    map.put("notebookId", param.getNotebookId());
+    map.put("tag", param.getTag());
+    namedParameterJdbcTemplate.update(sql, map);
+  }
 }

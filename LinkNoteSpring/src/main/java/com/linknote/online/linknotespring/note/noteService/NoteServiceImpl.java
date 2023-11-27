@@ -3,9 +3,10 @@ package com.linknote.online.linknotespring.note.noteService;
 import com.linknote.online.linknotespring.note.notedao.NoteDao;
 import com.linknote.online.linknotespring.note.notedao.IntermediaryDao;
 import com.linknote.online.linknotespring.note.notedto.CreateNoteParamsDto;
+import com.linknote.online.linknotespring.note.notedto.CreateNoteTagParamDto;
+import com.linknote.online.linknotespring.note.notedto.DeleteNoteParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteParamsDto;
-import java.util.ArrayList;
-import java.util.List;
+import com.linknote.online.linknotespring.note.notedto.UpdateNoteStarParamDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,14 +23,32 @@ public class NoteServiceImpl implements NoteService{
   IntermediaryDao intermediaryDao;
 
   @Override
-  public Integer createNote(CreateNoteParamsDto params, Integer notebookId) {
-    return noteDao.createNote(params, notebookId);
+  public void createNote(CreateNoteParamsDto params, Integer notebookId) {
+    noteDao.createNote(params, notebookId);
   }
 
   @Override
-  public Boolean updateNote(UpdateNoteParamsDto params) {
-    Integer result = noteDao.updateNote(params);
-    return result == 1;
+  public void createNoteTag(CreateNoteTagParamDto params) {
+    tagService.createNoteTag(params);
+  }
 
+  @Override
+  public void updateNote(UpdateNoteParamsDto params) {
+    noteDao.updateNote(params);
+  }
+
+  @Override
+  public void updateNoteStar(UpdateNoteStarParamDto params) {
+    noteDao.updateNoteStar(params);
+  }
+
+  @Override
+  public void deleteNote(DeleteNoteParamDto param) {
+    noteDao.deleteNote(param);
+  }
+
+  @Override
+  public void deleteNoteTag(DeleteNoteParamDto params) {
+    tagService.deleteNoteTag(params);
   }
 }
