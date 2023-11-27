@@ -6,7 +6,9 @@ import com.linknote.online.linknotespring.note.notedto.UpdateNoteParamsDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteStarParamDto;
 
 public interface NoteDao {
-  void createNote(CreateNoteParamsDto params, Integer notebookId);
+
+  Integer getNoteIdByNameForVerifyNameExist(String name, Integer notebookId);
+  void createNote(CreateNoteParamsDto params);
 
   void updateNote(UpdateNoteParamsDto params);
 

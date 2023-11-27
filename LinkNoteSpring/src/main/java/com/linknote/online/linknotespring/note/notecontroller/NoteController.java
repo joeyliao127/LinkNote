@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -34,7 +35,8 @@ public class NoteController {
       @RequestBody @Valid CreateNoteParamsDto params,
       @PathVariable Integer notebookId
       ){
-    noteService.createNote(params, notebookId);
+    params.setNotebookId(notebookId);
+    noteService.createNote(params);
       return ResponseEntity.status(201).body(Map.of("result", true));
   }
 
@@ -89,11 +91,11 @@ public class NoteController {
 
   @DeleteMapping("/api/notebooks/{notebookId}/notes/{noteId}")
   public ResponseEntity<Object> deleteNote(
-      @RequestBody DeleteNoteParamDto params,
       @RequestHeader String Authorization,
       @PathVariable Integer notebookId,
       @PathVariable Integer noteId
   ){
+    DeleteNoteParamDto params = new DeleteNoteParamDto();
     Integer userId = tokenService.parserJWTToken(Authorization).get("userId", Integer.class);
     params.setUserId(userId);
     params.setNoteId(noteId);
@@ -107,13 +109,15 @@ public class NoteController {
   public ResponseEntity<Object> deleteNoteTag(
       @PathVariable Integer notebookId,
       @PathVariable Integer noteId,
-      @RequestBody DeleteNoteParamDto params,
+      @RequestParam String tagName,
       @RequestHeader String Authorization
   ){
+    DeleteNoteParamDto params = new DeleteNoteParamDto();
     Integer userId = tokenService.parserJWTToken(Authorization).get("userId", Integer.class);
     params.setUserId(userId);
     params.setNotebookId(notebookId);
     params.setNoteId(noteId);
+    params.setTagName(tagName);
     noteService.deleteNoteTag(params);
     return ResponseEntity.status(200).body(Map.of("result", true));
 

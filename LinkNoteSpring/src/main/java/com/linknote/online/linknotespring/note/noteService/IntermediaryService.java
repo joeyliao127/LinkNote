@@ -20,16 +20,5 @@ public interface IntermediaryService {
 
   void deleteCollaborators(DeleteNotebookParamsDto params);
 
-//  void createNotTags(CreateTagParamDto param);
-//
-//  void updateNotebookTags(Integer notebookId, Integer tagId);
-
-
-
-//  void deleteNotebooksTag(DeleteNotebookTagParamDto param);
-//
-//  //當筆記本刪除時才會使用
-//  void deleteNotebooksTags(DeleteNotebookParamsDto params);
-
 
 }

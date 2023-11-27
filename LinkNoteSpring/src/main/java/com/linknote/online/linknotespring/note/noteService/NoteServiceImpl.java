@@ -7,6 +7,7 @@ import com.linknote.online.linknotespring.note.notedto.CreateNoteTagParamDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNoteParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteParamsDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteStarParamDto;
+import com.linknote.online.linknotespring.note.noteexception.NoteAlreadyExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +20,15 @@ public class NoteServiceImpl implements NoteService{
   @Autowired
   TagService tagService;
 
-  @Autowired
-  IntermediaryDao intermediaryDao;
+
 
   @Override
-  public void createNote(CreateNoteParamsDto params, Integer notebookId) {
-    noteDao.createNote(params, notebookId);
+  public void createNote(CreateNoteParamsDto params) {
+    Integer result = noteDao.getNoteIdByNameForVerifyNameExist(params.getNoteName(), params.getNotebookId());
+    if(result != null){
+      throw new NoteAlreadyExistException("NoteService: note name already exist ");
+    }
+    noteDao.createNote(params);
   }
 
   @Override

@@ -16,16 +16,7 @@ public class UpdateNoteParamsDto {
   private String content;
   private String keypoint;
   private Boolean sharedPermission;
-  private Boolean star;
-  List<Integer> tags;
 
-  public List<Integer> getTags() {
-    return tags;
-  }
-
-  public void setTags(List<Integer> tags) {
-    this.tags = tags;
-  }
 
   public Boolean getSharedPermission() {
     return sharedPermission;
@@ -34,15 +25,6 @@ public class UpdateNoteParamsDto {
   public void setSharedPermission(Boolean sharedPermission) {
     this.sharedPermission = sharedPermission;
   }
-
-  public Boolean getStar() {
-    return star;
-  }
-
-  public void setStar(Boolean star) {
-    this.star = star;
-  }
-
 
   public Integer getUserId() {
     return userId;
@@ -106,16 +88,4 @@ public class UpdateNoteParamsDto {
   public void setSharedPermission(boolean sharedPermission) {
     this.sharedPermission = sharedPermission;
   }
-
-  public boolean isStar() {
-    return star;
-  }
-
-  public void setStar(boolean star) {
-    this.star = star;
-  }
-
-
-
-
 }

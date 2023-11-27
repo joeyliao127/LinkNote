@@ -40,6 +40,12 @@ public class NoteExceptionHandler {
     log.warn(e.getMessage());
     return ResponseEntity.status(400).body(Map.of("result", false,"msg", "Tag not found"));
   }
+  @ExceptionHandler(NoteAlreadyExistException.class)
+  public ResponseEntity<Object> noteAlreadyExistException(NoteAlreadyExistException e){
+    log.warn("NoteExceptionHandler: NoteAlreadyExistException");
+    log.warn(e.getMessage());
+    return ResponseEntity.status(400).body(Map.of("result", false,"msg", "Note already exist."));
+  }
 
 
 

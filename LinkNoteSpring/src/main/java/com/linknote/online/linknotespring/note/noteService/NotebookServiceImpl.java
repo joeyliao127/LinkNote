@@ -139,6 +139,7 @@ public class NotebookServiceImpl implements NotebookService {
   //只有insert的service才需要驗證筆記本的owner
   @Override
   public void verifyNotebookOwnerByUserId(Integer userId, Integer notebookId, NotebookDao notebookDao ){
+    log.warn("筆記：" + notebookId + " 不屬於userId: " + userId);
     Integer result = notebookDao.verifyNotebookOwnerByUserId(userId, notebookId);
     if(result == null){
       throw new NotebookIdAndUserIdNotMatchException("Notebook Service: 筆記本不署於此userId");
@@ -147,7 +148,6 @@ public class NotebookServiceImpl implements NotebookService {
 
   @Override
   public void deleteNotebook(DeleteNotebookParamsDto params) {
-    verifyNotebookOwnerByUserId(params.getUserId(), params.getNotebookId(), notebookDao);
     notebookDao.deleteNotebookByNotbookId(params);
   }
 

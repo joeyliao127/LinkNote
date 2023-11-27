@@ -80,7 +80,7 @@ public class NotebookController {
   }
 
   //新增協作者
-@PostMapping("/api/notebooks/{notebookId}/collaborator")
+@PostMapping("/api/notebooks/{notebookId}/collaborators")
 public ResponseEntity<Object> createCollaborator(
     @PathVariable Integer notebookId,
     @RequestHeader String Authorization,
@@ -106,22 +106,6 @@ public ResponseEntity<Object> createCollaborator(
     return ResponseEntity.status(200).body(Map.of("result", true));
   }
 
-  //刪除共編
-  @DeleteMapping("/api/notebooks/{notebookId}/collaborators/{collaboratorId}")
-  public ResponseEntity<Object> deleteCollaborators(
-      @PathVariable Integer notebookId,
-      @PathVariable Integer collaboratorId,
-      @RequestHeader String Authorization
-      ){
-
-    Integer userId = tokenService.parserJWTToken(Authorization).get("userId", Integer.class);
-    DeleteCollaboratorsParamDto params = new DeleteCollaboratorsParamDto();
-    params.setCollaboratorId(collaboratorId);
-    params.setUserId(userId);
-    params.setNotebookId(notebookId);
-    notebookService.deleteCollaborators(params);
-    return ResponseEntity.status(200).body(Map.of("result", true));
-  }
 
   @DeleteMapping("/api/notebooks/{notebookId}")
   public ResponseEntity<Object> deleteNotebook(
@@ -148,6 +132,23 @@ public ResponseEntity<Object> createCollaborator(
     param.setNotebookId(notebookId);
     param.setUserId(userId);
     notebookService.deleteNotebookTag(param);
+    return ResponseEntity.status(200).body(Map.of("result", true));
+  }
+
+  //刪除共編
+  @DeleteMapping("/api/notebooks/{notebookId}/collaborators/{collaboratorId}")
+  public ResponseEntity<Object> deleteCollaborators(
+      @PathVariable Integer notebookId,
+      @PathVariable Integer collaboratorId,
+      @RequestHeader String Authorization
+  ){
+
+    Integer userId = tokenService.parserJWTToken(Authorization).get("userId", Integer.class);
+    DeleteCollaboratorsParamDto params = new DeleteCollaboratorsParamDto();
+    params.setCollaboratorId(collaboratorId);
+    params.setUserId(userId);
+    params.setNotebookId(notebookId);
+    notebookService.deleteCollaborators(params);
     return ResponseEntity.status(200).body(Map.of("result", true));
   }
 }

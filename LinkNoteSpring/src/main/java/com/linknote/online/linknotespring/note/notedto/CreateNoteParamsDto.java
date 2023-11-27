@@ -7,6 +7,16 @@ public class CreateNoteParamsDto {
   @NotBlank
   private String noteName;
 
+  private Integer notebookId;
+
+  public Integer getNotebookId() {
+    return notebookId;
+  }
+
+  public void setNotebookId(Integer notebookId) {
+    this.notebookId = notebookId;
+  }
+
   public String getNoteName() {
     return noteName;
   }

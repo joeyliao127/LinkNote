@@ -5,14 +5,14 @@ public class DeleteNoteParamDto {
   private Integer noteId;
   private Integer notebookId;
 
-  private String tag;
+  private String tagName;
 
-  public String getTag() {
-    return tag;
+  public String getTagName() {
+    return tagName;
   }
 
-  public void setTag(String tag) {
-    this.tag = tag;
+  public void setTagName(String tagName) {
+    this.tagName = tagName;
   }
 
   public Integer getUserId() {

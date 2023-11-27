@@ -132,9 +132,11 @@ public class NotebookDaoImpl implements NotebookDao {
     map.put("userId", params.getUserId());
     if(!params.getName().isEmpty() && !params.getDescription().isEmpty()){
       sql += "  name=:name, description = :description";
+      map.put("description", params.getDescription());
+      map.put("name", params.getName());
     }else if(!params.getName().isEmpty()){
       sql += " name = :name";
-      map.put("description", params.getDescription());
+      map.put("name", params.getName());
     } else if(!params.getDescription().isEmpty()){
       sql += " description = :description";
       map.put("description", params.getDescription());

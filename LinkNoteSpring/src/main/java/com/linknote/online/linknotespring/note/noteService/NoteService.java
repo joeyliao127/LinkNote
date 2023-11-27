@@ -7,7 +7,8 @@ import com.linknote.online.linknotespring.note.notedto.UpdateNoteParamsDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteStarParamDto;
 
 public interface NoteService {
-    void createNote(CreateNoteParamsDto params, Integer notebookId);
+
+    void createNote(CreateNoteParamsDto params);
 
     void createNoteTag(CreateNoteTagParamDto params);
 

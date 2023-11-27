@@ -57,7 +57,7 @@ public class TagDaoImpl implements TagDao{
     for(int i=0; i< tagList.size(); i++){
       parameterSources[i] = new MapSqlParameterSource();
       parameterSources[i].addValue("tag", tagList.get(i));
-      parameterSources[i].addValue("notebooktId", notebookId);
+      parameterSources[i].addValue("notebookId", notebookId);
     };
     namedParameterJdbcTemplate.batchUpdate(sql, parameterSources);
   }
@@ -80,7 +80,7 @@ public class TagDaoImpl implements TagDao{
     Map<String, Object> map = new HashMap<>();
     map.put("noteId", param.getNoteId());
     map.put("notebookId", param.getNotebookId());
-    map.put("tag", param.getTag());
+    map.put("tag", param.getTagName());
     namedParameterJdbcTemplate.update(sql, map);
   }
 }
