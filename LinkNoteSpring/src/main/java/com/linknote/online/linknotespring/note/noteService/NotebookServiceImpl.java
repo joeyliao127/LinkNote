@@ -148,7 +148,7 @@ public class NotebookServiceImpl implements NotebookService {
 
   @Override
   public void deleteNotebook(DeleteNotebookParamsDto params) {
-    notebookDao.deleteNotebookByNotbookId(params);
+    notebookDao.deleteNotebookByNotebookId(params);
   }
 
   @Override

@@ -152,7 +152,7 @@ public class NotebookDaoImpl implements NotebookDao {
   }
 
   @Override
-  public void deleteNotebookByNotbookId(DeleteNotebookParamsDto params) {
+  public void deleteNotebookByNotebookId(DeleteNotebookParamsDto params) {
     String sql ="DELETE notebooks FROM notebooks "
         + "WHERE id = :notebookId AND userId = :userId";
     Map<String, Object> map = new HashMap<>();

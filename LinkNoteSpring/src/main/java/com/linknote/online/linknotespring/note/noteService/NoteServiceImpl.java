@@ -6,6 +6,7 @@ import com.linknote.online.linknotespring.note.notedto.CreateNoteParamsDto;
 import com.linknote.online.linknotespring.note.notedto.CreateNoteTagParamDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNoteParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteParamsDto;
+import com.linknote.online.linknotespring.note.notedto.UpdateNoteSharedParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteStarParamDto;
 import com.linknote.online.linknotespring.note.noteexception.NoteAlreadyExistException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,11 @@ public class NoteServiceImpl implements NoteService{
   @Override
   public void updateNoteStar(UpdateNoteStarParamDto params) {
     noteDao.updateNoteStar(params);
+  }
+
+  @Override
+  public void updateNoteShared(UpdateNoteSharedParamDto param) {
+    noteDao.updateNoteShared(param);
   }
 
   @Override

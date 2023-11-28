@@ -3,6 +3,7 @@ package com.linknote.online.linknotespring.note.notedao;
 import com.linknote.online.linknotespring.note.notedto.CreateNoteParamsDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNoteParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteParamsDto;
+import com.linknote.online.linknotespring.note.notedto.UpdateNoteSharedParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteStarParamDto;
 
 public interface NoteDao {
@@ -13,6 +14,8 @@ public interface NoteDao {
   void updateNote(UpdateNoteParamsDto params);
 
   void updateNoteStar(UpdateNoteStarParamDto params);
+
+  void updateNoteShared(UpdateNoteSharedParamDto params);
 
   void deleteNote(DeleteNoteParamDto param);
 }

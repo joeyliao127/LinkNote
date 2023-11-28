@@ -30,7 +30,7 @@ public interface NotebookDao {
 
   void updateNoteTags(Integer noteId, Integer tagId);
 
-  void deleteNotebookByNotbookId(DeleteNotebookParamsDto params);
+  void deleteNotebookByNotebookId(DeleteNotebookParamsDto params);
 
   void deleteNotebookTag(DeleteNotebookTagParamDto param);
 

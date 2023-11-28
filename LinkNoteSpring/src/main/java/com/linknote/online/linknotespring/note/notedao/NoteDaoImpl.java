@@ -3,6 +3,7 @@ package com.linknote.online.linknotespring.note.notedao;
 import com.linknote.online.linknotespring.note.notedto.CreateNoteParamsDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNoteParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteParamsDto;
+import com.linknote.online.linknotespring.note.notedto.UpdateNoteSharedParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteStarParamDto;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -77,11 +78,6 @@ public class NoteDaoImpl implements NoteDao{
       sql += "keypoint = ' ', ";
     }
 
-    if(params.getSharedPermission() != null){
-     sql += "sharedPermission = :sharedPermission, ";
-      map.put("sharedPermission", params.getSharedPermission());
-    }
-
     sql += "Where notebookId = :notebookId";
     map.put("notebookId", params.getNotebookId());
     namedParameterJdbcTemplate.update(sql, map);
@@ -94,6 +90,16 @@ public class NoteDaoImpl implements NoteDao{
     map.put("notebookId", params.getNotebookId());
     map.put("noteId", params.getNoteId());
     map.put("star", params.isStar());
+    namedParameterJdbcTemplate.update(sql, map);
+  }
+
+  @Override
+  public void updateNoteShared(UpdateNoteSharedParamDto params) {
+    String sql = "UPDATE notes SET sharedPermission = :star WHERE notebookId = :notebookId AND id = :noteId";
+    Map<String, Object> map = new HashMap<>();
+    map.put("notebookId", params.getNotebookId());
+    map.put("noteId", params.getNoteId());
+    map.put("star", params.isShared());
     namedParameterJdbcTemplate.update(sql, map);
   }
 

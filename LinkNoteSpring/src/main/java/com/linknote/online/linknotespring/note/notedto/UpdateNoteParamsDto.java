@@ -9,22 +9,10 @@ public class UpdateNoteParamsDto {
   private Integer notebookId;
   private Integer noteId;
   private Integer userId;
-
   private String name;
-
   private String question;
   private String content;
   private String keypoint;
-  private Boolean sharedPermission;
-
-
-  public Boolean getSharedPermission() {
-    return sharedPermission;
-  }
-
-  public void setSharedPermission(Boolean sharedPermission) {
-    this.sharedPermission = sharedPermission;
-  }
 
   public Integer getUserId() {
     return userId;
@@ -81,11 +69,4 @@ public class UpdateNoteParamsDto {
     this.keypoint = keypoint;
   }
 
-  public boolean isSharedPermission() {
-    return sharedPermission;
-  }
-
-  public void setSharedPermission(boolean sharedPermission) {
-    this.sharedPermission = sharedPermission;
-  }
 }
