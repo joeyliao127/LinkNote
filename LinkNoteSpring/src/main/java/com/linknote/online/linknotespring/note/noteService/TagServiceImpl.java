@@ -35,10 +35,24 @@ public class TagServiceImpl implements TagService{
 
   @Override
   public void createNoteTag(CreateNoteTagParamDto params) {
-    if(tagDao.verifyTagExist(params.getNotebookId(), params.getTag()) == null){
-      throw new TagNotFoundException("在"+ params.getNotebookId()+"筆記本中找不到" + params.getTag());
+    List<String> existTag = new ArrayList<>();
+    List<String> notExistTag = new ArrayList<>();
+    for(String tag : params.getTag()){
+      if(tagDao.verifyTagExist(params.getNotebookId(), tag) == null){
+        notExistTag.add(tag);
+      }else {
+        existTag.add(tag);
+      }
     }
+    params.setTag(existTag);
     tagDao.createNoteTag(params);
+    if(!notExistTag.isEmpty()){
+      String tagList = "";
+      for(String tag : notExistTag){
+        tagList += tag + ", ";
+      }
+      throw new TagNotFoundException("在"+ params.getNotebookId()+"筆記本中找不到" + tagList);
+    }
   }
 
   @Override

@@ -41,8 +41,8 @@ public class NoteController {
   }
 
   //新建note的tag
-  @PostMapping("/api/notebooks/{notebookId}/notes/{noteId}/tags")
-  public ResponseEntity<Object> createNoteTag(
+  @PutMapping("/api/notebooks/{notebookId}/notes/{noteId}/tags")
+  public ResponseEntity<Object> updateNoteTag(
       @PathVariable Integer notebookId,
       @PathVariable Integer noteId,
       @RequestBody CreateNoteTagParamDto params,

@@ -1,7 +1,9 @@
 package com.linknote.online.linknotespring.note.notedto;
 
+import java.util.List;
+
 public class CreateNoteTagParamDto {
-  private String tag;
+  private List<String> tag;
   private Integer userId;
   private Integer notebookId;
   private Integer noteId;
@@ -14,11 +16,11 @@ public class CreateNoteTagParamDto {
     this.noteId = noteId;
   }
 
-  public String getTag() {
+  public List<String> getTag() {
     return tag;
   }
 
-  public void setTag(String tag) {
+  public void setTag(List<String> tag) {
     this.tag = tag;
   }
 

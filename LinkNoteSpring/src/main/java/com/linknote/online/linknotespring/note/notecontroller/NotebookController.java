@@ -100,6 +100,10 @@ public ResponseEntity<Object> createCollaborator(
       @RequestBody @Valid UpdateNotebookParamDto params,
       @RequestHeader String Authorization
   ){
+    //檢查使用者是否沒有傳遞任何參數，如果是就不更新內容
+    if(params.getName().isEmpty() && params.getDescription().isEmpty()){
+      return ResponseEntity.status(200).body(Map.of("result", true));
+    }
     params.setUserId(tokenService.parserJWTToken(Authorization).get("userId", Integer.class));
     params.setNotebookId(notebookId);
     notebookService.updateNotebook(params);

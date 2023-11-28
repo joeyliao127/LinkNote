@@ -3,6 +3,7 @@ package com.linknote.online.linknotespring.note.notedao;
 import com.linknote.online.linknotespring.note.notedto.CreateNoteTagParamDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNoteParamDto;
 import com.linknote.online.linknotespring.note.noterowmapper.TagRowMapper;
+import io.jsonwebtoken.lang.Maps;
 import io.swagger.v3.oas.models.security.SecurityScheme.In;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -66,11 +67,15 @@ public class TagDaoImpl implements TagDao{
   public void createNoteTag(CreateNoteTagParamDto param) {
     String sql = "UPDATE tags SET noteId = :noteId "
         + "WHERE notebookId = :notebookId AND name = :tag";
-    Map<String, Object> map = new HashMap<>();
-    map.put("noteId", param.getNoteId());
-    map.put("notebookId", param.getNotebookId());
-    map.put("tag", param.getTag());
-    namedParameterJdbcTemplate.update(sql, map);
+
+    MapSqlParameterSource[] parameterSources = new MapSqlParameterSource[param.getTag().size()];
+    for(int i=0; i < param.getTag().size(); i++){
+      MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+      parameterSources[i] = parameterSource.addValue("noteId", param.getNoteId());
+      parameterSources[i] = parameterSource.addValue("notebookId", param.getNotebookId());
+      parameterSources[i] = parameterSource.addValue("tag", param.getTag().get(i));
+    }
+    namedParameterJdbcTemplate.batchUpdate(sql, parameterSources);
   }
 
   @Override
