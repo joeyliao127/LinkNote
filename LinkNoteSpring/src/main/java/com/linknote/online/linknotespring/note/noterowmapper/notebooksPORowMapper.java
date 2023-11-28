@@ -13,6 +13,7 @@ public class notebooksPORowMapper implements RowMapper<NotebooksPO> {
     notebooksPO.setName(rs.getString("notebookName"));
     notebooksPO.setNotebookId(rs.getInt("notebookId"));
     notebooksPO.setSelected(rs.getBoolean("selected"));
+    notebooksPO.setDescription(rs.getString("description"));
     return notebooksPO;
   }
 }

@@ -2,9 +2,12 @@ package com.linknote.online.linknotespring.note.notepo.response;
 
 import com.linknote.online.linknotespring.note.notepo.po.NotebooksPO;
 import java.util.List;
-import java.util.Map;
+
 
 public class NotebooksResPO {
+  private Boolean result;
+  private List<NotebooksPO> notebooks;
+  private Boolean nextPage;
 
   public Boolean getResult() {
     return result;
@@ -23,36 +26,11 @@ public class NotebooksResPO {
     this.notebooks = notebooks;
   }
 
-  public List<NotebooksPO> getCoNotebooks() {
-    return coNotebooks;
+  public Boolean getNextPage() {
+    return nextPage;
   }
 
-  public void setCoNotebooks(
-      List<NotebooksPO> coNotebooks) {
-    this.coNotebooks = coNotebooks;
+  public void setNextPage(Boolean nextPage) {
+    this.nextPage = nextPage;
   }
-
-  public Boolean getNotebookNextPage() {
-    return isNotebookNextPage;
-  }
-
-  public void setNotebookNextPage(Boolean notebookNextPage) {
-    isNotebookNextPage = notebookNextPage;
-  }
-
-  public Boolean getCoNotebookNextPage() {
-    return isCoNotebookNextPage;
-  }
-
-  public void setCoNotebookNextPage(Boolean coNotebookNextPage) {
-    isCoNotebookNextPage = coNotebookNextPage;
-  }
-
-  private Boolean result;
-  private List<NotebooksPO> notebooks;
-  private List<NotebooksPO> coNotebooks;
-  private Boolean isNotebookNextPage;
-  private Boolean isCoNotebookNextPage;
-
-
 }

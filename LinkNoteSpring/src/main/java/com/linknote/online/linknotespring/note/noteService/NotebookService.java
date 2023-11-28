@@ -7,12 +7,12 @@ import com.linknote.online.linknotespring.note.notedto.DeleteCollaboratorsParamD
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookTagParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNotebookParamDto;
-import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDto;
+import com.linknote.online.linknotespring.note.notedto.GetNotebooksParamsDto;
 import com.linknote.online.linknotespring.note.notepo.response.NotebooksResPO;
 
 public interface NotebookService {
 
-  NotebooksResPO getNotebooks(QueryNotebooksParamsDto params);
+  NotebooksResPO getNotebooks(GetNotebooksParamsDto params);
 
   void createNotebook(CreateNotebookParamsDto params);
   void createNotebookTag(String tag, Integer notebookId, Integer userId);

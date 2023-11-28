@@ -7,7 +7,7 @@ import com.linknote.online.linknotespring.note.notedto.CreateNotebookTagsParamsD
 import com.linknote.online.linknotespring.note.notedto.DeleteCollaboratorsParamDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookTagParamDto;
-import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDto;
+import com.linknote.online.linknotespring.note.notedto.GetNotebooksParamsDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNotebookParamDto;
 import com.linknote.online.linknotespring.note.notepo.response.NotebooksResPO;
 import com.linknote.online.linknotespring.user.userservice.TokenService;
@@ -43,13 +43,17 @@ public class NotebookController {
   public ResponseEntity<NotebooksResPO> getNotebooks(
       @RequestHeader String Authorization,
       @RequestParam(defaultValue = "0") @Min(0) Integer offset,
-      @RequestParam(defaultValue = "0") @Max(20) @Min(0) Integer limit
+      @RequestParam(defaultValue = "0") @Max(20) @Min(0) Integer limit,
+      @RequestParam(defaultValue = "null") String keyword,
+      @RequestParam Boolean coNotebook
       ){
     Integer userId = tokenService.parserJWTToken(Authorization).get("userId", Integer.class);
-    QueryNotebooksParamsDto params = new QueryNotebooksParamsDto();
+    GetNotebooksParamsDto params = new GetNotebooksParamsDto();
     params.setLimit(limit);
     params.setOffset(offset);
     params.setUserId(userId);
+    params.setKeyword(keyword);
+    params.setCoNotebook(coNotebook);
     return ResponseEntity.status(HttpStatus.OK).body(notebookService.getNotebooks(params));
   }
 

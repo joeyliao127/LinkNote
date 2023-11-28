@@ -4,8 +4,16 @@ public class NotebooksPO {
 
   private String name;
   private Integer notebookId;
+  private String description;
   private Boolean selected;
 
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
   public String getName() {
     return name;

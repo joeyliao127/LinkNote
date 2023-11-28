@@ -3,7 +3,7 @@ import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookTagParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNotebookParamDto;
-import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDto;
+import com.linknote.online.linknotespring.note.notedto.GetNotebooksParamsDto;
 import com.linknote.online.linknotespring.note.notepo.po.NotebooksPO;
 import com.linknote.online.linknotespring.note.notepo.po.TagPO;
 import com.linknote.online.linknotespring.note.noterowmapper.NotebookIdRowMapper;
@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,24 +29,27 @@ public class NotebookDaoImpl implements NotebookDao {
 
   private static final Logger log = LoggerFactory.getLogger(NotebookDaoImpl.class);
   @Override
-  public List<NotebooksPO> getNotebooks(QueryNotebooksParamsDto params, Boolean getCoNotebook) {
+  public List<NotebooksPO> getNotebooks(GetNotebooksParamsDto params, Boolean getCoNotebook) {
     String sql;
     if(getCoNotebook){
-      sql = "SELECT n.id as notebookId, n.name as notebookName, n.selected FROM notebooks n "
-          + "JOIN notebookCollaborators c ON c.notebookId = n.id "
+      sql = "SELECT n.id as notebookId, n.name as notebookName, n.selected as selected, n.description as description FROM notebooks n "
+          + "JOIN collaborators c ON c.notebookId = n.id "
           + "JOIN users u ON u.id = c.userId "
-          + "WHERE u.id = :userId LIMIT :limit OFFSET :offset";
+          + "WHERE u.id = :userId ";
 
     }else{
-      sql = "SELECT n.id as notebookId, n.name as notebookName, n.selected FROM notebooks n "
+      sql = "SELECT n.id as notebookId, n.name as notebookName, n.selected as selected, n.description as description FROM notebooks n "
           + "JOIN users u ON u.id = n.userId "
-          + "WHERE userId = :userId LIMIT :limit OFFSET :offset";
-
+          + "WHERE userId = :userId ";
     }
+    if(!Objects.equals(params.getKeyword(), "null")){
+      sql += "name like %:keyword% ";
+    }
+    sql += "LIMIT :limit OFFSET :offset";
     Map<String, Object> map = new HashMap<>();
     map.put("userId", params.getUserId());
     map.put("offset", params.getOffset());
-    map.put("limit", params.getLimit() + 1); //+1為了驗證是否有nextPage
+    map.put("limit", params.getLimit() + 1); //+1為了驗證是否有nextPage，ex: 前端查詢20筆，真正查詢時+1變成21筆。
     return namedParameterJdbcTemplate.query(sql, map, new notebooksPORowMapper());
   }
 
@@ -57,6 +61,25 @@ public class NotebookDaoImpl implements NotebookDao {
     map.put("description", params.getDescription());
     map.put("userId", userId);
     namedParameterJdbcTemplate.update(sql, map);
+  }
+
+  @Override
+  public Integer verifyNotebookExist(Integer notebookId) {
+    String sql = "SELECT id FROM notebooks WHERE notebookId = :notebookId";
+    Map<String, Object> map = new HashMap<>();
+    map.put("notebookId", notebookId);
+    List<Integer> tagId = namedParameterJdbcTemplate.query(sql, map, new RowMapper<Integer>() {
+      @Override
+      public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+        log.info("驗證owner的Dao: 取得的id為 = " + rs.getInt("id"));
+        return rs.getInt("id");
+      }
+    });
+    if(tagId.isEmpty()){
+      return null;
+    }else{
+      return tagId.get(0);
+    }
   }
 
   @Override

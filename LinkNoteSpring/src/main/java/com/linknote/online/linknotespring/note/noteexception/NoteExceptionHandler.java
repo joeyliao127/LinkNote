@@ -47,6 +47,12 @@ public class NoteExceptionHandler {
     return ResponseEntity.status(400).body(Map.of("result", false,"msg", "Note already exist."));
   }
 
+  @ExceptionHandler(NotebookDoesNotExistException.class)
+  public ResponseEntity<Object> notebookDoesNotExistException (NotebookDoesNotExistException e){
+    log.warn("NoteExceptionHandler: NotebookDoesNotExistException");
+    log.warn(e.getMessage());
+    return ResponseEntity.status(400).body(Map.of("result", false,"msg", "Notebook doesn't exist."));
+  }
 
 
 }

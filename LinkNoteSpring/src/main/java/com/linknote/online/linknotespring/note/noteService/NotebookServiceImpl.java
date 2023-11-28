@@ -7,9 +7,10 @@ import com.linknote.online.linknotespring.note.notedto.DeleteCollaboratorsParamD
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookTagParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNotebookParamDto;
-import com.linknote.online.linknotespring.note.notedto.QueryNotebooksParamsDto;
+import com.linknote.online.linknotespring.note.notedto.GetNotebooksParamsDto;
 import com.linknote.online.linknotespring.note.noteexception.CollaboratorsAreLimitException;
 import com.linknote.online.linknotespring.note.noteexception.NotebookAlreadyExistsException;
+import com.linknote.online.linknotespring.note.noteexception.NotebookDoesNotExistException;
 import com.linknote.online.linknotespring.note.noteexception.NotebookIdAndUserIdNotMatchException;
 import com.linknote.online.linknotespring.note.notepo.po.NotebooksPO;
 import com.linknote.online.linknotespring.note.notepo.response.NotebooksResPO;
@@ -43,37 +44,20 @@ public class NotebookServiceImpl implements NotebookService {
   private UserService userService;
   private static final Logger log = LoggerFactory.getLogger(NotebookServiceImpl.class);
   @Override
-  public NotebooksResPO getNotebooks(QueryNotebooksParamsDto params) {
-    List<NotebooksPO> notebooks = notebookDao.getNotebooks(params, false);
-    log.info("notebook長度：" + notebooks.size());
-    List<NotebooksPO> coNotebooks = notebookDao.getNotebooks(params, true);
-    NotebooksResPO response = new NotebooksResPO();
-
+  public NotebooksResPO getNotebooks(GetNotebooksParamsDto params) {
+    List<NotebooksPO> notebooks = notebookDao.getNotebooks(params, params.getCoNotebook());
+    NotebooksResPO notebooksResPO = new NotebooksResPO();
     if(notebooks.size() <= params.getLimit() & !notebooks.isEmpty()){
-      response.setNotebookNextPage(false);
-      response.setNotebooks(notebooks);
+      notebooksResPO.setNextPage(false);
     }else if(notebooks.size() > params.getLimit()){
       notebooks.remove(notebooks.size() - 1);
-      response.setNotebookNextPage(true);
-      response.setNotebooks(notebooks);
+      notebooksResPO.setNextPage(true);
     }else if(notebooks.isEmpty()){
-      response.setNotebookNextPage(false);
-      response.setNotebooks(notebooks);
+      notebooksResPO.setNextPage(false);
     }
-
-    if(coNotebooks.size() <= params.getLimit() & !coNotebooks.isEmpty()){
-      response.setCoNotebookNextPage(false);
-      response.setCoNotebooks(coNotebooks);
-    }else if(coNotebooks.size() > params.getLimit()){
-      notebooks.remove(notebooks.size() - 1);
-      response.setCoNotebookNextPage(true);
-      response.setCoNotebooks(coNotebooks);
-    }else if(coNotebooks.isEmpty()){
-      response.setCoNotebookNextPage(false);
-      response.setCoNotebooks(coNotebooks);
-    }
-    response.setResult(true);
-    return response;
+    notebooksResPO.setNotebooks(notebooks);
+    notebooksResPO.setResult(true);
+    return notebooksResPO;
   }
 
 
@@ -135,25 +119,28 @@ public class NotebookServiceImpl implements NotebookService {
     intermediaryService.deleteCollaborator(params);
   }
 
-
-  //只有insert的service才需要驗證筆記本的owner
-  @Override
-  public void verifyNotebookOwnerByUserId(Integer userId, Integer notebookId, NotebookDao notebookDao ){
-    log.warn("筆記：" + notebookId + " 不屬於userId: " + userId);
-    Integer result = notebookDao.verifyNotebookOwnerByUserId(userId, notebookId);
-    if(result == null){
-      throw new NotebookIdAndUserIdNotMatchException("Notebook Service: 筆記本不署於此userId");
-    }
-  }
-
   @Override
   public void deleteNotebook(DeleteNotebookParamsDto params) {
+    Integer result = notebookDao.verifyNotebookExist(params.getNotebookId());
+    if(result == null){
+      throw new NotebookDoesNotExistException("筆記本" + params.getNotebookId() + "不存在");
+    }
+    verifyNotebookOwnerByUserId(params.getUserId(), params.getNotebookId(), notebookDao);
     notebookDao.deleteNotebookByNotebookId(params);
   }
 
   @Override
   public void deleteNotebookTag(DeleteNotebookTagParamDto param){
-   notebookDao.deleteNotebookTag(param);
+    verifyNotebookOwnerByUserId(param.getUserId(), param.getNotebookId(), notebookDao);
+    notebookDao.deleteNotebookTag(param);
   }
 
+  @Override
+  public void verifyNotebookOwnerByUserId(Integer userId, Integer notebookId, NotebookDao notebookDao ){
+    Integer result = notebookDao.verifyNotebookOwnerByUserId(userId, notebookId);
+    if(result == null){
+      log.warn("Notebook Service: " + "筆記本id'" + notebookId + "' 不屬於userId' " + userId + "'");
+      throw new NotebookIdAndUserIdNotMatchException("Notebook Service: " + "筆記本id'" + notebookId + "' 不屬於userId' " + userId + "'");
+    }
+  }
 }
