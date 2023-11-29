@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -80,8 +81,9 @@ public class UserController {
   }
 
   @GetMapping("/api/user")
-  public ResponseEntity<Object> parseToken(@RequestHeader String Authorization){
-    Claims payload = tokenService.parserJWTToken(Authorization);
+  public ResponseEntity<Object> parseToken(@CookieValue(defaultValue = "atta", name = "token") String token){
+    log.info("/api/user token = " + token);
+    Claims payload = tokenService.parserJWTToken(token);
     return ResponseEntity.status(200).body(Map.of(
         "result", true,
         "email", payload.get("email", String.class),
@@ -90,6 +92,7 @@ public class UserController {
   private void setTokenToCookie(HttpServletResponse response, String token){
     Cookie cookie = new Cookie("token", token);
     cookie.setHttpOnly(true);
+    cookie.setMaxAge(7 * 24 * 60 * 60);
     response.addCookie(cookie);
   }
 }

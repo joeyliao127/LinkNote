@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class UserExceptionHandler {
   private final static Logger log = LoggerFactory.getLogger(UserExceptionHandler.class);
 
-  @ExceptionHandler(RuntimeException.class)
-  public ResponseEntity<Object> runTimeException(RuntimeException e){
-    log.warn("RunTime Exception. 非預期錯誤，錯誤訊息：" + e.getMessage());
-    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("msg", "Internal error", "result", false));
-  }
+//  @ExceptionHandler(RuntimeException.class)
+//  public ResponseEntity<Object> runTimeException(RuntimeException e){
+//    log.warn("RunTime Exception. 非預期錯誤，錯誤訊息：" + e.getMessage());
+//    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("msg", "Internal error", "result", false));
+//  }
 
   @ExceptionHandler(EmailDoesNotExistException.class)
   public ResponseEntity<Object> emailDoesNotExistException(EmailDoesNotExistException e){
