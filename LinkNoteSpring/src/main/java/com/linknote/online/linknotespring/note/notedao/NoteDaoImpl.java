@@ -2,15 +2,19 @@ package com.linknote.online.linknotespring.note.notedao;
 
 import com.linknote.online.linknotespring.note.notedto.CreateNoteParamsDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNoteParamDto;
+import com.linknote.online.linknotespring.note.notedto.GetNotesParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteParamsDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteSharedParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteStarParamDto;
+import com.linknote.online.linknotespring.note.notepo.po.NotePO;
+import com.linknote.online.linknotespring.note.noterowmapper.NotesRowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -20,6 +24,45 @@ import org.springframework.stereotype.Repository;
 public class NoteDaoImpl implements NoteDao{
   @Autowired
   NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+  @Override
+  public List<NotePO> getNotes(GetNotesParamDto params) {
+    Map<String, Object> map = new HashMap<>();
+    String sql = "SELECT nt.id as noteId, nt.name, nt.question, nt.star, nt.createDate "
+        + "FROM notes nt JOIN notebooks n ON notebookId = n.id ";
+    if(!Objects.equals(params.getTag(), "null")){
+      sql += "JOIN tags t ON nt.id = t.notebookId "
+          + "WHERE nt.notebookId = :notebookId "
+          + "AND n.userId = :userId AND t.name = :tag ";
+      map.put("tag", params.getTag());
+    }else{
+      sql += "WHERE nt.notebookId = :notebookId AND n.userId = :userId ";
+    }
+    map.put("notebookId", params.getNotebookId());
+    map.put("userId", params.getUserId());
+
+    if(!Objects.equals(params.getKeyword(), "null")){
+      sql += "AND nt.name like :keyword ";
+      map.put("keyword", "%" + params.getKeyword() + "%");
+      System.out.println("keyword = " + params.getKeyword());
+    }
+
+    if(params.getStar()){
+      sql += "AND nt.star = :star ";
+      map.put("star", params.getStar());
+    }
+
+    if(params.getTimeAsc()){
+      sql += "ORDER BY createDate asc ";
+    }
+
+    sql += "LIMIT :limit OFFSET :offset ";
+    map.put("limit", params.getLimit());
+    map.put("offset", params.getOffset());
+
+    System.out.println("最終拼完的sql:" + sql);
+    return namedParameterJdbcTemplate.query(sql, map, new NotesRowMapper());
+  }
 
   @Override
   public Integer getNoteIdByNameForVerifyNameExist(String name, Integer notebookId) {
@@ -72,13 +115,13 @@ public class NoteDaoImpl implements NoteDao{
 
     if(!params.getKeypoint().isEmpty() &&
         !Objects.equals(params.getKeypoint(), " ")){
-      sql += "keypoint = :keypoint, ";
+      sql += "keypoint = :keypoint ";
       map.put("keypoint", params.getKeypoint());
     }else if(Objects.equals(params.getKeypoint(), " ")){
       sql += "keypoint = ' ', ";
     }
 
-    sql += "Where notebookId = :notebookId";
+    sql += "WHERE notebookId = :notebookId";
     map.put("notebookId", params.getNotebookId());
     namedParameterJdbcTemplate.update(sql, map);
   }

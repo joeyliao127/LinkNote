@@ -3,11 +3,15 @@ package com.linknote.online.linknotespring.note.noteService;
 import com.linknote.online.linknotespring.note.notedto.CreateNoteParamsDto;
 import com.linknote.online.linknotespring.note.notedto.CreateNoteTagParamDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNoteParamDto;
+import com.linknote.online.linknotespring.note.notedto.GetNotesParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteParamsDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteSharedParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteStarParamDto;
+import com.linknote.online.linknotespring.note.notepo.response.NoteResPO;
 
 public interface NoteService {
+
+    NoteResPO getNotes(GetNotesParamDto params);
 
     void createNote(CreateNoteParamsDto params);
 

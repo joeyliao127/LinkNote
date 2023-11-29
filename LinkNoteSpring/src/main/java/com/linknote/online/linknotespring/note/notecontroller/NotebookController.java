@@ -43,7 +43,7 @@ public class NotebookController {
   public ResponseEntity<NotebooksResPO> getNotebooks(
       @RequestHeader String Authorization,
       @RequestParam(defaultValue = "0") @Min(0) Integer offset,
-      @RequestParam(defaultValue = "0") @Max(20) @Min(0) Integer limit,
+      @RequestParam(defaultValue = "1") @Max(20) @Min(0) Integer limit,
       @RequestParam(defaultValue = "null") String keyword,
       @RequestParam Boolean coNotebook
       ){

@@ -1,14 +1,22 @@
 package com.linknote.online.linknotespring.note.notepo.po;
 
-import java.sql.Date;
-import java.util.List;
+import java.sql.Timestamp;
 
 public class NotePO {
 
+  private Integer noteId;
   private String name;
   private String question;
-  private Date createTime;
   private Boolean star;
+  private Timestamp createDate;
+
+  public Integer getNoteId() {
+    return noteId;
+  }
+
+  public void setNoteId(Integer noteId) {
+    this.noteId = noteId;
+  }
 
   public String getName() {
     return name;
@@ -26,12 +34,12 @@ public class NotePO {
     this.question = question;
   }
 
-  public Date getCreateTime() {
-    return createTime;
+  public Timestamp getCreateDate() {
+    return createDate;
   }
 
-  public void setCreateTime(Date createTime) {
-    this.createTime = createTime;
+  public void setCreateDate(Timestamp createDate) {
+    this.createDate = createDate;
   }
 
   public Boolean getStar() {

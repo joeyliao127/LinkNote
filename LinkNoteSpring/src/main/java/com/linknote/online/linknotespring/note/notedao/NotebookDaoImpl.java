@@ -8,7 +8,7 @@ import com.linknote.online.linknotespring.note.notepo.po.NotebooksPO;
 import com.linknote.online.linknotespring.note.notepo.po.TagPO;
 import com.linknote.online.linknotespring.note.noterowmapper.NotebookIdRowMapper;
 import com.linknote.online.linknotespring.note.noterowmapper.TagRowMapper;
-import com.linknote.online.linknotespring.note.noterowmapper.notebooksPORowMapper;
+import com.linknote.online.linknotespring.note.noterowmapper.NotebooksPORowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -50,7 +50,7 @@ public class NotebookDaoImpl implements NotebookDao {
     map.put("userId", params.getUserId());
     map.put("offset", params.getOffset());
     map.put("limit", params.getLimit() + 1); //+1為了驗證是否有nextPage，ex: 前端查詢20筆，真正查詢時+1變成21筆。
-    return namedParameterJdbcTemplate.query(sql, map, new notebooksPORowMapper());
+    return namedParameterJdbcTemplate.query(sql, map, new NotebooksPORowMapper());
   }
 
   @Override
