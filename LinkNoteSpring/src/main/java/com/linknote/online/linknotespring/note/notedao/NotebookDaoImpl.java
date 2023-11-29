@@ -2,6 +2,7 @@ package com.linknote.online.linknotespring.note.notedao;
 import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookTagParamDto;
+import com.linknote.online.linknotespring.note.notedto.GetCollaboratorParamDto;
 import com.linknote.online.linknotespring.note.notedto.GetNotesParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNotebookParamDto;
 import com.linknote.online.linknotespring.note.notedto.GetNotebooksParamsDto;
@@ -12,6 +13,7 @@ import com.linknote.online.linknotespring.note.noterowmapper.NotebookIdRowMapper
 import com.linknote.online.linknotespring.note.noterowmapper.NotesRowMapper;
 import com.linknote.online.linknotespring.note.noterowmapper.TagRowMapper;
 import com.linknote.online.linknotespring.note.noterowmapper.NotebooksPORowMapper;
+import com.linknote.online.linknotespring.user.userpo.UserInfoPO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -93,6 +95,26 @@ public class NotebookDaoImpl implements NotebookDao {
 
     System.out.println("最終拼完的sql:" + sql);
     return namedParameterJdbcTemplate.query(sql, map, new NotesRowMapper());
+  }
+
+  @Override
+  public List<UserInfoPO> getCollaborators(GetCollaboratorParamDto param) {
+    String sql = "SELECT u.id as id, u.email as email, u.username as username, u.status as status FROM collaborators c JOIN users u ON u.id = c.userId JOIN notebooks n ON n.id = c.notebookId WHERE n.id = :notebookId AND c.owner = :userId";
+    Map<String, Object> map = new HashMap<>();
+    map.put("userId", param.getUserId());
+    map.put("notebookId", param.getNotebookId());
+    return namedParameterJdbcTemplate.query(sql, map,
+        new RowMapper<UserInfoPO>() {
+          @Override
+          public UserInfoPO mapRow(ResultSet rs, int rowNum) throws SQLException {
+            UserInfoPO userInfoPO = new UserInfoPO();
+            userInfoPO.setEmail(rs.getString("email"));
+            userInfoPO.setStatus(rs.getBoolean("status"));
+            userInfoPO.setUserId(rs.getInt("id"));
+            userInfoPO.setUsername(rs.getString("username"));
+            return userInfoPO;
+          }
+        });
   }
 
   @Override

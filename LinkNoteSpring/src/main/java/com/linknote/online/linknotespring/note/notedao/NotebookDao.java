@@ -3,12 +3,14 @@ package com.linknote.online.linknotespring.note.notedao;
 import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookTagParamDto;
+import com.linknote.online.linknotespring.note.notedto.GetCollaboratorParamDto;
 import com.linknote.online.linknotespring.note.notedto.GetNotesParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNotebookParamDto;
 import com.linknote.online.linknotespring.note.notedto.GetNotebooksParamsDto;
 import com.linknote.online.linknotespring.note.notepo.po.NotebooksPO;
 import com.linknote.online.linknotespring.note.notepo.po.NotesPO;
 import com.linknote.online.linknotespring.note.notepo.po.TagPO;
+import com.linknote.online.linknotespring.user.userpo.UserInfoPO;
 import java.util.List;
 
 public interface NotebookDao {
@@ -16,6 +18,9 @@ public interface NotebookDao {
   List<NotebooksPO> getNotebooks(GetNotebooksParamsDto params, Boolean getCoNotebook);
 
   List<NotesPO> getNotes(GetNotesParamDto params);
+
+  List<UserInfoPO> getCollaborators(GetCollaboratorParamDto param);
+
   void createNotebook(CreateNotebookParamsDto params, Integer userId);
 
   Integer verifyNotebookExist(Integer notebookId);

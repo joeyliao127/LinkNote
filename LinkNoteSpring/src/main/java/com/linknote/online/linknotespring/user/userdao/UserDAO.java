@@ -19,7 +19,6 @@ public interface UserDAO {
   List<UserInfoPO> getByTokenUserIdAndEmailForToken(String email, Integer userId);
   Integer createUser(RegisterRequestDto registerRequestDto);
 
-  Integer getCollaboratorsId(Integer userId, Integer notebookId);
 
 
 

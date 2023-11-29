@@ -125,24 +125,4 @@ public class UserDAOImpl implements UserDAO{
     map.put("userId", userId);
     return namedParameterJdbcTemplate.query(sql, map, new SignInRowMapper());
   }
-
-  @Override
-  public Integer getCollaboratorsId(Integer userId, Integer notebookId) {
-    String sql = "SELECT userId FROM notebookCollaborators"
-        + " WHERE notebookId = :notebookId AND userId = :userId";
-    Map<String , Object> map = new HashMap<>();
-    map.put("notebookId", notebookId);
-    map.put("userId", userId);
-    List<Integer> result = namedParameterJdbcTemplate.query(sql, map, new RowMapper<Integer>() {
-      @Override
-      public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return rs.getInt("userId");
-      }
-    });
-    if(result.isEmpty()){
-      return null;
-    }else{
-      return result.get(0);
-    }
-  }
 }

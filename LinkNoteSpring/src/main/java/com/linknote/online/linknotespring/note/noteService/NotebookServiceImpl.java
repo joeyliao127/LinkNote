@@ -6,6 +6,7 @@ import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteCollaboratorsParamDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookTagParamDto;
+import com.linknote.online.linknotespring.note.notedto.GetCollaboratorParamDto;
 import com.linknote.online.linknotespring.note.notedto.GetNotesParamDto;
 import com.linknote.online.linknotespring.note.notedto.GetTagsParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNotebookParamDto;
@@ -21,6 +22,7 @@ import com.linknote.online.linknotespring.note.notepo.response.NotesResPO;
 import com.linknote.online.linknotespring.note.notepo.response.TagResPO;
 import com.linknote.online.linknotespring.user.userdao.UserDAO;
 import com.linknote.online.linknotespring.user.userexception.EmailDoesNotExistException;
+import com.linknote.online.linknotespring.user.userpo.UserInfoPO;
 import com.linknote.online.linknotespring.user.userservice.UserService;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,10 +86,14 @@ public class NotebookServiceImpl implements NotebookService {
   }
 
   @Override
-  public TagResPO getTagNotebookTags(GetTagsParamDto params) {
+  public TagResPO getNotebookTags(GetTagsParamDto params) {
     return tagService.getTags(params);
   }
 
+  @Override
+  public List<UserInfoPO> getCollaborators(GetCollaboratorParamDto params) {
+    return notebookDao.getCollaborators(params);
+  }
 
   @Override
   @Transactional
