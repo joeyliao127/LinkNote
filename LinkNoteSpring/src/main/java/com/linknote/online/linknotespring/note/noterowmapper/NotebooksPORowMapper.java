@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 
-public class notebooksPORowMapper implements RowMapper<NotebooksPO> {
+public class NotebooksPORowMapper implements RowMapper<NotebooksPO> {
 
   @Override
   public NotebooksPO mapRow(ResultSet rs, int rowNum) throws SQLException {

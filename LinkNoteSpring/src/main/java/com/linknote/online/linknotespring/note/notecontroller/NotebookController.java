@@ -7,7 +7,10 @@ import com.linknote.online.linknotespring.note.notedto.CreateNotebookTagsParamsD
 import com.linknote.online.linknotespring.note.notedto.DeleteCollaboratorsParamDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookTagParamDto;
+import com.linknote.online.linknotespring.note.notedto.GetCollaboratorParamDto;
 import com.linknote.online.linknotespring.note.notedto.GetNotebooksParamsDto;
+import com.linknote.online.linknotespring.note.notedto.GetNotesParamDto;
+import com.linknote.online.linknotespring.note.notedto.GetTagsParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNotebookParamDto;
 import com.linknote.online.linknotespring.note.notepo.response.NotebooksResPO;
 import com.linknote.online.linknotespring.user.userservice.TokenService;
@@ -43,7 +46,7 @@ public class NotebookController {
   public ResponseEntity<NotebooksResPO> getNotebooks(
       @RequestHeader String Authorization,
       @RequestParam(defaultValue = "0") @Min(0) Integer offset,
-      @RequestParam(defaultValue = "0") @Max(20) @Min(0) Integer limit,
+      @RequestParam(defaultValue = "1") @Max(20) @Min(0) Integer limit,
       @RequestParam(defaultValue = "null") String keyword,
       @RequestParam Boolean coNotebook
       ){
@@ -57,6 +60,50 @@ public class NotebookController {
     return ResponseEntity.status(HttpStatus.OK).body(notebookService.getNotebooks(params));
   }
 
+  @GetMapping("/api/notebooks/{notebookId}/notes")
+  public ResponseEntity<Object> getNotes(
+      @RequestHeader String Authorization,
+      @PathVariable Integer notebookId,
+      @RequestParam(defaultValue = "0") @Min(0) Integer offset,
+      @RequestParam(defaultValue = "1") @Max(20) @Min(0) Integer limit,
+      @RequestParam(defaultValue = "null") String tag,
+      @RequestParam(defaultValue = "false") Boolean star,
+      @RequestParam(defaultValue = "false") Boolean timeAsc,
+      @RequestParam(defaultValue = "null") String keyword
+  ){
+    GetNotesParamDto param = new GetNotesParamDto();
+    param.setUserId(tokenService.parserJWTToken(Authorization).get("userId", Integer.class));
+    param.setNotebookId(notebookId);
+    param.setOffset(offset);
+    param.setLimit(limit);
+    param.setTag(tag);
+    param.setStar(star);
+    param.setTimeAsc(timeAsc);
+    param.setKeyword(keyword);
+    return ResponseEntity.status(200).body(notebookService.getNotes(param));
+  }
+
+  @GetMapping("/api/notebooks/{notebookId}/tags")
+  public ResponseEntity<Object> getNotebookTags(
+      @RequestHeader String Authorization,
+      @PathVariable Integer notebookId
+  ){
+    GetTagsParamDto params = new GetTagsParamDto();
+    params.setNotebookId(notebookId);
+    params.setUserId(tokenService.parserJWTToken(Authorization).get("userId", Integer.class));
+    return ResponseEntity.status(200).body(notebookService.getNotebookTags(params));
+  }
+
+  @GetMapping("/api/notebooks/{notebookId}/collaborators")
+  public ResponseEntity<Object> getCollaborators(
+      @RequestHeader String Authorization,
+      @PathVariable Integer notebookId
+  ){
+    GetCollaboratorParamDto params = new GetCollaboratorParamDto();
+    params.setNotebookId(notebookId);
+    params.setUserId(tokenService.parserJWTToken(Authorization).get("userId", Integer.class));
+    return ResponseEntity.status(200).body(notebookService.getCollaborators(params));
+  }
   //新增筆記本
   @PostMapping("/api/notebooks")
   public ResponseEntity<Object> createNotebook(
@@ -128,10 +175,10 @@ public ResponseEntity<Object> createCollaborator(
     return ResponseEntity.status(200).body(Map.of("result", true));
   }
 
-  @DeleteMapping("/api/notebooks/{notebookId}/tags/{tag}")
+  @DeleteMapping("/api/notebooks/{notebookId}/tags")
   public ResponseEntity<Object> deleteNotebookTag(
       @PathVariable Integer notebookId,
-      @PathVariable String tag,
+      @RequestParam String tag,
       @RequestHeader String  Authorization
   ){
     Integer userId = tokenService.parserJWTToken(Authorization).get("userId", Integer.class);

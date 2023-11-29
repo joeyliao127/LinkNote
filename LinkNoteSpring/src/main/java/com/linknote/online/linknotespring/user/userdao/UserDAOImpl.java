@@ -27,7 +27,6 @@ public class UserDAOImpl implements UserDAO{
   @Autowired
   NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-
   @Override
   public List<UserEmailPo> getByEmail(String email) {
     System.out.println("進入驗證DAO");
@@ -37,6 +36,29 @@ public class UserDAOImpl implements UserDAO{
     map.put("email", email);
     System.out.print("製作完成");
     return namedParameterJdbcTemplate.query(sql, map, new RegisterRowMapper());
+  }
+
+  @Override
+  public UserInfoPO getUserInfo(String email) {
+    String sql = "SELECT id, username, email, status FROM users WHERE email = :email";
+    Map<String, Object> map = new HashMap<>();
+    map.put("email", email);
+   List<UserInfoPO> result = namedParameterJdbcTemplate.query(sql, map, new RowMapper<UserInfoPO>() {
+     @Override
+     public UserInfoPO mapRow(ResultSet rs, int rowNum) throws SQLException {
+       UserInfoPO userInfoPO = new UserInfoPO();
+       userInfoPO.setUserId(rs.getInt("id"));
+       userInfoPO.setUsername(rs.getString("username"));
+       userInfoPO.setStatus(rs.getBoolean("status"));
+       userInfoPO.setEmail(rs.getString("email"));
+       return userInfoPO;
+     }
+   });
+   if(result.isEmpty()){
+     return null;
+   }else {
+     return result.get(0);
+   }
   }
 
   @Override
@@ -53,7 +75,7 @@ public class UserDAOImpl implements UserDAO{
   }
 
   @Override
-  public Integer verifuUserIdAndEmail(String email, Integer userId) {
+  public Integer verifyUserIdAndEmail(String email, Integer userId) {
     String sql = "SELECT id FROM users WHERE email = :email AND id = :userId";
     Map<String, Object> map = new HashMap<>();
     map.put("email", email);
@@ -102,25 +124,5 @@ public class UserDAOImpl implements UserDAO{
     map.put("email", email);
     map.put("userId", userId);
     return namedParameterJdbcTemplate.query(sql, map, new SignInRowMapper());
-  }
-
-  @Override
-  public Integer getCollaboratorsId(Integer userId, Integer notebookId) {
-    String sql = "SELECT userId FROM notebookCollaborators"
-        + " WHERE notebookId = :notebookId AND userId = :userId";
-    Map<String , Object> map = new HashMap<>();
-    map.put("notebookId", notebookId);
-    map.put("userId", userId);
-    List<Integer> result = namedParameterJdbcTemplate.query(sql, map, new RowMapper<Integer>() {
-      @Override
-      public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return rs.getInt("userId");
-      }
-    });
-    if(result.isEmpty()){
-      return null;
-    }else{
-      return result.get(0);
-    }
   }
 }

@@ -6,6 +6,9 @@ import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteCollaboratorsParamDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookTagParamDto;
+import com.linknote.online.linknotespring.note.notedto.GetCollaboratorParamDto;
+import com.linknote.online.linknotespring.note.notedto.GetNotesParamDto;
+import com.linknote.online.linknotespring.note.notedto.GetTagsParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNotebookParamDto;
 import com.linknote.online.linknotespring.note.notedto.GetNotebooksParamsDto;
 import com.linknote.online.linknotespring.note.noteexception.CollaboratorsAreLimitException;
@@ -13,9 +16,13 @@ import com.linknote.online.linknotespring.note.noteexception.NotebookAlreadyExis
 import com.linknote.online.linknotespring.note.noteexception.NotebookDoesNotExistException;
 import com.linknote.online.linknotespring.note.noteexception.NotebookIdAndUserIdNotMatchException;
 import com.linknote.online.linknotespring.note.notepo.po.NotebooksPO;
+import com.linknote.online.linknotespring.note.notepo.po.NotesPO;
 import com.linknote.online.linknotespring.note.notepo.response.NotebooksResPO;
+import com.linknote.online.linknotespring.note.notepo.response.NotesResPO;
+import com.linknote.online.linknotespring.note.notepo.response.TagResPO;
 import com.linknote.online.linknotespring.user.userdao.UserDAO;
 import com.linknote.online.linknotespring.user.userexception.EmailDoesNotExistException;
+import com.linknote.online.linknotespring.user.userpo.UserInfoPO;
 import com.linknote.online.linknotespring.user.userservice.UserService;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +67,33 @@ public class NotebookServiceImpl implements NotebookService {
     return notebooksResPO;
   }
 
+  @Override
+  public NotesResPO getNotes(GetNotesParamDto params) {
+    List<NotesPO> notes = notebookDao.getNotes(params);
+    NotesResPO responsePO = new NotesResPO();
+    System.out.println("取得的notes長度：" + notes.size());
+    if(notes.size() <= params.getLimit() & !notes.isEmpty()){
+      responsePO.setNextPage(false);
+    }else if(notes.size() > params.getLimit()){
+      notes.remove(notes.size() - 1);
+      responsePO.setNextPage(true);
+    }else if(notes.isEmpty()){
+      responsePO.setNextPage(false);
+    }
+    responsePO.setResult(true);
+    responsePO.setNotes(notes);
+    return responsePO;
+  }
+
+  @Override
+  public TagResPO getNotebookTags(GetTagsParamDto params) {
+    return tagService.getTags(params);
+  }
+
+  @Override
+  public List<UserInfoPO> getCollaborators(GetCollaboratorParamDto params) {
+    return notebookDao.getCollaborators(params);
+  }
 
   @Override
   @Transactional
@@ -78,7 +112,7 @@ public class NotebookServiceImpl implements NotebookService {
       String email = params.getEmails().get(i).getEmail();
       int emailId = params.getEmails().get(i).getEmailId();
       log.info("驗證email" + email);
-      if(userDAO.verifuUserIdAndEmail(email, emailId) == null){
+      if(userDAO.verifyUserIdAndEmail(email, emailId) == null){
         log.info("找不到此email ＆ id");
         continue;
       }

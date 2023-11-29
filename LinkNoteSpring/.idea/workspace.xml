@@ -5,18 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="31befe92-750a-4d2c-ab08-ee48786e5281" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteexception/NotebookDoesNotExistException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedto/GetCollaboratorParamDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/NotebookService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/NotebookService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/NotebookServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/NotebookServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notecontroller/NotebookController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notecontroller/NotebookController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/NotebookDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/NotebookDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/NotebookDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/NotebookDaoImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedto/QueryNotebooksParamsDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedto/GetNotebooksParamsDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteexception/NoteExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteexception/NoteExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notepo/po/NotebooksPO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notepo/po/NotebooksPO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notepo/response/NotebooksResPO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notepo/response/NotebooksResPO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noterowmapper/notebooksPORowMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noterowmapper/notebooksPORowMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userdao/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userdao/UserDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userdao/UserDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userdao/UserDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userdao/UserDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userdao/UserDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userdao/UserDaoImpl.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,31 +47,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "extract.method.default.visibility": "private",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.linknote.online.linknotespring.note.notedao" />
@@ -118,21 +117,6 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userdao/UserDAO.java</url>
-          <line>19</line>
-          <properties class="com.linknote.online.linknotespring.user.userdao.UserDAO" method="getCollaboratorsId">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

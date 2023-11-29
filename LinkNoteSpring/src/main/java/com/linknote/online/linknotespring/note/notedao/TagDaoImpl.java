@@ -1,10 +1,7 @@
 package com.linknote.online.linknotespring.note.notedao;
 
-import com.linknote.online.linknotespring.note.notedto.CreateNoteTagParamDto;
+import com.linknote.online.linknotespring.note.notedto.UpdateNoteTagParamDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNoteParamDto;
-import com.linknote.online.linknotespring.note.noterowmapper.TagRowMapper;
-import io.jsonwebtoken.lang.Maps;
-import io.swagger.v3.oas.models.security.SecurityScheme.In;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -43,6 +40,41 @@ public class TagDaoImpl implements TagDao{
   }
 
   @Override
+  public List<String> getTags(Integer userId, Integer notebookId) {
+    String sql = "SELECT t.name as name FROM tags t "
+        + "JOIN notebooks n ON t.notebookId = n.id "
+        + "JOIN users u ON n.userId = u.id "
+        + "WHERE n.userId = :userId AND t.notebookId = :notebookId";
+    Map<String, Object> map = new HashMap<>();
+    map.put("notebookId", notebookId);
+    map.put("userId", userId);
+    return namedParameterJdbcTemplate.query(sql, map, new RowMapper<String>() {
+      @Override
+      public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return rs.getString("name");
+      }
+    });
+  }
+
+  @Override
+  public List<String> getTags(Integer userId, Integer notebookId, Integer noteId) {
+    String sql = "SELECT t.name as name FROM tags t "
+        + "JOIN notebooks n ON t.notebookId = n.id "
+        + "JOIN users u ON n.userId = u.id "
+        + "JOIN notes nt ON t.noteId = nt.id "
+        + "WHERE n.userId = :userId AND t.notebookId = :notebookId AND nt.id = noteId";
+    Map<String, Object> map = new HashMap<>();
+    map.put("notebookId", notebookId);
+    map.put("userId", userId);
+    return namedParameterJdbcTemplate.query(sql, map, new RowMapper<String>() {
+      @Override
+      public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return rs.getString("name");
+      }
+    });
+  }
+
+  @Override
   public void createNotebookTag(String tag, Integer notebookId) {
     String sql = "INSERT INTO tags (name, notebookId) VALUE(:tag, :notebookId)";
     Map<String, Object> map = new HashMap<>();
@@ -64,7 +96,7 @@ public class TagDaoImpl implements TagDao{
   }
 
   @Override
-  public void createNoteTag(CreateNoteTagParamDto param) {
+  public void createNoteTag(UpdateNoteTagParamDto param) {
     String sql = "UPDATE tags SET noteId = :noteId "
         + "WHERE notebookId = :notebookId AND name = :tag";
 

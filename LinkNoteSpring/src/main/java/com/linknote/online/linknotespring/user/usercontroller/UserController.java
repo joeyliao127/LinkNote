@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -59,20 +60,28 @@ public class UserController {
       Boolean verifyResult = tokenService.verifyToken(Authorization);
       if(verifyResult){
        log.info("允許登入");
-        return ResponseEntity.status(HttpStatus.OK).body(Map.of("parseResult", true));
+        return ResponseEntity.status(200).body(Map.of("parseResult", true));
       }else{
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("parseResult", false));
+        return ResponseEntity.status(401).body(Map.of("parseResult", false));
       }
     }
 
   }
 
+  @GetMapping("/api/user/email")
+  public ResponseEntity<Object> getUserNameByEmail(
+      @RequestParam String email
+      ){
+    return ResponseEntity.status(200).body(userService.getUserInfo(email));
+  }
+
   @GetMapping("/api/user")
   public ResponseEntity<Object> parseToken(@RequestHeader String Authorization){
     Claims payload = tokenService.parserJWTToken(Authorization);
-    return ResponseEntity.status(HttpStatus.OK).body(Map.of(
+    return ResponseEntity.status(200).body(Map.of(
         "result", true,
         "email", payload.get("email", String.class),
         "username", payload.getSubject()));
   }
+
 }
