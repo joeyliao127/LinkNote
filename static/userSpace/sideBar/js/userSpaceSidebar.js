@@ -1,10 +1,11 @@
 function sideBarInit() {
-  switchNotebooksTpyeBtn();
-  newNotbookBtn();
-  signOutBtn();
+  switchNotebooksTpyeBtnListener();
+  newNotebookBtnListener();
+  signOutBtnListener();
+  getUserInfo();
 }
 
-function switchNotebooksTpyeBtn() {
+function switchNotebooksTpyeBtnListener() {
   const switchNotebookBtn = document.querySelector(
     ".sideBar-group-notebooksType img"
   );
@@ -26,7 +27,7 @@ function switchNotebooksTpyeBtn() {
   });
 }
 
-function newNotbookBtn() {
+function newNotebookBtnListener() {
   const newNoteBookBtn = document.querySelector(".sideBar-newNotebookBtn");
   const noteConsoleArea = document.querySelector(".main-area-noteConsole");
   const createNotebookArea = document.querySelector(
@@ -40,7 +41,7 @@ function newNotbookBtn() {
   });
 }
 
-function signOutBtn() {
+function signOutBtnListener() {
   const btn = document.querySelector(".sideBar-item-signoutBtn");
   btn.addEventListener("click", () => {
     localStorage.removeItem("token");
@@ -48,4 +49,21 @@ function signOutBtn() {
   });
 }
 
+async function getUserInfo() {
+  const token = localStorage.getItem("token");
+  const response = await fetch(apiUrl + "/api/user", {
+    headers: {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json",
+    },
+    method: "GET",
+  });
+  const data = await response.json();
+  if (data.result) {
+    const username = document.querySelector(".sideBar-ctn-welcome p");
+    const email = document.querySelector("sideBar-item-userEmail p");
+    username.textContent = data.username;
+    email.textContent = email;
+  }
+}
 sideBarInit();

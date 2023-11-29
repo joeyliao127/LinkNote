@@ -7,6 +7,8 @@ import com.linknote.online.linknotespring.user.userpo.UserInfoPO;
 import com.linknote.online.linknotespring.user.userservice.TokenService;
 import com.linknote.online.linknotespring.user.userservice.UserServiceImpl;
 import io.jsonwebtoken.Claims;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import java.util.Map;
 import org.slf4j.Logger;
@@ -23,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
-@CrossOrigin
+@CrossOrigin(origins = "http://127.0.0.1:5501")
 @RestController
 public class UserController {
   @Autowired
@@ -32,29 +34,31 @@ public class UserController {
   TokenService tokenService;
   private final static Logger log = LoggerFactory.getLogger(UserController.class);
 
-
   @PostMapping("/api/user/register")
-  public ResponseEntity<Object> register(@RequestBody @Valid RegisterRequestDto registerRequestDto)
+  public ResponseEntity<Object> register(
+      @RequestBody @Valid RegisterRequestDto registerRequestDto,
+      HttpServletResponse response
+      )
   throws DatabaseOperationException, EmailAlreadyRegisteredException {
-    String JWTToken = userService.register(registerRequestDto);
-    return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("token", JWTToken));
+    String token = userService.register(registerRequestDto);
+    setTokenToCookie(response ,token);
+    return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("result", true));
   }
   @PostMapping("/api/user/auth")
   public ResponseEntity<Object> signInAuthentication(
       @RequestBody(required = false) @Valid SignInRequestDto signInRequestDto,
-      @RequestHeader(required = false) String Authorization){
+      @RequestHeader(required = false) String Authorization,
+      HttpServletResponse response
+      ){
     if(Authorization == null){
       log.info("接收到帳密登入請求：" + signInRequestDto.getEmail());
       UserInfoPO verifyResult = userService.signInVerify(signInRequestDto);
       String token = tokenService.genJWTToken(verifyResult.getUserId()
           ,verifyResult.getEmail()
           ,verifyResult.getUsername());
+      setTokenToCookie(response, token);
       log.info("允許使用者登入:"+ verifyResult.getUsername());
-      return ResponseEntity.status(HttpStatus.OK)
-          .body(Map.of(
-              "result", true,
-              "token", token
-          ));
+      return ResponseEntity.status(HttpStatus.OK).body(Map.of("result", true));
     }else{
       log.info("接收到token登入請求，Bearer token");
       Boolean verifyResult = tokenService.verifyToken(Authorization);
@@ -83,5 +87,9 @@ public class UserController {
         "email", payload.get("email", String.class),
         "username", payload.getSubject()));
   }
-
+  private void setTokenToCookie(HttpServletResponse response, String token){
+    Cookie cookie = new Cookie("token", token);
+    cookie.setHttpOnly(true);
+    response.addCookie(cookie);
+  }
 }

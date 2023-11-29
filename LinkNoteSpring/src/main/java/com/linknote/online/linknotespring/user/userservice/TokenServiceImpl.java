@@ -44,8 +44,7 @@ public class TokenServiceImpl implements TokenService{
   }
 
   @Override
-  public Claims parserJWTToken(String Authorization) {
-    String token = Authorization.substring(7);
+  public Claims parserJWTToken(String token) {
     byte[] decodekey = Base64.getDecoder().decode(SECRET.getBytes(StandardCharsets.UTF_8));
     SecretKey key = new SecretKeySpec(decodekey, "HmacSHA256");
     try{
@@ -59,8 +58,8 @@ public class TokenServiceImpl implements TokenService{
   }
 
   @Override
-  public Boolean verifyToken(String Authorization) {
-    Claims claims = this.parserJWTToken(Authorization);
+  public Boolean verifyToken(String token) {
+    Claims claims = this.parserJWTToken(token);
     if(System.currentTimeMillis() < claims.getExpiration().getTime()){
       List<UserInfoPO> userInfoPOS = userDAO.getByTokenUserIdAndEmailForToken(
           claims.get("email", String.class),

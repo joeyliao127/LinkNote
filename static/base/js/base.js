@@ -1,4 +1,4 @@
-const apiUrl = "http://localhost:8080";
+const apiUrl = "http://127.0.0.1:8080";
 // const apiUrl = "https://linknote.online";
 function baseInit() {
   const token = localStorage.getItem("token");
@@ -22,6 +22,7 @@ async function verifyUserToken(token) {
   console.log(verifyResult);
   if (!verifyResult.parseResult) {
     localStorage.removeItem("token");
+    window.location.href = "/";
   }
 }
 baseInit();
