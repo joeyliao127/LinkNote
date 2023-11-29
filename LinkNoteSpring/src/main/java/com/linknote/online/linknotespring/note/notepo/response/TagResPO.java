@@ -1,10 +1,10 @@
 package com.linknote.online.linknotespring.note.notepo.response;
 
-import com.linknote.online.linknotespring.note.notepo.po.NotePO;
+import java.util.List;
 
-public class NoteResPO {
+public class TagResPO {
   private Boolean result;
-  private NotePO notePO;
+  private List<String> tag;
 
   public Boolean getResult() {
     return result;
@@ -14,11 +14,11 @@ public class NoteResPO {
     this.result = result;
   }
 
-  public NotePO getNotePO() {
-    return notePO;
+  public List<String> getTag() {
+    return tag;
   }
 
-  public void setNotePO(NotePO notePO) {
-    this.notePO = notePO;
+  public void setTag(List<String> tag) {
+    this.tag = tag;
   }
 }

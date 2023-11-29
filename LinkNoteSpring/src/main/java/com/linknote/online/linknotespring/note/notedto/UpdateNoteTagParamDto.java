@@ -2,7 +2,7 @@ package com.linknote.online.linknotespring.note.notedto;
 
 import java.util.List;
 
-public class CreateNoteTagParamDto {
+public class UpdateNoteTagParamDto {
   private List<String> tag;
   private Integer userId;
   private Integer notebookId;

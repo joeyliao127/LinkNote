@@ -8,6 +8,7 @@ import com.linknote.online.linknotespring.note.notedto.DeleteCollaboratorsParamD
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookTagParamDto;
 import com.linknote.online.linknotespring.note.notedto.GetNotebooksParamsDto;
+import com.linknote.online.linknotespring.note.notedto.GetTagsParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNotebookParamDto;
 import com.linknote.online.linknotespring.note.notepo.response.NotebooksResPO;
 import com.linknote.online.linknotespring.user.userservice.TokenService;
@@ -56,7 +57,16 @@ public class NotebookController {
     params.setCoNotebook(coNotebook);
     return ResponseEntity.status(HttpStatus.OK).body(notebookService.getNotebooks(params));
   }
-
+  @GetMapping("/api/notebooks/{notebookId}")
+  public ResponseEntity<Object> getNotebookTags(
+      @RequestHeader String Authorization,
+      @PathVariable Integer notebookId
+  ){
+    GetTagsParamDto params = new GetTagsParamDto();
+    params.setNotebookId(notebookId);
+    params.setUserId(tokenService.parserJWTToken(Authorization).get("userId", Integer.class));
+    return ResponseEntity.status(200).body(notebookService.getTagNotebookTags(params));
+  }
   //新增筆記本
   @PostMapping("/api/notebooks")
   public ResponseEntity<Object> createNotebook(
@@ -128,10 +138,10 @@ public ResponseEntity<Object> createCollaborator(
     return ResponseEntity.status(200).body(Map.of("result", true));
   }
 
-  @DeleteMapping("/api/notebooks/{notebookId}/tags/{tag}")
+  @DeleteMapping("/api/notebooks/{notebookId}/tags")
   public ResponseEntity<Object> deleteNotebookTag(
       @PathVariable Integer notebookId,
-      @PathVariable String tag,
+      @RequestParam String tag,
       @RequestHeader String  Authorization
   ){
     Integer userId = tokenService.parserJWTToken(Authorization).get("userId", Integer.class);

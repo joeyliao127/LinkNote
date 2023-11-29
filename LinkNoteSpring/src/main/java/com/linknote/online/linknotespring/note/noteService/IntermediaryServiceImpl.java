@@ -2,10 +2,8 @@ package com.linknote.online.linknotespring.note.noteService;
 
 import com.linknote.online.linknotespring.note.notedao.IntermediaryDao;
 import com.linknote.online.linknotespring.note.notedto.CreateCollaboratorParamsDto;
-import com.linknote.online.linknotespring.note.notedto.CreateNoteTagParamDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteCollaboratorsParamDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookParamsDto;
-import com.linknote.online.linknotespring.note.notedto.DeleteNotebookTagParamDto;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

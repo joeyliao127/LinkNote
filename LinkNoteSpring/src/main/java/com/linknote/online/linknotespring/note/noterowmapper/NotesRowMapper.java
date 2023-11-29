@@ -1,20 +1,20 @@
 package com.linknote.online.linknotespring.note.noterowmapper;
 
-import com.linknote.online.linknotespring.note.notepo.po.NotePO;
+import com.linknote.online.linknotespring.note.notepo.po.NotesPO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 
-public class NotesRowMapper implements RowMapper<NotePO> {
+public class NotesRowMapper implements RowMapper<NotesPO> {
 
   @Override
-  public NotePO mapRow(ResultSet rs, int rowNum) throws SQLException {
-    NotePO notePO = new NotePO();
-    notePO.setNoteId(rs.getInt("noteId"));
-    notePO.setName(rs.getString("name"));
-    notePO.setQuestion(rs.getString("question"));
-    notePO.setStar(rs.getBoolean("star"));
-    notePO.setCreateDate(rs.getTimestamp("createDate"));
-    return notePO;
+  public NotesPO mapRow(ResultSet rs, int rowNum) throws SQLException {
+    NotesPO notesPO = new NotesPO();
+    notesPO.setNoteId(rs.getInt("noteId"));
+    notesPO.setName(rs.getString("name"));
+    notesPO.setQuestion(rs.getString("question"));
+    notesPO.setStar(rs.getBoolean("star"));
+    notesPO.setCreateDate(rs.getTimestamp("createDate"));
+    return notesPO;
   }
 }

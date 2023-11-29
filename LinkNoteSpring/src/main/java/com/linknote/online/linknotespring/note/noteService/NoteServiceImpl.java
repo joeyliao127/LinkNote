@@ -1,17 +1,21 @@
 package com.linknote.online.linknotespring.note.noteService;
 
 import com.linknote.online.linknotespring.note.notedao.NoteDao;
-import com.linknote.online.linknotespring.note.notedao.IntermediaryDao;
 import com.linknote.online.linknotespring.note.notedto.CreateNoteParamsDto;
-import com.linknote.online.linknotespring.note.notedto.CreateNoteTagParamDto;
+import com.linknote.online.linknotespring.note.notedto.GetTagsParamDto;
+import com.linknote.online.linknotespring.note.notedto.UpdateNoteTagParamDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNoteParamDto;
+import com.linknote.online.linknotespring.note.notedto.GetNoteParamDto;
 import com.linknote.online.linknotespring.note.notedto.GetNotesParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteParamsDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteSharedParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteStarParamDto;
 import com.linknote.online.linknotespring.note.noteexception.NoteAlreadyExistException;
 import com.linknote.online.linknotespring.note.notepo.po.NotePO;
+import com.linknote.online.linknotespring.note.notepo.po.NotesPO;
 import com.linknote.online.linknotespring.note.notepo.response.NoteResPO;
+import com.linknote.online.linknotespring.note.notepo.response.NotesResPO;
+import com.linknote.online.linknotespring.note.notepo.response.TagResPO;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,9 +31,9 @@ public class NoteServiceImpl implements NoteService{
 
 
   @Override
-  public NoteResPO getNotes(GetNotesParamDto params) {
-    List<NotePO> notes = noteDao.getNotes(params);
-    NoteResPO responsePO = new NoteResPO();
+  public NotesResPO getNotes(GetNotesParamDto params) {
+    List<NotesPO> notes = noteDao.getNotes(params);
+    NotesResPO responsePO = new NotesResPO();
     System.out.println("取得的notes長度：" + notes.size());
     if(notes.size() <= params.getLimit() & !notes.isEmpty()){
       responsePO.setNextPage(false);
@@ -45,6 +49,20 @@ public class NoteServiceImpl implements NoteService{
   }
 
   @Override
+  public NoteResPO getNote(GetNoteParamDto param) {
+    NotePO notePO = noteDao.getNote(param);
+    NoteResPO noteResPO = new NoteResPO();
+    noteResPO.setResult(true);
+    noteResPO.setNotePO(notePO);
+    return noteResPO;
+  }
+
+  @Override
+  public TagResPO getNoteTags(GetTagsParamDto params) {
+    return tagService.getTags(params);
+  }
+
+  @Override
   public void createNote(CreateNoteParamsDto params) {
     Integer result = noteDao.getNoteIdByNameForVerifyNameExist(params.getNoteName(), params.getNotebookId());
     if(result != null){
@@ -54,7 +72,7 @@ public class NoteServiceImpl implements NoteService{
   }
 
   @Override
-  public void createNoteTag(CreateNoteTagParamDto params) {
+  public void createNoteTag(UpdateNoteTagParamDto params) {
     tagService.createNoteTag(params);
   }
 

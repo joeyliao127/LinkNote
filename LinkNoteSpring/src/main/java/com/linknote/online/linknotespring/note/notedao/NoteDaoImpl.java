@@ -2,11 +2,14 @@ package com.linknote.online.linknotespring.note.notedao;
 
 import com.linknote.online.linknotespring.note.notedto.CreateNoteParamsDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNoteParamDto;
+import com.linknote.online.linknotespring.note.notedto.GetNoteParamDto;
 import com.linknote.online.linknotespring.note.notedto.GetNotesParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteParamsDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteSharedParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteStarParamDto;
 import com.linknote.online.linknotespring.note.notepo.po.NotePO;
+import com.linknote.online.linknotespring.note.notepo.po.NotesPO;
+import com.linknote.online.linknotespring.note.noterowmapper.NoteRowMapper;
 import com.linknote.online.linknotespring.note.noterowmapper.NotesRowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,7 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -26,7 +28,7 @@ public class NoteDaoImpl implements NoteDao{
   NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
   @Override
-  public List<NotePO> getNotes(GetNotesParamDto params) {
+  public List<NotesPO> getNotes(GetNotesParamDto params) {
     Map<String, Object> map = new HashMap<>();
     String sql = "SELECT nt.id as noteId, nt.name, nt.question, nt.star, nt.createDate "
         + "FROM notes nt JOIN notebooks n ON notebookId = n.id ";
@@ -62,6 +64,26 @@ public class NoteDaoImpl implements NoteDao{
 
     System.out.println("最終拼完的sql:" + sql);
     return namedParameterJdbcTemplate.query(sql, map, new NotesRowMapper());
+  }
+
+  @Override
+  public NotePO getNote(GetNoteParamDto param) {
+    String sql = "SELECT nt.id as id, nt.name as name, nt.question as question, "
+        + "nt.content as content, nt.keypoint as keypoint, "
+        + "nt.sharedPermission as sharedPermission, "
+        + "nt.star as star, nt.createDate as createDate"
+        + " FROM notes nt "
+        + "JOIN notebooks n ON n.id = nt.notebookId "
+        + "WHERE nt.id = :noteId AND n.id = :notebookId";
+    Map<String, Object> map = new HashMap<>();
+    map.put("noteId", param.getNoteId());
+    map.put("notebookId", param.getNotebookId());
+    List<NotePO> result = namedParameterJdbcTemplate.query(sql, map, new NoteRowMapper());
+    if(result.isEmpty()){
+      return null;
+    }else{
+      return result.get(0);
+    }
   }
 
   @Override

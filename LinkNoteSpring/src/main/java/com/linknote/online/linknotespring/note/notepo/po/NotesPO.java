@@ -2,13 +2,11 @@ package com.linknote.online.linknotespring.note.notepo.po;
 
 import java.sql.Timestamp;
 
-public class NotePO {
+public class NotesPO {
+
   private Integer noteId;
   private String name;
   private String question;
-  private String noteContent;
-  private String keypoint;
-  private Boolean shared;
   private Boolean star;
   private Timestamp createDate;
 
@@ -36,28 +34,12 @@ public class NotePO {
     this.question = question;
   }
 
-  public String getNoteContent() {
-    return noteContent;
+  public Timestamp getCreateDate() {
+    return createDate;
   }
 
-  public void setNoteContent(String noteContent) {
-    this.noteContent = noteContent;
-  }
-
-  public String getKeypoint() {
-    return keypoint;
-  }
-
-  public void setKeypoint(String keypoint) {
-    this.keypoint = keypoint;
-  }
-
-  public Boolean getShared() {
-    return shared;
-  }
-
-  public void setShared(Boolean shared) {
-    this.shared = shared;
+  public void setCreateDate(Timestamp createDate) {
+    this.createDate = createDate;
   }
 
   public Boolean getStar() {
@@ -66,13 +48,5 @@ public class NotePO {
 
   public void setStar(Boolean star) {
     this.star = star;
-  }
-
-  public Timestamp getCreateDate() {
-    return createDate;
-  }
-
-  public void setCreateDate(Timestamp createDate) {
-    this.createDate = createDate;
   }
 }

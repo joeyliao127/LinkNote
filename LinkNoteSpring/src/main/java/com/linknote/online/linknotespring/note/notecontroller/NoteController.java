@@ -2,8 +2,10 @@ package com.linknote.online.linknotespring.note.notecontroller;
 
 import com.linknote.online.linknotespring.note.noteService.NoteService;
 import com.linknote.online.linknotespring.note.notedto.CreateNoteParamsDto;
-import com.linknote.online.linknotespring.note.notedto.CreateNoteTagParamDto;
+import com.linknote.online.linknotespring.note.notedto.GetTagsParamDto;
+import com.linknote.online.linknotespring.note.notedto.UpdateNoteTagParamDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNoteParamDto;
+import com.linknote.online.linknotespring.note.notedto.GetNoteParamDto;
 import com.linknote.online.linknotespring.note.notedto.GetNotesParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteParamsDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteSharedParamDto;
@@ -59,6 +61,34 @@ public class NoteController {
     return ResponseEntity.status(200).body(noteService.getNotes(param));
   }
 
+  @GetMapping("/api/notebooks/{notebookId}/notes/{noteId}")
+  public ResponseEntity<Object> getNoteByNoteId(
+      @RequestHeader String Authorization,
+      @PathVariable Integer notebookId,
+      @PathVariable Integer noteId
+  ){
+
+    GetNoteParamDto params = new GetNoteParamDto();
+    params.setNotebookId(notebookId);
+    params.setNoteId(noteId);
+    params.setUserId(tokenService.parserJWTToken(Authorization).get("userId", Integer.class));
+    return ResponseEntity.status(200).body(noteService.getNote(params));
+  }
+
+  @GetMapping("/api/notebooks/{notebookId}/notes/{noteId}/tags")
+  public ResponseEntity<Object> getNoteTags(
+      @RequestHeader String Authorization,
+      @PathVariable Integer notebookId,
+      @PathVariable Integer noteId
+  ){
+    GetTagsParamDto params = new GetTagsParamDto();
+    params.setNotebookId(notebookId);
+    params.setNoteId(noteId);
+    params.setUserId(tokenService.parserJWTToken(Authorization).get("userId", Integer.class));
+    return ResponseEntity.status(200).body(noteService.getNoteTags(params));
+  }
+
+
   //新建note
   @PostMapping("/api/notebooks/{notebookId}/notes")
   public ResponseEntity<Object> createNote(
@@ -92,7 +122,7 @@ public class NoteController {
   public ResponseEntity<Object> updateNoteTag(
       @PathVariable Integer notebookId,
       @PathVariable Integer noteId,
-      @RequestBody CreateNoteTagParamDto params,
+      @RequestBody UpdateNoteTagParamDto params,
       @RequestHeader String Authorization
   ){
     Integer userId = tokenService.parserJWTToken(Authorization).get("userId", Integer.class);
@@ -101,7 +131,6 @@ public class NoteController {
     params.setNoteId(noteId);
     noteService.createNoteTag(params);
     return ResponseEntity.status(200).body(Map.of("result", true));
-
   }
 
   @PutMapping("/api/notebooks/{notebookId}/notes/{noteId}/star")
