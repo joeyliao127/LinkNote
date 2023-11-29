@@ -106,7 +106,7 @@ public class NotebookServiceImpl implements NotebookService {
       String email = params.getEmails().get(i).getEmail();
       int emailId = params.getEmails().get(i).getEmailId();
       log.info("驗證email" + email);
-      if(userDAO.verifuUserIdAndEmail(email, emailId) == null){
+      if(userDAO.verifyUserIdAndEmail(email, emailId) == null){
         log.info("找不到此email ＆ id");
         continue;
       }

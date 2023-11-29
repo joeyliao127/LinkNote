@@ -6,16 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="31befe92-750a-4d2c-ab08-ee48786e5281" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/NoteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/NoteService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/NoteServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/NoteServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/NotebookService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/NotebookService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/NotebookServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/NotebookServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notecontroller/NoteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notecontroller/NoteController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notecontroller/NotebookController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notecontroller/NotebookController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/NoteDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/NoteDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/NoteDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/NoteDaoImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/NotebookDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/NotebookDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/NotebookDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/NotebookDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/usercontroller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/usercontroller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userdao/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userdao/UserDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userdao/UserDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userdao/UserDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userservice/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userservice/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userservice/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userservice/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/usercontroller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/usercontroller/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userdao/UserDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userdao/UserDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userservice/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userservice/UserService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userservice/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linknote/online/linknotespring/user/userservice/UserServiceImpl.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +123,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userdao/UserDAO.java</url>
-          <line>19</line>
+          <line>21</line>
           <properties class="com.linknote.online.linknotespring.user.userdao.UserDAO" method="getCollaboratorsId">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />

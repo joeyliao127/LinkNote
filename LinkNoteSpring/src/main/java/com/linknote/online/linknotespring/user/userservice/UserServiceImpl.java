@@ -26,6 +26,11 @@ public class UserServiceImpl implements UserService{
   private final static Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
   @Override
+  public UserInfoPO getUserInfo(String email) {
+    return userDAO.getUserInfo(email);
+  }
+
+  @Override
   public String register(RegisterRequestDto registerRequestDto) {
     System.out.println("開始驗證email");
     List<UserEmailPo> userEmailPo = userDAO.getByEmail(registerRequestDto.getEmail());

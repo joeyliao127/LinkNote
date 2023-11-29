@@ -7,15 +7,17 @@ import com.linknote.online.linknotespring.user.userpo.UserInfoPO;
 import java.util.List;
 
 public interface UserDAO {
+  Integer verifyUserIdAndEmail(String email, Integer userId);
   List<UserEmailPo> getByEmail(String email);
-  Integer createUser(RegisterRequestDto registerRequestDto);
 
+  //給建立notebook時，使用者會點選add來檢查是否有此email。
+  UserInfoPO getUserInfo (String email);
   Integer getUserIdByEmail(String email);
-  Integer verifuUserIdAndEmail(String email, Integer userId);
 
   List<UserInfoPO> getByEmailAndPassword(
       SignInRequestDto signInRequestDto);
   List<UserInfoPO> getByTokenUserIdAndEmailForToken(String email, Integer userId);
+  Integer createUser(RegisterRequestDto registerRequestDto);
 
   Integer getCollaboratorsId(Integer userId, Integer notebookId);
 
