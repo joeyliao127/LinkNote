@@ -6,6 +6,7 @@ import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteCollaboratorsParamDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookTagParamDto;
+import com.linknote.online.linknotespring.note.notedto.GetNotesParamDto;
 import com.linknote.online.linknotespring.note.notedto.GetTagsParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNotebookParamDto;
 import com.linknote.online.linknotespring.note.notedto.GetNotebooksParamsDto;
@@ -14,7 +15,9 @@ import com.linknote.online.linknotespring.note.noteexception.NotebookAlreadyExis
 import com.linknote.online.linknotespring.note.noteexception.NotebookDoesNotExistException;
 import com.linknote.online.linknotespring.note.noteexception.NotebookIdAndUserIdNotMatchException;
 import com.linknote.online.linknotespring.note.notepo.po.NotebooksPO;
+import com.linknote.online.linknotespring.note.notepo.po.NotesPO;
 import com.linknote.online.linknotespring.note.notepo.response.NotebooksResPO;
+import com.linknote.online.linknotespring.note.notepo.response.NotesResPO;
 import com.linknote.online.linknotespring.note.notepo.response.TagResPO;
 import com.linknote.online.linknotespring.user.userdao.UserDAO;
 import com.linknote.online.linknotespring.user.userexception.EmailDoesNotExistException;
@@ -60,6 +63,24 @@ public class NotebookServiceImpl implements NotebookService {
     notebooksResPO.setNotebooks(notebooks);
     notebooksResPO.setResult(true);
     return notebooksResPO;
+  }
+
+  @Override
+  public NotesResPO getNotes(GetNotesParamDto params) {
+    List<NotesPO> notes = notebookDao.getNotes(params);
+    NotesResPO responsePO = new NotesResPO();
+    System.out.println("取得的notes長度：" + notes.size());
+    if(notes.size() <= params.getLimit() & !notes.isEmpty()){
+      responsePO.setNextPage(false);
+    }else if(notes.size() > params.getLimit()){
+      notes.remove(notes.size() - 1);
+      responsePO.setNextPage(true);
+    }else if(notes.isEmpty()){
+      responsePO.setNextPage(false);
+    }
+    responsePO.setResult(true);
+    responsePO.setNotes(notes);
+    return responsePO;
   }
 
   @Override

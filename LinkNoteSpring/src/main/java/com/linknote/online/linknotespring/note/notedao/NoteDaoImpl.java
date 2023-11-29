@@ -28,45 +28,6 @@ public class NoteDaoImpl implements NoteDao{
   NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
   @Override
-  public List<NotesPO> getNotes(GetNotesParamDto params) {
-    Map<String, Object> map = new HashMap<>();
-    String sql = "SELECT nt.id as noteId, nt.name, nt.question, nt.star, nt.createDate "
-        + "FROM notes nt JOIN notebooks n ON notebookId = n.id ";
-    if(!Objects.equals(params.getTag(), "null")){
-      sql += "JOIN tags t ON nt.id = t.notebookId "
-          + "WHERE nt.notebookId = :notebookId "
-          + "AND n.userId = :userId AND t.name = :tag ";
-      map.put("tag", params.getTag());
-    }else{
-      sql += "WHERE nt.notebookId = :notebookId AND n.userId = :userId ";
-    }
-    map.put("notebookId", params.getNotebookId());
-    map.put("userId", params.getUserId());
-
-    if(!Objects.equals(params.getKeyword(), "null")){
-      sql += "AND nt.name like :keyword ";
-      map.put("keyword", "%" + params.getKeyword() + "%");
-      System.out.println("keyword = " + params.getKeyword());
-    }
-
-    if(params.getStar()){
-      sql += "AND nt.star = :star ";
-      map.put("star", params.getStar());
-    }
-
-    if(params.getTimeAsc()){
-      sql += "ORDER BY createDate asc ";
-    }
-
-    sql += "LIMIT :limit OFFSET :offset ";
-    map.put("limit", params.getLimit());
-    map.put("offset", params.getOffset());
-
-    System.out.println("最終拼完的sql:" + sql);
-    return namedParameterJdbcTemplate.query(sql, map, new NotesRowMapper());
-  }
-
-  @Override
   public NotePO getNote(GetNoteParamDto param) {
     String sql = "SELECT nt.id as id, nt.name as name, nt.question as question, "
         + "nt.content as content, nt.keypoint as keypoint, "

@@ -29,25 +29,6 @@ public class NoteServiceImpl implements NoteService{
   @Autowired
   TagService tagService;
 
-
-  @Override
-  public NotesResPO getNotes(GetNotesParamDto params) {
-    List<NotesPO> notes = noteDao.getNotes(params);
-    NotesResPO responsePO = new NotesResPO();
-    System.out.println("取得的notes長度：" + notes.size());
-    if(notes.size() <= params.getLimit() & !notes.isEmpty()){
-      responsePO.setNextPage(false);
-    }else if(notes.size() > params.getLimit()){
-      notes.remove(notes.size() - 1);
-      responsePO.setNextPage(true);
-    }else if(notes.isEmpty()){
-      responsePO.setNextPage(false);
-    }
-    responsePO.setResult(true);
-    responsePO.setNotes(notes);
-    return responsePO;
-  }
-
   @Override
   public NoteResPO getNote(GetNoteParamDto param) {
     NotePO notePO = noteDao.getNote(param);

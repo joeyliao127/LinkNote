@@ -15,8 +15,6 @@ import com.linknote.online.linknotespring.note.notepo.response.TagResPO;
 
 public interface NoteService {
 
-    NotesResPO getNotes(GetNotesParamDto params);
-
     NoteResPO getNote(GetNoteParamDto params);
 
     TagResPO getNoteTags(GetTagsParamDto params);

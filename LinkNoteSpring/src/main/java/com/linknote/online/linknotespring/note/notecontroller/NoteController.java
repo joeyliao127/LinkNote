@@ -38,29 +38,6 @@ public class NoteController {
   @Autowired
   TokenService tokenService;
 
-  @GetMapping("/api/notebooks/{notebookId}/notes")
-  public ResponseEntity<Object> getNotes(
-      @RequestHeader String Authorization,
-      @PathVariable Integer notebookId,
-      @RequestParam(defaultValue = "0") @Min(0) Integer offset,
-      @RequestParam(defaultValue = "1") @Max(20) @Min(0) Integer limit,
-      @RequestParam(defaultValue = "null") String tag,
-      @RequestParam(defaultValue = "false") Boolean star,
-      @RequestParam(defaultValue = "false") Boolean timeAsc,
-      @RequestParam(defaultValue = "null") String keyword
-  ){
-    GetNotesParamDto param = new GetNotesParamDto();
-    param.setUserId(tokenService.parserJWTToken(Authorization).get("userId", Integer.class));
-    param.setNotebookId(notebookId);
-    param.setOffset(offset);
-    param.setLimit(limit);
-    param.setTag(tag);
-    param.setStar(star);
-    param.setTimeAsc(timeAsc);
-    param.setKeyword(keyword);
-    return ResponseEntity.status(200).body(noteService.getNotes(param));
-  }
-
   @GetMapping("/api/notebooks/{notebookId}/notes/{noteId}")
   public ResponseEntity<Object> getNoteByNoteId(
       @RequestHeader String Authorization,

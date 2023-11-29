@@ -13,8 +13,6 @@ import java.util.List;
 
 public interface NoteDao {
 
-  List<NotesPO> getNotes(GetNotesParamDto params);
-
   NotePO getNote(GetNoteParamDto param);
   Integer getNoteIdByNameForVerifyNameExist(String name, Integer notebookId);
   void createNote(CreateNoteParamsDto params);
