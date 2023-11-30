@@ -2,6 +2,7 @@ function sideBarInit() {
   switchNotebooksTpyeBtn();
   newNotbookBtn();
   signOutBtn();
+  setUserInfo();
 }
 
 function switchNotebooksTpyeBtn() {
@@ -44,8 +45,24 @@ function signOutBtn() {
   const btn = document.querySelector(".sideBar-item-signoutBtn");
   btn.addEventListener("click", () => {
     localStorage.removeItem("token");
-    window.location.href = "/userSpace.html";
+    window.location.href = "/";
   });
+}
+
+async function setUserInfo() {
+  const token = localStorage.getItem("token");
+  const response = await fetch(apiUrl + "/api/user", {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  });
+
+  const data = await response.json();
+  const username = document.querySelector(".sideBar-ctn-welcome p");
+  username.textContent = data.username;
+  const email = document.querySelector(".sideBar-item-userEmail p");
+  email.textContent = data.email;
 }
 
 sideBarInit();
