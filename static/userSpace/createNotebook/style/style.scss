@@ -16,6 +16,7 @@
 }
 //=====================表單頁面樣式=====================
 .main-area-createNotebook {
+  color: white;
   width: 100%;
   flex-shrink: 0;
   margin: auto;
@@ -174,6 +175,8 @@
     border-radius: 5px;
     max-width: 320px;
     overflow: hidden;
+    user-select: none;
+    flex-grow: 0;
   }
 }
 

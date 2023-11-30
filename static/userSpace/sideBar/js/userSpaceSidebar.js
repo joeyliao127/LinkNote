@@ -1,8 +1,10 @@
+const token = localStorage.getItem("token");
 function sideBarInit() {
   switchNotebooksTpyeBtn();
   newNotbookBtn();
   signOutBtn();
   setUserInfo();
+  lazyLoading();
 }
 
 function switchNotebooksTpyeBtn() {
@@ -50,19 +52,15 @@ function signOutBtn() {
 }
 
 async function setUserInfo() {
-  const token = localStorage.getItem("token");
-  const response = await fetch(apiUrl + "/api/user", {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
-    },
-  });
-
-  const data = await response.json();
+  const data = await fetchData("/api/user", "GET");
   const username = document.querySelector(".sideBar-ctn-welcome p");
   username.textContent = data.username;
   const email = document.querySelector(".sideBar-item-userEmail p");
   email.textContent = data.email;
+}
+
+async function setMyNotebooks() {
+  const data = await fetchData("/api/notebooks/");
 }
 
 sideBarInit();

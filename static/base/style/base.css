@@ -56,4 +56,13 @@ body::-webkit-scrollbar {
 
 .w-10 {
   color: white;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-text-fill-color: white !important;
+  -webkit-transition: background-color 5000s ease-in-out 0s;
+  transition: background-color 5000s ease-in-out 0s;
 }/*# sourceMappingURL=base.css.map */

@@ -16,6 +16,7 @@
 }
 
 .main-area-createNotebook {
+  color: white;
   width: 100%;
   flex-shrink: 0;
   margin: auto;
@@ -180,6 +181,10 @@
   border-radius: 5px;
   max-width: 320px;
   overflow: hidden;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  flex-grow: 0;
 }
 
 #createFormCtn {
