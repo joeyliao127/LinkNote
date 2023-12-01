@@ -79,6 +79,14 @@ function tagListener() {
   });
 }
 
+function createErrorMsg(msg) {
+  const errorMsg = document.querySelector("#errorMsg");
+  errorMsg.textContent = msg;
+  setTimeout(() => {
+    errorMsg.textContent = "";
+  }, 3000);
+}
+
 function verifyEmailBtn() {
   const emailInput = document.querySelector("#invite");
   const emailVerifyBtn = document.querySelector("#addEmailBtn");
@@ -89,7 +97,7 @@ function verifyEmailBtn() {
     console.log(`count: ${count}`);
     if (count >= 4) {
       createErrorMsg("Up to 4 collaborators are allowed.");
-      return 0;
+      return;
     }
     if (!verifyEmailRegx(email)) {
       createErrorMsg("invalid email format");
@@ -127,18 +135,6 @@ function verifyEmailBtn() {
         });
       });
     }
-
-    function createErrorMsg(msg) {
-      const errorMsg = document.createElement("p");
-      errorMsg.textContent = `(${msg})`;
-      errorMsg.setAttribute("style", "color: red;");
-      emailList.appendChild(errorMsg);
-      setTimeout(() => {
-        const errorMsg = emailList.querySelector("p:last-child");
-        console.log(errorMsg);
-        errorMsg.remove();
-      }, 3000);
-    }
   }
 
   emailInput.addEventListener("keyup", (event) => {
@@ -153,8 +149,12 @@ function verifyEmailBtn() {
 
 function createNotebookBtnListener() {
   const createBtn = document.querySelector("#create");
-  createBtn.addEventListener("click", () => {
+  createBtn.addEventListener("click", async () => {
     const notebookName = document.querySelector("#notebookName").value;
+    if (notebookName == "") {
+      createErrorMsg("notebook name is null");
+      return;
+    }
     const description = document.querySelector("#description").value;
     const tags = document.querySelectorAll(".tags p");
     let tagList = [];
@@ -180,7 +180,14 @@ function createNotebookBtnListener() {
     const path = "/api/notebooks";
     console.log(`data:`);
     console.log(createNBParam);
-    fetchData(path, "POST", createNBParam);
+    const result = await fetchData(path, "POST", createNBParam);
+    if (result.result) {
+      window.location.href = `/notePage.html?notebookId=${result.notebookId}`;
+    } else {
+      if (result.msg === "Duplicate notebok name.") {
+        createErrorMsg(result.msg);
+      }
+    }
   });
 }
 createNotebookInit();

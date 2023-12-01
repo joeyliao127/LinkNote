@@ -120,8 +120,8 @@ public class NotebookController {
       return ResponseEntity.status(400).body(Map.of("result", false, "msg", "collaborators最多四人"));
     }
     params.setUserId(tokenService.parserJWTToken(Authorization).get("userId", Integer.class));
-    notebookService.createNotebook(params);
-    return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("result", true));
+    Integer notebookId = notebookService.createNotebook(params);
+    return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("result", true,"notebookId", notebookId));
   }
 
   //新增notebook tag

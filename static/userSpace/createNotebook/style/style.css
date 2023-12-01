@@ -16,7 +16,6 @@
 }
 
 .main-area-createNotebook {
-  color: white;
   width: 100%;
   flex-shrink: 0;
   margin: auto;
@@ -120,21 +119,25 @@
 .createNotebookFormbottomBtn {
   justify-content: space-between;
 }
-.createNotebookFormbottomBtn div {
-  color: #dddddd;
+.createNotebookFormbottomBtn div,
+.createNotebookFormbottomBtn button {
+  color: white;
   padding: 7px 15px;
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.1s ease-in-out;
 }
-.createNotebookFormbottomBtn div:hover {
+.createNotebookFormbottomBtn div:hover,
+.createNotebookFormbottomBtn button:hover {
   opacity: 0.8;
 }
 .createNotebookFormbottomBtn div:nth-child(1) {
   background-color: #666666;
+  margin-block: auto;
 }
-.createNotebookFormbottomBtn div:nth-child(2) {
+.createNotebookFormbottomBtn :nth-child(2) {
   background-color: green;
+  border: none;
 }
 
 .inviteInput {
@@ -185,6 +188,11 @@
      -moz-user-select: none;
           user-select: none;
   flex-grow: 0;
+}
+
+#errorMsg {
+  margin-inline: auto;
+  color: red;
 }
 
 #createFormCtn {

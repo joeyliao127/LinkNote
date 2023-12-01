@@ -97,7 +97,7 @@ public class NotebookServiceImpl implements NotebookService {
 
   @Override
   @Transactional
-  public void createNotebook(CreateNotebookParamsDto params) {
+  public Integer createNotebook(CreateNotebookParamsDto params) {
     String checkNotebookName = notebookDao.getNotebookNameByUserId(params.getUserId(), params.getName());
     log.info("查詢到的notebookName，找到代表已經存在: " + checkNotebookName);
     if(checkNotebookName != null){
@@ -120,6 +120,7 @@ public class NotebookServiceImpl implements NotebookService {
       collaboratorList.add(emailId);
     }
    intermediaryService.createNotebookCollaborators(collaboratorList, notebookId, params.getUserId());
+    return notebookId;
   }
 
   @Override
