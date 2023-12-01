@@ -41,6 +41,71 @@
   vertical-align: bottom;
 }
 
+.tagList {
+  position: relative;
+  left: -5px;
+  top: 5px;
+  width: 220px;
+  background-color: #333333;
+  border: 1px solid #666666;
+  border-radius: 10px;
+  z-index: 15;
+  padding: 15px;
+  flex-direction: column;
+  gap: 10px;
+  cursor: default;
+}
+.tagList .tagItem {
+  justify-content: space-between;
+  gap: 5px;
+  align-items: center;
+}
+.tagList .tagItem p {
+  border: 1px solid white;
+  border-radius: 5px;
+  color: white;
+  flex-grow: 1;
+  text-align: center;
+  padding: 5px;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+.tagList .tagItem p:hover {
+  background-color: #666666;
+}
+.tagList .tagItem img {
+  width: 25px;
+  height: 25px;
+  flex-grow: 0;
+  cursor: pointer;
+}
+.tagList .tagBtnGroup {
+  margin-top: 10px;
+}
+.tagList .tagBtnGroup input {
+  width: 190px;
+  background-color: transparent;
+  border: none;
+  color: white;
+  border: none;
+  border-bottom: #666666 1px solid;
+  padding: 5px 50px 5px 5px;
+}
+.tagList .tagBtnGroup input::-moz-placeholder {
+  color: #999999;
+}
+.tagList .tagBtnGroup input::placeholder {
+  color: #999999;
+}
+.tagList .tagBtnGroup button {
+  position: absolute;
+  right: 15px;
+  border-radius: 5px;
+  background-color: #3d8344;
+  color: white;
+  cursor: pointer;
+}
+
 .main-item-toolsSearchBar {
   gap: 15px;
   position: relative;

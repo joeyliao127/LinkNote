@@ -163,22 +163,50 @@
           <div class="main-ctn-topToolsBar flex">
             <h2>Your Notes</h2>
             <div class="main-group-tools flex">
-              <div class="main-item-toolsBtn selected">
+              <div class="main-item-toolsBtn selected" id="boxBtn">
                 <img src="/static/resource/images/box.png" alt="box" />
               </div>
-              <div class="main-item-toolsBtn">
+              <div class="main-item-toolsBtn" id="tagBtn">
                 <img src="/static/resource/images/tag.png" alt="tag" />
+                <div class="tagList flex display-none">
+                  <div class="tagItem flex">
+                    <p>tag1</p>
+                    <img
+                      src="/static/resource/images/trash-white.png"
+                      alt="trash"
+                    />
+                  </div>
+
+                  <div class="tagItem flex">
+                    <p>tag1</p>
+                    <img
+                      src="/static/resource/images/trash-white.png"
+                      alt="trash"
+                    />
+                  </div>
+                  <div class="tagItem flex">
+                    <p>tag1</p>
+                    <img
+                      src="/static/resource/images/trash-white.png"
+                      alt="trash"
+                    />
+                  </div>
+                  <div class="tagBtnGroup flex">
+                    <input type="text" id="createTag" placeholder="new tag" />
+                    <button>Create</button>
+                  </div>
+                </div>
               </div>
-              <div class="main-item-toolsBtn">
+              <div class="main-item-toolsBtn" id="timeBtn">
                 <img src="/static/resource/images/clock.png" alt="clock" />
               </div>
-              <div class="main-item-toolsBtn">
+              <div class="main-item-toolsBtn" id="starBtn">
                 <img
                   src="/static/resource/images/star-full.png"
                   alt="star-full"
                 />
               </div>
-              <div class="main-item-toolsBtn">
+              <div class="main-item-toolsBtn" id="delBtn">
                 <img
                   src="/static/resource/images/trash-white.png"
                   alt="star-full"

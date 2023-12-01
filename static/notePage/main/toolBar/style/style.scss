@@ -37,7 +37,8 @@ main.edit-wrapper {
       background-color: #aaaaaa;
     }
   }
-  div {
+  #discard,
+  #save {
     font-size: 14px;
     color: white;
     border: 1px solid #aaaaaa;
@@ -57,6 +58,24 @@ main.edit-wrapper {
     background-color: #263935;
     &:hover {
       background-color: #3b5953;
+    }
+  }
+  .tagBtn {
+    position: relative;
+    .tagList {
+      position: absolute;
+      top: 35px;
+      left: 0px;
+    }
+
+    #done {
+      display: block;
+      margin-top: 5px;
+      position: static;
+      margin-left: auto;
+      background-color: green;
+      border-radius: 5px;
+      color: white;
     }
   }
 }

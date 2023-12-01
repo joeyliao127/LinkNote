@@ -35,9 +35,43 @@
           <div class="notes-topToolsBar flex">
             <p>Project1</p>
             <div class="tools flex">
-              <img src="/static/resource/images/add.png" alt="add" />
-              <img src="/static/resource/images/star-full.png" alt="star" />
-              <img src="/static/resource/images/tag.png" alt="tag" />
+              <div class="tool" id="newNoteBtn">
+                <img src="/static/resource/images/add.png" alt="add" />
+              </div>
+              <div class="tool" id="starBtn">
+                <img src="/static/resource/images/star-full.png" alt="star" />
+              </div>
+              <div class="tagBtn">
+                <img src="/static/resource/images/tag.png" alt="tag" />
+                <div class="tagList flex">
+                  <div class="tagItem flex">
+                    <p>tag1</p>
+                    <img
+                      src="/static/resource/images/trash-white.png"
+                      alt="trash"
+                    />
+                  </div>
+
+                  <div class="tagItem flex">
+                    <p>tag1</p>
+                    <img
+                      src="/static/resource/images/trash-white.png"
+                      alt="trash"
+                    />
+                  </div>
+                  <div class="tagItem flex">
+                    <p>tag1</p>
+                    <img
+                      src="/static/resource/images/trash-white.png"
+                      alt="trash"
+                    />
+                  </div>
+                  <div class="tagBtnGroup flex">
+                    <input type="text" id="createTag" placeholder="new tag" />
+                    <button>Create</button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="notes-group flex">
@@ -102,7 +136,25 @@
             <div class="edit-group-tools flex">
               <img src="/static/resource/images/lock.png" alt="lock" />
               <img src="/static/resource/images/star-empty.png" alt="lock" />
-              <img src="/static/resource/images/tag.png" alt="lock" />
+              <div class="tagBtn">
+                <img src="/static/resource/images/tag.png" alt="lock" />
+                <div class="tagList flex">
+                  <div class="tagItem flex">
+                    <p>tag1</p>
+                  </div>
+
+                  <div class="tagItem flex">
+                    <p>tag1</p>
+                  </div>
+                  <div class="tagItem flex">
+                    <p>tag1</p>
+                  </div>
+                  <div class="doneGroup">
+                    <button id="done">done</button>
+                  </div>
+                </div>
+              </div>
+
               <img src="/static/resource/images/share-white.png" alt="lock" />
               <div id="discard">Delete</div>
               <div id="save">Save</div>

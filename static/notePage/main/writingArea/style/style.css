@@ -4,6 +4,17 @@
   position: relative;
   margin-top: 30px;
 }
+.edit-ctn-noteContent .tagBtn {
+  position: relative;
+}
+.edit-ctn-noteContent .tagBtn img {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+.edit-ctn-noteContent .tagBtn .tagList {
+  position: absolute;
+}
 
 .noteContent-tools {
   width: 270px;

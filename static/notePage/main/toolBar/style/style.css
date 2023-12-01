@@ -37,7 +37,8 @@ main.edit-wrapper {
 .edit-group-tools img:hover {
   background-color: #aaaaaa;
 }
-.edit-group-tools div {
+.edit-group-tools #discard,
+.edit-group-tools #save {
   font-size: 14px;
   color: white;
   border: 1px solid #aaaaaa;
@@ -58,4 +59,21 @@ main.edit-wrapper {
 }
 .edit-group-tools div:nth-child(6):hover {
   background-color: #3b5953;
+}
+.edit-group-tools .tagBtn {
+  position: relative;
+}
+.edit-group-tools .tagBtn .tagList {
+  position: absolute;
+  top: 35px;
+  left: 0px;
+}
+.edit-group-tools .tagBtn #done {
+  display: block;
+  margin-top: 5px;
+  position: static;
+  margin-left: auto;
+  background-color: green;
+  border-radius: 5px;
+  color: white;
 }/*# sourceMappingURL=style.css.map */

@@ -184,7 +184,7 @@ function createNotebookBtnListener() {
     if (result.result) {
       window.location.href = `/notePage.html?notebookId=${result.notebookId}`;
     } else {
-      if (result.msg === "Duplicate notebok name.") {
+      if (result.msg === "Duplicate notebook name.") {
         createErrorMsg(result.msg);
       }
     }
