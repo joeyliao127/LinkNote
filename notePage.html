@@ -14,7 +14,7 @@
     <!-- /google font/ -->
     <link rel="icon" href="/static/resource/images/nodes-blue.png" />
     <!-- /shared resuroce/ -->
-    <link rel="stylesheet" href="/static/notePage/style.css" />
+    <link rel="stylesheet" href="/static/notePage/style/style.css" />
     <title>Note</title>
   </head>
   <body>
@@ -43,7 +43,7 @@
               </div>
               <div class="tagBtn">
                 <img src="/static/resource/images/tag.png" alt="tag" />
-                <div class="tagList flex">
+                <div class="tagList flex display-none">
                   <div class="tagItem flex">
                     <p>tag1</p>
                     <img
@@ -134,11 +134,11 @@
           <div class="edit-ctn-tools flex">
             <input type="text" id="noteName" value="New note" />
             <div class="edit-group-tools flex">
-              <img src="/static/resource/images/lock.png" alt="lock" />
+              <!-- <img src="/static/resource/images/lock.png" alt="lock" /> -->
               <img src="/static/resource/images/star-empty.png" alt="lock" />
               <div class="tagBtn">
                 <img src="/static/resource/images/tag.png" alt="lock" />
-                <div class="tagList flex">
+                <div class="tagList flex display-none">
                   <div class="tagItem flex">
                     <p>tag1</p>
                   </div>
@@ -155,7 +155,7 @@
                 </div>
               </div>
 
-              <img src="/static/resource/images/share-white.png" alt="lock" />
+              <!-- <img src="/static/resource/images/share-white.png" alt="lock" /> -->
               <div id="discard">Delete</div>
               <div id="save">Save</div>
             </div>
@@ -194,8 +194,8 @@
         </div>
       </main>
     </div>
-    <div class="wrapper-notification display-none">
-      <div class="notice" id="success">
+    <div class="wrapper-notification">
+      <div class="notice e" id="success">
         <p>Success!</p>
       </div>
 
@@ -203,26 +203,14 @@
         <p>Failed...</p>
       </div>
 
-      <div class="notice" id="joined">
-        <p>Joey joined！</p>
-      </div>
-
-      <div class="notice" id="left">
+      <div class="notice" id="warn">
         <p>Joey left</p>
-      </div>
-
-      <div class="notice" id="unlock">
-        <p>Unlock note first</p>
-      </div>
-
-      <div class="notice" id="copied">
-        <p>Copied Link！</p>
       </div>
     </div>
     <script src="/static/base/js/base.js"></script>
-    <script src="/static/notePage/main/js/notePageMain.js"></script>
-    <script src="/static/notePage/nav/js/notePageNav.js"></script>
-    <script src="/static/notePage/notification/js/notePageNotification.js"></script>
-    <script src="/static/notePage/sideBar/js/notePageSideBar.js"></script>
+    <script src="/static/notePage/js/notePageMain.js"></script>
+    <script src="/static/notePage/js/notePageNav.js"></script>
+    <script src="/static/base/js/notePageNotification.js"></script>
+    <script src="/static/notePage/js/notePageSideBar.js"></script>
   </body>
 </html>

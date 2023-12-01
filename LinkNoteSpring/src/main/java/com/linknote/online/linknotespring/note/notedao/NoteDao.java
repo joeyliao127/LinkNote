@@ -15,7 +15,7 @@ public interface NoteDao {
 
   NotePO getNote(GetNoteParamDto param);
   Integer getNoteIdByNameForVerifyNameExist(String name, Integer notebookId);
-  void createNote(CreateNoteParamsDto params);
+  Integer createNote(CreateNoteParamsDto params);
 
   void updateNote(UpdateNoteParamsDto params);
 

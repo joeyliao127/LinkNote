@@ -75,12 +75,12 @@ public class NoteController {
   //新建note
   @PostMapping("/api/notebooks/{notebookId}/notes")
   public ResponseEntity<Object> createNote(
-      @RequestBody @Valid CreateNoteParamsDto params,
       @PathVariable Integer notebookId
       ){
+    CreateNoteParamsDto params = new CreateNoteParamsDto();
     params.setNotebookId(notebookId);
-    noteService.createNote(params);
-      return ResponseEntity.status(201).body(Map.of("result", true));
+   Integer noteId = noteService.createNote(params);
+      return ResponseEntity.status(201).body(Map.of("result", true, "noteId", noteId));
   }
 
   //更新筆記內容
