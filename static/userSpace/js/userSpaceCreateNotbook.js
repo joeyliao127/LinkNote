@@ -1,5 +1,4 @@
 const createNotebookPage = document.querySelectorAll(".createNotebookPage");
-
 function createNotebookInit() {
   cancelCreateForm();
   toPageOne();
@@ -93,7 +92,13 @@ function verifyEmailBtn() {
   const emailList = document.querySelector(".addEmailList");
 
   async function setEmail(email) {
-    const count = emailList.querySelectorAll(".email-item").length;
+    console.log(`觸發setEmail`);
+    const emailItems = emailList.querySelectorAll(".email-item");
+    const count = emailItems.length;
+    const emailCheckList = [];
+    emailItems.forEach((email) => {
+      emailCheckList.push(email.textContent);
+    });
     console.log(`count: ${count}`);
     if (count >= 4) {
       createErrorMsg("Up to 4 collaborators are allowed.");
@@ -102,6 +107,11 @@ function verifyEmailBtn() {
     if (!verifyEmailRegx(email)) {
       createErrorMsg("invalid email format");
       return 0;
+    }
+    console.log(email in emailCheckList);
+    if (emailCheckList.includes(email)) {
+      createErrorMsg("Email already exists.");
+      return;
     }
     const path = `/api/user/email?email=${emailInput.value}`;
     try {
@@ -118,9 +128,11 @@ function verifyEmailBtn() {
         div.dataset.userId = emailInfo.userId;
         emailList.appendChild(div);
         emailInput.value = "";
+        MsgMaker.showMsg(MsgMaker.success, "create collaborator success!");
         emailRemovelistener();
       }
     } catch (e) {
+      console.log(e);
       createErrorMsg("invalid email address");
     }
 
@@ -138,11 +150,13 @@ function verifyEmailBtn() {
   }
 
   emailInput.addEventListener("keyup", (event) => {
+    console.log(`觸發keyup`);
     if (event.keyCode == 13) {
       setEmail(emailInput.value);
     }
   });
   emailVerifyBtn.addEventListener("click", () => {
+    console.log(`觸發click`);
     setEmail(emailInput.value);
   });
 }

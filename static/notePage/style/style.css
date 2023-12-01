@@ -5,7 +5,6 @@
 @import url(/static/notePage/style/sideBar/collaborators.css);
 @import url(/static/notePage/style/sideBar/inviteCollaboratorBar.css);
 @import url(/static/notePage/style/sideBar/NotesSideBar.css);
-@import url(/static/base/style/notification.css);
 
 .wrapper {
   max-width: 1200px;

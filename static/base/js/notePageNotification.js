@@ -1,20 +1,25 @@
 class MsgMaker {
-  showMsg(type, msg) {
+  static success = "success";
+  static failed = "failed";
+  static warn = "warn";
+
+  static showMsg(type, msg) {
     let msgCtn;
-    switch(type){
-        case "success":
-            msgCtn = document.querySelector("#success");
-        case "failed":
-            msgCtn = document.querySelector("#failed");
-        case "warn":
-            msgCtn = document.querySelector("#join");
-        case "left":
-            msgCtn = document.querySelector("#left");
-        case "unlock":
-            msgCtn = document.querySelector("#unlock");
-        case ""
+    switch (type) {
+      case "success":
+        console.log(`綠色`);
+        msgCtn = document.querySelector("#success");
+        break;
+      case "failed":
+        console.log(`紅色`);
+        msgCtn = document.querySelector("#failed");
+        break;
+      case "warn":
+        console.log(`橘色`);
+        msgCtn = document.querySelector("#warn");
+        break;
     }
-   
+
     msgCtn.textContent = msg;
     msgCtn.classList.toggle("display-none");
     setTimeout(() => {
@@ -22,5 +27,3 @@ class MsgMaker {
     }, 3000);
   }
 }
-
-const show = new MsgMaker();
