@@ -1,4 +1,3 @@
-const token = localStorage.getItem("token");
 function sideBarInit() {
   switchNotebooksTpyeBtn();
   newNotbookBtn();

@@ -129,7 +129,7 @@ public class NotebookServiceImpl implements NotebookService {
     tagService.createNotebookTag(tag, notebookId);
   }
   @Override
-  public void createCollaborator(CreateCollaboratorParamsDto params) {
+  public Integer createCollaborator(CreateCollaboratorParamsDto params) {
     verifyNotebookOwnerByUserId(params.getUserId(), params.getNotebookId(), notebookDao);
     if(intermediaryService.verifyCollaboratorsCount(params.getUserId(), params.getNotebookId())){
       throw new CollaboratorsAreLimitException("超過共編人數上限");
@@ -139,7 +139,7 @@ public class NotebookServiceImpl implements NotebookService {
         throw new EmailDoesNotExistException("此email不存在");
       }
       params.setCollaboratorId(collaboratorId);
-      intermediaryService.createNotebookCollaborator(params);
+      return intermediaryService.createNotebookCollaborator(params);
   }
 
   @Override

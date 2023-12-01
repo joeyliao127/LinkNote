@@ -1,6 +1,6 @@
 class MsgMaker {
   static success = "success";
-  static failed = "failed";
+  static error = "error";
   static warn = "warn";
 
   static showMsg(type, msg) {
@@ -10,7 +10,7 @@ class MsgMaker {
         console.log(`綠色`);
         msgCtn = document.querySelector("#success");
         break;
-      case "failed":
+      case "error":
         console.log(`紅色`);
         msgCtn = document.querySelector("#failed");
         break;

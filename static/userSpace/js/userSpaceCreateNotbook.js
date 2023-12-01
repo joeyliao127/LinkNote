@@ -199,7 +199,7 @@ function createNotebookBtnListener() {
       window.location.href = `/notePage.html?notebookId=${result.notebookId}`;
     } else {
       if (result.msg === "Duplicate notebook name.") {
-        createErrorMsg(result.msg);
+        MsgMaker.showMsg(MsgMaker.error, result.msg);
       }
     }
   });

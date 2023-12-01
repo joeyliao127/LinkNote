@@ -146,8 +146,8 @@ public ResponseEntity<Object> createCollaborator(
    Integer userId = tokenService.parserJWTToken(Authorization).get("userId", Integer.class);
    params.setUserId(userId);
    params.setNotebookId(notebookId);
-   notebookService.createCollaborator(params);
-   return ResponseEntity.status(201).body(Map.of("result", true));
+   Integer collaboratorId = notebookService.createCollaborator(params);
+   return ResponseEntity.status(201).body(Map.of("result", true, "collaboratorId", collaboratorId));
 }
 
   //更新notebook name

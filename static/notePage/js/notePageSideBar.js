@@ -1,13 +1,23 @@
-const notebookId = location.href.split("=")[1];
+const urlSearchParams = new URLSearchParams(window.location.search);
+const params = Object.fromEntries(urlSearchParams.entries());
+const notebookId = params.notebook;
+const noteId = params.note;
 console.log("notebookId:", notebookId);
-function notePageSideBarinit() {}
+console.log("noteId", noteId);
+
+function notePageSideBarinit() {
+  createNote();
+}
 
 function createNote() {
-  const createNotebtn = document.querySelector("#newNoteBtn");
-  const notesGroup = document.querySelector(".notes-group");
-  createNotebtn.addEventListener("click", async () => {
-    const response = await fetch(`/api/notebook/${notebookId}/notes`);
-    if (response.ok) {
-    }
+  const createNoteBtn = document.querySelector("#newNoteBtn");
+  createNoteBtn.addEventListener("click", async () => {
+    const noteGroup = document.querySelector(".notes-group");
+    console.log(noteGroup);
+    const path = `/api/notebooks/${notebookId}/notes`;
+    const result = await fetchData(path, "POST");
+    window.location.href = `/notePage.html?notebook=${notebookId}&note=${result.noteId}`;
+    createNoteTitle(noteGroup, false, "new note", true, noteId.noteId);
   });
 }
+notePageSideBarinit();

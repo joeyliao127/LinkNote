@@ -32,6 +32,7 @@ main.edit-wrapper {
     border-radius: 5px;
     padding: 3px;
     transition: all 0.2s ease-in-out;
+    vertical-align: bottom;
     cursor: pointer;
     &:hover {
       background-color: #aaaaaa;
@@ -48,24 +49,29 @@ main.edit-wrapper {
     transition: all 0.2s ease-in-out;
     cursor: pointer;
   }
-  & div:nth-child(3) {
+
+  #discard {
     background-color: transparent;
     &:hover {
       background-color: red;
     }
   }
-  & div:nth-child(4) {
-    background-color: #263935;
+  #save {
     &:hover {
       background-color: #3b5953;
     }
   }
+
   .tagBtn {
     position: relative;
     .tagList {
       position: absolute;
       top: 35px;
       left: 0px;
+      p {
+        color: white;
+        font-size: 14px;
+      }
     }
 
     #done {
