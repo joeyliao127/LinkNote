@@ -1,0 +1,15 @@
+@import url(/static/base/style.css);
+@import url(/static/notePage/style/nav/notePageNav.css);
+@import url(/static/notePage/style/main/ntMainToolBar.css);
+@import url(/static/notePage/style/main/writingArea.css);
+@import url(/static/notePage/style/sideBar/collaborators.css);
+@import url(/static/notePage/style/sideBar/inviteCollaboratorBar.css);
+@import url(/static/notePage/style/sideBar/NotesSideBar.css);
+
+.wrapper {
+  max-width: 1200px;
+  width: 100vw;
+  margin: auto;
+  gap: 30px;
+  justify-content: space-evenly;
+}

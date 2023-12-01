@@ -1,0 +1,87 @@
+main.edit-wrapper {
+  min-width: 800px;
+  flex-grow: 1;
+  padding-bottom: 20px;
+}
+
+.edit-area {
+  border-radius: 20px;
+  background-color: rgba(33, 33, 33, 0.7);
+  padding: 20px;
+}
+
+.edit-ctn-tools {
+  justify-content: space-between;
+  input {
+    // width: 50%;
+    flex-grow: 1;
+    padding-right: 10px;
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 24px;
+  }
+}
+
+.edit-group-tools {
+  gap: 5px;
+  img {
+    width: 35px;
+    height: 35px;
+    border: 1px solid #aaaaaa;
+    border-radius: 5px;
+    padding: 3px;
+    transition: all 0.2s ease-in-out;
+    vertical-align: bottom;
+    cursor: pointer;
+    &:hover {
+      background-color: #aaaaaa;
+    }
+  }
+  #discard,
+  #save {
+    font-size: 14px;
+    color: white;
+    border: 1px solid #aaaaaa;
+    border-radius: 5px;
+    margin: auto;
+    padding: 10px 20px;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+  }
+
+  #discard {
+    background-color: transparent;
+    &:hover {
+      background-color: red;
+    }
+  }
+  #save {
+    &:hover {
+      background-color: #3b5953;
+    }
+  }
+
+  .tagBtn {
+    position: relative;
+    .tagList {
+      position: absolute;
+      top: 35px;
+      left: 0px;
+      p {
+        color: white;
+        font-size: 14px;
+      }
+    }
+
+    #done {
+      display: block;
+      margin-top: 5px;
+      position: static;
+      margin-left: auto;
+      background-color: green;
+      border-radius: 5px;
+      color: white;
+    }
+  }
+}
