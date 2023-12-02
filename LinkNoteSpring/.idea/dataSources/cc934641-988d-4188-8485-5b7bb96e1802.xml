@@ -1130,8 +1130,8 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     </schema>
     <schema id="289" parent="1" name="linkNote">
       <Current>1</Current>
-      <IntrospectionTimestamp>2023-11-29.06:10:33</IntrospectionTimestamp>
-      <LocalIntrospectionTimestamp>2023-11-28.14:10:33</LocalIntrospectionTimestamp>
+      <IntrospectionTimestamp>2023-12-01.21:42:33</IntrospectionTimestamp>
+      <LocalIntrospectionTimestamp>2023-12-01.05:42:33</LocalIntrospectionTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <schema id="290" parent="1" name="mysql">
@@ -1241,13 +1241,14 @@ userId</ColNames>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="314" parent="300" name="id">
-      <AutoIncrement>17</AutoIncrement>
+      <AutoIncrement>1</AutoIncrement>
       <DasType>bigint|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
     <column id="315" parent="300" name="name">
       <DasType>varchar(255)|0s</DasType>
+      <DefaultExpression>&apos;New note&apos;</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
@@ -1293,7 +1294,7 @@ userId</ColNames>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="325" parent="301" name="id">
-      <AutoIncrement>6</AutoIncrement>
+      <AutoIncrement>1</AutoIncrement>
       <DasType>bigint|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -1408,7 +1409,7 @@ notebookId</ColNames>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="349" parent="303" name="id">
-      <AutoIncrement>7</AutoIncrement>
+      <AutoIncrement>9</AutoIncrement>
       <DasType>bigint|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>

@@ -20,6 +20,9 @@ public class TokenVerifyInterceptor implements HandlerInterceptor {
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
       throws Exception {
     try {
+      if(request.getMethod().equals("OPTIONS")){
+        return true;
+      }
       String Authorization = request.getHeader("Authorization");
       log.info("攔截器：驗證token.");
       return tokenService.verifyToken(Authorization);

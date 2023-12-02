@@ -14,7 +14,7 @@ public interface IntermediaryService {
   //建立notebook時，批量新增協作者
   void createNotebookCollaborators(List<Integer> collaboratorList, Integer notebookId, Integer ownerId);
 
-  void createNotebookCollaborator(CreateCollaboratorParamsDto params);
+  Integer createNotebookCollaborator(CreateCollaboratorParamsDto params);
 
   void deleteCollaborator(DeleteCollaboratorsParamDto param);
 

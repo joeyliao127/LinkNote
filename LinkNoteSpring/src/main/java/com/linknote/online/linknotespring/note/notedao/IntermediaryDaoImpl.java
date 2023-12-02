@@ -3,7 +3,6 @@ package com.linknote.online.linknotespring.note.notedao;
 import com.linknote.online.linknotespring.note.notedto.CreateCollaboratorParamsDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteCollaboratorsParamDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNotebookParamsDto;
-import com.linknote.online.linknotespring.note.notedto.DeleteNotebookTagParamDto;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -11,8 +10,12 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -53,13 +56,14 @@ public class IntermediaryDaoImpl implements IntermediaryDao {
   }
 
   @Override
-  public void createCollaborator(CreateCollaboratorParamsDto params) {
+  public Integer createCollaborator(CreateCollaboratorParamsDto params) {
     String sql = "INSERT INTO collaborators (owner, notebookId, userId) VALUES (:ownerId, :notebookId, :userId)";
     Map<String, Object> map = new HashMap<>();
     map.put("ownerId", params.getUserId());
     map.put("notebookId", params.getNotebookId());
     map.put("userId", params.getCollaboratorId());
-    namedParameterJdbcTemplate.update(sql, map);
+    KeyHolder keyHolder = new GeneratedKeyHolder();
+    return namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource(map), keyHolder);
   }
 
   @Override

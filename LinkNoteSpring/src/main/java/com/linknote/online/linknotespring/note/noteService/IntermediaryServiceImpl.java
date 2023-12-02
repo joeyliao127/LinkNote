@@ -28,8 +28,8 @@ public class IntermediaryServiceImpl implements  IntermediaryService{
   }
 
   @Override
-  public void createNotebookCollaborator(CreateCollaboratorParamsDto params) {
-    intermediaryDao.createCollaborator(params);
+  public Integer createNotebookCollaborator(CreateCollaboratorParamsDto params) {
+    return intermediaryDao.createCollaborator(params);
   }
 
   @Override

@@ -18,6 +18,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,11 +26,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Validated
+@CrossOrigin(origins = "http://127.0.0.1:5501"
+    , methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE}
+    , maxAge = 60 * 60 * 24
+)
 public class NoteController {
 
   @Autowired
@@ -69,12 +75,12 @@ public class NoteController {
   //新建note
   @PostMapping("/api/notebooks/{notebookId}/notes")
   public ResponseEntity<Object> createNote(
-      @RequestBody @Valid CreateNoteParamsDto params,
       @PathVariable Integer notebookId
       ){
+    CreateNoteParamsDto params = new CreateNoteParamsDto();
     params.setNotebookId(notebookId);
-    noteService.createNote(params);
-      return ResponseEntity.status(201).body(Map.of("result", true));
+   Integer noteId = noteService.createNote(params);
+      return ResponseEntity.status(201).body(Map.of("result", true, "noteId", noteId));
   }
 
   //更新筆記內容

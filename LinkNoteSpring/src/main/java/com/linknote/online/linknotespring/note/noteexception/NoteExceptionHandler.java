@@ -25,7 +25,7 @@ public class NoteExceptionHandler {
   public ResponseEntity<Object> notebookAlreadyExistsException(NotebookAlreadyExistsException e){
     log.warn("NoteExceptionHandler: notebookAlreadyExistsException");
     log.info(e.getMessage());
-    return ResponseEntity.status(400).body(Map.of("result", false, "msg", "筆記本名稱重複"));
+    return ResponseEntity.status(400).body(Map.of("result", false, "msg", "Duplicate notebook name."));
   }
 
   @ExceptionHandler(CollaboratorsAreLimitException.class)

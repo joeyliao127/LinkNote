@@ -1,0 +1,16 @@
+.nav {
+  padding: 10px;
+  cursor: pointer;
+  gap: 5px;
+}
+.nav img {
+  display: block;
+  width: 45px;
+  height: 45px;
+}
+.nav h1 {
+  margin: auto 0;
+  color: #2f403d;
+  font-size: 35px;
+  font-weight: 700;
+}/*# sourceMappingURL=notePageNav.css.map */

@@ -97,7 +97,7 @@ public class NotebookServiceImpl implements NotebookService {
 
   @Override
   @Transactional
-  public void createNotebook(CreateNotebookParamsDto params) {
+  public Integer createNotebook(CreateNotebookParamsDto params) {
     String checkNotebookName = notebookDao.getNotebookNameByUserId(params.getUserId(), params.getName());
     log.info("查詢到的notebookName，找到代表已經存在: " + checkNotebookName);
     if(checkNotebookName != null){
@@ -120,6 +120,7 @@ public class NotebookServiceImpl implements NotebookService {
       collaboratorList.add(emailId);
     }
    intermediaryService.createNotebookCollaborators(collaboratorList, notebookId, params.getUserId());
+    return notebookId;
   }
 
   @Override
@@ -128,7 +129,7 @@ public class NotebookServiceImpl implements NotebookService {
     tagService.createNotebookTag(tag, notebookId);
   }
   @Override
-  public void createCollaborator(CreateCollaboratorParamsDto params) {
+  public Integer createCollaborator(CreateCollaboratorParamsDto params) {
     verifyNotebookOwnerByUserId(params.getUserId(), params.getNotebookId(), notebookDao);
     if(intermediaryService.verifyCollaboratorsCount(params.getUserId(), params.getNotebookId())){
       throw new CollaboratorsAreLimitException("超過共編人數上限");
@@ -138,7 +139,7 @@ public class NotebookServiceImpl implements NotebookService {
         throw new EmailDoesNotExistException("此email不存在");
       }
       params.setCollaboratorId(collaboratorId);
-      intermediaryService.createNotebookCollaborator(params);
+      return intermediaryService.createNotebookCollaborator(params);
   }
 
   @Override
