@@ -6,6 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="31befe92-750a-4d2c-ab08-ee48786e5281" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/NotebookDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/NotebookDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/userSpace/js/userSpaceCreateNotbook.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/userSpace/js/userSpaceCreateNotbook.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/userSpace/js/userSpaceNoteConsole.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/userSpace/js/userSpaceNoteConsole.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/userSpace/js/userSpaceSidebar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/userSpace/js/userSpaceSidebar.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/userSpace/style/notesConsole/notesConsole.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/userSpace/style/notesConsole/notesConsole.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/userSpace/style/notesConsole/notesConsole.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/userSpace/style/notesConsole/notesConsole.scss" afterDir="false" />

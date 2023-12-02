@@ -92,7 +92,6 @@ function verifyEmailBtn() {
   const emailList = document.querySelector(".addEmailList");
 
   async function setEmail(email) {
-    console.log(`觸發setEmail`);
     const emailItems = emailList.querySelectorAll(".email-item");
     const count = emailItems.length;
     const emailCheckList = [];
@@ -196,7 +195,9 @@ function createNotebookBtnListener() {
     console.log(createNBParam);
     const result = await fetchData(path, "POST", createNBParam);
     if (result.result) {
-      window.location.href = `/notebooks`;
+      switchUserSpacePage();
+      console.log(result.notebookId);
+      createOneNotebookBtn(notebookName, description, result.notebookId);
     } else {
       if (result.msg === "Duplicate notebook name.") {
         MsgMaker.error("Duplicate notebook name");

@@ -1,6 +1,6 @@
 function sideBarInit() {
   switchNotebooksTpyeBtn();
-  newNotbookBtn();
+  newNotbookBtnListener();
   signOutBtn();
   setUserInfo();
   setNotebooks();
@@ -28,20 +28,21 @@ function switchNotebooksTpyeBtn() {
   });
 }
 
-function newNotbookBtn() {
+function newNotbookBtnListener() {
   const newNoteBookBtn = document.querySelector(".sideBar-newNotebookBtn");
+  newNoteBookBtn.addEventListener("click", switchUserSpacePage);
+}
+
+function switchUserSpacePage() {
   const noteConsoleArea = document.querySelector(".main-area-noteConsole");
   const createNotebookArea = document.querySelector(
     ".main-area-createNotebook"
   );
-  newNoteBookBtn.addEventListener("click", () => {
-    noteConsoleArea.classList.add("toForm");
-    createNotebookArea.classList.add("toForm");
-    noteConsoleArea.classList.remove("toNote");
-    createNotebookArea.classList.remove("toNote");
-  });
+  noteConsoleArea.classList.toggle("toForm");
+  createNotebookArea.classList.toggle("toForm");
+  noteConsoleArea.classList.toggle("toNote");
+  createNotebookArea.classList.toggle("toNote");
 }
-
 function signOutBtn() {
   const btn = document.querySelector(".sideBar-item-signoutBtn");
   btn.addEventListener("click", () => {
@@ -58,41 +59,45 @@ async function setUserInfo() {
   email.textContent = data.email;
 }
 
-function setNotebooks() {
+async function setNotebooks() {
   const myNotebook = document.querySelector(".myNotebooks");
   const coNotebook = document.querySelector(".coNotebooks");
   const notebookPath = `/api/notebooks?offset=0&limit=20&coNotebook=false`;
   const coNotebookPath = `/api/notebooks?offset=0&limit=20&coNotebook=true`;
-  genNotebooks(myNotebook, notebookPath, false);
-  genNotebooks(coNotebook, coNotebookPath, true);
+  const getNotebooksRes = await fetchData(notebookPath, "GET");
+  const getcoNotebooksRes = await fetchData(coNotebookPath, "GET");
+  console.log(`產生notebooks title`);
+  genNotebooks(getNotebooksRes.notebooks, myNotebook, false);
+  console.log(`產生coNotebooks title`);
+  genNotebooks(getcoNotebooksRes.notebooks, coNotebook, true);
+}
 
-  async function genNotebooks(notebookCtn, path, isCoNotebook) {
-    const GetNotebooksRes = await fetchData(path, "GET");
+function genNotebooks(notebookInfos, notebookCtn, isCoNotebook) {
+  for (let notebook of notebookInfos) {
+    const notebookTitle = document.createElement("div");
+    notebookTitle.textContent = notebook.name;
+    notebookTitle.dataset.name = notebook.name;
+    notebookTitle.dataset.notebookId = notebook.notebookId;
+    notebookTitle.dataset.description = notebook.description;
 
-    for (let notebook of GetNotebooksRes.notebooks) {
-      const notebookTitle = document.createElement("div");
-      notebookTitle.textContent = notebook.name;
-      notebookTitle.dataset.name = notebook.name;
-      notebookTitle.dataset.notebookId = notebook.notebookId;
-      notebookTitle.dataset.description = notebook.description;
-
-      if (isCoNotebook) {
-        notebookTitle.classList.add("coNotebook");
-      } else {
-        notebookTitle.classList.add("notebook");
-      }
-
-      notebookCtn.appendChild(notebookTitle);
+    if (isCoNotebook) {
+      notebookTitle.classList.add("coNotebook");
+    } else {
+      notebookTitle.classList.add("notebook");
     }
-    notebooksBtnListener(isCoNotebook);
+
+    notebookCtn.appendChild(notebookTitle);
   }
+  notebooksBtnListener(isCoNotebook);
 }
 
 function notebooksBtnListener(isCoNotebook) {
   let notebooks;
   if (isCoNotebook) {
+    console.log(`製作coNotebook監聽器`);
     notebooks = document.querySelectorAll(".coNotebook");
   } else {
+    console.log(`製作Notebook監聽器`);
     notebooks = document.querySelectorAll(".notebook");
   }
 
@@ -102,10 +107,13 @@ function notebooksBtnListener(isCoNotebook) {
     notebooks[i].addEventListener("click", async () => {
       if (selectedId == -1) {
         notebooks[i].classList.toggle("selected");
+        const newNoteBtn = document.querySelector(".newNoteBtn");
+        newNoteBtn.classList.remove("display-none");
       } else {
         notebooks[selectedId].classList.toggle("selected");
         notebooks[i].classList.toggle("selected");
       }
+      console.log(`執行setNotes`);
       setNotes(notebooks[i]);
       selectedId = i;
     });
@@ -113,9 +121,12 @@ function notebooksBtnListener(isCoNotebook) {
 }
 
 let notesDataMap = {};
-//傳入notebook物件，取得notebookId & name & description
+
+//傳入notebook物件，取得dataset中的notebookId & name & description
 async function setNotes(notebook) {
   const notebookName = notebook.dataset.name;
+  console.log(`執行note maker，notebook name: ${notebookName}`);
+  //如果在notesDataMap(暫存器)中找到key，新增key
   if (!notesDataMap.hasOwnProperty(notebookName)) {
     notesDataMap[notebookName] = {};
     notesDataMap[`${notebookName}`]["name"] = notebookName;
@@ -133,9 +144,12 @@ async function setNotes(notebook) {
   notebookNameCtn.textContent = notesDataMap[notebookName].name;
   descriptionCtn.textContent = notesDataMap[notebookName].description;
   const noteCardCtn = document.querySelector(".main-group-notes");
+
+  //切換筆記本，清空note
   noteCardCtn.innerHTML = "";
+  console.log(`141行：`);
+  console.log(notesDataMap[notebookName].notes);
   notesDataMap[notebookName].notes.forEach((note) => {
-    console.log(`創建子物件`);
     const noteCard = document.createElement("div");
     const star = document.createElement("img");
     const noteName = document.createElement("h3");
@@ -163,6 +177,27 @@ async function setNotes(notebook) {
   });
 }
 
+function removeNotebookBtn(notebookId) {
+  const notebookList = document.querySelectorAll(".notebook");
+  notebookList.forEach((notebook) => {
+    if (notebook.dataset.notebookId === notebookId) {
+      notebook.remove();
+    }
+  });
+}
+
+function createOneNotebookBtn(name, description, notebookId) {
+  const myNotebooks = document.querySelector(".myNotebooks");
+  let notebookInfo = [
+    {
+      notebookId,
+      name,
+      description,
+    },
+  ];
+  console.log(notebookInfo);
+  genNotebooks(notebookInfo, myNotebooks, false);
+}
 //取得notebook -> 觀察notebook -> fetch notebook -> 觀察notebook
 
 sideBarInit();
