@@ -1,7 +1,6 @@
 function userSpaceNoteConsoleInit() {
   noteCardLitener();
-  createNoteListener();
-  setNotebooks();
+  createNoteBtnListener();
 }
 
 function noteCardLitener() {
@@ -13,35 +12,22 @@ function noteCardLitener() {
   });
 }
 
-function createNoteListener() {
+function createNoteBtnListener() {
   const newNoteBtn = document.querySelector(".newNoteBtn");
-  newNoteBtn.addEventListener("click", () => {
-    // const notebooks
-    // fetchData()
-  });
-}
-function setNotebooks() {
-  const myNotebook = document.querySelector(".myNotebook");
-  console.log(myNotebook);
-  const coNotebook = document.querySelector(".coNotebook");
-  console.log(coNotebook);
-  const notebookPath = `/api/notebooks?offset=0&limit=20&coNotebook=false`;
-  const coNotebookPath = `/api/notebooks?offset=0&limit=20&coNotebook=true`;
-  genNotebooks(myNotebook, notebookPath);
-  genNotebooks(coNotebook, coNotebookPath);
+  newNoteBtn.addEventListener("click", async () => {
+    const notebook = document.querySelector(".main-group-subjectInfo h2");
+    console.log(notebook);
+    const notebookId = notebook.dataset.notebookId;
+    console.log(notebookId);
 
-  async function genNotebooks(notebookCtn, path) {
-    const GetNotebooksRes = await fetchData(path, "GET");
-    console.log(`開始產生notebook`);
-    for (let notebook of GetNotebooksRes.notebooks) {
-      const notebookTitle = document.createElement("div");
-      notebookTitle.classList.add("notebook");
-      notebookTitle.textContent = notebook.name;
-      notebookTitle.dataset.notebookId = notebook.notebookId;
-      notebookTitle.dataset.description = notebook.description;
-      notebookCtn.appendChild(notebookTitle);
+    const path = `/api/notebooks/${notebookId}/notes`;
+    const result = await fetchData(path, "POST");
+    if (result.result) {
+      window.location.href = `/notebooks/${notebookId}/notes/${result.noteId}`;
+    } else {
+      MsgMaker.error("Create note failed");
     }
-  }
+  });
 }
 
 userSpaceNoteConsoleInit();

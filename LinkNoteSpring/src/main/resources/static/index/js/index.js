@@ -1,10 +1,9 @@
-const apiUrl = "http://localhost:8080";
-// const apiUrl = "https://linknote.online";
 let errMsg = document.querySelector("#signin-error-msg");
 async function init() {
   const token = localStorage.getItem("token");
   if (token) {
     verifyUserByToken(token);
+    window.location.href = "/notebooks";
   }
   switchFormBtn();
   register();
@@ -63,7 +62,7 @@ function register() {
 }
 
 async function fetchRegisterEndpoint(username, email, password) {
-  const endpoint = apiUrl + "/api/user/register";
+  const endpoint = "/api/user/register";
   const requestBody = { username, email, password };
   const request = {
     method: "POST",
@@ -103,7 +102,7 @@ function signInBtnListener() {
   signinBtn.addEventListener("click", async () => {
     const email = document.querySelector("#signin-email").value;
     const password = document.querySelector("#signin-password").value;
-    const endpoint = apiUrl + "/api/user/auth";
+    const endpoint = "/api/user/auth";
     const reqBody = { email: email, password: password };
     console.log(`email: ${email}, ps:${password}`);
     const checkInput = validateEmailFormatAndPasswordNotNull(email, password);
@@ -135,7 +134,7 @@ function signInBtnListener() {
 }
 
 async function verifyUserByToken(token) {
-  const response = await fetch(apiUrl + "/api/user/auth", {
+  const response = await fetch("/api/user/auth", {
     headers: {
       Authorization: "Bearer " + token,
       "Content-Type": "application/json",

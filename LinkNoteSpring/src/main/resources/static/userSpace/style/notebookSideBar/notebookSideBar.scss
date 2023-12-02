@@ -143,10 +143,10 @@
     }
   }
 }
-.myNotebook {
+.myNotebooks {
   transition: all 0.3s ease-in-out;
 }
-.coNotebook {
+.coNotebooks {
   transition: all 0.3s ease-in-out;
 }
 //扣除welcom, feature btn, bottom後的高度 = 375px, 保險抓400px h
@@ -161,11 +161,11 @@
   &::-webkit-scrollbar {
     width: 0;
   }
-  .myNotebook {
+  .myNotebooks {
     width: 230px;
     flex-shrink: 0;
   }
-  .coNotebook {
+  .coNotebooks {
     width: 230px;
     flex-shrink: 0;
   }
@@ -176,7 +176,8 @@
   }
 }
 
-.notebook {
+.notebook,
+.coNotebook {
   border: 1px solid #aaaaaa;
   padding: 12px 10px 12px 20px;
   margin-top: 13px;

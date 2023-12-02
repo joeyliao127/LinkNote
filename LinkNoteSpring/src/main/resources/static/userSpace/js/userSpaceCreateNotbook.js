@@ -196,7 +196,7 @@ function createNotebookBtnListener() {
     console.log(createNBParam);
     const result = await fetchData(path, "POST", createNBParam);
     if (result.result) {
-      window.location.href = `/notebooks/${notebookId}}}`;
+      window.location.href = `/notebooks`;
     } else {
       if (result.msg === "Duplicate notebook name.") {
         MsgMaker.error("Duplicate notebook name");

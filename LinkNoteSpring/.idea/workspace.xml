@@ -5,100 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="31befe92-750a-4d2c-ab08-ee48786e5281" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../LinkNote-ERD.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/renderTemplates.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/renderTemplates.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/base/js/base.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/base/js/base.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/base/js/notePageNotification.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/base/js/notePageNotification.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/index/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/index/js/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/notePage/js/notePageMain.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/notePage/js/notePageMain.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/notePage/js/notePageNav.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/notePage/js/notePageNav.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/notePage/js/notePageSideBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/notePage/js/notePageSideBar.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/userSpace/js/userSpaceCreateNotbook.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/userSpace/js/userSpaceCreateNotbook.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/userSpace/js/userSpaceNoteConsole.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/userSpace/js/userSpaceNoteConsole.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/userSpace/js/userSpaceSidebar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/userSpace/js/userSpaceSidebar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/userSpace/style/notebookSideBar/notebookSideBar.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/userSpace/style/notebookSideBar/notebookSideBar.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/userSpace/style/notebookSideBar/notebookSideBar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/userSpace/style/notebookSideBar/notebookSideBar.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/userSpace.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/userSpace.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../notePage.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/base/js/base.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/base/js/notePageNotification.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/base/style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/base/style/base.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/base/style/base.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/base/style/notification.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/base/style/notification.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/base/style/reset.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/base/style/style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/index/js/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/index/style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/index/style/style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/index/style/style.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/notePage/js/notePageMain.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/notePage/js/notePageNav.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/notePage/js/notePageSideBar.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/notePage/style/main/ntMainToolBar.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/notePage/style/main/ntMainToolBar.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/notePage/style/main/writingArea.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/notePage/style/main/writingArea.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/notePage/style/nav/notePageNav.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/notePage/style/nav/notePageNav.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/notePage/style/sideBar/NotesSideBar.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/notePage/style/sideBar/collaborators.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/notePage/style/sideBar/collaborators.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/notePage/style/sideBar/inviteCollaboratorBar.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/notePage/style/sideBar/inviteCollaboratorBar.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/notePage/style/sideBar/notesSideBar.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/notePage/style/style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/font/Kanit-Regular.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/LinkNote.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/README.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/add.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/align-center.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/align-left.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/align-right.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/blod.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/box.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/change.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/checked.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/clock.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/close.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/email.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/error.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/fugi.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/italics.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/leaf.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/link-white.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/lock.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/node-green.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/nodes-black.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/nodes-blue.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/nodes-colorful.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/nodes-green.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/nodes-white.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/password.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/person-white.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/person.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/road.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/search.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/share-white.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/signout.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/star-empty.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/star-full.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/tag.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/trash-white.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/trash.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/underline.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/unlock.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/resource/images/wrapper-backgroud-image.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/userSpace/js/userSpaceCreateNotbook.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/userSpace/js/userSpaceNoteConsole.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/userSpace/js/userSpaceSidebar.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/userSpace/style/createNotebookForm/createNotebookForm.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/userSpace/style/createNotebookForm/createNotebookForm.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/userSpace/style/notebookSideBar/notebookSideBar.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/userSpace/style/notebookSideBar/notebookSideBar.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/userSpace/style/notesConsole/notesConsole.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/userSpace/style/notesConsole/notesConsole.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../static/userSpace/style/style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../userSpace.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

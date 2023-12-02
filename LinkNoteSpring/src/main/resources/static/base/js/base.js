@@ -8,9 +8,11 @@ function baseInit() {
     window.location.href = "/";
   }
 }
-
+let i = 0;
 async function verifyUserToken(token) {
-  const response = await fetch(apiUrl + "/api/user/auth", {
+  i += 1;
+  console.log("執行token", i);
+  const response = await fetch("/api/user/auth", {
     headers: {
       Authorization: "Bearer " + token,
       "Content-Type": "application/json",
@@ -22,11 +24,11 @@ async function verifyUserToken(token) {
   console.log(verifyResult);
   if (!verifyResult.parseResult) {
     localStorage.removeItem("token");
+    location.href = "/";
   }
 }
 
 async function fetchData(path, method, body) {
-  console.log(`path = ${path}`);
   const response = await fetch(apiUrl + path, {
     headers: {
       "Content-Type": "application/json",
@@ -38,17 +40,17 @@ async function fetchData(path, method, body) {
   return response.json();
 }
 
-function lazyLoading(fetchParams) {
-  console.log(`執行lazy loading`);
-  const notebooks = document.querySelectorAll(".myNotebook .notebook");
-  const observer = new IntersectionObserver(async (entry) => {
-    if (entry[0].isIntersecting) {
-      observer.unobserve(entry[0].target);
-    }
-  });
-  //觀察最後一個notebook
-  observer.observe(notebooks[notebooks.length - 1]);
-}
+// function lazyLoading(fetchParams) {
+//   console.log(`執行lazy loading`);
+//   const notebooks = document.querySelectorAll(".myNotebook .notebook");
+//   const observer = new IntersectionObserver(async (entry) => {
+//     if (entry[0].isIntersecting) {
+//       observer.unobserve(entry[0].target);
+//     }
+//   });
+//   //觀察最後一個notebook
+//   observer.observe(notebooks[notebooks.length - 1]);
+// }
 
 function verifyEmailRegx(email) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

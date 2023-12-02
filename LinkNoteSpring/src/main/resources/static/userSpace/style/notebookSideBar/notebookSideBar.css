@@ -148,11 +148,11 @@
   background-color: #444444;
 }
 
-.myNotebook {
+.myNotebooks {
   transition: all 0.3s ease-in-out;
 }
 
-.coNotebook {
+.coNotebooks {
   transition: all 0.3s ease-in-out;
 }
 
@@ -168,11 +168,11 @@
 .sideBar-group-subjects::-webkit-scrollbar {
   width: 0;
 }
-.sideBar-group-subjects .myNotebook {
+.sideBar-group-subjects .myNotebooks {
   width: 230px;
   flex-shrink: 0;
 }
-.sideBar-group-subjects .coNotebook {
+.sideBar-group-subjects .coNotebooks {
   width: 230px;
   flex-shrink: 0;
 }
@@ -182,7 +182,8 @@
   font-size: 18px;
 }
 
-.notebook {
+.notebook,
+.coNotebook {
   border: 1px solid #aaaaaa;
   padding: 12px 10px 12px 20px;
   margin-top: 13px;
@@ -192,7 +193,8 @@
   transition: all 0.3s ease-in-out;
   overflow: hidden;
 }
-.notebook:hover {
+.notebook:hover,
+.coNotebook:hover {
   background-color: #999999;
 }
 
