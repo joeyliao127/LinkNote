@@ -128,7 +128,7 @@ function verifyEmailBtn() {
         div.dataset.userId = emailInfo.userId;
         emailList.appendChild(div);
         emailInput.value = "";
-        MsgMaker.showMsg(MsgMaker.success, "create collaborator success!");
+        MsgMaker.success("create collaborator success!");
         emailRemovelistener();
       }
     } catch (e) {
@@ -196,12 +196,17 @@ function createNotebookBtnListener() {
     console.log(createNBParam);
     const result = await fetchData(path, "POST", createNBParam);
     if (result.result) {
-      window.location.href = `/notePage.html?notebookId=${result.notebookId}`;
+      window.location.href = `/notebooks/${notebookId}}}`;
     } else {
       if (result.msg === "Duplicate notebook name.") {
-        MsgMaker.showMsg(MsgMaker.error, result.msg);
+        MsgMaker.error("Duplicate notebook name");
       }
     }
   });
+}
+
+function createNotebookTitle() {
+  const notebook = document.createElement("div");
+  notebook.classList.add("notebook");
 }
 createNotebookInit();

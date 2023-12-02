@@ -44,7 +44,6 @@ function lazyLoading(fetchParams) {
   const observer = new IntersectionObserver(async (entry) => {
     if (entry[0].isIntersecting) {
       observer.unobserve(entry[0].target);
-      fetchData();
     }
   });
   //觀察最後一個notebook

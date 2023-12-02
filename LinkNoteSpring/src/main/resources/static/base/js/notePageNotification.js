@@ -1,29 +1,26 @@
 class MsgMaker {
-  static success = "success";
-  static error = "error";
-  static warn = "warn";
+  static msgCtn;
+  static success(msg) {
+    this.msgCtn = document.querySelector("#success");
+    this.setMsg(msg);
+  }
 
-  static showMsg(type, msg) {
-    let msgCtn;
-    switch (type) {
-      case "success":
-        console.log(`綠色`);
-        msgCtn = document.querySelector("#success");
-        break;
-      case "error":
-        console.log(`紅色`);
-        msgCtn = document.querySelector("#failed");
-        break;
-      case "warn":
-        console.log(`橘色`);
-        msgCtn = document.querySelector("#warn");
-        break;
-    }
+  static error(msg) {
+    this.msgCtn = document.querySelector("#failed");
 
-    msgCtn.textContent = msg;
-    msgCtn.classList.toggle("display-none");
+    this.setMsg(msg);
+  }
+
+  static warn(msg) {
+    this.msgCtn = document.querySelector("#warn");
+    this.setMsg(msg);
+  }
+
+  static setMsg(msg) {
+    this.msgCtn.textContent = msg;
+    this.msgCtn.classList.toggle("display-none");
     setTimeout(() => {
-      msgCtn.classList.toggle("display-none");
+      this.msgCtn.classList.toggle("display-none");
     }, 3000);
   }
 }

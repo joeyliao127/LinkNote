@@ -76,9 +76,9 @@ function updateNoteTagListener() {
     const path = `/api/notebooks/${notebookId}/notes/${noteId}/tags`;
     const result = await fetchData(path, "PUT", { tag: updateList });
     if (result.result) {
-      MsgMaker.showMsg(MsgMaker.success, "update tag success!");
+      MsgMaker.success("update tag success!");
     } else {
-      MsgMaker.showMsg(MsgMaker.error, "update tag faild");
+      MsgMaker.error("update tag faild");
     }
   });
 }
