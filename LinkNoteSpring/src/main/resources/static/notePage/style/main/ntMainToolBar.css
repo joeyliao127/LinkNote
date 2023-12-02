@@ -23,6 +23,7 @@ main.edit-wrapper {
 }
 
 .edit-group-tools {
+  position: relative;
   gap: 5px;
 }
 .edit-group-tools img {
@@ -78,4 +79,12 @@ main.edit-wrapper {
   background-color: green;
   border-radius: 5px;
   color: white;
+}
+
+.date {
+  color: #aaaaaa;
+  font-size: 14px;
+  position: absolute;
+  right: 5px;
+  top: 45px;
 }/*# sourceMappingURL=ntMainToolBar.css.map */

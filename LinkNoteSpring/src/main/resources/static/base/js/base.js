@@ -8,10 +8,8 @@ function baseInit() {
     window.location.href = "/";
   }
 }
-let i = 0;
+
 async function verifyUserToken(token) {
-  i += 1;
-  console.log("執行token", i);
   const response = await fetch("/api/user/auth", {
     headers: {
       Authorization: "Bearer " + token,

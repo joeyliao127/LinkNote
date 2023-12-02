@@ -1,6 +1,7 @@
 function userSpaceNoteConsoleInit() {
   noteCardLitener();
   createNoteBtnListener();
+  deleteNotebookBtnListener();
 }
 
 function noteCardLitener() {
@@ -30,4 +31,34 @@ function createNoteBtnListener() {
   });
 }
 
+function deleteNotebookBtnListener() {
+  const delBtn = document.querySelector("#delBtn");
+  delBtn.addEventListener("click", async () => {
+    const notebookName = document.querySelector(".main-group-subjectInfo h2");
+    const notebookId = notebookName.dataset.notebookId;
+    if (notebookId === undefined) {
+      MsgMaker.warn("please select your notebook first");
+      return;
+    }
+    const action = window.confirm("Are you sure delete this notebook?");
+    if (action) {
+      const path = `/api/notebooks/${notebookId}`;
+      const result = await fetchData(path, "DELETE");
+      console.log(result);
+      if (result.result) {
+        const noteCardsCtn = document.querySelector(".main-group-notes");
+        const description = document.querySelector(".main-group-subjectInfo p");
+        notebookName.textContent = "Select your notebook";
+        noteCardsCtn.innerHTML = "";
+        description.textContent = "";
+        removeNotebookBtn(notebookId);
+        MsgMaker.success("deleted notebook success.");
+      } else {
+        MsgMaker.error("deleted notebook failed");
+      }
+    } else {
+      return;
+    }
+  });
+}
 userSpaceNoteConsoleInit();

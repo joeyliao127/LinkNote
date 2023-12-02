@@ -24,6 +24,7 @@ main.edit-wrapper {
 }
 
 .edit-group-tools {
+  position: relative;
   gap: 5px;
   img {
     width: 35px;
@@ -84,4 +85,11 @@ main.edit-wrapper {
       color: white;
     }
   }
+}
+.date {
+  color: #aaaaaa;
+  font-size: 14px;
+  position: absolute;
+  right: 5px;
+  top: 45px;
 }

@@ -129,7 +129,7 @@ public class NotebookDaoImpl implements NotebookDao {
 
   @Override
   public Integer verifyNotebookExist(Integer notebookId) {
-    String sql = "SELECT id FROM notebooks WHERE notebookId = :notebookId";
+    String sql = "SELECT id FROM notebooks WHERE id = :notebookId";
     Map<String, Object> map = new HashMap<>();
     map.put("notebookId", notebookId);
     List<Integer> tagId = namedParameterJdbcTemplate.query(sql, map, new RowMapper<Integer>() {
