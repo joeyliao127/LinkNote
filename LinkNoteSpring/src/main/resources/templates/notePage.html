@@ -114,8 +114,13 @@
           <div class="edit-ctn-tools flex">
             <input type="text" id="noteName" value="New note" />
             <div class="edit-group-tools flex">
-              <!-- <img src="/static/resource/images/lock.png" alt="lock" /> -->
-              <img src="/static/resource/images/star-empty.png" alt="lock" />
+              <div id="lockBtn">
+                <img src="/static/resource/images/lock.png" alt="lock" />
+              </div>
+              <div id="starBtn">
+                <img src="/static/resource/images/star-empty.png" alt="lock" />
+              </div>
+
               <div class="tagBtn">
                 <img
                   src="/static/resource/images/tag.png"
@@ -140,11 +145,13 @@
                 </div>
               </div>
 
-              <!-- <img src="/static/resource/images/share-white.png" alt="lock" /> -->
+              <img src="/static/resource/images/share-white.png" alt="shared" />
               <div id="discard">Delete</div>
               <div id="save">Save</div>
+              <div class="date"></div>
             </div>
           </div>
+
           <div class="edit-ctn-noteContent">
             <!-- <div class="noteContent-tools flex">
               <img src="/static/resource/images/blod.png" alt="blod" />
@@ -170,8 +177,8 @@
                 placeholder="Capture your ideas and record them in this note."
               ></textarea>
               <textarea
-                name="distill"
-                id="Capture your ideas and record them in this note."
+                name="keypoint"
+                id="keypoint"
                 placeholder="Distill up to three key points"
               ></textarea>
             </div>
@@ -194,9 +201,8 @@
     </div>
     <script src="/static/base/js/base.js"></script>
     <script src="/static/base/js/notePageNotification.js"></script>
+    <script src="/static/notePage/js/notePageSideBar.js"></script>
     <script src="/static/notePage/js/notePageMain.js"></script>
     <script src="/static/notePage/js/notePageNav.js"></script>
-    <script src="/static/base/js/notePageNotification.js"></script>
-    <script src="/static/notePage/js/notePageSideBar.js"></script>
   </body>
 </html>
