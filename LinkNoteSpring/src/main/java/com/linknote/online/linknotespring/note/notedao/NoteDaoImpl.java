@@ -87,35 +87,36 @@ public class NoteDaoImpl implements NoteDao{
     String sql = "UPDATE notes SET ";
 
     if(!params.getName().isEmpty() && !Objects.equals(params.getName(), " ")){
-      sql += "name = :name, ";
+      sql += "name = :name ";
       map.put("name", params.getName());
     }
 
     if(!params.getContent().isEmpty() &&
         !Objects.equals(params.getContent(), " ")){
-        sql += "content = :content, ";
+        sql += ",content = :content ";
         map.put("content", params.getContent());
     }else if(Objects.equals(params.getContent(), " ")){
-      sql += "content = ' ', ";
+      sql += ",content = ' ' ";
     }
 
     if(!params.getQuestion().isEmpty() &&
         !Objects.equals(params.getQuestion(), " ")){
-      sql += "question = :question, ";
+      sql += ",question = :question ";
       map.put("question", params.getQuestion());
     }else if(Objects.equals(params.getQuestion(), " ")){
-      sql += "question = ' ', ";
+      sql += ",question = ' ' ";
     }
 
     if(!params.getKeypoint().isEmpty() &&
         !Objects.equals(params.getKeypoint(), " ")){
-      sql += "keypoint = :keypoint ";
+      sql += ",keypoint = :keypoint ";
       map.put("keypoint", params.getKeypoint());
     }else if(Objects.equals(params.getKeypoint(), " ")){
-      sql += "keypoint = ' ', ";
+      sql += ",keypoint = ' ' ";
     }
 
     sql += "WHERE notebookId = :notebookId AND id = :noteId";
+    System.out.println("拼接玩的語法：" + sql);
     map.put("notebookId", params.getNotebookId());
     map.put("noteId", params.getNoteId());
     namedParameterJdbcTemplate.update(sql, map);
