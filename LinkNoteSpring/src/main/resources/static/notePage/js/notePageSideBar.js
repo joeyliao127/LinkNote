@@ -83,9 +83,11 @@ function createNoteBtnListener() {
 notePageSideBarinit();
 
 async function genNoteContent(noteId) {
-  const path = `/api/notebooks/${notebookId}/notes/${noteId}`;
-  const noteData = await fetchData(path, "GET");
-  if (noteData.result) {
+  const notePath = `/api/notebooks/${notebookId}/notes/${noteId}`;
+  const noteData = await fetchData(notePath, "GET");
+  const tagPath = `/api/notebooks/${notebookId}/notes/${noteId}/tags`;
+  const tagData = await fetchData(tagPath, "GET");
+  if (noteData.result && tagData.result) {
     const noteName = document.querySelector("#noteName");
     const noteQuestion = document.querySelector("#question");
     const noteContent = document.querySelector("#noteContent");
@@ -113,6 +115,16 @@ async function genNoteContent(noteId) {
     } else {
       lockBtn.setAttribute("src", "/static/resource/images/lock.png");
     }
+    const noteTags = tagData.tag;
+    //tag部分
+    const tagItems = document.querySelectorAll(".noteTagList .tagItem");
+    console.log(tagItems);
+    tagItems.forEach((tagItem) => {
+      const tag = tagItem.querySelector("p").textContent;
+      if (tag in noteTags) {
+        tagItem.classList.add("selected");
+      }
+    });
     history.pushState(
       { noteId },
       "",
