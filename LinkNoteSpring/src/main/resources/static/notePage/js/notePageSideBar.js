@@ -92,7 +92,9 @@ async function genNoteContent(noteId) {
     const noteQuestion = document.querySelector("#question");
     const noteContent = document.querySelector("#noteContent");
     const noteKeypoint = document.querySelector("#keypoint");
+    const starCtn = document.querySelector("#starBtn ");
     const starBtn = document.querySelector("#starBtn img");
+    const lockCtn = document.querySelector("#lockBtn");
     const lockBtn = document.querySelector("#lockBtn img");
     const date = document.querySelector(".date");
     const data = noteData.notePO;
@@ -101,9 +103,8 @@ async function genNoteContent(noteId) {
     noteQuestion.value = data.question;
     noteContent.value = data.noteContent;
     noteKeypoint.value = data.keypoint;
-    lockBtn.dataset.shared = data.shared;
-    starBtn.dataset.star = data.star;
-    console.log(starBtn);
+    lockCtn.dataset.shared = data.shared;
+    starCtn.dataset.star = data.star;
     date.textContent = data.createDate.split(" ")[0];
     if (data.star) {
       starBtn.setAttribute("src", "/static/resource/images/star-full.png");
@@ -118,7 +119,6 @@ async function genNoteContent(noteId) {
     const noteTags = tagData.tag;
     //tag部分
     const tagItems = document.querySelectorAll(".noteTagList .tagItem");
-    console.log(tagItems);
     tagItems.forEach((tagItem) => {
       const tag = tagItem.querySelector("p").textContent;
       if (tag in noteTags) {

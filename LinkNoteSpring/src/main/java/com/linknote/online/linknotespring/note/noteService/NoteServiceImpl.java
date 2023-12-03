@@ -47,7 +47,7 @@ public class NoteServiceImpl implements NoteService{
 
   @Override
   public void createNoteTag(UpdateNoteTagParamDto params) {
-    tagService.createNoteTag(params);
+    tagService.updateNoteTag(params);
   }
 
   @Override

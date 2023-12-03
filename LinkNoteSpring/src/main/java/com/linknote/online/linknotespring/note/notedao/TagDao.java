@@ -14,7 +14,7 @@ public interface TagDao {
 
   void createNotebookTags(List<String> tagList ,Integer notebookId);
 
-  void createNoteTag(UpdateNoteTagParamDto param);
+  void updateNoteTag(UpdateNoteTagParamDto param);
 
   void deleteNoteTag(DeleteNoteParamDto param);
 

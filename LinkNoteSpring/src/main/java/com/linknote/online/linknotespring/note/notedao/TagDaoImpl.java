@@ -96,7 +96,7 @@ public class TagDaoImpl implements TagDao{
   }
 
   @Override
-  public void createNoteTag(UpdateNoteTagParamDto param) {
+  public void updateNoteTag(UpdateNoteTagParamDto param) {
     String sql = "UPDATE tags SET noteId = :noteId "
         + "WHERE notebookId = :notebookId AND name = :tag";
 

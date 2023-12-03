@@ -4,6 +4,8 @@ async function notePageMainInit() {
   updateNoteTagListener();
   addTagBtnListener();
   saveNoteBtnListener();
+  clearNoteTagsBtnListener();
+  updateStarBtnListener();
 }
 
 function showTagsBtnListener() {
@@ -109,13 +111,11 @@ function addTagBtnListener() {
 
 function saveNoteBtnListener() {
   const saveBtn = document.querySelector("#save");
-  console.log(saveBtn);
   saveBtn.addEventListener("click", saveNoteContent);
 }
 
 async function saveNoteContent() {
   const name = document.querySelector("#noteName").value;
-  console.log(`name = ${name}`);
   if (name === "" || name.trim() === "" || name === null) {
     MsgMaker.error("note name is null");
     return;
@@ -133,14 +133,51 @@ async function saveNoteContent() {
     keypoint,
     sharedPermission,
   };
-  console.log(body);
   const path = `/api/notebooks/${notebookId}/notes/${noteId}`;
   const result = await fetchData(path, "PUT", body);
-  console.log(result);
   if (result.result) {
     MsgMaker.success("save note success");
   } else {
     MsgMaker.error("save note failed");
   }
+}
+
+function clearNoteTagsBtnListener() {
+  const clearBtn = document.querySelector("#clear");
+  clearBtn.addEventListener("click", () => {
+    const tagItems = document.querySelectorAll(".noteTagsCtn .tagItem");
+    tagItems.forEach((tag) => {
+      tag.classList.remove("selected");
+    });
+  });
+}
+
+function updateStarBtnListener() {
+  const starBtn = document.querySelector("#starBtn");
+  starBtn.addEventListener("click", async () => {
+    let star = starBtn.dataset.star;
+    const noteId = document.querySelector("#noteName").dataset.noteId;
+    const path = `/api/notebooks/${notebookId}/notes/${noteId}/star`;
+    const starImg = starBtn.querySelector("img");
+    console.log(`更改前的star:${star}`);
+    if (star === "true") {
+      console.log(`變更star為false`);
+      star = false;
+      starImg.setAttribute("src", "/static/resource/images/star-empty.png");
+      starBtn.dataset.star = false;
+    } else {
+      console.log(`變更star為true`);
+      star = true;
+      starImg.setAttribute("src", "/static/resource/images/star-full.png");
+      starBtn.dataset.star = true;
+    }
+    console.log(`最終更新的狀態${star}`);
+    const result = await fetchData(path, "PUT", { star });
+    if (result.result) {
+      MsgMaker.success("Updated!");
+    } else {
+      MsgMaker.error("update failed");
+    }
+  });
 }
 notePageMainInit();

@@ -15,7 +15,7 @@ public interface TagService {
   //批量新增tag，用於建立notebook時。
   void createNotebookTag(List<String> tagList, Integer notebookId);
 
-  void createNoteTag(UpdateNoteTagParamDto params);
+  void updateNoteTag(UpdateNoteTagParamDto params);
 
   void deleteNoteTag(DeleteNoteParamDto param);
 

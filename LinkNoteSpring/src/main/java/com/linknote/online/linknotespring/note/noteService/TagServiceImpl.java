@@ -48,7 +48,7 @@ public class TagServiceImpl implements TagService{
 
 
   @Override
-  public void createNoteTag(UpdateNoteTagParamDto params) {
+  public void updateNoteTag(UpdateNoteTagParamDto params) {
     List<String> existTag = new ArrayList<>();
     List<String> notExistTag = new ArrayList<>();
     for(String tag : params.getTag()){
@@ -59,7 +59,7 @@ public class TagServiceImpl implements TagService{
       }
     }
     params.setTag(existTag);
-    tagDao.createNoteTag(params);
+    tagDao.updateNoteTag(params);
     if(!notExistTag.isEmpty()){
       String tagList = "";
       for(String tag : notExistTag){
