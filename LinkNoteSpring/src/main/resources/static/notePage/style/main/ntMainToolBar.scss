@@ -77,11 +77,17 @@ main.edit-wrapper {
     #done {
       display: block;
       margin-top: 8px;
-      position: static;
       margin-left: auto;
       background-color: green;
       border-radius: 5px;
       color: white;
+    }
+    #clear {
+      display: block;
+      margin-top: 8px;
+      background-color: red;
+      color: white;
+      border-radius: 5px;
     }
   }
 }

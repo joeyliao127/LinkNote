@@ -86,6 +86,11 @@ public class NoteDaoImpl implements NoteDao{
     Map<String , Object> map = new HashMap<>();
     String sql = "UPDATE notes SET ";
 
+    if(!params.getName().isEmpty() && !Objects.equals(params.getName(), " ")){
+      sql += "name = :name, ";
+      map.put("name", params.getName());
+    }
+
     if(!params.getContent().isEmpty() &&
         !Objects.equals(params.getContent(), " ")){
         sql += "content = :content, ";
@@ -110,8 +115,9 @@ public class NoteDaoImpl implements NoteDao{
       sql += "keypoint = ' ', ";
     }
 
-    sql += "WHERE notebookId = :notebookId";
+    sql += "WHERE notebookId = :notebookId AND id = :noteId";
     map.put("notebookId", params.getNotebookId());
+    map.put("noteId", params.getNoteId());
     namedParameterJdbcTemplate.update(sql, map);
   }
 

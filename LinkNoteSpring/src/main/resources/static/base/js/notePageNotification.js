@@ -13,7 +13,6 @@ class MsgMaker {
 
   static setMsg(msg, type) {
     const wrapperNotification = document.querySelector(".wrapper-notification");
-    console.log(wrapperNotification);
     const msgCtn = document.createElement("div");
     msgCtn.classList.add("notice");
     msgCtn.textContent = msg;

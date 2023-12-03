@@ -86,7 +86,7 @@ public class NoteController {
   //更新筆記內容
   @PutMapping("/api/notebooks/{notebookId}/notes/{noteId}")
   public ResponseEntity<Object> updateNote(
-      @RequestBody UpdateNoteParamsDto params,
+      @RequestBody @Valid UpdateNoteParamsDto params,
       @RequestHeader String Authorization,
       @PathVariable Integer notebookId,
       @PathVariable Integer noteId

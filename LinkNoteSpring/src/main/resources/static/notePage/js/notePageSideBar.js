@@ -62,40 +62,7 @@ function addNoteBtnListener(note) {
     note.classList.toggle("selected");
     flag = note.dataset.noteId;
     const noteId = note.dataset.noteId;
-    const path = `/api/notebooks/${notebookId}/notes/${noteId}`;
-    console.log(`path = ${path}`);
-    const noteData = await fetchData(path, "GET");
-    if (noteData.result) {
-      const noteName = document.querySelector("#noteName");
-      const noteQuestion = document.querySelector("#question");
-      const noteContent = document.querySelector("#noteContent");
-      const noteKeypoint = document.querySelector("#keypoint");
-      const starBtn = document.querySelector("#starBtn");
-      const lockBtn = document.querySelector("#lockBtn");
-      const date = document.querySelector(".date");
-      const data = noteData.notePO;
-      noteName.value = data.name;
-      noteQuestion.value = data.question;
-      noteContent.value = data.noteContent;
-      noteKeypoint.value = data.keypoint;
-      date.textContent = data.createDate.split(" ")[0];
-      if (data.star) {
-        starBtn.setAttribute("src", "/static/resource/images/star-full.png");
-      }
-      if (data.shared) {
-        lockBtn.setAttribute("src", "/static/resource/images/lock.png");
-      } else {
-        lockBtn.setAttribute("src", "/static/resource/images/unlock.png");
-      }
-      history.pushState(
-        { noteId },
-        "",
-        `/notebooks/${notebookId}/notes/${noteId}`
-      );
-    } else {
-      MsgMaker.error("error..");
-      return;
-    }
+    genNoteContent(noteId);
   });
 }
 
@@ -114,3 +81,45 @@ function createNoteBtnListener() {
 }
 
 notePageSideBarinit();
+
+async function genNoteContent(noteId) {
+  const path = `/api/notebooks/${notebookId}/notes/${noteId}`;
+  const noteData = await fetchData(path, "GET");
+  if (noteData.result) {
+    const noteName = document.querySelector("#noteName");
+    const noteQuestion = document.querySelector("#question");
+    const noteContent = document.querySelector("#noteContent");
+    const noteKeypoint = document.querySelector("#keypoint");
+    const starBtn = document.querySelector("#starBtn img");
+    const lockBtn = document.querySelector("#lockBtn img");
+    const date = document.querySelector(".date");
+    const data = noteData.notePO;
+    noteName.value = data.name;
+    noteName.dataset.noteId = data.noteId;
+    noteQuestion.value = data.question;
+    noteContent.value = data.noteContent;
+    noteKeypoint.value = data.keypoint;
+    lockBtn.dataset.shared = data.shared;
+    starBtn.dataset.star = data.star;
+    console.log(starBtn);
+    date.textContent = data.createDate.split(" ")[0];
+    if (data.star) {
+      starBtn.setAttribute("src", "/static/resource/images/star-full.png");
+    } else {
+      starBtn.setAttribute("src", "/static/resource/images/star-empty.png");
+    }
+    if (data.shared) {
+      lockBtn.setAttribute("src", "/static/resource/images/unlock.png");
+    } else {
+      lockBtn.setAttribute("src", "/static/resource/images/lock.png");
+    }
+    history.pushState(
+      { noteId },
+      "",
+      `/notebooks/${notebookId}/notes/${noteId}`
+    );
+  } else {
+    MsgMaker.error("error..");
+    return;
+  }
+}

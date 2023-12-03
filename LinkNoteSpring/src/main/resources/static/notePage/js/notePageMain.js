@@ -3,6 +3,7 @@ async function notePageMainInit() {
   setTags();
   updateNoteTagListener();
   addTagBtnListener();
+  saveNoteBtnListener();
 }
 
 function showTagsBtnListener() {
@@ -81,6 +82,7 @@ function genNotebookTags(tagName) {
   return tagDiv;
 }
 
+//新增筆記本標籤
 function addTagBtnListener() {
   const addTagBtn = document.querySelector("#addTag");
   addTagBtn.addEventListener("click", async () => {
@@ -90,14 +92,12 @@ function addTagBtnListener() {
     const result = await fetchData(path, "POST", { tag: input });
     console.log(result);
     if (result.result) {
-      const notebookTagList = document.querySelector(
-        ".notebookTagsCtn .tagList"
-      );
-      const noteTagsCtn = document.querySelector(".notebookTagsCtn");
-      const noteTagList = noteTagsCtn.querySelector(".tagList");
-      noteTagList.appendChild(genNoteTags(input));
+      const notebookTagsCtn = document.querySelector(".notebookTagsCtn");
+      const notebookTagList = notebookTagsCtn.querySelector(".tagList");
+      const noteTagList = document.querySelector(".noteTagsCtn .tagList");
       notebookTagList.appendChild(genNotebookTags(input));
-      noteTagsCtn.classList.toggle("display-none");
+      noteTagList.appendChild(genNoteTags(input));
+      notebookTagsCtn.classList.toggle("display-none");
       MsgMaker.success("Create new tag success");
     } else if (result.msg === "重複的資料") {
       MsgMaker.error("tag already exist.");
@@ -107,5 +107,40 @@ function addTagBtnListener() {
   });
 }
 
-function setNoteTags() {}
+function saveNoteBtnListener() {
+  const saveBtn = document.querySelector("#save");
+  console.log(saveBtn);
+  saveBtn.addEventListener("click", saveNoteContent);
+}
+
+async function saveNoteContent() {
+  const name = document.querySelector("#noteName").value;
+  console.log(`name = ${name}`);
+  if (name === "" || name.trim() === "" || name === null) {
+    MsgMaker.error("note name is null");
+    return;
+  }
+  const noteId = document.querySelector("#noteName").dataset.noteId;
+  const question = document.querySelector("#question").value;
+  const content = document.querySelector("#noteContent").value;
+  const keypoint = document.querySelector("#keypoint").value;
+  const sharedPermission =
+    document.querySelector("#lockBtn img").dataset.shared;
+  const body = {
+    name,
+    question,
+    content,
+    keypoint,
+    sharedPermission,
+  };
+  console.log(body);
+  const path = `/api/notebooks/${notebookId}/notes/${noteId}`;
+  const result = await fetchData(path, "PUT", body);
+  console.log(result);
+  if (result.result) {
+    MsgMaker.success("save note success");
+  } else {
+    MsgMaker.error("save note failed");
+  }
+}
 notePageMainInit();

@@ -71,11 +71,17 @@ main.edit-wrapper {
 .edit-group-tools .tagBtnCtn #done {
   display: block;
   margin-top: 8px;
-  position: static;
   margin-left: auto;
   background-color: green;
   border-radius: 5px;
   color: white;
+}
+.edit-group-tools .tagBtnCtn #clear {
+  display: block;
+  margin-top: 8px;
+  background-color: red;
+  color: white;
+  border-radius: 5px;
 }
 
 .date {
