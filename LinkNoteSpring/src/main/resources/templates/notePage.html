@@ -41,38 +41,20 @@
               <div class="tool" id="starBtn">
                 <img src="/static/resource/images/star-full.png" alt="star" />
               </div>
-              <div class="tagBtn">
+              <div class="tagBtnCtn">
                 <img
                   src="/static/resource/images/tag.png"
                   alt="tag"
                   id="#notebookTagBtn"
+                  class="tagBtn"
                 />
-                <div class="tagList flex display-none">
-                  <div class="tagItem flex">
-                    <p>tag1</p>
-                    <img
-                      src="/static/resource/images/trash-white.png"
-                      alt="trash"
-                    />
-                  </div>
+                <div class="tagListCtn notebookTagsCtn flex display-none">
+                  <p>Tags</p>
+                  <div class="tagList flex"></div>
 
-                  <div class="tagItem flex">
-                    <p>tag1</p>
-                    <img
-                      src="/static/resource/images/trash-white.png"
-                      alt="trash"
-                    />
-                  </div>
-                  <div class="tagItem flex">
-                    <p>tag1</p>
-                    <img
-                      src="/static/resource/images/trash-white.png"
-                      alt="trash"
-                    />
-                  </div>
                   <div class="tagBtnGroup flex">
                     <input type="text" id="createTag" placeholder="new tag" />
-                    <button>Create</button>
+                    <button id="addTag">Create</button>
                   </div>
                 </div>
               </div>
@@ -87,19 +69,19 @@
           </div>
           <p class="editor-type">Co-editor</p>
           <div class="editor-item flex">
-            <p>Farren Song</p>
+            <p>Test</p>
             <img src="/static/resource/images/close.png" alt="close" />
           </div>
           <div class="editor-item flex">
-            <p>Farren Song</p>
+            <p>Test</p>
             <img src="/static/resource/images/close.png" alt="close" />
           </div>
           <div class="editor-item flex">
-            <p>Farren Song</p>
+            <p>Test</p>
             <img src="/static/resource/images/close.png" alt="close" />
           </div>
           <div class="editor-item flex">
-            <p>Farren Song</p>
+            <p>Test</p>
             <img src="/static/resource/images/close.png" alt="close" />
           </div>
         </div>
@@ -116,25 +98,18 @@
                 <img src="/static/resource/images/star-empty.png" alt="lock" />
               </div>
 
-              <div class="tagBtn">
+              <div class="tagBtnCtn">
                 <img
                   src="/static/resource/images/tag.png"
                   alt="tag"
                   id="noteTagBtn"
+                  class="tagBtn"
                 />
-                <div class="tagList flex display-none">
+                <div class="tagListCtn noteTagsCtn flex display-none">
                   <p>Tags</p>
-                  <div class="tagItem flex">
-                    <p>tag1</p>
-                  </div>
-
-                  <div class="tagItem flex">
-                    <p>tag2</p>
-                  </div>
-                  <div class="tagItem flex">
-                    <p>tag3</p>
-                  </div>
-                  <div class="doneGroup">
+                  <div class="tagList flex noteTagList"></div>
+                  <div class="doneGroup flex">
+                    <button id="clear">clear</button>
                     <button id="done">done</button>
                   </div>
                 </div>
@@ -181,19 +156,7 @@
         </div>
       </main>
     </div>
-    <div class="wrapper-notification">
-      <div class="notice display-none" id="success">
-        <p>Success!</p>
-      </div>
-
-      <div class="notice display-none" id="failed">
-        <p>Failed...</p>
-      </div>
-
-      <div class="notice display-none" id="warn">
-        <p>Joey left</p>
-      </div>
-    </div>
+    <div class="wrapper-notification"></div>
     <script src="/static/base/js/base.js"></script>
     <script src="/static/base/js/notePageNotification.js"></script>
     <script src="/static/notePage/js/notePageSideBar.js"></script>

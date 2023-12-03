@@ -49,9 +49,6 @@ let flag = -1;
 
 function removehHighlightNoteBtn() {
   const noteList = document.querySelectorAll(".note-item");
-  console.log(`取得所有note`);
-  console.log(noteList);
-  console.log(`取消的noteId = ${flag}`);
   noteList.forEach((item) => {
     if (item.dataset.noteId === flag) {
       item.classList.toggle("selected");

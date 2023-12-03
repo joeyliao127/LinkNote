@@ -63,21 +63,20 @@ main.edit-wrapper {
     }
   }
 
-  .tagBtn {
-    position: relative;
-    .tagList {
+  .tagBtnCtn {
+    .tagListCtn {
       position: absolute;
       top: 35px;
       left: 0px;
       p {
-        color: white;
+        color: #cccccc;
         font-size: 14px;
       }
     }
 
     #done {
       display: block;
-      margin-top: 5px;
+      margin-top: 8px;
       position: static;
       margin-left: auto;
       background-color: green;

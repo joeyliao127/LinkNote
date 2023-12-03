@@ -1,26 +1,26 @@
 class MsgMaker {
-  static msgCtn;
   static success(msg) {
-    this.msgCtn = document.querySelector("#success");
-    this.setMsg(msg);
+    this.setMsg(msg, "success");
   }
 
   static error(msg) {
-    this.msgCtn = document.querySelector("#failed");
-
-    this.setMsg(msg);
+    this.setMsg(msg, "error");
   }
 
   static warn(msg) {
-    this.msgCtn = document.querySelector("#warn");
-    this.setMsg(msg);
+    this.setMsg(msg, "warn");
   }
 
-  static setMsg(msg) {
-    this.msgCtn.textContent = msg;
-    this.msgCtn.classList.toggle("display-none");
+  static setMsg(msg, type) {
+    const wrapperNotification = document.querySelector(".wrapper-notification");
+    console.log(wrapperNotification);
+    const msgCtn = document.createElement("div");
+    msgCtn.classList.add("notice");
+    msgCtn.textContent = msg;
+    msgCtn.setAttribute("id", type);
+    wrapperNotification.appendChild(msgCtn);
     setTimeout(() => {
-      this.msgCtn.classList.toggle("display-none");
+      msgCtn.remove();
     }, 3000);
   }
 }

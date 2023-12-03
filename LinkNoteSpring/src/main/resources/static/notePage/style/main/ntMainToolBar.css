@@ -59,21 +59,18 @@ main.edit-wrapper {
 .edit-group-tools #save:hover {
   background-color: #3b5953;
 }
-.edit-group-tools .tagBtn {
-  position: relative;
-}
-.edit-group-tools .tagBtn .tagList {
+.edit-group-tools .tagBtnCtn .tagListCtn {
   position: absolute;
   top: 35px;
   left: 0px;
 }
-.edit-group-tools .tagBtn .tagList p {
-  color: white;
+.edit-group-tools .tagBtnCtn .tagListCtn p {
+  color: #cccccc;
   font-size: 14px;
 }
-.edit-group-tools .tagBtn #done {
+.edit-group-tools .tagBtnCtn #done {
   display: block;
-  margin-top: 5px;
+  margin-top: 8px;
   position: static;
   margin-left: auto;
   background-color: green;
