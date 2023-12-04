@@ -1130,8 +1130,8 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     </schema>
     <schema id="289" parent="1" name="linkNote">
       <Current>1</Current>
-      <IntrospectionTimestamp>2023-12-04.20:28:39</IntrospectionTimestamp>
-      <LocalIntrospectionTimestamp>2023-12-04.04:28:39</LocalIntrospectionTimestamp>
+      <IntrospectionTimestamp>2023-12-04.23:18:49</IntrospectionTimestamp>
+      <LocalIntrospectionTimestamp>2023-12-04.07:18:49</LocalIntrospectionTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <schema id="290" parent="1" name="mysql">
@@ -1439,22 +1439,20 @@ noteId</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>notebooks</RefTableName>
     </foreign-key>
-    <foreign-key id="355" parent="303" name="tags_ibfk_2">
-      <ColNames>noteId</ColNames>
-      <OnDelete>set-null</OnDelete>
-      <RefColNames>id</RefColNames>
-      <RefTableName>notes</RefTableName>
-    </foreign-key>
-    <index id="356" parent="303" name="id">
+    <index id="355" parent="303" name="id">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="357" parent="303" name="PRIMARY">
+    <index id="356" parent="303" name="PRIMARY">
       <ColNames>name
 notebookId</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
+    </index>
+    <index id="357" parent="303" name="id_2">
+      <ColNames>id</ColNames>
+      <Type>btree</Type>
     </index>
     <index id="358" parent="303" name="index_name">
       <ColNames>name</ColNames>
@@ -1464,77 +1462,73 @@ notebookId</ColNames>
       <ColNames>notebookId</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="360" parent="303" name="noteId">
-      <ColNames>noteId</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="361" parent="303" name="PRIMARY">
+    <key id="360" parent="303" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <key id="362" parent="303" name="id">
+    <key id="361" parent="303" name="id">
       <UnderlyingIndexName>id</UnderlyingIndexName>
     </key>
-    <column id="363" parent="304" name="id">
+    <column id="362" parent="304" name="id">
       <AutoIncrement>13</AutoIncrement>
       <DasType>bigint|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="364" parent="304" name="username">
+    <column id="363" parent="304" name="username">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="365" parent="304" name="email">
+    <column id="364" parent="304" name="email">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="366" parent="304" name="password">
+    <column id="365" parent="304" name="password">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="367" parent="304" name="status">
+    <column id="366" parent="304" name="status">
       <DasType>tinyint(1)|0s</DasType>
       <DefaultExpression>1</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="368" parent="304" name="create_date">
+    <column id="367" parent="304" name="create_date">
       <DasType>timestamp|0s</DasType>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <column id="369" parent="304" name="last_modified_date">
+    <column id="368" parent="304" name="last_modified_date">
       <DasType>timestamp|0s</DasType>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>7</Position>
     </column>
-    <column id="370" parent="304" name="coNotebook">
+    <column id="369" parent="304" name="coNotebook">
       <DasType>bigint|0s</DasType>
       <Position>8</Position>
     </column>
-    <index id="371" parent="304" name="PRIMARY">
+    <index id="370" parent="304" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="372" parent="304" name="email">
+    <index id="371" parent="304" name="email">
       <ColNames>email</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="373" parent="304" name="PRIMARY">
+    <key id="372" parent="304" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <key id="374" parent="304" name="email">
+    <key id="373" parent="304" name="email">
       <UnderlyingIndexName>email</UnderlyingIndexName>
     </key>
   </database-model>
