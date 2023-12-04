@@ -47,7 +47,7 @@ public class NoteServiceImpl implements NoteService{
 
   @Override
   public void createNoteTag(UpdateNoteTagParamDto params) {
-    tagService.createNoteTag(params);
+    tagService.updateNoteTag(params);
   }
 
   @Override
@@ -70,8 +70,4 @@ public class NoteServiceImpl implements NoteService{
     noteDao.deleteNote(param);
   }
 
-  @Override
-  public void deleteNoteTag(DeleteNoteParamDto params) {
-    tagService.deleteNoteTag(params);
-  }
 }

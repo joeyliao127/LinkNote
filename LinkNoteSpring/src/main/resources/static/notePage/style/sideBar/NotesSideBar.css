@@ -37,11 +37,14 @@
   background-color: #aaaaaa;
 }
 
-.tagBtn {
+.tagBtnCtn {
   position: relative;
 }
+.tagBtnCtn p {
+  font-size: 14px;
+}
 
-.tagList {
+.tagListCtn {
   position: absolute;
   right: 0px;
   top: 25px;
@@ -55,12 +58,12 @@
   gap: 10px;
   cursor: default;
 }
-.tagList .tagItem {
+.tagListCtn .tagItem {
   justify-content: space-between;
   gap: 5px;
   align-items: center;
 }
-.tagList .tagItem p {
+.tagListCtn .tagItem p {
   font-size: 14px;
   border: 1px solid white;
   border-radius: 5px;
@@ -71,19 +74,19 @@
   transition: all 0.2s ease-in-out;
   cursor: pointer;
 }
-.tagList .tagItem p:hover {
+.tagListCtn .tagItem p:hover {
   background-color: #666666;
 }
-.tagList .tagItem img {
+.tagListCtn .tagItem img {
   width: 25px;
   height: 25px;
   flex-grow: 0;
   cursor: pointer;
 }
-.tagList .tagBtnGroup {
+.tagListCtn .tagBtnGroup {
   margin-top: 10px;
 }
-.tagList .tagBtnGroup input {
+.tagListCtn .tagBtnGroup input {
   width: 150px;
   background-color: transparent;
   border: none;
@@ -92,13 +95,13 @@
   border-bottom: #666666 1px solid;
   padding: 5px 50px 5px 5px;
 }
-.tagList .tagBtnGroup input::-moz-placeholder {
+.tagListCtn .tagBtnGroup input::-moz-placeholder {
   color: #999999;
 }
-.tagList .tagBtnGroup input::placeholder {
+.tagListCtn .tagBtnGroup input::placeholder {
   color: #999999;
 }
-.tagList .tagBtnGroup button {
+.tagListCtn .tagBtnGroup button {
   position: absolute;
   right: 15px;
   border-radius: 5px;
@@ -106,6 +109,17 @@
   color: white;
   cursor: pointer;
   font-size: 14px;
+}
+
+.tagList {
+  flex-direction: column;
+  gap: 10px;
+  max-height: 190px;
+  overflow: scroll;
+}
+.tagList::-webkit-scrollbar {
+  display: none;
+  border: 1px solid white;
 }
 
 .notes-group {

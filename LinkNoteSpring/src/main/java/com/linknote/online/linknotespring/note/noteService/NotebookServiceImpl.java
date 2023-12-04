@@ -124,9 +124,9 @@ public class NotebookServiceImpl implements NotebookService {
   }
 
   @Override
-  public void createNotebookTag(String tag, Integer notebookId, Integer userId) {
+  public Integer createNotebookTag(String tag, Integer notebookId, Integer userId) {
     verifyNotebookOwnerByUserId(userId, notebookId, notebookDao);
-    tagService.createNotebookTag(tag, notebookId);
+    return tagService.createNotebookTag(tag, notebookId);
   }
   @Override
   public Integer createCollaborator(CreateCollaboratorParamsDto params) {

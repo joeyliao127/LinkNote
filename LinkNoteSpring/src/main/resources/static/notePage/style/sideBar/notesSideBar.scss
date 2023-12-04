@@ -36,10 +36,13 @@
   }
 }
 
-.tagBtn {
+.tagBtnCtn {
   position: relative;
+  p {
+    font-size: 14px;
+  }
 }
-.tagList {
+.tagListCtn {
   position: absolute;
   right: 0px;
   top: 25px;
@@ -103,7 +106,16 @@
     }
   }
 }
-
+.tagList {
+  flex-direction: column;
+  gap: 10px;
+  max-height: 190px;
+  overflow: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+    border: 1px solid white;
+  }
+}
 .notes-group {
   flex-direction: column;
   gap: 10px;

@@ -1,9 +1,10 @@
 package com.linknote.online.linknotespring.note.notedto;
 
+import com.linknote.online.linknotespring.note.notepo.po.TagPO;
 import java.util.List;
 
 public class UpdateNoteTagParamDto {
-  private List<String> tag;
+  private List<TagPO> tags;
   private Integer userId;
   private Integer notebookId;
   private Integer noteId;
@@ -16,12 +17,13 @@ public class UpdateNoteTagParamDto {
     this.noteId = noteId;
   }
 
-  public List<String> getTag() {
-    return tag;
+
+  public List<TagPO> getTags() {
+    return tags;
   }
 
-  public void setTag(List<String> tag) {
-    this.tag = tag;
+  public void setTags(List<TagPO> tags) {
+    this.tags = tags;
   }
 
   public Integer getUserId() {

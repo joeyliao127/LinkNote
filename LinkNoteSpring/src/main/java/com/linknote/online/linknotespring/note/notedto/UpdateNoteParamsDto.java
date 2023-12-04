@@ -9,6 +9,7 @@ public class UpdateNoteParamsDto {
   private Integer notebookId;
   private Integer noteId;
   private Integer userId;
+  @NotBlank(message = "note name is null")
   private String name;
   private String question;
   private String content;

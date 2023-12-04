@@ -86,7 +86,7 @@ public class NoteController {
   //更新筆記內容
   @PutMapping("/api/notebooks/{notebookId}/notes/{noteId}")
   public ResponseEntity<Object> updateNote(
-      @RequestBody UpdateNoteParamsDto params,
+      @RequestBody @Valid UpdateNoteParamsDto params,
       @RequestHeader String Authorization,
       @PathVariable Integer notebookId,
       @PathVariable Integer noteId
@@ -162,23 +162,5 @@ public class NoteController {
     noteService.deleteNote(params);
 
     return ResponseEntity.ok().body(Map.of("result", true));
-  }
-
-  @DeleteMapping("/api/notebooks/{notebookId}/notes/{noteId}/tags")
-  public ResponseEntity<Object> deleteNoteTag(
-      @PathVariable Integer notebookId,
-      @PathVariable Integer noteId,
-      @RequestParam String tagName,
-      @RequestHeader String Authorization
-  ){
-    DeleteNoteParamDto params = new DeleteNoteParamDto();
-    Integer userId = tokenService.parserJWTToken(Authorization).get("userId", Integer.class);
-    params.setUserId(userId);
-    params.setNotebookId(notebookId);
-    params.setNoteId(noteId);
-    params.setTagName(tagName);
-    noteService.deleteNoteTag(params);
-    return ResponseEntity.status(200).body(Map.of("result", true));
-
   }
 }

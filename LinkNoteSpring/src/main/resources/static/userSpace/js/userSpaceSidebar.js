@@ -94,10 +94,8 @@ function genNotebooks(notebookInfos, notebookCtn, isCoNotebook) {
 function notebooksBtnListener(isCoNotebook) {
   let notebooks;
   if (isCoNotebook) {
-    console.log(`製作coNotebook監聽器`);
     notebooks = document.querySelectorAll(".coNotebook");
   } else {
-    console.log(`製作Notebook監聽器`);
     notebooks = document.querySelectorAll(".notebook");
   }
 
@@ -113,8 +111,8 @@ function notebooksBtnListener(isCoNotebook) {
         notebooks[selectedId].classList.toggle("selected");
         notebooks[i].classList.toggle("selected");
       }
-      console.log(`執行setNotes`);
-      setNotes(notebooks[i]);
+      console.log(`執行genNotes`);
+      genNotes(notebooks[i]);
       selectedId = i;
     });
   }
@@ -123,7 +121,8 @@ function notebooksBtnListener(isCoNotebook) {
 let notesDataMap = {};
 
 //傳入notebook物件，取得dataset中的notebookId & name & description
-async function setNotes(notebook) {
+//這個Fn用來產生點選筆記本後，顯示所有筆記card並且設定事件監聽
+async function genNotes(notebook) {
   const notebookName = notebook.dataset.name;
   console.log(`執行note maker，notebook name: ${notebookName}`);
   //如果在notesDataMap(暫存器)中找到key，新增key
@@ -147,7 +146,6 @@ async function setNotes(notebook) {
 
   //切換筆記本，清空note
   noteCardCtn.innerHTML = "";
-  console.log(`141行：`);
   console.log(notesDataMap[notebookName].notes);
   notesDataMap[notebookName].notes.forEach((note) => {
     const noteCard = document.createElement("div");
@@ -167,8 +165,12 @@ async function setNotes(notebook) {
     star.alt = "star";
     star.classList.add("btn");
     noteName.textContent = note.name;
+    noteName.dataset.noteId = note.noteId;
     qeustion.textContent = note.qeustion;
     createDate.textContent = note.createDate.split(" ")[0];
+    noteCard.addEventListener("click", () => {
+      window.location.href = `/notebooks/${notesDataMap[notebookName].notebookId}/notes/${note.noteId}`;
+    });
     noteCard.appendChild(star);
     noteCard.appendChild(noteName);
     noteCard.appendChild(qeustion);
