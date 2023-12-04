@@ -1,5 +1,5 @@
 async function notePageMainInit() {
-  controller();
+  await setTags();
   displayTagsBtnListener();
   updateNoteTagListener();
   addTagBtnListener();
@@ -8,9 +8,6 @@ async function notePageMainInit() {
   updateStarBtnListener();
 }
 
-function controller() {
-  setTags();
-}
 //點選撰寫筆記區的tag按鈕後，顯示notebook所有標籤
 function displayTagsBtnListener() {
   const tagBtn = document.querySelectorAll(".tagBtn");
@@ -109,10 +106,10 @@ function addTagBtnListener() {
 
 function saveNoteBtnListener() {
   const saveBtn = document.querySelector("#save");
-  saveBtn.addEventListener("click", saveNoteContent);
+  saveBtn.addEventListener("click", updateNoteContent);
 }
 
-async function saveNoteContent() {
+async function updateNoteContent() {
   const name = document.querySelector("#noteName").value;
   if (name === "" || name.trim() === "" || name === null) {
     MsgMaker.error("note name is null");
@@ -134,6 +131,12 @@ async function saveNoteContent() {
   const path = `/api/notebooks/${notebookId}/notes/${noteId}`;
   const result = await fetchData(path, "PUT", body);
   if (result.result) {
+    const noteBtns = document.querySelectorAll(".note-item");
+    for (note of noteBtns) {
+      if (noteId === note.dataset.noteId) {
+        note.querySelector("p").textContent = name;
+      }
+    }
     MsgMaker.success("save note success");
   } else {
     MsgMaker.error("save note failed");
@@ -157,21 +160,32 @@ function updateStarBtnListener() {
     const noteId = document.querySelector("#noteName").dataset.noteId;
     const path = `/api/notebooks/${notebookId}/notes/${noteId}/star`;
     const starImg = starBtn.querySelector("img");
-    console.log(`更改前的star:${star}`);
+
     if (star === "true") {
-      console.log(`變更star為false`);
       star = false;
       starImg.setAttribute("src", "/static/resource/images/star-empty.png");
       starBtn.dataset.star = false;
     } else {
-      console.log(`變更star為true`);
       star = true;
       starImg.setAttribute("src", "/static/resource/images/star-full.png");
       starBtn.dataset.star = true;
     }
-    console.log(`最終更新的狀態${star}`);
+
     const result = await fetchData(path, "PUT", { star });
     if (result.result) {
+      const noteBtns = document.querySelectorAll(".note-item");
+      for (note of noteBtns) {
+        if (noteId === note.dataset.noteId) {
+          if (star) {
+            const img = document.createElement("img");
+            img.setAttribute("src", "/static/resource/images/star-full.png");
+            note.appendChild(img);
+          } else {
+            const img = note.querySelector("img");
+            img.remove();
+          }
+        }
+      }
       MsgMaker.success("Updated!");
     } else {
       MsgMaker.error("update failed");

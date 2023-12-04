@@ -7,13 +7,27 @@ let noteDataMap = {};
 
 async function notePageSideBarInit() {
   createNewNoteBtnListener();
-  setNoteBtn(await getNoteData(0));
+  await setNoteBtn(await getNotesData(0));
+  console.log(`準備執行`);
+  displayFirstNoteWhenReflash();
+  console.log(`執行完畢`);
 }
 
-async function getNoteData(offset) {
+function displayFirstNoteWhenReflash() {
+  console.log(`執行display first`);
+  const firstNoteBtn = document.querySelector(".note-item");
+  console.log(firstNoteBtn);
+  const noteId = firstNoteBtn.dataset.noteId;
+  removehHighlightNoteBtn();
+  flag = noteId;
+  firstNoteBtn.classList.add("selected");
+  console.log(noteId);
+  setNoteContent(noteId);
+  setNoteTags(noteId);
+}
+
+async function getNotesData(offset) {
   const path = `/api/notebooks/${notebookId}/notes?offset=${offset}&limit=20`;
-  //noteData is iterable
-  console.log(await fetchData(path, "GET"));
   return await fetchData(path, "GET");
 }
 
