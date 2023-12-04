@@ -109,7 +109,7 @@
 .tagList {
   flex-direction: column;
   gap: 10px;
-  height: 190px;
+  max-height: 190px;
   overflow: scroll;
   &::-webkit-scrollbar {
     display: none;

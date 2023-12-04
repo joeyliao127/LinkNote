@@ -29,7 +29,7 @@ public interface NotebookService {
 
 
   Integer createNotebook(CreateNotebookParamsDto params);
-  void createNotebookTag(String tag, Integer notebookId, Integer userId);
+  Integer createNotebookTag(String tag, Integer notebookId, Integer userId);
 
   Integer createCollaborator(CreateCollaboratorParamsDto params);
 

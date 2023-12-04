@@ -1,7 +1,6 @@
 package com.linknote.online.linknotespring.note.notedao;
 
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteTagParamDto;
-import com.linknote.online.linknotespring.note.notedto.DeleteNoteParamDto;
 import com.linknote.online.linknotespring.note.notepo.po.TagPO;
 import com.linknote.online.linknotespring.note.noterowmapper.TagsRowMapper;
 import java.sql.ResultSet;
@@ -9,10 +8,13 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -65,12 +67,14 @@ public class TagDaoImpl implements TagDao{
   }
 
   @Override
-  public void createNotebookTag(String tag, Integer notebookId) {
+  public Integer createNotebookTag(String tag, Integer notebookId) {
     String sql = "INSERT INTO tags (name, notebookId) VALUE(:tag, :notebookId)";
     Map<String, Object> map = new HashMap<>();
+    KeyHolder keyHolder = new GeneratedKeyHolder();
     map.put("tag", tag);
     map.put("notebookId", notebookId);
-    namedParameterJdbcTemplate.update(sql, map);
+    namedParameterJdbcTemplate.update(sql,new MapSqlParameterSource(map), keyHolder);
+    return Objects.requireNonNull(keyHolder.getKey()).intValue();
   }
 
   @Override

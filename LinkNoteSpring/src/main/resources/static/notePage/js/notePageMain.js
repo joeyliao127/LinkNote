@@ -1,6 +1,6 @@
 async function notePageMainInit() {
-  showTagsBtnListener();
-  setTags();
+  controller();
+  displayTagsBtnListener();
   updateNoteTagListener();
   addTagBtnListener();
   saveNoteBtnListener();
@@ -8,7 +8,11 @@ async function notePageMainInit() {
   updateStarBtnListener();
 }
 
-function showTagsBtnListener() {
+function controller() {
+  setTags();
+}
+//點選撰寫筆記區的tag按鈕後，顯示notebook所有標籤
+function displayTagsBtnListener() {
   const tagBtn = document.querySelectorAll(".tagBtn");
   const tagList = document.querySelectorAll(".tagListCtn");
   for (let i = 0; i < tagBtn.length; i++) {
@@ -18,47 +22,35 @@ function showTagsBtnListener() {
   }
 }
 
-function updateNoteTagListener() {
-  const doneBtn = document.querySelector("#done");
-  doneBtn.addEventListener("click", async () => {
-    const updateList = [];
-    const tagList = document.querySelectorAll(".tagItem");
-    tagList.forEach((tag) => {
-      if (tag.classList.contains("selected")) {
-        updateList.push(tag.querySelector("p").textContent);
-      }
-    });
-    console.log(updateList);
-    const path = `/api/notebooks/${notebookId}/notes/${noteId}/tags`;
-    const result = await fetchData(path, "PUT", { tag: updateList });
-    if (result.result) {
-      const noteTagsCtn = document.querySelector(".noteTagsCtn");
-      noteTagsCtn.classList.toggle("display-none");
-      MsgMaker.success("update tag success!");
-    } else {
-      MsgMaker.error("update tag faild");
-    }
-  });
-}
-
+//render左邊tag和右邊tag的內容
 async function setTags() {
-  const path = `/api/notebooks/${notebookId}/tags`;
-  const data = await fetchData(path, "GET");
   const notebookTagList = document.querySelector(".notebookTagsCtn .tagList");
-  const noteTagList = document.querySelector(".noteTagsCtn .tagList");
-  for (let j = 0; j < data.tag.length; j++) {
-    const noteTag = genNoteTags(data.tag[j]);
-    const notebookTag = genNotebookTags(data.tag[j]);
+  const noteTagListCtn = document.querySelector(".noteTagsCtn .tagList");
+  const path = `/api/notebooks/${notebookId}/tags`;
+  const noteTagPath = `/api/notebooks/${notebookId}/notes/${URL_noteId}/tags`;
+  const data = await fetchData(path, "GET");
+  const notesTag = await fetchData(noteTagPath, "GET");
+  for (let i = 0; i < data.tag.length; i++) {
+    const noteTag = genNoteTags(data.tag[i], notesTag.tag);
+    const notebookTag = genNotebookTags(data.tag[i]);
     notebookTagList.appendChild(notebookTag);
-    noteTagList.appendChild(noteTag);
+    noteTagListCtn.appendChild(noteTag);
   }
 }
 
-function genNoteTags(tagName) {
+//傳入一個物件，key: tag, key: tagId
+function genNoteTags(tagName, notesTag) {
   const tagDiv = document.createElement("div");
   const tag = document.createElement("p");
   tagDiv.classList.add("tagItem");
-  tag.textContent = tagName;
+  tag.textContent = tagName.name;
+  tag.dataset.tagId = tagName.tagId;
+  for (let i = 0; i < notesTag.length; i++) {
+    if (tagName.name === notesTag[i].name) {
+      console.log(notesTag[i].name);
+      tagDiv.classList.toggle("selected");
+    }
+  }
   tagDiv.appendChild(tag);
   tagDiv.addEventListener("click", () => {
     tagDiv.classList.toggle("selected");
@@ -72,9 +64,10 @@ function genNotebookTags(tagName) {
   const trash = document.createElement("img");
   tagDiv.classList.add("flex");
   tagDiv.classList.add("tagItem");
-  tag.textContent = tagName;
+  tag.textContent = tagName.name;
+  tag.dataset.tagId = tagName.tagId;
   trash.src = "/static/resource/images/trash-white.png";
-  trash.dataset.tag = tagName;
+  trash.dataset.tag = tagName.name;
   tagDiv.appendChild(tag);
   tagDiv.appendChild(trash);
   tagDiv.addEventListener("click", () => {
@@ -97,8 +90,13 @@ function addTagBtnListener() {
       const notebookTagsCtn = document.querySelector(".notebookTagsCtn");
       const notebookTagList = notebookTagsCtn.querySelector(".tagList");
       const noteTagList = document.querySelector(".noteTagsCtn .tagList");
-      notebookTagList.appendChild(genNotebookTags(input));
-      noteTagList.appendChild(genNoteTags(input));
+      const tag = {
+        name: "#" + input,
+        tagId: result.tagId,
+      };
+      notebookTagList.appendChild(genNotebookTags(tag));
+      console.log(input);
+      noteTagList.appendChild(genNoteTags(tag));
       notebookTagsCtn.classList.toggle("display-none");
       MsgMaker.success("Create new tag success");
     } else if (result.msg === "重複的資料") {
@@ -177,6 +175,31 @@ function updateStarBtnListener() {
       MsgMaker.success("Updated!");
     } else {
       MsgMaker.error("update failed");
+    }
+  });
+}
+
+function updateNoteTagListener() {
+  const doneBtn = document.querySelector("#done");
+  doneBtn.addEventListener("click", async () => {
+    const updateList = [];
+    const tagList = document.querySelectorAll(".tagItem");
+    tagList.forEach((tag) => {
+      if (tag.classList.contains("selected")) {
+        updateList.push({
+          name: tag.querySelector("p").textContent,
+          tagId: tag.querySelector("p").dataset.tagId,
+        });
+      }
+    });
+    const path = `/api/notebooks/${notebookId}/notes/${URL_noteId}/tags`;
+    const result = await fetchData(path, "PUT", { tags: updateList });
+    if (result.result) {
+      const noteTagsCtn = document.querySelector(".noteTagsCtn");
+      noteTagsCtn.classList.toggle("display-none");
+      MsgMaker.success("update tag success!");
+    } else {
+      MsgMaker.error("update tag faild");
     }
   });
 }

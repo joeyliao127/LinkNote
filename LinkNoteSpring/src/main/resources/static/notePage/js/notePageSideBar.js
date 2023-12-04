@@ -1,5 +1,7 @@
 const url = window.location.href.split("/");
 const notebookId = url[url.length - 3];
+let URL_noteId = url[url.length - 1];
+console.log(URL_noteId);
 let noteDataMap = {};
 //noteDataMap用來儲存每一個讀取過的筆記，使用者在切換筆記時就不用重新fetch資料。
 
@@ -68,6 +70,7 @@ function setNoteBtnListener(note) {
     note.classList.toggle("selected");
     flag = note.dataset.noteId;
     const noteId = note.dataset.noteId;
+    console.log(noteId);
     setNoteContent(noteId);
     setNoteTags(noteId);
   });
@@ -89,17 +92,19 @@ function createNewNoteBtnListener() {
 
 async function getNoteContent(noteId) {
   const notePath = `/api/notebooks/${notebookId}/notes/${noteId}`;
-  return await fetchData(notePath, "GET");
+  const content = await fetchData(notePath, "GET");
+  return content;
 }
 
 async function getNoteTags(noteId) {
   const tagPath = `/api/notebooks/${notebookId}/notes/${noteId}/tags`;
-  return await fetchData(tagPath, "GET");
+  const tags = await fetchData(tagPath, "GET");
+  return tags;
 }
 
 async function setNoteContent(noteId) {
   const noteData = await getNoteContent(noteId);
-  if (noteData.result && tagData.result) {
+  if (noteData.result) {
     const noteName = document.querySelector("#noteName");
     const noteQuestion = document.querySelector("#question");
     const noteContent = document.querySelector("#noteContent");
@@ -133,6 +138,7 @@ async function setNoteContent(noteId) {
       "",
       `/notebooks/${notebookId}/notes/${noteId}`
     );
+    URL_noteId = noteId;
   } else {
     MsgMaker.error("error..");
     return;
@@ -140,13 +146,18 @@ async function setNoteContent(noteId) {
 }
 
 async function setNoteTags(noteId) {
-  const noteTagsList = await getNoteTags(noteId).tag;
+  const noteTagsList = await getNoteTags(noteId);
+  console.log(noteTagsList);
+  const { tags } = noteTagsList;
+  if (tags === undefined) {
+    return;
+  }
   //tag部分
   const tagItems = document.querySelectorAll(".noteTagList .tagItem");
   tagItems.forEach((tagItem) => {
     const notebookTag = tagItem.querySelector("p").textContent;
     //如果tag名稱存在於fetch中的資料，則加上selected。
-    for (noteTag of noteTagsList) {
+    for (noteTag of tags) {
       if (noteTag.name === notebookTag) {
         tagItem.classList.add("selected");
       }

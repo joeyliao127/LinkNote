@@ -132,8 +132,8 @@ public class NotebookController {
       @RequestHeader String Authorization
   ){
     Integer userId = tokenService.parserJWTToken(Authorization).get("userId", Integer.class);
-    notebookService.createNotebookTag(params.getTag(), notebookId, userId);
-    return ResponseEntity.status(201).body(Map.of("result", true));
+    Integer tagId = notebookService.createNotebookTag(params.getTag(), notebookId, userId);
+    return ResponseEntity.status(201).body(Map.of("result", true, "tagId", tagId));
   }
 
   //新增協作者

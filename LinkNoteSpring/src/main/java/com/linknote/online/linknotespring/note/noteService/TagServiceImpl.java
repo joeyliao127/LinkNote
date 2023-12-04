@@ -3,7 +3,6 @@ package com.linknote.online.linknotespring.note.noteService;
 import com.linknote.online.linknotespring.note.notedao.TagDao;
 import com.linknote.online.linknotespring.note.notedto.GetTagsParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteTagParamDto;
-import com.linknote.online.linknotespring.note.notedto.DeleteNoteParamDto;
 import com.linknote.online.linknotespring.note.noteexception.TagNotFoundException;
 import com.linknote.online.linknotespring.note.notepo.po.TagPO;
 import com.linknote.online.linknotespring.note.notepo.response.TagResPO;
@@ -38,8 +37,8 @@ public class TagServiceImpl implements TagService{
   }
 
   @Override
-  public void createNotebookTag(String tag, Integer notebookId) {
-    tagDao.createNotebookTag(tag, notebookId);
+  public Integer createNotebookTag(String tag, Integer notebookId) {
+    return tagDao.createNotebookTag(tag, notebookId);
   }
 
   @Override
