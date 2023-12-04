@@ -8,13 +8,11 @@ let noteDataMap = {};
 async function notePageSideBarInit() {
   createNewNoteBtnListener();
   await setNoteBtn(await getNotesData(0));
-  console.log(`準備執行`);
   displayFirstNoteWhenReflash();
-  console.log(`執行完畢`);
+  tagListMouseLeftListener();
 }
 
 function displayFirstNoteWhenReflash() {
-  console.log(`執行display first`);
   const firstNoteBtn = document.querySelector(".note-item");
   console.log(firstNoteBtn);
   const noteId = firstNoteBtn.dataset.noteId;
@@ -24,6 +22,15 @@ function displayFirstNoteWhenReflash() {
   console.log(noteId);
   setNoteContent(noteId);
   setNoteTags(noteId);
+}
+
+function tagListMouseLeftListener() {
+  const tagListCtns = document.querySelectorAll(".tagListCtn");
+  tagListCtns.forEach((tagListCtn) => {
+    tagListCtn.addEventListener("mouseleave", () => {
+      tagListCtn.classList.toggle("display-none");
+    });
+  });
 }
 
 async function getNotesData(offset) {
@@ -79,7 +86,8 @@ function removehHighlightNoteBtn() {
 }
 //setNoteBtnListener輸入參數為noteBtn物件
 function setNoteBtnListener(note) {
-  note.addEventListener("click", async () => {
+  note.addEventListener("click", async (e) => {
+    e.stopPropagation();
     removehHighlightNoteBtn();
     note.classList.toggle("selected");
     flag = note.dataset.noteId;

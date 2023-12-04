@@ -13,7 +13,7 @@ function displayTagsBtnListener() {
   const tagBtn = document.querySelectorAll(".tagBtn");
   const tagList = document.querySelectorAll(".tagListCtn");
   for (let i = 0; i < tagBtn.length; i++) {
-    tagBtn[i].addEventListener("click", () => {
+    tagBtn[i].addEventListener("mouseenter", () => {
       tagList[i].classList.toggle("display-none");
     });
   }
@@ -196,6 +196,8 @@ function updateStarBtnListener() {
 function updateNoteTagListener() {
   const doneBtn = document.querySelector("#done");
   doneBtn.addEventListener("click", async () => {
+    const noteTagsCtn = document.querySelector(".noteTagsCtn");
+    noteTagsCtn.classList.remove("display-none");
     const updateList = [];
     const tagList = document.querySelectorAll(".tagItem");
     tagList.forEach((tag) => {
@@ -209,8 +211,6 @@ function updateNoteTagListener() {
     const path = `/api/notebooks/${notebookId}/notes/${URL_noteId}/tags`;
     const result = await fetchData(path, "PUT", { tags: updateList });
     if (result.result) {
-      const noteTagsCtn = document.querySelector(".noteTagsCtn");
-      noteTagsCtn.classList.toggle("display-none");
       MsgMaker.success("update tag success!");
     } else {
       MsgMaker.error("update tag faild");
