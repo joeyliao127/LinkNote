@@ -17,7 +17,6 @@ public interface TagService {
 
   void updateNoteTag(UpdateNoteTagParamDto params);
 
-  void deleteNoteTag(DeleteNoteParamDto param);
 
 
 

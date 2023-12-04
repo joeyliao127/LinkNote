@@ -5,6 +5,7 @@ import com.linknote.online.linknotespring.note.notedto.GetTagsParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteTagParamDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNoteParamDto;
 import com.linknote.online.linknotespring.note.noteexception.TagNotFoundException;
+import com.linknote.online.linknotespring.note.notepo.po.TagPO;
 import com.linknote.online.linknotespring.note.notepo.response.TagResPO;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +30,9 @@ public class TagServiceImpl implements TagService{
     TagResPO tagResPO = new TagResPO();
     tagResPO.setResult(true);
     if(params.getNoteId() == null){
-      tagResPO.setTag(tagDao.getTags(params.getUserId(), params.getNotebookId()));
+      tagResPO.setTag(tagDao.getNotebookTags(params.getUserId(), params.getNotebookId()));
     }else{
-      tagResPO.setTag(tagDao.getTags(params.getUserId(), params.getNotebookId(), params.getNoteId()));
+      tagResPO.setTag(tagDao.getNoteTags(params.getNoteId()));
     }
     return tagResPO;
   }
@@ -47,30 +48,29 @@ public class TagServiceImpl implements TagService{
   }
 
 
+  //update筆記本tag有兩步驟
+  //1. 先移除notes_tags種所有noteId的資料
+  //2. 新增notes新加入的tag
   @Override
   public void updateNoteTag(UpdateNoteTagParamDto params) {
-    List<String> existTag = new ArrayList<>();
-    List<String> notExistTag = new ArrayList<>();
-    for(String tag : params.getTag()){
-      if(tagDao.verifyTagExist(params.getNotebookId(), tag) == null){
-        notExistTag.add(tag);
+    List<TagPO> existTag = new ArrayList<>();
+    List<TagPO> notExistTag = new ArrayList<>();
+    for(TagPO tagPO : params.getTags()){
+      if(tagDao.verifyTagExist(params.getNotebookId(), tagPO.getName()) == null){
+        notExistTag.add(tagPO);
       }else {
-        existTag.add(tag);
+        existTag.add(tagPO);
       }
     }
-    params.setTag(existTag);
-    tagDao.updateNoteTag(params);
+    params.setTags(existTag);
+    tagDao.deleteNoteTags(params.getNoteId());
+    tagDao.createNoteTags(params);
     if(!notExistTag.isEmpty()){
       String tagList = "";
-      for(String tag : notExistTag){
-        tagList += tag + ", ";
+      for(TagPO tagPO : notExistTag){
+        tagList += tagPO.getName() + ", ";
       }
       throw new TagNotFoundException("在"+ params.getNotebookId()+"筆記本中找不到" + tagList);
     }
-  }
-
-  @Override
-  public void deleteNoteTag(DeleteNoteParamDto param) {
-    tagDao.deleteNoteTag(param);
   }
 }

@@ -29,5 +29,4 @@ public interface NoteService {
 
     void deleteNote(DeleteNoteParamDto param);
 
-    void deleteNoteTag(DeleteNoteParamDto params);
 }

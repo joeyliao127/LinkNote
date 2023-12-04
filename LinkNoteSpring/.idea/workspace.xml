@@ -5,9 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="31befe92-750a-4d2c-ab08-ee48786e5281" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/cc934641-988d-4188-8485-5b7bb96e1802.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/cc934641-988d-4188-8485-5b7bb96e1802.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/cc934641-988d-4188-8485-5b7bb96e1802/storage_v2/_src_/schema/linkNote.DEcrRw.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/cc934641-988d-4188-8485-5b7bb96e1802/storage_v2/_src_/schema/linkNote.DEcrRw.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/NoteDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/NoteDaoImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/userSpace/js/userSpaceSidebar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/userSpace/js/userSpaceSidebar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/generic/config/config/AppConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/generic/config/config/AppConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/NoteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/NoteService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/NoteServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/NoteServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/TagService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/TagService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/TagServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/TagServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notecontroller/NoteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notecontroller/NoteController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/TagDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/TagDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/TagDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/TagDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedto/UpdateNoteTagParamDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedto/UpdateNoteTagParamDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notepo/response/TagResPO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notepo/response/TagResPO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noterowmapper/TagsRowMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noterowmapper/TagsRowMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/base/js/base.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/base/js/base.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/LinkNoteSpring-0.0.1-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/LinkNoteSpring-0.0.1-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/LinkNoteSpring-0.0.1-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/LinkNoteSpring-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.linknote.online.linknotespring.LinkNoteSpringApplicationTests.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.linknote.online.linknotespring.LinkNoteSpringApplicationTests.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.linknote.online.linknotespring.LinkNoteSpringApplicationTests.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.linknote.online.linknotespring.LinkNoteSpringApplicationTests.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,7 +110,8 @@
       <workItem from="1699690180807" duration="3788000" />
       <workItem from="1699773377582" duration="36636000" />
       <workItem from="1700012991265" duration="50624000" />
-      <workItem from="1701577687417" duration="25888000" />
+      <workItem from="1701577687417" duration="28280000" />
+      <workItem from="1701663610328" duration="4650000" />
     </task>
     <servers />
   </component>

@@ -2,6 +2,8 @@ package com.linknote.online.linknotespring.note.notedao;
 
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteTagParamDto;
 import com.linknote.online.linknotespring.note.notedto.DeleteNoteParamDto;
+import com.linknote.online.linknotespring.note.notepo.po.TagPO;
+import com.linknote.online.linknotespring.note.noterowmapper.TagsRowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -40,38 +42,26 @@ public class TagDaoImpl implements TagDao{
   }
 
   @Override
-  public List<String> getTags(Integer userId, Integer notebookId) {
-    String sql = "SELECT t.name as name FROM tags t "
+  public List<TagPO> getNotebookTags(Integer userId, Integer notebookId) {
+    String sql = "SELECT t.name as name, t.id as id FROM tags t "
         + "JOIN notebooks n ON t.notebookId = n.id "
         + "JOIN users u ON n.userId = u.id "
         + "WHERE n.userId = :userId AND t.notebookId = :notebookId";
     Map<String, Object> map = new HashMap<>();
     map.put("notebookId", notebookId);
     map.put("userId", userId);
-    return namedParameterJdbcTemplate.query(sql, map, new RowMapper<String>() {
-      @Override
-      public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return rs.getString("name");
-      }
-    });
+    return namedParameterJdbcTemplate.query(sql, map, new TagsRowMapper());
   }
 
   @Override
-  public List<String> getTags(Integer userId, Integer notebookId, Integer noteId) {
-    String sql = "SELECT t.name as name FROM tags t "
-        + "JOIN notebooks n ON t.notebookId = n.id "
-        + "JOIN users u ON n.userId = u.id "
-        + "JOIN notes nt ON t.noteId = nt.id "
-        + "WHERE n.userId = :userId AND t.notebookId = :notebookId AND nt.id = noteId";
+  public List<TagPO> getNoteTags(Integer noteId) {
+    String sql = "SELECT t.id as id, t.name as name FROM tags t "
+        + "JOIN notes_tags nt ON t.id = nt.tagId "
+        + "JOIN notes n ON nt.noteId = n.id "
+        + "WHERE n.id = :noteId";
     Map<String, Object> map = new HashMap<>();
-    map.put("notebookId", notebookId);
-    map.put("userId", userId);
-    return namedParameterJdbcTemplate.query(sql, map, new RowMapper<String>() {
-      @Override
-      public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return rs.getString("name");
-      }
-    });
+    map.put("noteId", noteId);
+    return namedParameterJdbcTemplate.query(sql, map, new TagsRowMapper());
   }
 
   @Override
@@ -96,28 +86,23 @@ public class TagDaoImpl implements TagDao{
   }
 
   @Override
-  public void updateNoteTag(UpdateNoteTagParamDto param) {
-    String sql = "UPDATE tags SET noteId = :noteId "
-        + "WHERE notebookId = :notebookId AND name = :tag";
-
-    MapSqlParameterSource[] parameterSources = new MapSqlParameterSource[param.getTag().size()];
-    for(int i=0; i < param.getTag().size(); i++){
+  public void createNoteTags(UpdateNoteTagParamDto param) {
+    String sql = "INSERT INTO notes_tags (noteId, tagId) VALUES (:noteId, :tagId)";
+    MapSqlParameterSource[] parameterSources = new MapSqlParameterSource[param.getTags().size()];
+    for(int i=0; i < param.getTags().size(); i++){
       MapSqlParameterSource parameterSource = new MapSqlParameterSource();
       parameterSources[i] = parameterSource.addValue("noteId", param.getNoteId());
-      parameterSources[i] = parameterSource.addValue("notebookId", param.getNotebookId());
-      parameterSources[i] = parameterSource.addValue("tag", param.getTag().get(i));
+      parameterSources[i] = parameterSource.addValue("tagId", param.getTags().get(i).getTagId());
     }
     namedParameterJdbcTemplate.batchUpdate(sql, parameterSources);
   }
 
   @Override
-  public void deleteNoteTag(DeleteNoteParamDto param) {
-    String sql = "DELETE FROM tags "
-        + "WHERE noteId = :noteId AND name = :tag AND notebookId = :notebookId";
+  public void deleteNoteTags(Integer noteId) {
+    String sql = "DELETE FROM notes_tags WHERE noteId = :noteId";
     Map<String, Object> map = new HashMap<>();
-    map.put("noteId", param.getNoteId());
-    map.put("notebookId", param.getNotebookId());
-    map.put("tag", param.getTagName());
+    map.put("noteId", noteId);
     namedParameterJdbcTemplate.update(sql, map);
   }
+
 }

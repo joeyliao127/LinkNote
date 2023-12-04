@@ -1,5 +1,3 @@
-const apiUrl = "http://localhost:8080";
-// const apiUrl = "https://linknote.online";
 const token = localStorage.getItem("token");
 function baseInit() {
   if (token) {
@@ -27,7 +25,7 @@ async function verifyUserToken(token) {
 }
 
 async function fetchData(path, method, body) {
-  const response = await fetch(apiUrl + path, {
+  const response = await fetch(path, {
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,

@@ -70,8 +70,4 @@ public class NoteServiceImpl implements NoteService{
     noteDao.deleteNote(param);
   }
 
-  @Override
-  public void deleteNoteTag(DeleteNoteParamDto params) {
-    tagService.deleteNoteTag(params);
-  }
 }
