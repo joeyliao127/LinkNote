@@ -6,6 +6,7 @@ async function notePageMainInit() {
   saveNoteBtnListener();
   clearNoteTagsBtnListener();
   updateStarBtnListener();
+  deleteNoteBtnListener();
 }
 
 //點選撰寫筆記區的tag按鈕後，顯示notebook所有標籤
@@ -14,6 +15,9 @@ function displayTagsBtnListener() {
   const tagList = document.querySelectorAll(".tagListCtn");
   for (let i = 0; i < tagBtn.length; i++) {
     tagBtn[i].addEventListener("mouseenter", () => {
+      tagList[i].classList.toggle("display-none");
+    });
+    tagBtn[i].addEventListener("mouseleave", () => {
       tagList[i].classList.toggle("display-none");
     });
   }
@@ -35,13 +39,18 @@ async function setTags() {
   }
 }
 
-//傳入一個物件，key: tag, key: tagId
+//傳入兩個物件，tagName = key: tag, key: tagId
+//notesTag是查詢note有哪些tag
 function genNoteTags(tagName, notesTag) {
+  // if (notesTag === null || notesTag === undefined) {
+  //   return;
+  // }
   const tagDiv = document.createElement("div");
   const tag = document.createElement("p");
   tagDiv.classList.add("tagItem");
   tag.textContent = tagName.name;
   tag.dataset.tagId = tagName.tagId;
+  console.log(`49: ${notesTag}`);
   for (let i = 0; i < notesTag.length; i++) {
     if (tagName.name === notesTag[i].name) {
       console.log(notesTag[i].name);
@@ -79,6 +88,7 @@ function addTagBtnListener() {
   const addTagBtn = document.querySelector("#addTag");
   addTagBtn.addEventListener("click", async () => {
     const input = document.querySelector("#createTag").value;
+    document.querySelector("#createTag").value = "";
     console.log(input);
     const path = `/api/notebooks/${notebookId}/tags`;
     const result = await fetchData(path, "POST", { tag: input });
@@ -93,7 +103,7 @@ function addTagBtnListener() {
       };
       notebookTagList.appendChild(genNotebookTags(tag));
       console.log(input);
-      noteTagList.appendChild(genNoteTags(tag));
+      noteTagList.appendChild(genNoteTags(tag, []));
       notebookTagsCtn.classList.toggle("display-none");
       MsgMaker.success("Create new tag success");
     } else if (result.msg === "重複的資料") {
@@ -216,5 +226,30 @@ function updateNoteTagListener() {
       MsgMaker.error("update tag faild");
     }
   });
+}
+
+function deleteNoteBtnListener() {
+  const delBtn = document.querySelector("#delete");
+  delBtn.addEventListener("click", deleteNote);
+}
+
+async function deleteNote() {
+  const confirmDel = window.confirm("Delete this note?");
+  if (!confirmDel) {
+    return;
+  }
+  const path = `/api/notebooks/${notebookId}/notes/${URL_noteId}`;
+  const result = await fetchData(path, "DELETE");
+  if (result.result) {
+    const noteBtns = document.querySelectorAll(".note-item");
+    console.log();
+    for (noteBtn of noteBtns) {
+      if (noteBtn.dataset.noteId === URL_noteId) {
+        noteBtn.remove();
+      }
+      break;
+    }
+    displayFirstNoteWhenReflash();
+  }
 }
 notePageMainInit();

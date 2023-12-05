@@ -8,6 +8,11 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/notePage/js/notePageMain.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/notePage/js/notePageMain.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/notePage/js/notePageSideBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/notePage/js/notePageSideBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/notePage/style/main/ntMainToolBar.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/notePage/style/main/ntMainToolBar.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/notePage/style/main/ntMainToolBar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/notePage/style/main/ntMainToolBar.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/notePage/style/sideBar/NotesSideBar.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/notePage/style/sideBar/NotesSideBar.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/notePage/style/sideBar/notesSideBar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/notePage/style/sideBar/notesSideBar.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/notePage.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/notePage.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +99,7 @@
       <workItem from="1699773377582" duration="36636000" />
       <workItem from="1700012991265" duration="50624000" />
       <workItem from="1701577687417" duration="28280000" />
-      <workItem from="1701663610328" duration="18724000" />
+      <workItem from="1701663610328" duration="23262000" />
     </task>
     <servers />
   </component>

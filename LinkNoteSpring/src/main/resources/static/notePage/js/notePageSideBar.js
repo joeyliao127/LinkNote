@@ -15,6 +15,10 @@ async function notePageSideBarInit() {
 function displayFirstNoteWhenReflash() {
   const firstNoteBtn = document.querySelector(".note-item");
   console.log(firstNoteBtn);
+  if (firstNoteBtn === null) {
+    displayNoneEditArea();
+    return;
+  }
   const noteId = firstNoteBtn.dataset.noteId;
   removehHighlightNoteBtn();
   flag = noteId;
@@ -24,6 +28,21 @@ function displayFirstNoteWhenReflash() {
   setNoteTags(noteId);
 }
 
+function displayNoneEditArea() {
+  const editArea = document.querySelector(".edit-area");
+  const editChild = editArea.querySelectorAll("*");
+  editChild.forEach((chlid) => {
+    chlid.classList.add("display-none");
+  });
+}
+
+function displayEditArea() {
+  const editArea = document.querySelector(".edit-area");
+  const editChild = editArea.querySelectorAll("*");
+  editChild.forEach((chlid) => {
+    chlid.classList.remove("display-none");
+  });
+}
 function tagListMouseLeftListener() {
   const tagListCtns = document.querySelectorAll(".tagListCtn");
   tagListCtns.forEach((tagListCtn) => {
@@ -86,8 +105,9 @@ function removehHighlightNoteBtn() {
 }
 //setNoteBtnListener輸入參數為noteBtn物件
 function setNoteBtnListener(note) {
-  note.addEventListener("click", async (e) => {
-    e.stopPropagation();
+  note.addEventListener("click", async () => {
+    const editArea = document.querySelector(".edit-area");
+    editArea.classList.remove("display-none");
     removehHighlightNoteBtn();
     note.classList.toggle("selected");
     flag = note.dataset.noteId;
