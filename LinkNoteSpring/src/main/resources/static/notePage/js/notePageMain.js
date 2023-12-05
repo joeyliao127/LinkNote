@@ -42,15 +42,11 @@ async function setTags() {
 //傳入兩個物件，tagName = key: tag, key: tagId
 //notesTag是查詢note有哪些tag
 function genNoteTags(tagName, notesTag) {
-  // if (notesTag === null || notesTag === undefined) {
-  //   return;
-  // }
   const tagDiv = document.createElement("div");
   const tag = document.createElement("p");
   tagDiv.classList.add("tagItem");
   tag.textContent = tagName.name;
   tag.dataset.tagId = tagName.tagId;
-  console.log(`49: ${notesTag}`);
   for (let i = 0; i < notesTag.length; i++) {
     if (tagName.name === notesTag[i].name) {
       console.log(notesTag[i].name);

@@ -25,7 +25,9 @@ import com.linknote.online.linknotespring.user.userexception.EmailDoesNotExistEx
 import com.linknote.online.linknotespring.user.userpo.UserInfoPO;
 import com.linknote.online.linknotespring.user.userservice.UserService;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +52,12 @@ public class NotebookServiceImpl implements NotebookService {
   @Autowired
   private UserService userService;
   private static final Logger log = LoggerFactory.getLogger(NotebookServiceImpl.class);
+
+  @Override
+  public String getUsernameByUserId(Integer userId) {
+    return userDAO.getUsernameByUserId(userId);
+  }
+
   @Override
   public NotebooksResPO getNotebooks(GetNotebooksParamsDto params) {
     List<NotebooksPO> notebooks = notebookDao.getNotebooks(params, params.getCoNotebook());
@@ -129,7 +137,7 @@ public class NotebookServiceImpl implements NotebookService {
     return tagService.createNotebookTag(tag, notebookId);
   }
   @Override
-  public Integer createCollaborator(CreateCollaboratorParamsDto params) {
+  public Map<String, Object> createCollaborator(CreateCollaboratorParamsDto params) {
     verifyNotebookOwnerByUserId(params.getUserId(), params.getNotebookId(), notebookDao);
     if(intermediaryService.verifyCollaboratorsCount(params.getUserId(), params.getNotebookId())){
       throw new CollaboratorsAreLimitException("超過共編人數上限");
@@ -139,7 +147,12 @@ public class NotebookServiceImpl implements NotebookService {
         throw new EmailDoesNotExistException("此email不存在");
       }
       params.setCollaboratorId(collaboratorId);
-      return intermediaryService.createNotebookCollaborator(params);
+      intermediaryService.createNotebookCollaborator(params);
+      String username = userDAO.getUsernameByUserId(params.getCollaboratorId());
+      Map<String,Object> map = new HashMap<>();
+      map.put("userId", collaboratorId);
+      map.put("username", username);
+      return map;
   }
 
   @Override

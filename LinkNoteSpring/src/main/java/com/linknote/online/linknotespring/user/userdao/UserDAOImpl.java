@@ -75,6 +75,25 @@ public class UserDAOImpl implements UserDAO{
   }
 
   @Override
+  public String getUsernameByUserId(Integer userId) {
+    String sql = "SELECT username FROM users WHERE id = :userId";
+    Map<String , Object> map = new HashMap<>();
+    map.put("userId", userId);
+    List<String> username = namedParameterJdbcTemplate.query(sql, map, new RowMapper<String>() {
+      @Override
+      public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return rs.getString("username");
+      }
+    });
+    if(username.isEmpty()){
+      return null;
+    }else {
+      return username.get(0);
+    }
+
+  }
+
+  @Override
   public Integer verifyUserIdAndEmail(String email, Integer userId) {
     String sql = "SELECT id FROM users WHERE email = :email AND id = :userId";
     Map<String, Object> map = new HashMap<>();

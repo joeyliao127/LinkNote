@@ -7,9 +7,11 @@ let noteDataMap = {};
 
 async function notePageSideBarInit() {
   createNewNoteBtnListener();
+  genCollaboratorsList();
   await setNoteBtn(await getNotesData(0));
   displayFirstNoteWhenReflash();
   tagListMouseLeftListener();
+  createCollaboratorListener();
 }
 
 function displayFirstNoteWhenReflash() {
@@ -107,7 +109,9 @@ function removehHighlightNoteBtn() {
 function setNoteBtnListener(note) {
   note.addEventListener("click", async () => {
     const editArea = document.querySelector(".edit-area");
-    editArea.classList.remove("display-none");
+    editArea.querySelectorAll("*").forEach((item) => {
+      item.classList.remove("display-none");
+    });
     removehHighlightNoteBtn();
     note.classList.toggle("selected");
     flag = note.dataset.noteId;
@@ -205,6 +209,77 @@ async function setNoteTags(noteId) {
       }
     }
   });
+}
+
+async function createCollaboratorListener() {
+  const createCtn = document.querySelector(".inviteInput");
+  const createBtn = createCtn.querySelector("img");
+  createBtn.addEventListener("click", async () => {
+    const checkCollaboratorsCount = document.querySelectorAll(".editor-item");
+    if (checkCollaboratorsCount.length >= 5) {
+      MsgMaker.error("collaborator count are limit.");
+      return;
+    }
+    const email = createCtn.querySelector("input").value;
+    createCtn.querySelector("input").value = "";
+    if (!verifyEmailRegx(email)) {
+      MsgMaker.error("incorrect email format");
+      return;
+    }
+    const path = `/api/notebooks/${notebookId}/collaborators`;
+    const result = await fetchData(path, "POST", { email });
+    console.log(result);
+    if (result.result) {
+      const collaboratorsCtn = document.querySelector(".sideBar-ctn-editors");
+      const { collaborator } = result;
+      const coEditor = genCollaborators(
+        collaborator.username,
+        collaborator.userId
+      );
+      collaboratorsCtn.appendChild(coEditor);
+      MsgMaker.success(`invite user success`);
+    } else if (result.msg === "重複的資料") {
+      MsgMaker.error(` email address already exist`);
+    } else {
+      MsgMaker.error(`invalid email address`);
+    }
+  });
+}
+
+async function genCollaboratorsList() {
+  const collaboratorsCtn = document.querySelector(".sideBar-ctn-editors");
+  console.log(collaboratorsCtn);
+  const owner = collaboratorsCtn.querySelector("#owner p");
+
+  const ownerInfo = await fetchData(`/api/user`, "GET");
+  console.log(ownerInfo);
+  console.log(ownerInfo.username);
+  owner.textContent = ownerInfo.username;
+  console.log(owner.textContent);
+  const path = `/api/notebooks/${notebookId}/collaborators`;
+  const collaborators = await fetchData(path, "GET");
+  console.log(collaborators);
+  collaborators.collaborators.forEach((collaborator) => {
+    const coEditor = genCollaborators(
+      collaborator.username,
+      collaborator.userId
+    );
+    collaboratorsCtn.appendChild(coEditor);
+  });
+}
+
+function genCollaborators(username, userId) {
+  const usernameText = document.createElement("p");
+  const coEditor = document.createElement("div");
+  const trashBtn = document.createElement("img");
+  usernameText.textContent = username;
+  trashBtn.src = "/static/resource/images/close.png";
+  coEditor.classList.add("editor-item");
+  coEditor.classList.add("flex");
+  coEditor.dataset.userId = userId;
+  coEditor.appendChild(usernameText);
+  coEditor.appendChild(trashBtn);
+  return coEditor;
 }
 
 notePageSideBarInit();

@@ -6,12 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="31befe92-750a-4d2c-ab08-ee48786e5281" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/NotebookService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/NotebookService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/NotebookServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/NotebookServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notecontroller/NotebookController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notecontroller/NotebookController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userdao/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userdao/UserDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userdao/UserDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/user/userdao/UserDAOImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/notePage/js/notePageMain.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/notePage/js/notePageMain.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/notePage/js/notePageSideBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/notePage/js/notePageSideBar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/notePage/style/main/ntMainToolBar.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/notePage/style/main/ntMainToolBar.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/notePage/style/main/ntMainToolBar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/notePage/style/main/ntMainToolBar.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/notePage/style/sideBar/NotesSideBar.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/notePage/style/sideBar/NotesSideBar.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/notePage/style/sideBar/notesSideBar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/notePage/style/sideBar/notesSideBar.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/notePage.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/notePage.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -99,7 +100,7 @@
       <workItem from="1699773377582" duration="36636000" />
       <workItem from="1700012991265" duration="50624000" />
       <workItem from="1701577687417" duration="28280000" />
-      <workItem from="1701663610328" duration="23262000" />
+      <workItem from="1701663610328" duration="28518000" />
     </task>
     <servers />
   </component>
