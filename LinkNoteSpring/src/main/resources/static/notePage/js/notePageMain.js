@@ -243,18 +243,15 @@ async function deleteNote() {
   if (!confirmDel) {
     return;
   }
+  localStorage.setItem("noteId", null);
   const path = `/api/notebooks/${notebookId}/notes/${URL_noteId}`;
   const result = await fetchData(path, "DELETE");
   if (result.result) {
-    const noteBtns = document.querySelectorAll(".note-item");
-
-    for (noteBtn of noteBtns) {
-      if (noteBtn.dataset.noteId === URL_noteId) {
-        noteBtn.remove();
-      }
-      break;
-    }
-    displayFirstNoteWhenReflash();
+    const noteBtn = document.querySelector(
+      `.note-item[data-note-id='${URL_noteId}']`
+    );
+    noteBtn.remove();
+    displayLastReadtNote();
   }
 }
 notePageMainInit();

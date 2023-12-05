@@ -1,23 +1,14 @@
 function userSpaceNoteConsoleInit() {
-  noteCardLitener();
-  createNoteBtnListener();
+  createNewNoteBtnListener();
   deleteNotebookBtnListener();
 }
 
-function noteCardLitener() {
-  const noteCardList = document.querySelectorAll(".main-item-noteCard");
-  noteCardList.forEach((card) => {
-    card.addEventListener("click", () => {
-      window.location.href = "/notebooks/1/notes/1";
-    });
-  });
-}
-
-function createNoteBtnListener() {
+function createNewNoteBtnListener() {
   const newNoteBtn = document.querySelector(".newNoteBtn");
   newNoteBtn.addEventListener("click", async () => {
     const notebook = document.querySelector(".main-group-subjectInfo h2");
     console.log(notebook);
+    localStorage.setItem("notebookName", notebook.textContent);
     const notebookId = notebook.dataset.notebookId;
     console.log(notebookId);
 

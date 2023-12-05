@@ -168,7 +168,14 @@ async function genNotes(notebook) {
     noteName.dataset.noteId = note.noteId;
     qeustion.textContent = note.qeustion;
     createDate.textContent = note.createDate.split(" ")[0];
+
+    //建立noteCard監聽事件
     noteCard.addEventListener("click", () => {
+      localStorage.setItem(
+        "notebookName",
+        document.querySelector(".main-group-subjectInfo h2").textContent
+      );
+      localStorage.setItem("noteId", note.noteId);
       window.location.href = `/notebooks/${notesDataMap[notebookName].notebookId}/notes/${note.noteId}`;
     });
     noteCard.appendChild(star);

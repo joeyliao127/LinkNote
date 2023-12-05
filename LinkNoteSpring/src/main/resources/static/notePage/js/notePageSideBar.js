@@ -5,23 +5,39 @@ let noteDataMap = {};
 //noteDataMap用來儲存每一個讀取過的筆記，使用者在切換筆記時就不用重新fetch資料。
 
 async function notePageSideBarInit() {
+  setNotebookName();
   createNewNoteBtnListener();
   genCollaboratorsList();
   await setNoteBtn(await getNotesData(0));
-  displayFirstNoteWhenReflash();
+  displayLastReadtNote();
   createCollaboratorListener();
 }
 
-function displayFirstNoteWhenReflash() {
-  const firstNoteBtn = document.querySelector(".note-item");
-  if (firstNoteBtn === null) {
-    displayNoneEditArea();
-    return;
+function setNotebookName() {
+  document.querySelector("#notebookName").textContent =
+    localStorage.getItem("notebookName");
+}
+
+function displayLastReadtNote() {
+  let noteId = localStorage.getItem("noteId");
+  console.log(`localStorage noteId = ${noteId}`);
+  if (noteId === null || noteId === "null") {
+    const firstNoteBtn = document.querySelector(".note-item");
+    if (firstNoteBtn === null) {
+      displayNoneEditArea();
+      return;
+    }
+    console.log(firstNoteBtn.dataset);
+    console.log(firstNoteBtn.dataset.noteId);
+    noteId = firstNoteBtn.dataset.noteId;
+    localStorage.setItem("noteId", noteId);
   }
-  const noteId = firstNoteBtn.dataset.noteId;
-  removehHighlightNoteBtn();
-  flag = noteId;
-  firstNoteBtn.classList.add("selected");
+  const noteBtn = document.querySelector(
+    `.note-item[data-note-id='${noteId}']`
+  );
+  console.log(noteBtn);
+  // removehHighlightNoteBtn();
+  noteBtn.classList.add("selected");
   setNoteContent(noteId);
   setNoteTags(noteId);
 }
@@ -83,15 +99,17 @@ function createNoteTitle(star, name, select, noteId) {
   return noteItem;
 }
 
-//flag存取被highlight的noteBtn
-let flag = -1;
 function removehHighlightNoteBtn() {
-  const noteList = document.querySelectorAll(".note-item");
-  noteList.forEach((item) => {
-    if (item.dataset.noteId === flag) {
-      item.classList.toggle("selected");
-    }
-  });
+  const noteId = localStorage.getItem("noteId");
+  const noteBtn = document.querySelector(
+    `.note-item[data-note-id='${noteId}']`
+  );
+  console.log(noteBtn);
+  //如果一個筆記都沒有，則選不到任何btn，因此要設定此行
+  if (noteBtn === null) {
+    return;
+  }
+  noteBtn.classList.remove("selected");
 }
 //setNoteBtnListener輸入參數為noteBtn物件
 function setNoteBtnListener(note) {
@@ -103,9 +121,10 @@ function setNoteBtnListener(note) {
         .querySelector(".noteTagsCtn")
         .setAttribute("class", "tagListCtn noteTagsCtn flex display-none");
     });
+
     removehHighlightNoteBtn();
-    note.classList.toggle("selected");
-    flag = note.dataset.noteId;
+    note.classList.add("selected");
+    localStorage.setItem("noteId", note.dataset.noteId);
     const noteId = note.dataset.noteId;
     setNoteContent(noteId);
     setNoteTags(noteId);
@@ -118,9 +137,8 @@ function createNewNoteBtnListener() {
     const path = `/api/notebooks/${notebookId}/notes`;
     const result = await fetchData(path, "POST");
     const notesGroup = document.querySelector(".notes-group");
-    removehHighlightNoteBtn();
+    // removehHighlightNoteBtn();
     const noteItem = createNoteTitle(false, "new note", false, result.noteId);
-    flag = result.noteId;
     notesGroup.appendChild(noteItem);
     setNoteBtnListener(noteItem);
   });
@@ -183,10 +201,8 @@ async function setNoteContent(noteId) {
 
 async function setNoteTags(noteId) {
   const noteTagsList = await getNoteTags(noteId);
-  console.log(`note tag list，檢查有哪些tag`);
-  console.log(noteTagsList);
   const { tag } = noteTagsList;
-  console.log(tag);
+
   //tag部分
   const tagItems = document.querySelectorAll(".noteTagList .tagItem");
   tagItems.forEach((tagItem) => {
@@ -194,10 +210,7 @@ async function setNoteTags(noteId) {
     const notebookTag = tagItem.querySelector("p").textContent;
     //如果tag名稱存在於fetch中的資料，則加上selected。
     for (noteTag of tag) {
-      console.log(`筆記本tag:${notebookTag}`);
-      console.log(`筆記tag:${noteTag.name}`);
       if (noteTag.name === notebookTag) {
-        console.log(`一樣，加上select`);
         tagItem.classList.add("selected");
       }
     }
