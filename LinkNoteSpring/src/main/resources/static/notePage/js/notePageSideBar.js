@@ -183,17 +183,21 @@ async function setNoteContent(noteId) {
 
 async function setNoteTags(noteId) {
   const noteTagsList = await getNoteTags(noteId);
-  const { tags } = noteTagsList;
-  if (tags === undefined) {
-    return;
-  }
+  console.log(`note tag list，檢查有哪些tag`);
+  console.log(noteTagsList);
+  const { tag } = noteTagsList;
+  console.log(tag);
   //tag部分
   const tagItems = document.querySelectorAll(".noteTagList .tagItem");
   tagItems.forEach((tagItem) => {
+    tagItem.classList.remove("selected");
     const notebookTag = tagItem.querySelector("p").textContent;
     //如果tag名稱存在於fetch中的資料，則加上selected。
-    for (noteTag of tags) {
+    for (noteTag of tag) {
+      console.log(`筆記本tag:${notebookTag}`);
+      console.log(`筆記tag:${noteTag.name}`);
       if (noteTag.name === notebookTag) {
+        console.log(`一樣，加上select`);
         tagItem.classList.add("selected");
       }
     }
@@ -264,6 +268,9 @@ function genCollaborators(username, userId) {
   coEditor.appendChild(trashBtn);
 
   trashBtn.addEventListener("click", async () => {
+    if (!window.confirm("Remove this collaborator?")) {
+      return;
+    }
     const result = await deleteCOllaborators(userId);
     if (result.result) {
       coEditor.remove();
