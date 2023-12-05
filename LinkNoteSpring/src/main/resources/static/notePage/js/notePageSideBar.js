@@ -27,15 +27,13 @@ function displayLastReadtNote() {
       displayNoneEditArea();
       return;
     }
-    console.log(firstNoteBtn.dataset);
-    console.log(firstNoteBtn.dataset.noteId);
     noteId = firstNoteBtn.dataset.noteId;
     localStorage.setItem("noteId", noteId);
   }
   const noteBtn = document.querySelector(
     `.note-item[data-note-id='${noteId}']`
   );
-  console.log(noteBtn);
+  history.pushState({ noteId }, "", `/notebooks/${notebookId}/notes/${noteId}`);
   // removehHighlightNoteBtn();
   noteBtn.classList.add("selected");
   setNoteContent(noteId);

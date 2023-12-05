@@ -53,6 +53,8 @@ function genNoteTags(tagName, notesTag) {
   const tagDiv = document.createElement("div");
   const tag = document.createElement("p");
   tagDiv.classList.add("tagItem");
+  tagDiv.dataset.tagName = tagName.name;
+  tagDiv.dataset.tagId = tagName.tagId;
   tag.textContent = tagName.name;
   tag.dataset.tagId = tagName.tagId;
   for (let i = 0; i < notesTag.length; i++) {
@@ -74,11 +76,32 @@ function genNotebookTags(tagName) {
   tagDiv.classList.add("flex");
   tagDiv.classList.add("tagItem");
   tag.textContent = tagName.name;
-  tag.dataset.tagId = tagName.tagId;
+  tagDiv.dataset.tagId = tagName.tagId;
+  tagDiv.dataset.tagName = tagName.name;
   trash.src = "/static/resource/images/trash-white.png";
   trash.dataset.tag = tagName.name;
   tagDiv.appendChild(tag);
   tagDiv.appendChild(trash);
+  trash.addEventListener("click", async () => {
+    if (!window.confirm("Delete this tag?")) {
+      return;
+    }
+    const path = `/api/notebooks/${notebookId}/tags?tag=${tagName.name}`;
+    const result = await fetchData(path, "DELETE");
+    if (result.result) {
+      console.log("del tagId:", tagName.tagId);
+      const deletedTagBtns = document.querySelectorAll(
+        `.tagItem[data-tag-id='${tagName.tagId}']`
+      );
+      console.log(deletedTagBtns);
+      deletedTagBtns.forEach((btn) => {
+        btn.remove();
+      });
+      MsgMaker.success("deleted!");
+    } else {
+      MsgMaker.error("delete tag failed");
+    }
+  });
   tagDiv.addEventListener("click", () => {
     const nbTagList = document.querySelector(".notebookTagsCtn");
     nbTagList.classList.toggle("display-none");

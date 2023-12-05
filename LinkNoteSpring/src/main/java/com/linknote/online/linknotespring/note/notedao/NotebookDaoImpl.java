@@ -250,7 +250,7 @@ public class NotebookDaoImpl implements NotebookDao {
 
   @Override
   public void deleteNotebookTag(DeleteNotebookTagParamDto param) {
-    String sql = "DELETE FROM tags WHERE notebookId = :notebookId AND tag = :tag";
+    String sql = "DELETE FROM tags WHERE notebookId = :notebookId AND name = :tag";
     Map<String, Object> map = new HashMap<>();
     map.put("notebookId", param.getNotebookId());
     map.put("tag", param.getTag());
