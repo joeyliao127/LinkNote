@@ -2,25 +2,33 @@ async function notePageMainInit() {
   await setTags();
   displayTagsBtnListener();
   updateNoteTagListener();
-  addTagBtnListener();
+  createNewTagBtnListener();
   saveNoteBtnListener();
   clearNoteTagsBtnListener();
   updateStarBtnListener();
   deleteNoteBtnListener();
+  // tagListMouseLeftListener();
 }
 
 //點選撰寫筆記區的tag按鈕後，顯示notebook所有標籤
 function displayTagsBtnListener() {
   const tagBtn = document.querySelectorAll(".tagBtn");
-  const tagList = document.querySelectorAll(".tagListCtn");
-  for (let i = 0; i < tagBtn.length; i++) {
-    tagBtn[i].addEventListener("mouseenter", () => {
-      tagList[i].classList.toggle("display-none");
-    });
-    tagBtn[i].addEventListener("mouseleave", () => {
-      tagList[i].classList.toggle("display-none");
-    });
-  }
+  const nbTagList = document.querySelector(".notebookTagsCtn");
+  const ntTagList = document.querySelector(".noteTagsCtn");
+
+  tagBtn[0].addEventListener("click", () => {
+    nbTagList.classList.toggle("display-none");
+    ntTagList.setAttribute("class", "tagListCtn noteTagsCtn flex display-none");
+  });
+
+  tagBtn[1].addEventListener("click", () => {
+    // nbTagList.classList.remove("display-none");
+    ntTagList.classList.toggle("display-none");
+    nbTagList.setAttribute(
+      "class",
+      "tagListCtn notebookTagsCtn flex display-none"
+    );
+  });
 }
 
 //render左邊tag和右邊tag的內容
@@ -49,7 +57,6 @@ function genNoteTags(tagName, notesTag) {
   tag.dataset.tagId = tagName.tagId;
   for (let i = 0; i < notesTag.length; i++) {
     if (tagName.name === notesTag[i].name) {
-      console.log(notesTag[i].name);
       tagDiv.classList.toggle("selected");
     }
   }
@@ -73,32 +80,32 @@ function genNotebookTags(tagName) {
   tagDiv.appendChild(tag);
   tagDiv.appendChild(trash);
   tagDiv.addEventListener("click", () => {
-    const tagList = document.querySelector(".notebookTagsCtn");
-    tagList.classList.add("display-none");
+    const nbTagList = document.querySelector(".notebookTagsCtn");
+    nbTagList.classList.toggle("display-none");
   });
   return tagDiv;
 }
 
 //新增筆記本標籤
-function addTagBtnListener() {
+function createNewTagBtnListener() {
   const addTagBtn = document.querySelector("#addTag");
   addTagBtn.addEventListener("click", async () => {
     const input = document.querySelector("#createTag").value;
     document.querySelector("#createTag").value = "";
-    console.log(input);
+
     const path = `/api/notebooks/${notebookId}/tags`;
     const result = await fetchData(path, "POST", { tag: input });
-    console.log(result);
+
     if (result.result) {
       const notebookTagsCtn = document.querySelector(".notebookTagsCtn");
       const notebookTagList = notebookTagsCtn.querySelector(".tagList");
       const noteTagList = document.querySelector(".noteTagsCtn .tagList");
       const tag = {
-        name: "#" + input,
+        name: input,
         tagId: result.tagId,
       };
       notebookTagList.appendChild(genNotebookTags(tag));
-      console.log(input);
+
       noteTagList.appendChild(genNoteTags(tag, []));
       notebookTagsCtn.classList.toggle("display-none");
       MsgMaker.success("Create new tag success");
@@ -147,16 +154,6 @@ async function updateNoteContent() {
   } else {
     MsgMaker.error("save note failed");
   }
-}
-
-function clearNoteTagsBtnListener() {
-  const clearBtn = document.querySelector("#clear");
-  clearBtn.addEventListener("click", () => {
-    const tagItems = document.querySelectorAll(".noteTagsCtn .tagItem");
-    tagItems.forEach((tag) => {
-      tag.classList.remove("selected");
-    });
-  });
 }
 
 function updateStarBtnListener() {
@@ -217,10 +214,22 @@ function updateNoteTagListener() {
     const path = `/api/notebooks/${notebookId}/notes/${URL_noteId}/tags`;
     const result = await fetchData(path, "PUT", { tags: updateList });
     if (result.result) {
+      const ntTagList = document.querySelector(".noteTagsCtn");
+      ntTagList.classList.toggle("display-none");
       MsgMaker.success("update tag success!");
     } else {
       MsgMaker.error("update tag faild");
     }
+  });
+}
+
+function clearNoteTagsBtnListener() {
+  const clearBtn = document.querySelector("#clear");
+  clearBtn.addEventListener("click", () => {
+    const tagItems = document.querySelectorAll(".noteTagsCtn .tagItem");
+    tagItems.forEach((tag) => {
+      tag.classList.remove("selected");
+    });
   });
 }
 
@@ -238,7 +247,7 @@ async function deleteNote() {
   const result = await fetchData(path, "DELETE");
   if (result.result) {
     const noteBtns = document.querySelectorAll(".note-item");
-    console.log();
+
     for (noteBtn of noteBtns) {
       if (noteBtn.dataset.noteId === URL_noteId) {
         noteBtn.remove();

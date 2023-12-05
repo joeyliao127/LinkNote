@@ -1,7 +1,6 @@
 const url = window.location.href.split("/");
 const notebookId = url[url.length - 3];
 let URL_noteId = url[url.length - 1];
-console.log(URL_noteId);
 let noteDataMap = {};
 //noteDataMap用來儲存每一個讀取過的筆記，使用者在切換筆記時就不用重新fetch資料。
 
@@ -10,13 +9,11 @@ async function notePageSideBarInit() {
   genCollaboratorsList();
   await setNoteBtn(await getNotesData(0));
   displayFirstNoteWhenReflash();
-  tagListMouseLeftListener();
   createCollaboratorListener();
 }
 
 function displayFirstNoteWhenReflash() {
   const firstNoteBtn = document.querySelector(".note-item");
-  console.log(firstNoteBtn);
   if (firstNoteBtn === null) {
     displayNoneEditArea();
     return;
@@ -25,7 +22,6 @@ function displayFirstNoteWhenReflash() {
   removehHighlightNoteBtn();
   flag = noteId;
   firstNoteBtn.classList.add("selected");
-  console.log(noteId);
   setNoteContent(noteId);
   setNoteTags(noteId);
 }
@@ -43,14 +39,6 @@ function displayEditArea() {
   const editChild = editArea.querySelectorAll("*");
   editChild.forEach((chlid) => {
     chlid.classList.remove("display-none");
-  });
-}
-function tagListMouseLeftListener() {
-  const tagListCtns = document.querySelectorAll(".tagListCtn");
-  tagListCtns.forEach((tagListCtn) => {
-    tagListCtn.addEventListener("mouseleave", () => {
-      tagListCtn.classList.toggle("display-none");
-    });
   });
 }
 
@@ -111,12 +99,14 @@ function setNoteBtnListener(note) {
     const editArea = document.querySelector(".edit-area");
     editArea.querySelectorAll("*").forEach((item) => {
       item.classList.remove("display-none");
+      document
+        .querySelector(".noteTagsCtn")
+        .setAttribute("class", "tagListCtn noteTagsCtn flex display-none");
     });
     removehHighlightNoteBtn();
     note.classList.toggle("selected");
     flag = note.dataset.noteId;
     const noteId = note.dataset.noteId;
-    console.log(noteId);
     setNoteContent(noteId);
     setNoteTags(noteId);
   });
@@ -193,7 +183,6 @@ async function setNoteContent(noteId) {
 
 async function setNoteTags(noteId) {
   const noteTagsList = await getNoteTags(noteId);
-  console.log(noteTagsList);
   const { tags } = noteTagsList;
   if (tags === undefined) {
     return;
@@ -228,7 +217,6 @@ async function createCollaboratorListener() {
     }
     const path = `/api/notebooks/${notebookId}/collaborators`;
     const result = await fetchData(path, "POST", { email });
-    console.log(result);
     if (result.result) {
       const collaboratorsCtn = document.querySelector(".sideBar-ctn-editors");
       const { collaborator } = result;
@@ -248,17 +236,12 @@ async function createCollaboratorListener() {
 
 async function genCollaboratorsList() {
   const collaboratorsCtn = document.querySelector(".sideBar-ctn-editors");
-  console.log(collaboratorsCtn);
   const owner = collaboratorsCtn.querySelector("#owner p");
 
   const ownerInfo = await fetchData(`/api/user`, "GET");
-  console.log(ownerInfo);
-  console.log(ownerInfo.username);
   owner.textContent = ownerInfo.username;
-  console.log(owner.textContent);
   const path = `/api/notebooks/${notebookId}/collaborators`;
   const collaborators = await fetchData(path, "GET");
-  console.log(collaborators);
   collaborators.collaborators.forEach((collaborator) => {
     const coEditor = genCollaborators(
       collaborator.username,
