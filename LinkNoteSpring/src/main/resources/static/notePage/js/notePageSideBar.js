@@ -279,7 +279,22 @@ function genCollaborators(username, userId) {
   coEditor.dataset.userId = userId;
   coEditor.appendChild(usernameText);
   coEditor.appendChild(trashBtn);
+
+  trashBtn.addEventListener("click", async () => {
+    const result = await deleteCOllaborators(userId);
+    if (result.result) {
+      coEditor.remove();
+      MsgMaker.success("Delete collaborators success.");
+    } else {
+      MsgMaker.error("Delete collaborators failed");
+    }
+  });
   return coEditor;
+}
+
+async function deleteCOllaborators(userId) {
+  const path = `/api/notebooks/1/collaborators/${userId}`;
+  return await fetchData(path, "DELETE");
 }
 
 notePageSideBarInit();
