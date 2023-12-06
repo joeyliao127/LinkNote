@@ -7,14 +7,12 @@ function createNewNoteBtnListener() {
   const newNoteBtn = document.querySelector(".newNoteBtn");
   newNoteBtn.addEventListener("click", async () => {
     const notebook = document.querySelector(".main-group-subjectInfo h2");
-    console.log(notebook);
     localStorage.setItem("notebookName", notebook.textContent);
     const notebookId = notebook.dataset.notebookId;
-    console.log(notebookId);
-
     const path = `/api/notebooks/${notebookId}/notes`;
     const result = await fetchData(path, "POST");
     if (result.result) {
+      localStorage.setItem("noteId", result.noteId);
       window.location.href = `/notebooks/${notebookId}/notes/${result.noteId}`;
     } else {
       MsgMaker.error("Create note failed");

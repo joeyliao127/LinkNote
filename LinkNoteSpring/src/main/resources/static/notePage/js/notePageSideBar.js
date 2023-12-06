@@ -239,6 +239,10 @@ function createNewNoteBtnListener() {
     const noteItem = createNoteTitle(false, "new note", false, result.noteId);
     notesGroup.appendChild(noteItem);
     setNoteBtnListener(noteItem);
+    // filter.noteBox = true;
+    // filter.star = false;
+    // filter.tag = false;
+    // filterBtHighLightSwitcher();
   });
 }
 

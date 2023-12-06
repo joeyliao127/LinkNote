@@ -92,7 +92,6 @@ function genNotebookTags(tagData) {
         lastTag.classList.remove("selected");
         filter.tag = null;
         filterBtHighLightSwitcher();
-        displayFirstNote();
         return;
       }
       lastTag.classList.remove("selected");

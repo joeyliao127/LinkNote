@@ -146,9 +146,11 @@ async function genNotes(notebook) {
 
   //切換筆記本，清空note
   noteCardCtn.innerHTML = "";
+  console.log(notesDataMap);
   notesDataMap[notebookName].notes.notes.forEach((note) => {
+    console.log(note);
     const noteCard = document.createElement("div");
-    const star = document.createElement("img");
+    let star = document.createElement("img");
     const noteName = document.createElement("h3");
     const question = document.createElement("p");
     const createDate = document.createElement("p");
@@ -157,8 +159,10 @@ async function genNotes(notebook) {
     createDate.classList.add("date");
     if (note.star) {
       star.src = "/static/resource/images/star-full.png";
+      star.dataset.star = true;
     } else {
       star.src = "/static/resource/images/star-empty.png";
+      star.dataset.star = false;
     }
 
     star.alt = "star";
@@ -166,9 +170,17 @@ async function genNotes(notebook) {
     noteName.textContent = note.name;
     noteName.dataset.noteId = note.noteId;
     question.textContent = note.question;
-    console.log(note.qeustion);
+    console.log(note.question);
     createDate.textContent = note.createDate.split(" ")[0];
-
+    console.log(`star = `);
+    console.log(star);
+    console.log(`notebookId = ${notesDataMap[notebookName].notebookId}`);
+    console.log(`noteId = ${note.noteId}`);
+    star = genNoteStarListener(
+      star,
+      notesDataMap[notebookName].notebookId,
+      note.noteId
+    );
     //建立noteCard監聽事件
     noteCard.addEventListener("click", () => {
       localStorage.setItem(
@@ -178,6 +190,7 @@ async function genNotes(notebook) {
       localStorage.setItem("noteId", note.noteId);
       window.location.href = `/notebooks/${notesDataMap[notebookName].notebookId}/notes/${note.noteId}`;
     });
+
     noteCard.appendChild(star);
     noteCard.appendChild(noteName);
     console.log(question);
@@ -188,6 +201,36 @@ async function genNotes(notebook) {
   });
 }
 
+function genNoteStarListener(star, notebookId, noteId) {
+  star.addEventListener("click", async (e) => {
+    e.stopPropagation();
+    const path = `/api/notebooks/${notebookId}/notes/${noteId}/star`;
+    console.log(`path = ${path}`);
+    const starStatus = {};
+    if (star.dataset.star === "true") {
+      starStatus.star = false;
+      star.dataset.star = false;
+    } else {
+      starStatus.star = true;
+      star.dataset.star = true;
+    }
+    const result = await fetchData(path, "PUT", starStatus);
+    console.log(result);
+    if (result.result) {
+      MsgMaker.success("updated!");
+    } else {
+      MsgMaker.error("failed");
+    }
+    if (star.dataset.star === "true") {
+      console.log(star.dataset.star);
+      console.log(star.dataset.star === "true");
+      star.src = "/static/resource/images/star-full.png";
+    } else {
+      star.src = "/static/resource/images/star-empty.png";
+    }
+  });
+  return star;
+}
 function removeNotebookBtn(notebookId) {
   const notebookList = document.querySelectorAll(".notebook");
   notebookList.forEach((notebook) => {
