@@ -5,10 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="31befe92-750a-4d2c-ab08-ee48786e5281" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/cc934641-988d-4188-8485-5b7bb96e1802.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/cc934641-988d-4188-8485-5b7bb96e1802.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notecontroller/NotebookController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notecontroller/NotebookController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/NotebookDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/NotebookDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/base/js/base.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/base/js/base.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/notePage/js/notePageMain.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/notePage/js/notePageMain.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/notePage/js/notePageSideBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/notePage/js/notePageSideBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/userSpace/js/userSpaceSidebar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/userSpace/js/userSpaceSidebar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/userSpace/style/notesConsole/notesConsole.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/userSpace/style/notesConsole/notesConsole.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/userSpace/style/notesConsole/notesConsole.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/userSpace/style/notesConsole/notesConsole.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/notePage.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/notePage.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +103,8 @@
       <workItem from="1699773377582" duration="36636000" />
       <workItem from="1700012991265" duration="50624000" />
       <workItem from="1701577687417" duration="28280000" />
-      <workItem from="1701663610328" duration="43937000" />
+      <workItem from="1701663610328" duration="47068000" />
+      <workItem from="1701824104169" duration="6387000" />
     </task>
     <servers />
   </component>

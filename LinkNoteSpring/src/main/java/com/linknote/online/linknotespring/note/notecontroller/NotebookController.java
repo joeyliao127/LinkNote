@@ -86,7 +86,7 @@ public class NotebookController {
     param.setStar(star);
     param.setTimeAsc(timeAsc);
     param.setKeyword(keyword);
-    return ResponseEntity.status(200).body(notebookService.getNotes(param));
+    return ResponseEntity.status(200).body(Map.of("result", true, "notes", notebookService.getNotes(param)));
   }
 
   @GetMapping("/api/notebooks/{notebookId}/tags")

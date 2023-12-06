@@ -146,12 +146,11 @@ async function genNotes(notebook) {
 
   //切換筆記本，清空note
   noteCardCtn.innerHTML = "";
-  console.log(notesDataMap[notebookName].notes);
-  notesDataMap[notebookName].notes.forEach((note) => {
+  notesDataMap[notebookName].notes.notes.forEach((note) => {
     const noteCard = document.createElement("div");
     const star = document.createElement("img");
     const noteName = document.createElement("h3");
-    const qeustion = document.createElement("p");
+    const question = document.createElement("p");
     const createDate = document.createElement("p");
     noteCard.classList.add("main-item-noteCard");
     noteCard.classList.add("flex");
@@ -166,7 +165,8 @@ async function genNotes(notebook) {
     star.classList.add("btn");
     noteName.textContent = note.name;
     noteName.dataset.noteId = note.noteId;
-    qeustion.textContent = note.qeustion;
+    question.textContent = note.question;
+    console.log(note.qeustion);
     createDate.textContent = note.createDate.split(" ")[0];
 
     //建立noteCard監聽事件
@@ -180,7 +180,9 @@ async function genNotes(notebook) {
     });
     noteCard.appendChild(star);
     noteCard.appendChild(noteName);
-    noteCard.appendChild(qeustion);
+    console.log(question);
+    noteCard.appendChild(question);
+    console.log(noteCard);
     noteCard.appendChild(createDate);
     noteCardCtn.appendChild(noteCard);
   });

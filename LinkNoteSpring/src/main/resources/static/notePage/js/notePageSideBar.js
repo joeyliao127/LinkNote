@@ -2,13 +2,21 @@ const url = window.location.href.split("/");
 const notebookId = url[url.length - 3];
 let URL_noteId = url[url.length - 1];
 let noteDataMap = {};
+let filter = {
+  noteBox: true,
+  star: false,
+  tag: null,
+};
 //noteDataMap用來儲存每一個讀取過的筆記，使用者在切換筆記時就不用重新fetch資料。
 
 async function notePageSideBarInit() {
   setNotebookName();
   createNewNoteBtnListener();
+  noteBoxBtnListener();
+  notebookStarBtnListener();
   genCollaboratorsList();
-  await setNoteBtn(await getNotesData(0));
+  document.querySelector("#noteBoxBtn").classList.add("selected");
+  await setNoteBtn(await getNotesData(filter));
   displayLastReadtNote();
   createCollaboratorListener();
 }
@@ -18,9 +26,9 @@ function setNotebookName() {
     localStorage.getItem("notebookName");
 }
 
+//displayLastReadtNote用於重新整理和刪除note之後使用
 function displayLastReadtNote() {
   let noteId = localStorage.getItem("noteId");
-  console.log(`localStorage noteId = ${noteId}`);
   if (noteId === null || noteId === "null") {
     const firstNoteBtn = document.querySelector(".note-item");
     if (firstNoteBtn === null) {
@@ -40,6 +48,11 @@ function displayLastReadtNote() {
   setNoteTags(noteId);
 }
 
+function displayFirstNote() {
+  localStorage.setItem("noteId", null);
+  displayLastReadtNote();
+}
+
 function displayNoneEditArea() {
   const editArea = document.querySelector(".edit-area");
   const editChild = editArea.querySelectorAll("*");
@@ -56,15 +69,64 @@ function displayEditArea() {
   });
 }
 
-async function getNotesData(offset) {
-  const path = `/api/notebooks/${notebookId}/notes?offset=${offset}&limit=20`;
+function filterBtHighLightSwitcher() {}
+
+function noteBoxBtnListener() {
+  const noteBoxBtn = document.querySelector("#noteBoxBtn");
+  noteBoxBtn.addEventListener("click", async () => {
+    if (filter.noteBox) {
+      return;
+    }
+    filter.noteBox = true;
+    filter.tag = null;
+    filter.star = false;
+    setNoteBtn(await getNotesData(filter));
+    displayFirstNote();
+  });
+}
+
+function notebookStarBtnListener() {
+  const starBtn = document.querySelector("#notebookStarBtn");
+  starBtn.addEventListener("click", async () => {
+    filter.noteBox = false;
+    if (filter.star) {
+      filter.star = false;
+      starBtn.classList.remove("selected");
+    } else {
+      filter.star = true;
+      // starBtn.classList.add("selected");
+    }
+    setNoteBtn(await getNotesData(filter));
+    displayFirstNote();
+  });
+}
+
+async function getNotesData(filter) {
+  console.log("==========filter============");
+  console.log(filter);
+  let path = `/api/notebooks/${notebookId}/notes?offset=0&limit=20`;
+  if (filter.noteBox) {
+    return await fetchData(path, "GET");
+  }
+  if (filter.star) {
+    path += `&star=1`;
+  }
+  if (filter.tag) {
+    console.log(filter.tag);
+    path += `&tag=${filter.tag}`;
+  }
+  console.log("path: ", path);
   return await fetchData(path, "GET");
 }
 
 //Controller
-async function setNoteBtn(noteDataList) {
-  noteDataList = noteDataList.notes;
+function setNoteBtn(noteDataList) {
+  console.log(noteDataList);
+  noteDataList = noteDataList.notes.notes;
   const notesGroup = document.querySelector(".notes-group");
+  while (notesGroup.firstChild) {
+    notesGroup.removeChild(notesGroup.firstChild);
+  }
   noteDataList.forEach((note) => {
     const noteItem = createNoteTitle(
       note.star,

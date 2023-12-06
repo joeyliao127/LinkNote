@@ -50,50 +50,66 @@ async function setTags() {
 //傳入兩個物件，tagName = key: tag, key: tagId
 //notesTag是查詢note有哪些tag
 function genNoteTags(tagName, notesTag) {
-  const tagDiv = document.createElement("div");
+  const tagItem = document.createElement("div");
   const tag = document.createElement("p");
-  tagDiv.classList.add("tagItem");
-  tagDiv.dataset.tagName = tagName.name;
-  tagDiv.dataset.tagId = tagName.tagId;
+  tagItem.classList.add("tagItem");
+  tagItem.dataset.tagName = tagName.name;
+  tagItem.dataset.tagId = tagName.tagId;
   tag.textContent = tagName.name;
   tag.dataset.tagId = tagName.tagId;
   for (let i = 0; i < notesTag.length; i++) {
     if (tagName.name === notesTag[i].name) {
-      tagDiv.classList.toggle("selected");
+      tagItem.classList.toggle("selected");
     }
   }
-  tagDiv.appendChild(tag);
-  tagDiv.addEventListener("click", () => {
-    tagDiv.classList.toggle("selected");
+  tagItem.appendChild(tag);
+  tagItem.addEventListener("click", () => {
+    tagItem.classList.toggle("selected");
   });
-  return tagDiv;
+  return tagItem;
 }
 
-function genNotebookTags(tagName) {
-  const tagDiv = document.createElement("div");
+function genNotebookTags(tagData) {
+  const tagItem = document.createElement("div");
   const tag = document.createElement("p");
   const trash = document.createElement("img");
-  tagDiv.classList.add("flex");
-  tagDiv.classList.add("tagItem");
-  tag.textContent = tagName.name;
-  tagDiv.dataset.tagId = tagName.tagId;
-  tagDiv.dataset.tagName = tagName.name;
+  const tagName = tagData.name;
+  const tagId = tagData.tagId;
+  tagItem.classList.add("flex");
+  tagItem.classList.add("tagItem");
+  tag.textContent = tagName;
+  tagItem.dataset.tagId = tagId;
+  tagItem.dataset.tagData = tagName;
   trash.src = "/static/resource/images/trash-white.png";
-  trash.dataset.tag = tagName.name;
-  tagDiv.appendChild(tag);
-  tagDiv.appendChild(trash);
+  trash.dataset.tag = tagName;
+  tagItem.appendChild(tag);
+  tagItem.appendChild(trash);
+  tagItem.addEventListener("click", async () => {
+    filter.noteBox = false;
+    filter.tag = tagName;
+    setNoteBtn(await getNotesData(filter));
+    displayFirstNote();
+  });
+  delNotebookTagListener(trash, tagName, tagId);
+  tagItem.addEventListener("click", () => {
+    const nbTagList = document.querySelector(".notebookTagsCtn");
+    nbTagList.classList.toggle("display-none");
+  });
+  return tagItem;
+}
+
+function delNotebookTagListener(trash, tagName, tagId) {
   trash.addEventListener("click", async () => {
     if (!window.confirm("Delete this tag?")) {
       return;
     }
-    const path = `/api/notebooks/${notebookId}/tags?tag=${tagName.name}`;
+    const path = `/api/notebooks/${notebookId}/tags?tag=${tagName}`;
     const result = await fetchData(path, "DELETE");
     if (result.result) {
-      console.log("del tagId:", tagName.tagId);
+      console.log("del tagId:", tagId);
       const deletedTagBtns = document.querySelectorAll(
-        `.tagItem[data-tag-id='${tagName.tagId}']`
+        `.tagItem[data-tag-id='${tagId}']`
       );
-      console.log(deletedTagBtns);
       deletedTagBtns.forEach((btn) => {
         btn.remove();
       });
@@ -102,13 +118,9 @@ function genNotebookTags(tagName) {
       MsgMaker.error("delete tag failed");
     }
   });
-  tagDiv.addEventListener("click", () => {
-    const nbTagList = document.querySelector(".notebookTagsCtn");
-    nbTagList.classList.toggle("display-none");
-  });
-  return tagDiv;
 }
 
+function genStarNote() {}
 //新增筆記本標籤
 function createNewTagBtnListener() {
   const addTagBtn = document.querySelector("#addTag");

@@ -62,9 +62,10 @@ public class NotebookDaoImpl implements NotebookDao {
   public List<NotesPO> getNotes(GetNotesParamDto params) {
     Map<String, Object> map = new HashMap<>();
     String sql = "SELECT nt.id as noteId, nt.name, nt.question, nt.star, nt.createDate "
-        + "FROM notes nt JOIN notebooks n ON notebookId = n.id ";
+        + "FROM notes nt JOIN notebooks n ON nt.notebookId = n.id ";
     if(!Objects.equals(params.getTag(), "null")){
-      sql += "JOIN tags t ON nt.id = t.notebookId "
+      sql += "JOIN tags t ON n.id = t.notebookId "
+          + "JOIN notes_tags nts ON t.id = nts.tagId AND nts.noteId = nt.id "
           + "WHERE nt.notebookId = :notebookId "
           + "AND n.userId = :userId AND t.name = :tag ";
       map.put("tag", params.getTag());
