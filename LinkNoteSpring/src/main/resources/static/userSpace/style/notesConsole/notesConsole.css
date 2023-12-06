@@ -168,6 +168,7 @@
   height: calc(100vh - 300px);
   border-radius: 20px;
   overflow-y: scroll;
+  transition: all 0.3s ease-in-out;
 }
 .main-group-notes::-webkit-scrollbar {
   display: none;

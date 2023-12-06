@@ -1,6 +1,6 @@
 function userSpaceNoteConsoleInit() {
   createNewNoteBtnListener();
-  deleteNotebookBtnListener();
+  noteToolBtnsListener();
 }
 
 function createNewNoteBtnListener() {
@@ -19,6 +19,34 @@ function createNewNoteBtnListener() {
     }
   });
 }
+
+let filter = {
+  noteBox: true,
+  tag: false,
+  tagName: null,
+  time: false,
+  star: false,
+  keyword: null,
+};
+function noteToolBtnsListener() {
+  displayTagListBtnListener();
+  deleteNotebookBtnListener();
+  noteSortByTimeBtnListener();
+  setNoteStarBtnListner();
+  searchNoteByKeywordListener();
+}
+
+function displayTagListBtnListener() {
+  const tagBtn = document.querySelector("#tagBtn");
+  tagBtn.addEventListener("click", () => {
+    document.querySelector(".tagList").classList.toggle("display-none");
+  });
+}
+function noteSortByTimeBtnListener() {}
+
+function setNoteStarBtnListner() {}
+
+function searchNoteByKeywordListener() {}
 
 function deleteNotebookBtnListener() {
   const delBtn = document.querySelector("#delBtn");
