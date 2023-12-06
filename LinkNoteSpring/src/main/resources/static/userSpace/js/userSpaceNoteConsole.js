@@ -6,9 +6,13 @@ function userSpaceNoteConsoleInit() {
 function createNewNoteBtnListener() {
   const newNoteBtn = document.querySelector(".newNoteBtn");
   newNoteBtn.addEventListener("click", async () => {
-    const notebook = document.querySelector(".main-group-subjectInfo h2");
-    localStorage.setItem("notebookName", notebook.textContent);
-    const notebookId = notebook.dataset.notebookId;
+    const notebookBtn = document.querySelector(".notebook.selected");
+    if (!notebookBtn) {
+      MsgMaker.warn("selected notebook first.");
+      return;
+    }
+    localStorage.setItem("notebookName", notebookBtn.textContent);
+    const notebookId = notebookBtn.dataset.notebookId;
     const path = `/api/notebooks/${notebookId}/notes`;
     const result = await fetchData(path, "POST");
     if (result.result) {
@@ -20,20 +24,57 @@ function createNewNoteBtnListener() {
   });
 }
 
-let filter = {
-  noteBox: true,
-  tag: false,
-  tagName: null,
-  time: false,
-  star: false,
-  keyword: null,
-};
 function noteToolBtnsListener() {
   displayTagListBtnListener();
   deleteNotebookBtnListener();
   noteSortByTimeBtnListener();
   setNoteStarBtnListner();
   searchNoteByKeywordListener();
+}
+let filter = {
+  noteBox: true,
+  star: false,
+  time: false,
+  tag: null,
+  keyword: null,
+};
+async function setNoteCardCtnByFilter() {
+  const notebookBtn = document.querySelector(".notebook.selected");
+  const notebookName = notebookBtn.dataset.name;
+  const notebookId = notebookBtn.dataset.notebookId;
+  const description = notebookBtn.dataset.description;
+
+  if (!notebookId) {
+    MsgMaker.warn("select notebook first");
+    return;
+  }
+
+  let path = `/api/notebooks/${notebookId}?`;
+  if (filter.noteBox) {
+    path = `/api/notebooks/${notebookId}`;
+    genNotesCardCtn(notebookName, notebookId, description, path);
+    return;
+  }
+
+  if (filter.star) {
+    path += `star=1`;
+  } else {
+    path += `star=0`;
+  }
+
+  if (filter.time) {
+    path += `&timeAsc=1`;
+  }
+
+  if (filter.tag) {
+    path += `&tag=${filter.tag}`;
+  }
+
+  if (filter.keyword) {
+    path += `&keyword=${filter.keyword}`;
+  }
+  console.log(path);
+  genNotesCardCtn(notebookName, notebookId, description, path);
 }
 
 function displayTagListBtnListener() {
@@ -42,9 +83,15 @@ function displayTagListBtnListener() {
     document.querySelector(".tagList").classList.toggle("display-none");
   });
 }
+
 function noteSortByTimeBtnListener() {}
 
-function setNoteStarBtnListner() {}
+function setNoteStarBtnListner() {
+  const starBtn = document.querySelector("#starBtn");
+  starBtn.addEventListener("click", () => {
+    setNoteCardCtnByFilter();
+  });
+}
 
 function searchNoteByKeywordListener() {}
 

@@ -66,9 +66,7 @@ async function setNotebooks() {
   const coNotebookPath = `/api/notebooks?offset=0&limit=20&coNotebook=true`;
   const getNotebooksRes = await fetchData(notebookPath, "GET");
   const getcoNotebooksRes = await fetchData(coNotebookPath, "GET");
-  console.log(`產生notebooks title`);
   genNotebooksBtn(getNotebooksRes.notebooks, myNotebook, false);
-  console.log(`產生coNotebooks title`);
   genNotebooksBtn(getcoNotebooksRes.notebooks, coNotebook, true);
 }
 
@@ -92,42 +90,52 @@ async function genNotebooksBtn(notebookInfos, notebookCtn, isCoNotebook) {
 
 function genNotebooksBtnListener(notebookBtn) {
   notebookBtn.addEventListener("click", () => {
-    const lastReadNotebookId = localStorage.getItem("noteookId");
+    const lastReadNotebookId = localStorage.getItem("notebookId");
 
     if (!lastReadNotebookId) {
       localStorage.setItem("notebookId", notebookBtn.dataset.notebookId);
-      genNotes(notebookBtn);
+      genNotesCardCtn(
+        notebookBtn.dataset.name,
+        notebookBtn.dataset.notebookId,
+        notebookBtn.dataset.description
+      );
       return;
     }
     const lastSelectedNotebookBtn = document.querySelector(
       `.myNotebooks .notebook[data-notebook-id = '${lastReadNotebookId}'`
     );
-    console.log(lastSelectedNotebookBtn);
+    const currentNotebookId = notebookBtn.dataset.notebookId;
     lastSelectedNotebookBtn.classList.remove("selected");
     notebookBtn.classList.toggle("selected");
-    genNotes(notebookBtn);
+    localStorage.setItem("notebookId", currentNotebookId);
+
+    const path = `/api/notebooks/${currentNotebookId}/notes?offset=0&limit=20`;
+    genNotesCardCtn(
+      notebookBtn.dataset.name,
+      notebookBtn.dataset.notebookId,
+      notebookBtn.dataset.description,
+      path
+    );
   });
 }
-let notebookTagMap = {};
+
 async function genNotebookTagItems(notebookName) {
   const path = `/api/notebooks/${notebookName}/tags`;
 }
 
-async function genNotes(notebook) {
-  const notebookName = notebook.dataset.name;
-  const path = `/api/notebooks/${notebook.dataset.notebookId}/notes?offset=0&limit=20`;
+async function genNotesCardCtn(notebookName, notebookId, description, path) {
   const result = await fetchData(path, "GET");
   const notebookNameCtn = document.querySelector(".main-group-subjectInfo h2");
   const descriptionCtn = document.querySelector(".main-group-subjectInfo p");
-  notebookNameCtn.dataset.notebookId = notebook.dataset.notebookId;
+  notebookNameCtn.dataset.notebookId = notebookId;
   notebookNameCtn.textContent = notebookName;
-  descriptionCtn.textContent = notebook.dataset.description;
+  descriptionCtn.textContent = description;
   const noteCardCtn = document.querySelector(".main-group-notes");
 
   //切換筆記本，清空note
   noteCardCtn.innerHTML = "";
   result.notes.notes.forEach((note) => {
-    const noteCard = genNoteCard(note, notebook.dataset.notebookId);
+    const noteCard = genNoteCard(note, notebookId);
     noteCardCtn.appendChild(noteCard);
   });
 }
@@ -177,7 +185,7 @@ function genNoteStarListener(star, notebookId, noteId) {
   star.addEventListener("click", async (e) => {
     e.stopPropagation();
     const path = `/api/notebooks/${notebookId}/notes/${noteId}/star`;
-    console.log(`path = ${path}`);
+
     const starStatus = {};
     if (star.dataset.star === "true") {
       starStatus.star = false;
@@ -187,15 +195,13 @@ function genNoteStarListener(star, notebookId, noteId) {
       star.dataset.star = true;
     }
     const result = await fetchData(path, "PUT", starStatus);
-    console.log(result);
+
     if (result.result) {
       MsgMaker.success("updated!");
     } else {
       MsgMaker.error("failed");
     }
     if (star.dataset.star === "true") {
-      console.log(star.dataset.star);
-      console.log(star.dataset.star === "true");
       star.src = "/static/resource/images/star-full.png";
     } else {
       star.src = "/static/resource/images/star-empty.png";
@@ -222,7 +228,6 @@ function createOneNotebookBtn(name, description, notebookId) {
       description,
     },
   ];
-  console.log(notebookInfo);
   genNotebooksBtn(notebookInfo, myNotebooks, false);
 }
 //取得notebook -> 觀察notebook -> fetch notebook -> 觀察notebook

@@ -235,14 +235,9 @@ function createNewNoteBtnListener() {
     const path = `/api/notebooks/${notebookId}/notes`;
     const result = await fetchData(path, "POST");
     const notesGroup = document.querySelector(".notes-group");
-    // removehHighlightNoteBtn();
     const noteItem = createNoteTitle(false, "new note", false, result.noteId);
     notesGroup.appendChild(noteItem);
     setNoteBtnListener(noteItem);
-    // filter.noteBox = true;
-    // filter.star = false;
-    // filter.tag = false;
-    // filterBtHighLightSwitcher();
   });
 }
 
