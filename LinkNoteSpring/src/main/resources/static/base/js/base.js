@@ -16,8 +16,6 @@ async function verifyUserToken(token) {
     method: "POST",
   });
   const verifyResult = await response.json();
-  console.log(`token驗證結果：`);
-  console.log(verifyResult);
   if (!verifyResult.parseResult) {
     localStorage.removeItem("token");
     location.href = "/";

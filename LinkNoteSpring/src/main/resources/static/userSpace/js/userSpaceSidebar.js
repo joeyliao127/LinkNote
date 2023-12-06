@@ -66,117 +66,148 @@ async function setNotebooks() {
   const coNotebookPath = `/api/notebooks?offset=0&limit=20&coNotebook=true`;
   const getNotebooksRes = await fetchData(notebookPath, "GET");
   const getcoNotebooksRes = await fetchData(coNotebookPath, "GET");
-  console.log(`產生notebooks title`);
-  genNotebooks(getNotebooksRes.notebooks, myNotebook, false);
-  console.log(`產生coNotebooks title`);
-  genNotebooks(getcoNotebooksRes.notebooks, coNotebook, true);
+  genNotebooksBtn(getNotebooksRes.notebooks, myNotebook, false);
+  genNotebooksBtn(getcoNotebooksRes.notebooks, coNotebook, true);
 }
 
-function genNotebooks(notebookInfos, notebookCtn, isCoNotebook) {
+async function genNotebooksBtn(notebookInfos, notebookCtn, isCoNotebook) {
   for (let notebook of notebookInfos) {
-    const notebookTitle = document.createElement("div");
-    notebookTitle.textContent = notebook.name;
-    notebookTitle.dataset.name = notebook.name;
-    notebookTitle.dataset.notebookId = notebook.notebookId;
-    notebookTitle.dataset.description = notebook.description;
-
+    const notebookBtn = document.createElement("div");
+    const notebookName = notebook.name;
+    notebookBtn.textContent = notebookName;
+    notebookBtn.dataset.name = notebookName;
+    notebookBtn.dataset.notebookId = notebook.notebookId;
+    notebookBtn.dataset.description = notebook.description;
     if (isCoNotebook) {
-      notebookTitle.classList.add("coNotebook");
+      notebookBtn.classList.add("coNotebook");
     } else {
-      notebookTitle.classList.add("notebook");
+      notebookBtn.classList.add("notebook");
     }
-
-    notebookCtn.appendChild(notebookTitle);
-  }
-  notebooksBtnListener(isCoNotebook);
-}
-
-function notebooksBtnListener(isCoNotebook) {
-  let notebooks;
-  if (isCoNotebook) {
-    notebooks = document.querySelectorAll(".coNotebook");
-  } else {
-    notebooks = document.querySelectorAll(".notebook");
-  }
-
-  let selectedId = -1;
-
-  for (let i = 0; i < notebooks.length; i++) {
-    notebooks[i].addEventListener("click", async () => {
-      if (selectedId == -1) {
-        notebooks[i].classList.toggle("selected");
-        const newNoteBtn = document.querySelector(".newNoteBtn");
-        newNoteBtn.classList.remove("display-none");
-      } else {
-        notebooks[selectedId].classList.toggle("selected");
-        notebooks[i].classList.toggle("selected");
-      }
-      console.log(`執行genNotes`);
-      genNotes(notebooks[i]);
-      selectedId = i;
-    });
+    genNotebooksBtnListener(notebookBtn);
+    notebookCtn.appendChild(notebookBtn);
   }
 }
 
-let notesDataMap = {};
+function genNotebooksBtnListener(notebookBtn) {
+  notebookBtn.addEventListener("click", () => {
+    const lastReadNotebookId = localStorage.getItem("notebookId");
 
-//傳入notebook物件，取得dataset中的notebookId & name & description
-//這個Fn用來產生點選筆記本後，顯示所有筆記card並且設定事件監聽
-async function genNotes(notebook) {
-  const notebookName = notebook.dataset.name;
-  console.log(`執行note maker，notebook name: ${notebookName}`);
-  //如果在notesDataMap(暫存器)中找到key，新增key
-  if (!notesDataMap.hasOwnProperty(notebookName)) {
-    notesDataMap[notebookName] = {};
-    notesDataMap[`${notebookName}`]["name"] = notebookName;
-    notesDataMap[`${notebookName}`]["description"] =
-      notebook.dataset.description;
-    notesDataMap[`${notebookName}`]["notebookId"] = notebook.dataset.notebookId;
-    const path = `/api/notebooks/${notebook.dataset.notebookId}/notes?offset=0&limit=20`;
-    const result = await fetchData(path, "GET");
-    notesDataMap[notebookName]["notes"] = result.notes;
-    console.log(notesDataMap);
-  }
+    if (!lastReadNotebookId) {
+      localStorage.setItem("notebookId", notebookBtn.dataset.notebookId);
+      genNotesCardCtn(
+        notebookBtn.dataset.name,
+        notebookBtn.dataset.notebookId,
+        notebookBtn.dataset.description
+      );
+      return;
+    }
+    const lastSelectedNotebookBtn = document.querySelector(
+      `.myNotebooks .notebook[data-notebook-id = '${lastReadNotebookId}'`
+    );
+    const currentNotebookId = notebookBtn.dataset.notebookId;
+    lastSelectedNotebookBtn.classList.remove("selected");
+    notebookBtn.classList.toggle("selected");
+    localStorage.setItem("notebookId", currentNotebookId);
+
+    const path = `/api/notebooks/${currentNotebookId}/notes?offset=0&limit=20`;
+    genNotesCardCtn(
+      notebookBtn.dataset.name,
+      notebookBtn.dataset.notebookId,
+      notebookBtn.dataset.description,
+      path
+    );
+  });
+}
+
+async function genNotebookTagItems(notebookName) {
+  const path = `/api/notebooks/${notebookName}/tags`;
+}
+
+async function genNotesCardCtn(notebookName, notebookId, description, path) {
+  const result = await fetchData(path, "GET");
   const notebookNameCtn = document.querySelector(".main-group-subjectInfo h2");
   const descriptionCtn = document.querySelector(".main-group-subjectInfo p");
-  notebookNameCtn.dataset.notebookId = notesDataMap[notebookName].notebookId;
-  notebookNameCtn.textContent = notesDataMap[notebookName].name;
-  descriptionCtn.textContent = notesDataMap[notebookName].description;
+  notebookNameCtn.dataset.notebookId = notebookId;
+  notebookNameCtn.textContent = notebookName;
+  descriptionCtn.textContent = description;
   const noteCardCtn = document.querySelector(".main-group-notes");
 
   //切換筆記本，清空note
   noteCardCtn.innerHTML = "";
-  console.log(notesDataMap[notebookName].notes);
-  notesDataMap[notebookName].notes.forEach((note) => {
-    const noteCard = document.createElement("div");
-    const star = document.createElement("img");
-    const noteName = document.createElement("h3");
-    const qeustion = document.createElement("p");
-    const createDate = document.createElement("p");
-    noteCard.classList.add("main-item-noteCard");
-    noteCard.classList.add("flex");
-    createDate.classList.add("date");
-    if (note.star) {
+  result.notes.notes.forEach((note) => {
+    const noteCard = genNoteCard(note, notebookId);
+    noteCardCtn.appendChild(noteCard);
+  });
+}
+
+function genNoteCard(note, notebook) {
+  const noteCard = document.createElement("div");
+  let star = document.createElement("img");
+  const noteName = document.createElement("h3");
+  const question = document.createElement("p");
+  const createDate = document.createElement("p");
+  noteCard.classList.add("main-item-noteCard");
+  noteCard.classList.add("flex");
+  createDate.classList.add("date");
+  if (note.star) {
+    star.src = "/static/resource/images/star-full.png";
+    star.dataset.star = true;
+  } else {
+    star.src = "/static/resource/images/star-empty.png";
+    star.dataset.star = false;
+  }
+
+  star.alt = "star";
+  star.classList.add("btn");
+  noteName.textContent = note.name;
+  noteName.dataset.noteId = note.noteId;
+  question.textContent = note.question;
+  createDate.textContent = note.createDate.split(" ")[0];
+  star = genNoteStarListener(star, notebook, note.noteId);
+  //建立noteCard監聽事件
+  noteCard.addEventListener("click", () => {
+    localStorage.setItem(
+      "notebookName",
+      document.querySelector(".main-group-subjectInfo h2").textContent
+    );
+    localStorage.setItem("noteId", note.noteId);
+    window.location.href = `/notebooks/${notebook}/notes/${note.noteId}`;
+  });
+
+  noteCard.appendChild(star);
+  noteCard.appendChild(noteName);
+  noteCard.appendChild(question);
+  noteCard.appendChild(createDate);
+  return noteCard;
+}
+
+function genNoteStarListener(star, notebookId, noteId) {
+  star.addEventListener("click", async (e) => {
+    e.stopPropagation();
+    const path = `/api/notebooks/${notebookId}/notes/${noteId}/star`;
+
+    const starStatus = {};
+    if (star.dataset.star === "true") {
+      starStatus.star = false;
+      star.dataset.star = false;
+    } else {
+      starStatus.star = true;
+      star.dataset.star = true;
+    }
+    const result = await fetchData(path, "PUT", starStatus);
+
+    if (result.result) {
+      MsgMaker.success("updated!");
+    } else {
+      MsgMaker.error("failed");
+    }
+    if (star.dataset.star === "true") {
       star.src = "/static/resource/images/star-full.png";
     } else {
       star.src = "/static/resource/images/star-empty.png";
     }
-
-    star.alt = "star";
-    star.classList.add("btn");
-    noteName.textContent = note.name;
-    noteName.dataset.noteId = note.noteId;
-    qeustion.textContent = note.qeustion;
-    createDate.textContent = note.createDate.split(" ")[0];
-    noteCard.addEventListener("click", () => {
-      window.location.href = `/notebooks/${notesDataMap[notebookName].notebookId}/notes/${note.noteId}`;
-    });
-    noteCard.appendChild(star);
-    noteCard.appendChild(noteName);
-    noteCard.appendChild(qeustion);
-    noteCard.appendChild(createDate);
-    noteCardCtn.appendChild(noteCard);
   });
+  return star;
 }
 
 function removeNotebookBtn(notebookId) {
@@ -197,8 +228,7 @@ function createOneNotebookBtn(name, description, notebookId) {
       description,
     },
   ];
-  console.log(notebookInfo);
-  genNotebooks(notebookInfo, myNotebooks, false);
+  genNotebooksBtn(notebookInfo, myNotebooks, false);
 }
 //取得notebook -> 觀察notebook -> fetch notebook -> 觀察notebook
 

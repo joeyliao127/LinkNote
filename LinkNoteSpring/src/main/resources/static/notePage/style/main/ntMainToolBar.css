@@ -8,6 +8,7 @@ main.edit-wrapper {
   border-radius: 20px;
   background-color: rgba(33, 33, 33, 0.7);
   padding: 20px;
+  height: 100%;
 }
 
 .edit-ctn-tools {
@@ -39,7 +40,7 @@ main.edit-wrapper {
 .edit-group-tools img:hover {
   background-color: #aaaaaa;
 }
-.edit-group-tools #discard,
+.edit-group-tools #delete,
 .edit-group-tools #save {
   font-size: 14px;
   color: white;
@@ -50,10 +51,10 @@ main.edit-wrapper {
   transition: all 0.2s ease-in-out;
   cursor: pointer;
 }
-.edit-group-tools #discard {
+.edit-group-tools #delete {
   background-color: transparent;
 }
-.edit-group-tools #discard:hover {
+.edit-group-tools #delete:hover {
   background-color: red;
 }
 .edit-group-tools #save:hover {

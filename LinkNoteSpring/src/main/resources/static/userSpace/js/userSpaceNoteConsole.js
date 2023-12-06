@@ -1,29 +1,22 @@
 function userSpaceNoteConsoleInit() {
-  noteCardLitener();
-  createNoteBtnListener();
-  deleteNotebookBtnListener();
+  createNewNoteBtnListener();
+  noteToolBtnsListener();
 }
 
-function noteCardLitener() {
-  const noteCardList = document.querySelectorAll(".main-item-noteCard");
-  noteCardList.forEach((card) => {
-    card.addEventListener("click", () => {
-      window.location.href = "/notebooks/1/notes/1";
-    });
-  });
-}
-
-function createNoteBtnListener() {
+function createNewNoteBtnListener() {
   const newNoteBtn = document.querySelector(".newNoteBtn");
   newNoteBtn.addEventListener("click", async () => {
-    const notebook = document.querySelector(".main-group-subjectInfo h2");
-    console.log(notebook);
-    const notebookId = notebook.dataset.notebookId;
-    console.log(notebookId);
-
+    const notebookBtn = document.querySelector(".notebook.selected");
+    if (!notebookBtn) {
+      MsgMaker.warn("selected notebook first.");
+      return;
+    }
+    localStorage.setItem("notebookName", notebookBtn.textContent);
+    const notebookId = notebookBtn.dataset.notebookId;
     const path = `/api/notebooks/${notebookId}/notes`;
     const result = await fetchData(path, "POST");
     if (result.result) {
+      localStorage.setItem("noteId", result.noteId);
       window.location.href = `/notebooks/${notebookId}/notes/${result.noteId}`;
     } else {
       MsgMaker.error("Create note failed");
@@ -31,15 +24,157 @@ function createNoteBtnListener() {
   });
 }
 
+function noteToolBtnsListener() {
+  displayTagListBtnListener();
+  deleteNotebookBtnListener();
+  noteSortByTimeBtnListener();
+  setNoteStarBtnListner();
+  searchNoteByKeywordListener();
+}
+
+function createNotebookTagListener() {
+  const btn = document.querySelector(".tagBtnGroup button");
+  btn.addEventListener(() => {
+    const tag = document.querySelector("#createTag");
+  });
+}
+let filter = {
+  noteBox: true,
+  star: false,
+  time: false,
+  tag: null,
+  keyword: null,
+};
+async function setNoteCardCtnByFilter() {
+  const notebookBtn = document.querySelector(".notebook.selected");
+  if (!notebookBtn) {
+    MsgMaker.warn("please select your notebook first");
+    return;
+  }
+  const notebookName = notebookBtn.dataset.name;
+  const notebookId = notebookBtn.dataset.notebookId;
+  const description = notebookBtn.dataset.description;
+  const noteBoxBtn = document.querySelector("#boxBtn");
+  if (!notebookId) {
+    MsgMaker.warn("select notebook first");
+    return;
+  }
+
+  let path = `/api/notebooks/${notebookId}/notes?limit=20&offset=0`;
+  console.log(`檢查一大串`);
+  console.log(!filter.star && !filter.tag && !filter.time && !filter.keyword);
+  if (
+    filter.noteBox ||
+    (!filter.star && !filter.tag && !filter.time && !filter.keyword)
+  ) {
+    noteBoxBtn.classList.add("selected");
+    genNotesCardCtn(notebookName, notebookId, description, path);
+    return;
+  }
+  noteBoxBtn.classList.remove("selected");
+
+  if (filter.star) {
+    path += `&star=1`;
+  }
+
+  if (filter.time) {
+    path += `&timeAsc=1`;
+  }
+
+  if (filter.tag) {
+    path += `&tag=${filter.tag}`;
+  }
+
+  if (filter.keyword) {
+    path += `&keyword=${filter.keyword}`;
+  }
+  console.log(path);
+  genNotesCardCtn(notebookName, notebookId, description, path);
+}
+
+function checkNotebookHasSelected() {
+  const notebookBtn = document.querySelector(".notebook.selected");
+  if (!notebookBtn) {
+    MsgMaker.warn("please select your notebook first");
+    return false;
+  }
+  return true;
+}
+
+function displayTagListBtnListener() {
+  const tagBtn = document.querySelector("#tagBtn");
+  tagBtn.addEventListener("click", () => {
+    console.log(`=======點擊time=======`);
+    if (!checkNotebookHasSelected()) {
+      return;
+    }
+    if (tagBtn.classList.contains("selected")) {
+    }
+    document.querySelector(".tagList").classList.toggle("display-none");
+    console.log(`filter`);
+    console.log(filter);
+  });
+}
+
+function noteSortByTimeBtnListener() {
+  const timeBtn = document.querySelector("#timeBtn");
+  timeBtn.addEventListener("click", () => {
+    console.log(`=======點擊time=======`);
+    if (!checkNotebookHasSelected()) {
+      return;
+    }
+    if (timeBtn.classList.contains("selected")) {
+      filter.time = false;
+      timeBtn.classList.remove("selected");
+    } else {
+      filter.noteBox = false;
+      filter.time = true;
+      timeBtn.classList.add("selected");
+    }
+    console.log(`filter`);
+    console.log(filter);
+    setNoteCardCtnByFilter();
+  });
+}
+
+function setNoteStarBtnListner() {
+  const starBtn = document.querySelector("#starBtn");
+  starBtn.addEventListener("click", () => {
+    console.log(`=======點擊star=======`);
+    if (!checkNotebookHasSelected()) {
+      return;
+    }
+    if (starBtn.classList.contains("selected")) {
+      filter.star = false;
+      starBtn.classList.remove("selected");
+    } else {
+      filter.noteBox = false;
+      filter.star = true;
+      starBtn.classList.add("selected");
+    }
+    console.log(`filter`);
+    console.log(filter);
+    setNoteCardCtnByFilter();
+  });
+}
+
+function searchNoteByKeywordListener() {
+  const searchBtn = document.querySelector("#searchBtn");
+  searchBtn.addEventListener("click", () => {
+    if (!checkNotebookHasSelected()) {
+      return;
+    }
+  });
+}
+
 function deleteNotebookBtnListener() {
   const delBtn = document.querySelector("#delBtn");
   delBtn.addEventListener("click", async () => {
-    const notebookName = document.querySelector(".main-group-subjectInfo h2");
-    const notebookId = notebookName.dataset.notebookId;
-    if (notebookId === undefined) {
-      MsgMaker.warn("please select your notebook first");
+    if (!checkNotebookHasSelected()) {
       return;
     }
+    const notebookName = document.querySelector(".main-group-subjectInfo h2");
+    const notebookId = notebookName.dataset.notebookId;
     const action = window.confirm("Are you sure delete this notebook?");
     if (action) {
       const path = `/api/notebooks/${notebookId}`;

@@ -25,10 +25,10 @@
           <h1>Welcome to LinkNote！</h1>
         </div>
         <div class="sideBar-ctn-feature">
-          <div class="sideBar-searchBtn flex">
+          <!-- <div class="sideBar-searchBtn flex">
             <img src="/static/resource/images/search.png" alt="search" />
             <input type="text" placeholder="Search Notebook" />
-          </div>
+          </div> -->
           <div class="sideBar-newNotebookBtn">
             <p>New Notebook</p>
           </div>
@@ -75,20 +75,6 @@
                     />
                   </div>
 
-                  <div class="tagItem flex">
-                    <p>tag1</p>
-                    <img
-                      src="/static/resource/images/trash-white.png"
-                      alt="trash"
-                    />
-                  </div>
-                  <div class="tagItem flex">
-                    <p>tag1</p>
-                    <img
-                      src="/static/resource/images/trash-white.png"
-                      alt="trash"
-                    />
-                  </div>
                   <div class="tagBtnGroup flex">
                     <input type="text" id="createTag" placeholder="new tag" />
                     <button>Create</button>
@@ -98,10 +84,19 @@
               <div class="main-item-toolsBtn" id="timeBtn">
                 <img src="/static/resource/images/clock.png" alt="clock" />
               </div>
-              <div class="main-item-toolsBtn" id="starBtn">
+              <div class="main-item-toolsBtn" data-star="false" id="starBtn">
                 <img
                   src="/static/resource/images/star-full.png"
                   alt="star-full"
+                />
+              </div>
+
+              <div class="main-item-toolsSearchBar flex">
+                <input type="text" placeholder="search note/tag" />
+                <img
+                  src="/static/resource/images/search.png"
+                  alt="search"
+                  id="searchBtn"
                 />
               </div>
               <div class="main-item-toolsBtn" id="delBtn">
@@ -110,16 +105,12 @@
                   alt="star-full"
                 />
               </div>
-              <div class="main-item-toolsSearchBar flex">
-                <input type="text" placeholder="search note/tag" />
-                <img src="/static/resource/images/search.png" alt="search" />
-              </div>
             </div>
           </div>
           <!-- 筆記管理區，綠色backgroud -->
           <div class="main-ctn-noteConsole">
             <!-- 綠色新增筆記按鈕 -->
-            <div class="newNoteBtn btn display-none">
+            <div class="newNoteBtn btn">
               <p>New note</p>
             </div>
             <!-- subject標題＆描述 -->

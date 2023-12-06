@@ -7,6 +7,8 @@ import com.linknote.online.linknotespring.user.userpo.UserInfoPO;
 import java.util.List;
 
 public interface UserDAO {
+
+  String getUsernameByUserId(Integer userId);
   Integer verifyUserIdAndEmail(String email, Integer userId);
   List<UserEmailPo> getByEmail(String email);
 

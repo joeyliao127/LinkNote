@@ -1,47 +1,170 @@
 const url = window.location.href.split("/");
 const notebookId = url[url.length - 3];
 let URL_noteId = url[url.length - 1];
-console.log(URL_noteId);
 let noteDataMap = {};
+let filter = {
+  noteBox: true,
+  star: false,
+  tag: null,
+};
 //noteDataMap用來儲存每一個讀取過的筆記，使用者在切換筆記時就不用重新fetch資料。
 
 async function notePageSideBarInit() {
+  setNotebookName();
   createNewNoteBtnListener();
-  await setNoteBtn(await getNotesData(0));
-  displayFirstNoteWhenReflash();
-  tagListMouseLeftListener();
+  noteBoxBtnListener();
+  notebookStarBtnListener();
+  genCollaboratorsList();
+  document.querySelector("#noteBoxBtn img").classList.add("selected");
+  setNoteBtn(await getNotesData(filter));
+  displayLastReadtNote();
+  createCollaboratorListener();
 }
 
-function displayFirstNoteWhenReflash() {
-  const firstNoteBtn = document.querySelector(".note-item");
-  console.log(firstNoteBtn);
-  const noteId = firstNoteBtn.dataset.noteId;
-  removehHighlightNoteBtn();
-  flag = noteId;
-  firstNoteBtn.classList.add("selected");
-  console.log(noteId);
+function setNotebookName() {
+  document.querySelector("#notebookName").textContent =
+    localStorage.getItem("notebookName");
+}
+
+//displayLastReadtNote用於重新整理和刪除note之後使用
+function displayLastReadtNote() {
+  let noteId = localStorage.getItem("noteId");
+  if (noteId === null || noteId === "null") {
+    const firstNoteBtn = document.querySelector(".note-item");
+    if (firstNoteBtn === null) {
+      displayNoneEditArea(true);
+      return;
+    } else {
+      displayNoneEditArea(false);
+    }
+    noteId = firstNoteBtn.dataset.noteId;
+    localStorage.setItem("noteId", noteId);
+  }
+  const noteBtn = document.querySelector(
+    `.note-item[data-note-id='${noteId}']`
+  );
+  history.pushState({ noteId }, "", `/notebooks/${notebookId}/notes/${noteId}`);
+  // removehHighlightNoteBtn();
+  noteBtn.classList.add("selected");
   setNoteContent(noteId);
   setNoteTags(noteId);
 }
 
-function tagListMouseLeftListener() {
-  const tagListCtns = document.querySelectorAll(".tagListCtn");
-  tagListCtns.forEach((tagListCtn) => {
-    tagListCtn.addEventListener("mouseleave", () => {
-      tagListCtn.classList.toggle("display-none");
+function displayFirstNote() {
+  localStorage.setItem("noteId", null);
+  displayLastReadtNote();
+}
+
+function displayNoneEditArea(display) {
+  const editChilds = document.querySelector(".edit-area").querySelectorAll("*");
+
+  if (display) {
+    editChilds.forEach((chlid) => {
+      chlid.classList.add("display-none");
     });
+  } else {
+    editChilds.forEach((chlid) => {
+      chlid.classList.remove("display-none");
+    });
+    document.querySelector(".noteTagsCtn").classList.add("display-none");
+  }
+}
+
+function displayEditArea() {
+  const editArea = document.querySelector(".edit-area");
+  const editChild = editArea.querySelectorAll("*");
+  editChild.forEach((chlid) => {
+    chlid.classList.remove("display-none");
   });
 }
 
-async function getNotesData(offset) {
-  const path = `/api/notebooks/${notebookId}/notes?offset=${offset}&limit=20`;
+//使用方式：將filter狀態先寫好，再來呼叫此函式，透過filter變換btn select
+async function filterBtHighLightSwitcher() {
+  const noteBoxBtn = document.querySelector("#noteBoxBtn img");
+  const starBtn = document.querySelector("#notebookStarBtn img");
+  const tagBtn = document.querySelector("#notebookTagBtn");
+
+  if (filter.noteBox) {
+    noteBoxBtn.classList.add("selected");
+    starBtn.classList.remove("selected");
+    starStatus = true;
+    tagBtn.classList.remove("selected");
+  } else if (filter.star && filter.tag) {
+    starBtn.classList.add("selected");
+    tagBtn.classList.add("selected");
+    noteBoxBtn.classList.remove("selected");
+  } else if (filter.star && !filter.tag) {
+    noteBoxBtn.classList.remove("selected");
+    tagBtn.classList.remove("selected");
+    starBtn.classList.add("selected");
+  } else if (filter.tag && !filter.star) {
+    noteBoxBtn.classList.remove("selected");
+    starBtn.classList.remove("selected");
+    tagBtn.classList.add("selected");
+  } else if (!filter.star && !filter.tag) {
+    noteBoxBtn.classList.add("selected");
+    starBtn.classList.remove("selected");
+    starStatus = true;
+    tagBtn.classList.remove("selected");
+  }
+  setNoteBtn(await getNotesData(filter));
+  displayFirstNote();
+}
+
+function noteBoxBtnListener() {
+  const noteBoxBtn = document.querySelector("#noteBoxBtn");
+  noteBoxBtn.addEventListener("click", async () => {
+    if (filter.noteBox) {
+      return;
+    }
+    filter.noteBox = true;
+    filter.star = false;
+    filter.tag = false;
+
+    filterBtHighLightSwitcher();
+  });
+}
+
+//true是代表star selected
+let starStatus = true;
+function notebookStarBtnListener() {
+  const starBtn = document.querySelector("#notebookStarBtn");
+  starBtn.addEventListener("click", async () => {
+    if (starStatus) {
+      filter.noteBox = false;
+      filter.star = true;
+      starStatus = false;
+    } else {
+      filter.star = false;
+      starStatus = true;
+    }
+
+    filterBtHighLightSwitcher();
+  });
+}
+
+async function getNotesData(filter) {
+  let path = `/api/notebooks/${notebookId}/notes?offset=0&limit=20`;
+  if (filter.noteBox) {
+    return await fetchData(path, "GET");
+  }
+  if (filter.star) {
+    path += `&star=1`;
+  }
+  if (filter.tag) {
+    path += `&tag=${filter.tag}`;
+  }
+
   return await fetchData(path, "GET");
 }
 
 //Controller
-async function setNoteBtn(noteDataList) {
-  noteDataList = noteDataList.notes;
+function setNoteBtn(noteDataList) {
+  noteDataList = noteDataList.notes.notes;
   const notesGroup = document.querySelector(".notes-group");
+  while (notesGroup.firstChild) {
+    notesGroup.removeChild(notesGroup.firstChild);
+  }
   noteDataList.forEach((note) => {
     const noteItem = createNoteTitle(
       note.star,
@@ -74,25 +197,33 @@ function createNoteTitle(star, name, select, noteId) {
   return noteItem;
 }
 
-//flag存取被highlight的noteBtn
-let flag = -1;
 function removehHighlightNoteBtn() {
-  const noteList = document.querySelectorAll(".note-item");
-  noteList.forEach((item) => {
-    if (item.dataset.noteId === flag) {
-      item.classList.toggle("selected");
-    }
-  });
+  const noteId = localStorage.getItem("noteId");
+  const noteBtn = document.querySelector(
+    `.note-item[data-note-id='${noteId}']`
+  );
+
+  //如果一個筆記都沒有，則選不到任何btn，因此要設定此行
+  if (noteBtn === null) {
+    return;
+  }
+  noteBtn.classList.remove("selected");
 }
 //setNoteBtnListener輸入參數為noteBtn物件
 function setNoteBtnListener(note) {
-  note.addEventListener("click", async (e) => {
-    e.stopPropagation();
+  note.addEventListener("click", async () => {
+    const editArea = document.querySelector(".edit-area");
+    editArea.querySelectorAll("*").forEach((item) => {
+      item.classList.remove("display-none");
+      document
+        .querySelector(".noteTagsCtn")
+        .setAttribute("class", "tagListCtn noteTagsCtn flex display-none");
+    });
+
     removehHighlightNoteBtn();
-    note.classList.toggle("selected");
-    flag = note.dataset.noteId;
+    note.classList.add("selected");
+    localStorage.setItem("noteId", note.dataset.noteId);
     const noteId = note.dataset.noteId;
-    console.log(noteId);
     setNoteContent(noteId);
     setNoteTags(noteId);
   });
@@ -104,9 +235,7 @@ function createNewNoteBtnListener() {
     const path = `/api/notebooks/${notebookId}/notes`;
     const result = await fetchData(path, "POST");
     const notesGroup = document.querySelector(".notes-group");
-    removehHighlightNoteBtn();
     const noteItem = createNoteTitle(false, "new note", false, result.noteId);
-    flag = result.noteId;
     notesGroup.appendChild(noteItem);
     setNoteBtnListener(noteItem);
   });
@@ -169,22 +298,103 @@ async function setNoteContent(noteId) {
 
 async function setNoteTags(noteId) {
   const noteTagsList = await getNoteTags(noteId);
-  console.log(noteTagsList);
-  const { tags } = noteTagsList;
-  if (tags === undefined) {
-    return;
-  }
+  const { tag } = noteTagsList;
+
   //tag部分
   const tagItems = document.querySelectorAll(".noteTagList .tagItem");
   tagItems.forEach((tagItem) => {
+    tagItem.classList.remove("selected");
     const notebookTag = tagItem.querySelector("p").textContent;
     //如果tag名稱存在於fetch中的資料，則加上selected。
-    for (noteTag of tags) {
+    for (noteTag of tag) {
       if (noteTag.name === notebookTag) {
         tagItem.classList.add("selected");
       }
     }
   });
+}
+
+async function createCollaboratorListener() {
+  const createCtn = document.querySelector(".inviteInput");
+  const createBtn = createCtn.querySelector("img");
+  createBtn.addEventListener("click", async () => {
+    const checkCollaboratorsCount = document.querySelectorAll(".editor-item");
+    if (checkCollaboratorsCount.length >= 5) {
+      MsgMaker.error("collaborator count are limit.");
+      return;
+    }
+    const email = createCtn.querySelector("input").value;
+    createCtn.querySelector("input").value = "";
+    if (!verifyEmailRegx(email)) {
+      MsgMaker.error("incorrect email format");
+      return;
+    }
+    const path = `/api/notebooks/${notebookId}/collaborators`;
+    const result = await fetchData(path, "POST", { email });
+    if (result.result) {
+      const collaboratorsCtn = document.querySelector(".sideBar-ctn-editors");
+      const { collaborator } = result;
+      const coEditor = genCollaborators(
+        collaborator.username,
+        collaborator.userId
+      );
+      collaboratorsCtn.appendChild(coEditor);
+      MsgMaker.success(`invite user success`);
+    } else if (result.msg === "重複的資料") {
+      MsgMaker.error(` email address already exist`);
+    } else {
+      MsgMaker.error(`invalid email address`);
+    }
+  });
+}
+
+async function genCollaboratorsList() {
+  const collaboratorsCtn = document.querySelector(".sideBar-ctn-editors");
+  const owner = collaboratorsCtn.querySelector("#owner p");
+
+  const ownerInfo = await fetchData(`/api/user`, "GET");
+  owner.textContent = ownerInfo.username;
+  const path = `/api/notebooks/${notebookId}/collaborators`;
+  const collaborators = await fetchData(path, "GET");
+  collaborators.collaborators.forEach((collaborator) => {
+    const coEditor = genCollaborators(
+      collaborator.username,
+      collaborator.userId
+    );
+    collaboratorsCtn.appendChild(coEditor);
+  });
+}
+
+function genCollaborators(username, userId) {
+  const usernameText = document.createElement("p");
+  const coEditor = document.createElement("div");
+  const trashBtn = document.createElement("img");
+  usernameText.textContent = username;
+  trashBtn.src = "/static/resource/images/close.png";
+  coEditor.classList.add("editor-item");
+  coEditor.classList.add("flex");
+  coEditor.dataset.userId = userId;
+  coEditor.appendChild(usernameText);
+  coEditor.appendChild(trashBtn);
+
+  trashBtn.addEventListener("click", async () => {
+    if (!window.confirm("Remove this collaborator?")) {
+      return;
+    }
+    const result = await deleteCOllaborators(userId);
+    if (result.result) {
+      coEditor.remove();
+      MsgMaker.success("Delete collaborators success.");
+    } else {
+      MsgMaker.error("Delete collaborators failed");
+    }
+  });
+  return coEditor;
+}
+
+async function deleteCOllaborators(userId) {
+  const path = `/api/notebooks/1/collaborators/${userId}`;
+  return await fetchData(path, "DELETE");
 }
 
 notePageSideBarInit();

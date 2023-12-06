@@ -16,9 +16,11 @@ import com.linknote.online.linknotespring.note.notepo.response.NotesResPO;
 import com.linknote.online.linknotespring.note.notepo.response.TagResPO;
 import com.linknote.online.linknotespring.user.userpo.UserInfoPO;
 import java.util.List;
+import java.util.Map;
 
 public interface NotebookService {
 
+  String getUsernameByUserId(Integer userId);
   NotebooksResPO getNotebooks(GetNotebooksParamsDto params);
 
   NotesResPO getNotes(GetNotesParamDto params);
@@ -31,7 +33,7 @@ public interface NotebookService {
   Integer createNotebook(CreateNotebookParamsDto params);
   Integer createNotebookTag(String tag, Integer notebookId, Integer userId);
 
-  Integer createCollaborator(CreateCollaboratorParamsDto params);
+  Map<String, Object> createCollaborator(CreateCollaboratorParamsDto params);
 
   void updateNotebook(UpdateNotebookParamDto params);
 

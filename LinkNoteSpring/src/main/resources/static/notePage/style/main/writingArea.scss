@@ -38,6 +38,7 @@
   }
 }
 .edit-itme-noteContent {
+  font-family: PingFang;
   padding: 20px;
   flex-direction: column;
   gap: 15px;
@@ -55,10 +56,12 @@
     }
   }
   & textarea:nth-child(2) {
+    font-family: PingFang;
     height: calc(100vh - 423px);
   }
 
   & textarea:nth-child(3) {
+    font-family: PingFang;
     height: 100px;
   }
 }

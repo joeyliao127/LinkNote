@@ -33,10 +33,13 @@
         </div>
         <div class="sideBar-ctn-notes">
           <div class="notes-topToolsBar flex">
-            <p>Project1</p>
+            <p id="notebookName">Project1</p>
             <div class="tools flex">
               <div class="tool" id="newNoteBtn">
                 <img src="/static/resource/images/add.png" alt="add" />
+              </div>
+              <div class="tool" id="noteBoxBtn">
+                <img src="/static/resource/images/box.png" alt="box" />
               </div>
               <div class="tool" id="notebookStarBtn">
                 <img src="/static/resource/images/star-full.png" alt="star" />
@@ -45,7 +48,7 @@
                 <img
                   src="/static/resource/images/tag.png"
                   alt="tag"
-                  id="#notebookTagBtn"
+                  id="notebookTagBtn"
                   class="tagBtn"
                 />
                 <div class="tagListCtn notebookTagsCtn flex display-none">
@@ -64,11 +67,11 @@
         </div>
         <div class="sideBar-ctn-editors">
           <p class="editor-type">Owner</p>
-          <div class="editor-item">
+          <div class="editor-item" id="owner">
             <p>Joey Liao</p>
           </div>
           <p class="editor-type">Co-editor</p>
-          <div class="editor-item flex">
+          <!-- <div class="editor-item flex">
             <p>Test</p>
             <img src="/static/resource/images/close.png" alt="close" />
           </div>
@@ -83,7 +86,7 @@
           <div class="editor-item flex">
             <p>Test</p>
             <img src="/static/resource/images/close.png" alt="close" />
-          </div>
+          </div> -->
         </div>
       </section>
       <main class="edit-wrapper">
@@ -116,7 +119,7 @@
               </div>
 
               <img src="/static/resource/images/share-white.png" alt="shared" />
-              <div id="discard">Delete</div>
+              <div id="delete">Delete</div>
               <div id="save">Save</div>
               <div class="date"></div>
             </div>

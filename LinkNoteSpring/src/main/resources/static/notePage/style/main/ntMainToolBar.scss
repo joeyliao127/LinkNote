@@ -8,6 +8,7 @@ main.edit-wrapper {
   border-radius: 20px;
   background-color: rgba(33, 33, 33, 0.7);
   padding: 20px;
+  height: 100%;
 }
 
 .edit-ctn-tools {
@@ -39,7 +40,7 @@ main.edit-wrapper {
       background-color: #aaaaaa;
     }
   }
-  #discard,
+  #delete,
   #save {
     font-size: 14px;
     color: white;
@@ -51,7 +52,7 @@ main.edit-wrapper {
     cursor: pointer;
   }
 
-  #discard {
+  #delete {
     background-color: transparent;
     &:hover {
       background-color: red;

@@ -86,7 +86,7 @@ public class NotebookController {
     param.setStar(star);
     param.setTimeAsc(timeAsc);
     param.setKeyword(keyword);
-    return ResponseEntity.status(200).body(notebookService.getNotes(param));
+    return ResponseEntity.status(200).body(Map.of("result", true, "notes", notebookService.getNotes(param)));
   }
 
   @GetMapping("/api/notebooks/{notebookId}/tags")
@@ -108,7 +108,7 @@ public class NotebookController {
     GetCollaboratorParamDto params = new GetCollaboratorParamDto();
     params.setNotebookId(notebookId);
     params.setUserId(tokenService.parserJWTToken(Authorization).get("userId", Integer.class));
-    return ResponseEntity.status(200).body(notebookService.getCollaborators(params));
+    return ResponseEntity.status(200).body(Map.of("result", true, "collaborators", notebookService.getCollaborators(params)));
   }
   //新增筆記本
   @PostMapping("/api/notebooks")
@@ -146,8 +146,8 @@ public ResponseEntity<Object> createCollaborator(
    Integer userId = tokenService.parserJWTToken(Authorization).get("userId", Integer.class);
    params.setUserId(userId);
    params.setNotebookId(notebookId);
-   Integer collaboratorId = notebookService.createCollaborator(params);
-   return ResponseEntity.status(201).body(Map.of("result", true, "collaboratorId", collaboratorId));
+   Map<String, Object> collaborator = notebookService.createCollaborator(params);
+   return ResponseEntity.status(201).body(Map.of("result", true, "collaborator", collaborator));
 }
 
   //更新notebook name
