@@ -97,7 +97,6 @@ function genNotebooksBtnListener(notebookBtn) {
     if (!lastReadNotebookId) {
       localStorage.setItem("notebookId", notebookBtn.dataset.notebookId);
       genNotes(notebookBtn);
-      genNotebookTagItems(notebookBtn.dataset.notebookId);
       return;
     }
     const lastSelectedNotebookBtn = document.querySelector(
@@ -107,53 +106,28 @@ function genNotebooksBtnListener(notebookBtn) {
     lastSelectedNotebookBtn.classList.remove("selected");
     notebookBtn.classList.toggle("selected");
     genNotes(notebookBtn);
-    genNotebookTagItems(
-      notebookBtn.dataset.notebookName,
-      notebookBtn.dataset.notebookId
-    );
   });
 }
 let notebookTagMap = {};
-async function genNotebookTagItems(notebookName, notebookId) {
-  if (!notebookTagMap.hasOwnProperty(notebookName)) {
-    const path = `/api/notebooks/${notebookId}/tags`;
-    const result = await fetchData(path, "GET");
-    console.log(result);
-    notebookTagMap[notebookName] = result;
-    console.log(notebookTagMap.notebookName);
-  }
+async function genNotebookTagItems(notebookName) {
+  const path = `/api/notebooks/${notebookName}/tags`;
 }
 
-let notesDataMap = {};
-
-//傳入notebook物件，取得dataset中的notebookId & name & description
-//這個Fn用來產生點選筆記本後，顯示所有筆記card並且設定事件監聽
 async function genNotes(notebook) {
-  console.log(notesDataMap);
   const notebookName = notebook.dataset.name;
-  //如果在notesDataMap(暫存器)中找到key，新增key
-  if (!notesDataMap.hasOwnProperty(notebookName)) {
-    notesDataMap[notebookName] = {};
-    notesDataMap[`${notebookName}`]["name"] = notebookName;
-    notesDataMap[`${notebookName}`]["description"] =
-      notebook.dataset.description;
-    notesDataMap[`${notebookName}`]["notebookId"] = notebook.dataset.notebookId;
-    const path = `/api/notebooks/${notebook.dataset.notebookId}/notes?offset=0&limit=20`;
-    const result = await fetchData(path, "GET");
-    notesDataMap[notebookName]["notes"] = result.notes;
-  }
+  const path = `/api/notebooks/${notebook.dataset.notebookId}/notes?offset=0&limit=20`;
+  const result = await fetchData(path, "GET");
   const notebookNameCtn = document.querySelector(".main-group-subjectInfo h2");
   const descriptionCtn = document.querySelector(".main-group-subjectInfo p");
-  notebookNameCtn.dataset.notebookId = notesDataMap[notebookName].notebookId;
-  notebookNameCtn.textContent = notesDataMap[notebookName].name;
-  descriptionCtn.textContent = notesDataMap[notebookName].description;
+  notebookNameCtn.dataset.notebookId = notebook.dataset.notebookId;
+  notebookNameCtn.textContent = notebookName;
+  descriptionCtn.textContent = notebook.dataset.description;
   const noteCardCtn = document.querySelector(".main-group-notes");
 
   //切換筆記本，清空note
   noteCardCtn.innerHTML = "";
-  console.log(notesDataMap);
-  notesDataMap[notebookName].notes.notes.forEach((note) => {
-    const noteCard = genNoteCard(note, notesDataMap[notebookName].notebookId);
+  result.notes.notes.forEach((note) => {
+    const noteCard = genNoteCard(note, notebook.dataset.notebookId);
     noteCardCtn.appendChild(noteCard);
   });
 }
