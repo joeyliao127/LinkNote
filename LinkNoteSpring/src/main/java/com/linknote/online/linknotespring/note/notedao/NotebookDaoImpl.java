@@ -87,7 +87,9 @@ public class NotebookDaoImpl implements NotebookDao {
     }
 
     if(params.getTimeAsc()){
-      sql += "ORDER BY createDate asc ";
+      sql += "ORDER BY createDate ASC ";
+    }else {
+      sql += "ORDER BY createDate DESC ";
     }
 
     sql += "LIMIT :limit OFFSET :offset ";

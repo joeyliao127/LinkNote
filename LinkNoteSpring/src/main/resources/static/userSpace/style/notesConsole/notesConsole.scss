@@ -19,6 +19,7 @@
 .main-group-tools {
   gap: 5px;
   user-select: none;
+  margin-right: 20px;
 }
 .main-item-toolsBtn {
   width: 38px;
@@ -36,6 +37,10 @@
     height: 100%;
     vertical-align: bottom;
   }
+}
+
+#delBtn:hover {
+  background-color: red;
 }
 
 .tagList {
@@ -69,10 +74,17 @@
       }
     }
     img {
-      width: 25px;
-      height: 25px;
+      border: 1px white solid;
+      border-radius: 5px;
+      padding: 3px;
+      width: 30px;
+      height: 30px;
       flex-grow: 0;
       cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      &:hover {
+        background-color: #999999;
+      }
     }
   }
   .tagBtnGroup {
