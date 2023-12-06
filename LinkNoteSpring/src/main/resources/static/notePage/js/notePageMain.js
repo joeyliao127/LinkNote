@@ -85,10 +85,23 @@ function genNotebookTags(tagData) {
   tagItem.appendChild(tag);
   tagItem.appendChild(trash);
   tagItem.addEventListener("click", async () => {
+    const lastTag = document.querySelector(".tagItem .selected ");
+    const currentTag = tagItem.querySelector("p");
+    if (lastTag != null) {
+      if (lastTag === currentTag) {
+        lastTag.classList.remove("selected");
+        filter.tag = null;
+        filterBtHighLightSwitcher();
+        displayFirstNote();
+        return;
+      }
+      lastTag.classList.remove("selected");
+    }
+    currentTag.classList.add("selected");
     filter.noteBox = false;
     filter.tag = tagName;
-    setNoteBtn(await getNotesData(filter));
-    displayFirstNote();
+
+    filterBtHighLightSwitcher();
   });
   delNotebookTagListener(trash, tagName, tagId);
   tagItem.addEventListener("click", () => {
@@ -106,7 +119,6 @@ function delNotebookTagListener(trash, tagName, tagId) {
     const path = `/api/notebooks/${notebookId}/tags?tag=${tagName}`;
     const result = await fetchData(path, "DELETE");
     if (result.result) {
-      console.log("del tagId:", tagId);
       const deletedTagBtns = document.querySelectorAll(
         `.tagItem[data-tag-id='${tagId}']`
       );

@@ -15,8 +15,8 @@ async function notePageSideBarInit() {
   noteBoxBtnListener();
   notebookStarBtnListener();
   genCollaboratorsList();
-  document.querySelector("#noteBoxBtn").classList.add("selected");
-  await setNoteBtn(await getNotesData(filter));
+  document.querySelector("#noteBoxBtn img").classList.add("selected");
+  setNoteBtn(await getNotesData(filter));
   displayLastReadtNote();
   createCollaboratorListener();
 }
@@ -32,8 +32,10 @@ function displayLastReadtNote() {
   if (noteId === null || noteId === "null") {
     const firstNoteBtn = document.querySelector(".note-item");
     if (firstNoteBtn === null) {
-      displayNoneEditArea();
+      displayNoneEditArea(true);
       return;
+    } else {
+      displayNoneEditArea(false);
     }
     noteId = firstNoteBtn.dataset.noteId;
     localStorage.setItem("noteId", noteId);
@@ -53,12 +55,19 @@ function displayFirstNote() {
   displayLastReadtNote();
 }
 
-function displayNoneEditArea() {
-  const editArea = document.querySelector(".edit-area");
-  const editChild = editArea.querySelectorAll("*");
-  editChild.forEach((chlid) => {
-    chlid.classList.add("display-none");
-  });
+function displayNoneEditArea(display) {
+  const editChilds = document.querySelector(".edit-area").querySelectorAll("*");
+
+  if (display) {
+    editChilds.forEach((chlid) => {
+      chlid.classList.add("display-none");
+    });
+  } else {
+    editChilds.forEach((chlid) => {
+      chlid.classList.remove("display-none");
+    });
+    document.querySelector(".noteTagsCtn").classList.add("display-none");
+  }
 }
 
 function displayEditArea() {
@@ -69,7 +78,38 @@ function displayEditArea() {
   });
 }
 
-function filterBtHighLightSwitcher() {}
+//使用方式：將filter狀態先寫好，再來呼叫此函式，透過filter變換btn select
+async function filterBtHighLightSwitcher() {
+  const noteBoxBtn = document.querySelector("#noteBoxBtn img");
+  const starBtn = document.querySelector("#notebookStarBtn img");
+  const tagBtn = document.querySelector("#notebookTagBtn");
+
+  if (filter.noteBox) {
+    noteBoxBtn.classList.add("selected");
+    starBtn.classList.remove("selected");
+    starStatus = true;
+    tagBtn.classList.remove("selected");
+  } else if (filter.star && filter.tag) {
+    starBtn.classList.add("selected");
+    tagBtn.classList.add("selected");
+    noteBoxBtn.classList.remove("selected");
+  } else if (filter.star && !filter.tag) {
+    noteBoxBtn.classList.remove("selected");
+    tagBtn.classList.remove("selected");
+    starBtn.classList.add("selected");
+  } else if (filter.tag && !filter.star) {
+    noteBoxBtn.classList.remove("selected");
+    starBtn.classList.remove("selected");
+    tagBtn.classList.add("selected");
+  } else if (!filter.star && !filter.tag) {
+    noteBoxBtn.classList.add("selected");
+    starBtn.classList.remove("selected");
+    starStatus = true;
+    tagBtn.classList.remove("selected");
+  }
+  setNoteBtn(await getNotesData(filter));
+  displayFirstNote();
+}
 
 function noteBoxBtnListener() {
   const noteBoxBtn = document.querySelector("#noteBoxBtn");
@@ -78,32 +118,32 @@ function noteBoxBtnListener() {
       return;
     }
     filter.noteBox = true;
-    filter.tag = null;
     filter.star = false;
-    setNoteBtn(await getNotesData(filter));
-    displayFirstNote();
+    filter.tag = false;
+
+    filterBtHighLightSwitcher();
   });
 }
 
+//true是代表star selected
+let starStatus = true;
 function notebookStarBtnListener() {
   const starBtn = document.querySelector("#notebookStarBtn");
   starBtn.addEventListener("click", async () => {
-    filter.noteBox = false;
-    if (filter.star) {
-      filter.star = false;
-      starBtn.classList.remove("selected");
-    } else {
+    if (starStatus) {
+      filter.noteBox = false;
       filter.star = true;
-      // starBtn.classList.add("selected");
+      starStatus = false;
+    } else {
+      filter.star = false;
+      starStatus = true;
     }
-    setNoteBtn(await getNotesData(filter));
-    displayFirstNote();
+
+    filterBtHighLightSwitcher();
   });
 }
 
 async function getNotesData(filter) {
-  console.log("==========filter============");
-  console.log(filter);
   let path = `/api/notebooks/${notebookId}/notes?offset=0&limit=20`;
   if (filter.noteBox) {
     return await fetchData(path, "GET");
@@ -112,16 +152,14 @@ async function getNotesData(filter) {
     path += `&star=1`;
   }
   if (filter.tag) {
-    console.log(filter.tag);
     path += `&tag=${filter.tag}`;
   }
-  console.log("path: ", path);
+
   return await fetchData(path, "GET");
 }
 
 //Controller
 function setNoteBtn(noteDataList) {
-  console.log(noteDataList);
   noteDataList = noteDataList.notes.notes;
   const notesGroup = document.querySelector(".notes-group");
   while (notesGroup.firstChild) {
@@ -164,7 +202,7 @@ function removehHighlightNoteBtn() {
   const noteBtn = document.querySelector(
     `.note-item[data-note-id='${noteId}']`
   );
-  console.log(noteBtn);
+
   //如果一個筆記都沒有，則選不到任何btn，因此要設定此行
   if (noteBtn === null) {
     return;
