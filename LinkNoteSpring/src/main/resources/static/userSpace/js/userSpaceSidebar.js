@@ -87,11 +87,22 @@ async function genNotebooksBtn(notebookInfos, notebookCtn, isCoNotebook) {
     notebookCtn.appendChild(notebookBtn);
   }
 }
+function filterInit() {
+  filter.noteBox = true;
+  filter.keyword = null;
+  filter.tag = null;
+  filter.star = false;
+  filter.time = false;
+}
 
 function genNotebooksBtnListener(notebookBtn) {
   notebookBtn.addEventListener("click", () => {
+    filterInit();
     const lastReadNotebookId = localStorage.getItem("notebookId");
-
+    const noteBox = document.querySelector("#boxBtn");
+    const tagCtn = document.querySelector(".tagCtn");
+    tagCtn.classList.add("display-none");
+    noteBox.classList.add("selected");
     if (!lastReadNotebookId) {
       localStorage.setItem("notebookId", notebookBtn.dataset.notebookId);
       genNotesCardCtn(
@@ -126,6 +137,7 @@ async function genNotebookTagItems(notebookId) {
   console.log(path);
   const tagDatas = await fetchData(path, `GET`);
   const tagCtn = document.querySelector(".tagList");
+  tagCtn.innerHTML = "";
   for (let tagData of tagDatas.tag) {
     const tagBtn = genTagItemBtn(tagData.name, tagData.tagId);
     tagCtn.appendChild(tagBtn);
@@ -143,16 +155,56 @@ function genTagItemBtn(name, tagId) {
   trashBtn.dataset.tagName = name;
   trashBtn.dataset.tagid = tagId;
 
-  tagBtn.addEventListener("click", () => {
-    //Fn程式碼在userSpaceNoteConsole.js，因為屬於filter操作
+  const tagCtn = document.querySelector(".tagCtn");
+  const displayTagCtnBtn = document.querySelector("#tagBtn");
+  const notebookId = localStorage.getItem("notebookId");
+
+  tagBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    tagCtn.classList.add("display-none");
+    const lastSelectBtn = document.querySelector(".tagItem p.selected");
+    if (lastSelectBtn) {
+      lastSelectBtn.classList.remove("selected");
+      console.log(lastSelectBtn === tagBtn);
+      if (lastSelectBtn === tagBtn) {
+        filter.tag = null;
+        tagBtn.classList.remove("selected");
+        setNoteCardCtnByFilter();
+        return;
+      }
+    }
+    displayTagCtnBtn.classList.add("selected");
+    if (tagBtn.classList.contains("selected")) {
+      displayTagCtnBtn.classList.remove("selected");
+      filter.tag = null;
+      tagBtn.classList.remove("selected");
+    } else {
+      filter.tag = name;
+      filter.noteBox = false;
+      tagBtn.classList.add("selected");
+    }
+    setNoteCardCtnByFilter();
   });
 
   trashBtn.addEventListener("click", async () => {
-    const notebookId = localStorage.getItem("notebookId");
-    const path = `/api/notebooks/${notebookId}/tags?tag=${tagData.name}`;
-    const result = fetchData(path, "DELETE");
+    const userCheck = confirm("Delete this tag?");
+    if (!userCheck) {
+      return;
+    }
+    tagCtn.classList.add("display-none");
+    const path = `/api/notebooks/${notebookId}/tags?tag=${name}`;
+    const result = await fetchData(path, "DELETE");
+    console.log(result);
     if (result.result) {
       tagItem.remove();
+      if (tagBtn.classList.contains("selected")) {
+        filter.tag = null;
+        filter.noteBox = true;
+        filter.star = false;
+        filter.time = false;
+        filter.keyword = false;
+        setNoteCardCtnByFilter();
+      }
       MsgMaker.success("removed!");
     } else {
       MsgMaker.error("removed failed.");

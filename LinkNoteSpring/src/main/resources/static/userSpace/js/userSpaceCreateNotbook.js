@@ -52,10 +52,9 @@ function tagListener() {
   }
 
   function getTag(tag) {
-    console.log(`執行新增tag`);
     const p = document.createElement("p");
     if (tag.value != "") {
-      p.textContent = "#" + tag.value;
+      p.textContent = tag.value;
       tag.value = "";
       tags.appendChild(p);
       tagItemListener();
