@@ -43,18 +43,20 @@
   background-color: red;
 }
 
-.tagList {
+.tagCtn {
   position: relative;
   left: -5px;
   top: 5px;
   width: 220px;
+  z-index: 15;
   background-color: #333333;
   border: 1px solid #666666;
   border-radius: 10px;
-  z-index: 15;
   padding: 15px;
+}
+.tagList {
   flex-direction: column;
-  gap: 10px;
+  gap: 13px;
   cursor: default;
   .tagItem {
     justify-content: space-between;
@@ -87,29 +89,30 @@
       }
     }
   }
-  .tagBtnGroup {
-    margin-top: 10px;
-    input {
-      width: 190px;
-      background-color: transparent;
-      border: none;
-      color: white;
-      border: none;
-      border-bottom: #666666 1px solid;
+}
 
-      padding: 5px 50px 5px 5px;
-      &::placeholder {
-        color: #999999;
-      }
+.tagBtnGroup {
+  margin-top: 15px;
+  input {
+    width: 190px;
+    background-color: transparent;
+    border: none;
+    color: white;
+    border: none;
+    border-bottom: #666666 1px solid;
+
+    padding: 5px 50px 5px 5px;
+    &::placeholder {
+      color: #999999;
     }
-    button {
-      position: absolute;
-      right: 15px;
-      border-radius: 5px;
-      background-color: #3d8344;
-      color: white;
-      cursor: pointer;
-    }
+  }
+  button {
+    position: absolute;
+    right: 15px;
+    border-radius: 5px;
+    background-color: #3d8344;
+    color: white;
+    cursor: pointer;
   }
 }
 

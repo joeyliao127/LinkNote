@@ -35,7 +35,10 @@ function noteToolBtnsListener() {
 function createNotebookTagListener() {
   const btn = document.querySelector(".tagBtnGroup button");
   btn.addEventListener(() => {
-    const tag = document.querySelector("#createTag");
+    const tag = document.querySelector("#createTag").value;
+    if (!tag.trim()) {
+      return;
+    }
   });
 }
 let filter = {
@@ -61,12 +64,18 @@ async function setNoteCardCtnByFilter() {
   }
 
   let path = `/api/notebooks/${notebookId}/notes?limit=20&offset=0`;
+
+  if (filter.keyword) {
+    path += `&keyword=${filter.keyword}`;
+  }
+
   console.log(`檢查一大串`);
   console.log(!filter.star && !filter.tag && !filter.time && !filter.keyword);
   if (
     filter.noteBox ||
     (!filter.star && !filter.tag && !filter.time && !filter.keyword)
   ) {
+    console.log("執行生成note card", path);
     noteBoxBtn.classList.add("selected");
     genNotesCardCtn(notebookName, notebookId, description, path);
     return;
@@ -85,9 +94,6 @@ async function setNoteCardCtnByFilter() {
     path += `&tag=${filter.tag}`;
   }
 
-  if (filter.keyword) {
-    path += `&keyword=${filter.keyword}`;
-  }
   console.log(path);
   genNotesCardCtn(notebookName, notebookId, description, path);
 }
@@ -103,14 +109,15 @@ function checkNotebookHasSelected() {
 
 function displayTagListBtnListener() {
   const tagBtn = document.querySelector("#tagBtn");
+  const tagCtn = document.querySelector(".tagCtn");
   tagBtn.addEventListener("click", () => {
-    console.log(`=======點擊time=======`);
+    console.log(`=======點擊tag=======`);
     if (!checkNotebookHasSelected()) {
       return;
     }
-    if (tagBtn.classList.contains("selected")) {
-    }
-    document.querySelector(".tagList").classList.toggle("display-none");
+
+    tagCtn.classList.toggle("display-none");
+
     console.log(`filter`);
     console.log(filter);
   });
@@ -164,6 +171,12 @@ function searchNoteByKeywordListener() {
     if (!checkNotebookHasSelected()) {
       return;
     }
+    const keyword = document.querySelector("#keyword").value;
+    if (!keyword) {
+      return;
+    }
+    filter.keyword = keyword;
+    setNoteCardCtnByFilter();
   });
 }
 

@@ -116,11 +116,52 @@ function genNotebooksBtnListener(notebookBtn) {
       notebookBtn.dataset.description,
       path
     );
+
+    genNotebookTagItems(notebookBtn.dataset.notebookId);
   });
 }
 
-async function genNotebookTagItems(notebookName) {
-  const path = `/api/notebooks/${notebookName}/tags`;
+async function genNotebookTagItems(notebookId) {
+  const path = `/api/notebooks/${notebookId}/tags`;
+  console.log(path);
+  const tagDatas = await fetchData(path, `GET`);
+  const tagCtn = document.querySelector(".tagList");
+  for (let tagData of tagDatas.tag) {
+    const tagBtn = genTagItemBtn(tagData);
+
+    tagCtn.appendChild(tagBtn);
+  }
+}
+
+function genTagItemBtn(tagData) {
+  const tagItem = document.createElement("div");
+  const tagBtn = document.createElement("p");
+  const trashBtn = document.createElement("img");
+  tagItem.classList.add("tagItem");
+  tagItem.classList.add("flex");
+  tagBtn.textContent = tagData.name;
+  trashBtn.src = "/static/resource/images/trash-white.png";
+  trashBtn.dataset.tagName = tagData.name;
+  trashBtn.dataset.tagid = tagData.tagId;
+
+  tagBtn.addEventListener("click", () => {
+    //Fn程式碼在userSpaceNoteConsole.js，因為屬於filter操作
+  });
+
+  trashBtn.addEventListener("click", async () => {
+    const notebookId = localStorage.getItem("notebookId");
+    const path = `/api/notebooks/${notebookId}/tags?tag=${tagData.name}`;
+    const result = fetchData(path, "DELETE");
+    if (result.result) {
+      tagItem.remove();
+      MsgMaker.success("removed!");
+    } else {
+      MsgMaker.error("removed failed.");
+    }
+  });
+  tagItem.appendChild(tagBtn);
+  tagItem.appendChild(trashBtn);
+  return tagItem;
 }
 
 async function genNotesCardCtn(notebookName, notebookId, description, path) {
