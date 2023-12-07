@@ -127,22 +127,21 @@ async function genNotebookTagItems(notebookId) {
   const tagDatas = await fetchData(path, `GET`);
   const tagCtn = document.querySelector(".tagList");
   for (let tagData of tagDatas.tag) {
-    const tagBtn = genTagItemBtn(tagData);
-
+    const tagBtn = genTagItemBtn(tagData.name, tagData.tagId);
     tagCtn.appendChild(tagBtn);
   }
 }
 
-function genTagItemBtn(tagData) {
+function genTagItemBtn(name, tagId) {
   const tagItem = document.createElement("div");
   const tagBtn = document.createElement("p");
   const trashBtn = document.createElement("img");
   tagItem.classList.add("tagItem");
   tagItem.classList.add("flex");
-  tagBtn.textContent = tagData.name;
+  tagBtn.textContent = name;
   trashBtn.src = "/static/resource/images/trash-white.png";
-  trashBtn.dataset.tagName = tagData.name;
-  trashBtn.dataset.tagid = tagData.tagId;
+  trashBtn.dataset.tagName = name;
+  trashBtn.dataset.tagid = tagId;
 
   tagBtn.addEventListener("click", () => {
     //Fn程式碼在userSpaceNoteConsole.js，因為屬於filter操作

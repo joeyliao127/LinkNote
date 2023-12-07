@@ -30,14 +30,27 @@ function noteToolBtnsListener() {
   noteSortByTimeBtnListener();
   setNoteStarBtnListner();
   searchNoteByKeywordListener();
+  createNotebookTagListener();
 }
 
 function createNotebookTagListener() {
   const btn = document.querySelector(".tagBtnGroup button");
-  btn.addEventListener(() => {
+  btn.addEventListener("click", async () => {
     const tag = document.querySelector("#createTag").value;
     if (!tag.trim()) {
       return;
+    }
+    const notebookId = localStorage.getItem("notebookId");
+    const path = `/api/notebooks/${notebookId}/tags`;
+    console.log(path);
+    const result = await fetchData(path, "POST", { tag });
+    if (result.result) {
+      document
+        .querySelector(".tagList")
+        .appendChild(genTagItemBtn(tag, result.tagId));
+      MsgMaker.success("create tag success!");
+    } else {
+      MsgMaker.error("create tag failed");
     }
   });
 }
