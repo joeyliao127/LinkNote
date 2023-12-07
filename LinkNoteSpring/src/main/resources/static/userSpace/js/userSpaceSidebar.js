@@ -99,12 +99,13 @@ function genNotebooksBtnListener(notebookBtn) {
   notebookBtn.addEventListener("click", () => {
     filterInit();
     const lastReadNotebookId = localStorage.getItem("notebookId");
+    const currentNotebookId = notebookBtn.dataset.notebookId;
     const noteBox = document.querySelector("#boxBtn");
     const tagCtn = document.querySelector(".tagCtn");
     tagCtn.classList.add("display-none");
     noteBox.classList.add("selected");
     if (!lastReadNotebookId) {
-      localStorage.setItem("notebookId", notebookBtn.dataset.notebookId);
+      localStorage.setItem("notebookId", currentNotebookId);
       genNotesCardCtn(
         notebookBtn.dataset.name,
         notebookBtn.dataset.notebookId,
@@ -112,11 +113,10 @@ function genNotebooksBtnListener(notebookBtn) {
       );
       return;
     }
-    const lastSelectedNotebookBtn = document.querySelector(
-      `.myNotebooks .notebook[data-notebook-id = '${lastReadNotebookId}'`
-    );
-    const currentNotebookId = notebookBtn.dataset.notebookId;
-    lastSelectedNotebookBtn.classList.remove("selected");
+    // const lastSelectedNotebookBtn = document.querySelector(
+    //   `.notebook[data-notebook-id = '${lastReadNotebookId}'`
+    // );
+    // lastSelectedNotebookBtn.classList.remove("selected");
     notebookBtn.classList.toggle("selected");
     localStorage.setItem("notebookId", currentNotebookId);
 
