@@ -5,13 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="31befe92-750a-4d2c-ab08-ee48786e5281" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/PermissionValidatorDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/PermissionValidatorDaoImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/PermissionValidatorService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/PermissionValidatorServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteexception/PermissionDeniedException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/userSpace/js/userSpaceSidebar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/userSpace/js/userSpaceSidebar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/NotebookService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/NotebookService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/NotebookServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/NotebookServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/PermissionValidatorDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/PermissionValidatorDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/PermissionValidatorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/PermissionValidatorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/PermissionValidatorServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/PermissionValidatorServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notecontroller/NotebookController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notecontroller/NotebookController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/NotebookDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/NotebookDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/NotebookDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/NotebookDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteexception/NoteExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteexception/NoteExceptionHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +104,7 @@
       <workItem from="1701577687417" duration="28280000" />
       <workItem from="1701663610328" duration="47068000" />
       <workItem from="1701824104169" duration="32229000" />
-      <workItem from="1701914108648" duration="16122000" />
+      <workItem from="1701914108648" duration="23354000" />
     </task>
     <servers />
   </component>

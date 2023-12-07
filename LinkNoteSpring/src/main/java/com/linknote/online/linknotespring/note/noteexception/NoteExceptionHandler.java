@@ -21,6 +21,13 @@ public class NoteExceptionHandler {
     return ResponseEntity.status(401).body(Map.of("result", false, "msg", e.getMessage()));
   }
 
+  @ExceptionHandler(PermissionDeniedException.class)
+  public ResponseEntity<Object> permissionDeniedException(PermissionDeniedException e){
+    log.warn("Permission Denied Exception");
+    log.warn(String.valueOf(e));
+    return ResponseEntity.status(401).body(Map.of("result", false, "msg", "Permission denied"));
+  }
+
   @ExceptionHandler(NotebookAlreadyExistsException.class)
   public ResponseEntity<Object> notebookAlreadyExistsException(NotebookAlreadyExistsException e){
     log.warn("NoteExceptionHandler: notebookAlreadyExistsException");

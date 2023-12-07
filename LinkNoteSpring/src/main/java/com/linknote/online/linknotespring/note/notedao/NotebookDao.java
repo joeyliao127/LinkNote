@@ -25,7 +25,6 @@ public interface NotebookDao {
 
   Integer verifyNotebookExist(Integer notebookId);
   //驗證筆記本是否為此userId
-  Integer verifyNotebookOwnerByUserId(Integer userId, Integer notebookId);
 
   //用途：建立notebook後，取得剛建立notebookId
   Integer getNotebookIdByNotebookName(String notebookName, Integer userId);

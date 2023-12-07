@@ -20,7 +20,12 @@ public class PermissionValidatorDaoImpl implements PermissionValidatorDao{
 
   @Override
   public Integer verifyNotebookByUserIdAndNotebookId(Integer notebookId, Integer userId) {
-    String sql = "SELECT id FROM notebooks WHERE userId = :userId AND id = :notebookId";
+    System.out.println("userId = " + userId + " notebookId = " + notebookId);
+    String sql = "SELECT n.id FROM notebooks n "
+        + "JOIN users u ON u.id = n.userId "
+        + "LEFT JOIN collaborators c ON c.notebookId = n.id "
+        + "WHERE (u.id = :userId AND n.id = :notebookId) "
+        + "OR (c.userId = :userId AND c.notebookId = :notebookId)";
     Map<String, Object> map = new HashMap<>();
     map.put("userId", userId);
     map.put("notebookId", notebookId);
@@ -30,6 +35,7 @@ public class PermissionValidatorDaoImpl implements PermissionValidatorDao{
         return rs.getInt("id");
       }
     });
+    System.out.println(tagId);
     if(tagId.isEmpty()){
       return null;
     }else{

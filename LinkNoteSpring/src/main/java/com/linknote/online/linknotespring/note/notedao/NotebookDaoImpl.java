@@ -62,15 +62,20 @@ public class NotebookDaoImpl implements NotebookDao {
   public List<NotesPO> getNotes(GetNotesParamDto params) {
     Map<String, Object> map = new HashMap<>();
     String sql = "SELECT nt.id as noteId, nt.name, nt.question, nt.star, nt.createDate "
-        + "FROM notes nt JOIN notebooks n ON nt.notebookId = n.id ";
+        + "FROM notes nt JOIN notebooks n ON nt.notebookId = n.id "
+        + "JOIN users u ON u.id = n.userId "
+        + "JOIN collaborators c ON c.notebookId = n.id ";
     if(!Objects.equals(params.getTag(), "null")){
       sql += "JOIN tags t ON n.id = t.notebookId "
           + "JOIN notes_tags nts ON t.id = nts.tagId AND nts.noteId = nt.id "
-          + "WHERE nt.notebookId = :notebookId "
-          + "AND n.userId = :userId AND t.name = :tag ";
+          + "WHERE (nt.notebookId = :notebookId "
+          + "AND n.userId = :userId) "
+          + "OR (c.userId =:userId AND c.notebookId = :notebookId) "
+          + "AND t.name = :tag ";
       map.put("tag", params.getTag());
     }else{
-      sql += "WHERE nt.notebookId = :notebookId AND n.userId = :userId ";
+      sql += "WHERE nt.notebookId = :notebookId AND n.userId = :userId "
+          + "OR (c.userId =:userId AND c.notebookId = :notebookId) ";
     }
     map.put("notebookId", params.getNotebookId());
     map.put("userId", params.getUserId());
@@ -134,27 +139,6 @@ public class NotebookDaoImpl implements NotebookDao {
   public Integer verifyNotebookExist(Integer notebookId) {
     String sql = "SELECT id FROM notebooks WHERE id = :notebookId";
     Map<String, Object> map = new HashMap<>();
-    map.put("notebookId", notebookId);
-    List<Integer> tagId = namedParameterJdbcTemplate.query(sql, map, new RowMapper<Integer>() {
-      @Override
-      public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
-        log.info("驗證owner的Dao: 取得的id為 = " + rs.getInt("id"));
-        return rs.getInt("id");
-      }
-    });
-    if(tagId.isEmpty()){
-      return null;
-    }else{
-      return tagId.get(0);
-    }
-  }
-
-  @Override
-  public Integer verifyNotebookOwnerByUserId(Integer userId, Integer notebookId) {
-    log.info("notebook dao: 收到的userId: "+ userId + " notebookId: "+notebookId);
-    String sql = "SELECT id FROM notebooks WHERE userId = :userId AND id = :notebookId";
-    Map<String, Object> map = new HashMap<>();
-    map.put("userId", userId);
     map.put("notebookId", notebookId);
     List<Integer> tagId = namedParameterJdbcTemplate.query(sql, map, new RowMapper<Integer>() {
       @Override

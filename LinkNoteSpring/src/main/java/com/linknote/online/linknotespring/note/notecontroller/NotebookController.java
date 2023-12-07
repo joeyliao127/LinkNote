@@ -1,6 +1,7 @@
 package com.linknote.online.linknotespring.note.notecontroller;
 
 import com.linknote.online.linknotespring.note.noteService.NotebookService;
+import com.linknote.online.linknotespring.note.noteService.PermissionValidatorDaoImpl;
 import com.linknote.online.linknotespring.note.notedto.CreateCollaboratorParamsDto;
 import com.linknote.online.linknotespring.note.notedto.CreateNotebookParamsDto;
 import com.linknote.online.linknotespring.note.notedto.CreateNotebookTagsParamsDto;
@@ -46,6 +47,8 @@ public class NotebookController {
 
   @Autowired
   TokenService tokenService;
+
+
 
   //取得使用者資訊
   @GetMapping("/api/notebooks")

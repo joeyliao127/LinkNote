@@ -39,8 +39,6 @@ public interface NotebookService {
 
   void deleteCollaborators(DeleteCollaboratorsParamDto params);
 
-  void verifyNotebookOwnerByUserId (Integer userId, Integer notebookId, NotebookDao notebookDao );
-
   void deleteNotebook(DeleteNotebookParamsDto params);
 
   void deleteNotebookTag(DeleteNotebookTagParamDto param);

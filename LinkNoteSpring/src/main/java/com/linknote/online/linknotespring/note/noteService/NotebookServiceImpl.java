@@ -51,6 +51,9 @@ public class NotebookServiceImpl implements NotebookService {
 
   @Autowired
   private UserService userService;
+
+  @Autowired
+  PermissionValidatorServiceImpl permissionValidatorService;
   private static final Logger log = LoggerFactory.getLogger(NotebookServiceImpl.class);
 
   @Override
@@ -77,6 +80,7 @@ public class NotebookServiceImpl implements NotebookService {
 
   @Override
   public NotesResPO getNotes(GetNotesParamDto params) {
+    permissionValidatorService.verifyNotebookPermission(params.getNotebookId(), params.getUserId());
     List<NotesPO> notes = notebookDao.getNotes(params);
     NotesResPO responsePO = new NotesResPO();
     System.out.println("取得的notes長度：" + notes.size());
@@ -95,11 +99,13 @@ public class NotebookServiceImpl implements NotebookService {
 
   @Override
   public TagResPO getNotebookTags(GetTagsParamDto params) {
+    permissionValidatorService.verifyNotebookPermission(params.getNotebookId(), params.getUserId());
     return tagService.getTags(params);
   }
 
   @Override
   public List<UserInfoPO> getCollaborators(GetCollaboratorParamDto params) {
+    permissionValidatorService.verifyNotebookPermission(params.getNotebookId(), params.getUserId());
     return notebookDao.getCollaborators(params);
   }
 
@@ -133,12 +139,12 @@ public class NotebookServiceImpl implements NotebookService {
 
   @Override
   public Integer createNotebookTag(String tag, Integer notebookId, Integer userId) {
-    verifyNotebookOwnerByUserId(userId, notebookId, notebookDao);
+    permissionValidatorService.verifyNotebookPermission(notebookId, userId);
     return tagService.createNotebookTag(tag, notebookId);
   }
   @Override
   public Map<String, Object> createCollaborator(CreateCollaboratorParamsDto params) {
-    verifyNotebookOwnerByUserId(params.getUserId(), params.getNotebookId(), notebookDao);
+    permissionValidatorService.verifyNotebookPermission(params.getNotebookId(), params.getUserId());
     if(intermediaryService.verifyCollaboratorsCount(params.getUserId(), params.getNotebookId())){
       throw new CollaboratorsAreLimitException("超過共編人數上限");
     }
@@ -157,38 +163,30 @@ public class NotebookServiceImpl implements NotebookService {
 
   @Override
   public void updateNotebook(UpdateNotebookParamDto params) {
-    verifyNotebookOwnerByUserId(params.getUserId(), params.getNotebookId(), notebookDao);
+    permissionValidatorService.verifyNotebookPermission(params.getNotebookId(), params.getUserId());
     notebookDao.updateNotebook(params);
   }
 
   @Override
   public void deleteCollaborators(DeleteCollaboratorsParamDto params) {
-    verifyNotebookOwnerByUserId(params.getUserId(), params.getNotebookId(), notebookDao);
+    permissionValidatorService.verifyNotebookPermission(params.getNotebookId(), params.getUserId());
     intermediaryService.deleteCollaborator(params);
   }
 
   @Override
   public void deleteNotebook(DeleteNotebookParamsDto params) {
+    permissionValidatorService.verifyNotebookPermission(params.getNotebookId(), params.getUserId());
     Integer result = notebookDao.verifyNotebookExist(params.getNotebookId());
     if(result == null){
       throw new NotebookDoesNotExistException("筆記本" + params.getNotebookId() + "不存在");
     }
-    verifyNotebookOwnerByUserId(params.getUserId(), params.getNotebookId(), notebookDao);
     notebookDao.deleteNotebookByNotebookId(params);
   }
 
   @Override
   public void deleteNotebookTag(DeleteNotebookTagParamDto param){
-    verifyNotebookOwnerByUserId(param.getUserId(), param.getNotebookId(), notebookDao);
+    permissionValidatorService.verifyNotebookPermission(param.getNotebookId(), param.getUserId());
     notebookDao.deleteNotebookTag(param);
   }
 
-  @Override
-  public void verifyNotebookOwnerByUserId(Integer userId, Integer notebookId, NotebookDao notebookDao ){
-    Integer result = notebookDao.verifyNotebookOwnerByUserId(userId, notebookId);
-    if(result == null){
-      log.warn("Notebook Service: " + "筆記本id'" + notebookId + "' 不屬於userId' " + userId + "'");
-      throw new NotebookIdAndUserIdNotMatchException("Notebook Service: " + "筆記本id'" + notebookId + "' 不屬於userId' " + userId + "'");
-    }
-  }
 }
