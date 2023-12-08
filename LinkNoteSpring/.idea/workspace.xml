@@ -6,11 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="31befe92-750a-4d2c-ab08-ee48786e5281" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/NotebookServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/NotebookServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/TagServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/noteService/TagServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/TagDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/TagDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/NotebookDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/NotebookDaoImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/TagDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedao/TagDaoImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedto/GetTagsParamDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/notedto/GetTagsParamDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/userSpace/js/userSpaceSidebar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/userSpace/js/userSpaceSidebar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/LinkNoteSpring-0.0.1-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/LinkNoteSpring-0.0.1-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/LinkNoteSpring-0.0.1-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/LinkNoteSpring-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +100,7 @@
       <workItem from="1701663610328" duration="47068000" />
       <workItem from="1701824104169" duration="32229000" />
       <workItem from="1701914108648" duration="26837000" />
-      <workItem from="1701994520818" duration="14861000" />
+      <workItem from="1701994520818" duration="17058000" />
     </task>
     <servers />
   </component>

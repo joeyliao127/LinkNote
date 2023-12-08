@@ -67,8 +67,8 @@ public class NotebookDaoImpl implements NotebookDao {
       sql = "SELECT nt.id as noteId, nt.name, nt.question, nt.star, nt.createDate "
           + "FROM notes nt JOIN collaborators c ON c.notebookId = nt.notebookId ";
       if(!Objects.equals(params.getTag(), "null")){
-        sql += "JOIN tags t ON t.notebookId = nt.notebookId "
-            + "JOIN notes_tags nts ON nts.noteId = nt.id "
+        sql += "JOIN notes_tags nts ON nts.noteId = nt.id "
+            + "JOIN tags t ON t.id = nts.tagId "
             + "WHERE c.notebookId = :notebookId AND c.userId = :userId AND t.name = :tag ";
         map.put("tag", params.getTag());
       }else{
@@ -76,15 +76,16 @@ public class NotebookDaoImpl implements NotebookDao {
       }
     }else{
       sql = "SELECT nt.id as noteId, nt.name, nt.question, nt.star, nt.createDate "
-          + "FROM notes nt JOIN notebooks n ON nt.notebookId = n.id ";
+          + "FROM notes nt ";
       if(!Objects.equals(params.getTag(), "null")){
-        sql +="JOIN users u ON u.id = n.userId " +
-        "JOIN tags t ON t.notebookId = nt.notebookId " +
-        "JOIN notes_tags nts ON nts.noteId = nt.id " +
-        "WHERE u.id = :userId AND n.id = :notebookId AND t.name = :tag ";
+        sql +="JOIN notes_tags nts ON nts.noteId = nt.id " +
+        "JOIN tags t ON t.id = nts.tagId " +
+        "WHERE nt.notebookId = :notebookId AND t.name = :tag ";
         map.put("tag", params.getTag());
       }else{
-        sql += "WHERE nt.notebookId = :notebookId AND n.userId = :userId ";
+        sql += "JOIN notebooks n ON n.id = nt.notebookId "
+            + "JOIN users u ON u.id = n.userId "
+            + "WHERE nt.notebookId = :notebookId AND n.userId = :userId ";
       }
     }
 

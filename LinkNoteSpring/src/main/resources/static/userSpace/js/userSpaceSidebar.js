@@ -161,6 +161,7 @@ async function genNotebookTagItems(notebookId) {
   const path = `/api/notebooks/${notebookId}/tags`;
   console.log(path);
   const tagDatas = await fetchData(path, `GET`);
+  console.log(`notebook tag = ${tagDatas}`);
   const tagCtn = document.querySelector(".tagList");
   tagCtn.innerHTML = "";
   for (let tagData of tagDatas.tag) {

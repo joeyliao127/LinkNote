@@ -48,11 +48,13 @@ public class TagDaoImpl implements TagDao{
   public List<TagPO> getNotebookTags(GetTagsParamDto params) {
     String sql;
     if(params.getCollaborators()){
+      System.out.println("共編人員查詢notebook tags");
       sql = "SELECT t.name as name, t.id as id FROM tags t "
           + "JOIN notebooks n ON t.notebookId = n.id "
           + "JOIN collaborators c ON c.notebookId = n.id "
           + "WHERE c.userId =:userId AND t.notebookId = :notebookId";
     }else{
+      System.out.println("Owner查詢notebook tags");
       sql = "SELECT t.name as name, t.id as id FROM tags t "
           + "JOIN notebooks n ON t.notebookId = n.id "
           + "JOIN users u ON n.userId = u.id "

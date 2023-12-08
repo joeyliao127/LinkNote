@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.linknote.online.linknotespring.LinkNoteSpringApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.745 s - in com.linknote.online.linknotespring.LinkNoteSpringApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.498 s - in com.linknote.online.linknotespring.LinkNoteSpringApplicationTests
