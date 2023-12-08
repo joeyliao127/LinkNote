@@ -12,6 +12,7 @@ function initLocalStorageValue() {
   localStorage.setItem("notebookName", null);
   localStorage.setItem("noteId", null);
 }
+
 function switchNotebooksTpyeBtn() {
   const switchNotebookBtn = document.querySelector(
     ".sideBar-group-notebooksType img"
@@ -121,6 +122,7 @@ function genNotebooksBtnListener(notebookBtn, isCoNotebook) {
         notebookBtn.dataset.description,
         path
       );
+      genNotebookTagItems(notebookBtn.dataset.notebookId);
       return;
     }
     let lastSelectedNotebookBtn = document.querySelector(
@@ -135,6 +137,7 @@ function genNotebooksBtnListener(notebookBtn, isCoNotebook) {
         notebookBtn.dataset.description,
         path
       );
+      genNotebookTagItems(notebookBtn.dataset.notebookId);
       return;
     }
     lastSelectedNotebookBtn.classList.remove("selected");
