@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +81,8 @@ public class NotebookServiceImpl implements NotebookService {
 
   @Override
   public NotesResPO getNotes(GetNotesParamDto params) {
-    permissionValidatorService.verifyNotebookPermission(params.getNotebookId(), params.getUserId());
+    Boolean res = permissionValidatorService.verifyNotebookPermission(params.getNotebookId(), params.getUserId());
+    params.setCollaborators(res);
     List<NotesPO> notes = notebookDao.getNotes(params);
     NotesResPO responsePO = new NotesResPO();
     System.out.println("取得的notes長度：" + notes.size());

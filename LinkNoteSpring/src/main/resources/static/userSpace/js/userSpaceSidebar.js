@@ -1,4 +1,5 @@
 function sideBarInit() {
+  initLocalStorageValue();
   switchNotebooksTpyeBtn();
   newNotbookBtnListener();
   signOutBtn();
@@ -6,6 +7,11 @@ function sideBarInit() {
   setNotebooks();
 }
 
+function initLocalStorageValue() {
+  localStorage.setItem("notebookId", null);
+  localStorage.setItem("notebookName", null);
+  localStorage.setItem("noteId", null);
+}
 function switchNotebooksTpyeBtn() {
   const switchNotebookBtn = document.querySelector(
     ".sideBar-group-notebooksType img"
@@ -78,12 +84,8 @@ async function genNotebooksBtn(notebookInfos, notebookCtn, isCoNotebook) {
     notebookBtn.dataset.name = notebookName;
     notebookBtn.dataset.notebookId = notebook.notebookId;
     notebookBtn.dataset.description = notebook.description;
-    if (isCoNotebook) {
-      notebookBtn.classList.add("coNotebook");
-    } else {
-      notebookBtn.classList.add("notebook");
-    }
-    genNotebooksBtnListener(notebookBtn);
+    notebookBtn.classList.add("notebook");
+    genNotebooksBtnListener(notebookBtn, isCoNotebook);
     notebookCtn.appendChild(notebookBtn);
   }
 }
@@ -95,32 +97,55 @@ function filterInit() {
   filter.time = false;
 }
 
-function genNotebooksBtnListener(notebookBtn) {
+function genNotebooksBtnListener(notebookBtn, isCoNotebook) {
   notebookBtn.addEventListener("click", () => {
     filterInit();
     const lastReadNotebookId = localStorage.getItem("notebookId");
     const currentNotebookId = notebookBtn.dataset.notebookId;
     const noteBox = document.querySelector("#boxBtn");
     const tagCtn = document.querySelector(".tagCtn");
+    let path = "";
     tagCtn.classList.add("display-none");
     noteBox.classList.add("selected");
-    if (!lastReadNotebookId) {
+    if (lastReadNotebookId === "null") {
+      notebookBtn.classList.add("selected");
+      localStorage.setItem("notebookId", currentNotebookId);
+      if (isCoNotebook) {
+        path = `/api/notebooks/${currentNotebookId}/notes?offset=0&limit=20&collaborators=1`;
+      } else {
+        path = `/api/notebooks/${currentNotebookId}/notes?offset=0&limit=20`;
+      }
+      genNotesCardCtn(
+        notebookBtn.dataset.name,
+        notebookBtn.dataset.notebookId,
+        notebookBtn.dataset.description,
+        path
+      );
+      return;
+    }
+    let lastSelectedNotebookBtn = document.querySelector(
+      `.notebook[data-notebook-id = '${lastReadNotebookId}'`
+    );
+
+    if (!lastSelectedNotebookBtn) {
       localStorage.setItem("notebookId", currentNotebookId);
       genNotesCardCtn(
         notebookBtn.dataset.name,
         notebookBtn.dataset.notebookId,
-        notebookBtn.dataset.description
+        notebookBtn.dataset.description,
+        path
       );
       return;
     }
-    // const lastSelectedNotebookBtn = document.querySelector(
-    //   `.notebook[data-notebook-id = '${lastReadNotebookId}'`
-    // );
-    // lastSelectedNotebookBtn.classList.remove("selected");
-    notebookBtn.classList.toggle("selected");
+    lastSelectedNotebookBtn.classList.remove("selected");
+    notebookBtn.classList.add("selected");
     localStorage.setItem("notebookId", currentNotebookId);
+    if (isCoNotebook) {
+      path = `/api/notebooks/${currentNotebookId}/notes?offset=0&limit=20&collaborators=1`;
+    } else {
+      path = `/api/notebooks/${currentNotebookId}/notes?offset=0&limit=20`;
+    }
 
-    const path = `/api/notebooks/${currentNotebookId}/notes?offset=0&limit=20`;
     genNotesCardCtn(
       notebookBtn.dataset.name,
       notebookBtn.dataset.notebookId,

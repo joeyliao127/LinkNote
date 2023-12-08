@@ -61,22 +61,34 @@ public class NotebookDaoImpl implements NotebookDao {
   @Override
   public List<NotesPO> getNotes(GetNotesParamDto params) {
     Map<String, Object> map = new HashMap<>();
-    String sql = "SELECT nt.id as noteId, nt.name, nt.question, nt.star, nt.createDate "
-        + "FROM notes nt JOIN notebooks n ON nt.notebookId = n.id "
-        + "JOIN users u ON u.id = n.userId "
-        + "JOIN collaborators c ON c.notebookId = n.id ";
-    if(!Objects.equals(params.getTag(), "null")){
-      sql += "JOIN tags t ON n.id = t.notebookId "
-          + "JOIN notes_tags nts ON t.id = nts.tagId AND nts.noteId = nt.id "
-          + "WHERE (nt.notebookId = :notebookId "
-          + "AND n.userId = :userId) "
-          + "OR (c.userId =:userId AND c.notebookId = :notebookId) "
-          + "AND t.name = :tag ";
-      map.put("tag", params.getTag());
+    String sql ="";
+    if(params.getCollaborators()){
+      System.out.println("執行co notes查詢");
+      sql = "SELECT nt.id as noteId, nt.name, nt.question, nt.star, nt.createDate "
+          + "FROM notes nt JOIN collaborators c ON c.notebookId = nt.notebookId ";
+      if(!Objects.equals(params.getTag(), "null")){
+        sql += "JOIN tags t ON t.notebookId = nt.notebookId "
+            + "JOIN notes_tags nts ON nts.noteId = nt.id "
+            + "WHERE c.notebookId = :notebookId AND c.userId = :userId AND t.name = :tag ";
+        map.put("tag", params.getTag());
+      }else{
+        sql += "WHERE nt.notebookId = :notebookId AND c.userId = :userId ";
+      }
     }else{
-      sql += "WHERE nt.notebookId = :notebookId AND n.userId = :userId "
-          + "OR (c.userId =:userId AND c.notebookId = :notebookId) ";
+      sql = "SELECT nt.id as noteId, nt.name, nt.question, nt.star, nt.createDate "
+          + "FROM notes nt JOIN notebooks n ON nt.notebookId = n.id ";
+      if(!Objects.equals(params.getTag(), "null")){
+        sql +="JOIN users u ON u.id = n.userId " +
+        "JOIN tags t ON t.notebookId = nt.notebookId " +
+        "JOIN notes_tags nts ON nts.noteId = nt.id " +
+        "WHERE u.id = :userId AND n.id = :notebookId AND t.name = :tag ";
+        map.put("tag", params.getTag());
+      }else{
+        sql += "WHERE nt.notebookId = :notebookId AND n.userId = :userId ";
+      }
     }
+
+
     map.put("notebookId", params.getNotebookId());
     map.put("userId", params.getUserId());
 
@@ -92,9 +104,7 @@ public class NotebookDaoImpl implements NotebookDao {
     }
 
     if(params.getTimeAsc()){
-      sql += "ORDER BY createDate ASC ";
-    }else {
-      sql += "ORDER BY createDate DESC ";
+      sql += "ORDER BY createDate asc ";
     }
 
     sql += "LIMIT :limit OFFSET :offset ";

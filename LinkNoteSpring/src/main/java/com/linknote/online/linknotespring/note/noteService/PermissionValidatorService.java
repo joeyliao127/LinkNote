@@ -1,5 +1,7 @@
 package com.linknote.online.linknotespring.note.noteService;
 
+import java.util.Map;
+
 public interface PermissionValidatorService {
-  void verifyNotebookPermission(Integer notebookId, Integer userId);
+ Boolean verifyNotebookPermission(Integer notebookId, Integer userId);
 }

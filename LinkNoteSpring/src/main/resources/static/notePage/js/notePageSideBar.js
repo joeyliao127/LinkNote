@@ -43,6 +43,9 @@ function displayLastReadtNote() {
   const noteBtn = document.querySelector(
     `.note-item[data-note-id='${noteId}']`
   );
+  if (!noteBtn) {
+    return;
+  }
   history.pushState({ noteId }, "", `/notebooks/${notebookId}/notes/${noteId}`);
   // removehHighlightNoteBtn();
   noteBtn.classList.add("selected");
@@ -260,10 +263,8 @@ async function setNoteContent(noteId) {
     const noteQuestion = document.querySelector("#question");
     const noteContent = document.querySelector("#noteContent");
     const noteKeypoint = document.querySelector("#keypoint");
-    const starCtn = document.querySelector("#starBtn ");
+    const starCtn = document.querySelector("#starBtn");
     const starBtn = document.querySelector("#starBtn img");
-    const lockCtn = document.querySelector("#lockBtn");
-    const lockBtn = document.querySelector("#lockBtn img");
     const date = document.querySelector(".date");
     const data = noteData.notePO;
     noteName.value = data.name;
@@ -271,7 +272,6 @@ async function setNoteContent(noteId) {
     noteQuestion.value = data.question;
     noteContent.value = data.noteContent;
     noteKeypoint.value = data.keypoint;
-    lockCtn.dataset.shared = data.shared;
     starCtn.dataset.star = data.star;
     date.textContent = data.createDate.split(" ")[0];
     if (data.star) {
@@ -279,11 +279,7 @@ async function setNoteContent(noteId) {
     } else {
       starBtn.setAttribute("src", "/static/resource/images/star-empty.png");
     }
-    if (data.shared) {
-      lockBtn.setAttribute("src", "/static/resource/images/unlock.png");
-    } else {
-      lockBtn.setAttribute("src", "/static/resource/images/lock.png");
-    }
+
     history.pushState(
       { noteId },
       "",

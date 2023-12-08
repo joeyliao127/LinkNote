@@ -178,14 +178,11 @@ async function updateNoteContent() {
   const question = document.querySelector("#question").value;
   const content = document.querySelector("#noteContent").value;
   const keypoint = document.querySelector("#keypoint").value;
-  const sharedPermission =
-    document.querySelector("#lockBtn img").dataset.shared;
   const body = {
     name,
     question,
     content,
     keypoint,
-    sharedPermission,
   };
   const path = `/api/notebooks/${notebookId}/notes/${noteId}`;
   const result = await fetchData(path, "PUT", body);

@@ -19,13 +19,35 @@ public class PermissionValidatorDaoImpl implements PermissionValidatorDao{
   NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
   @Override
-  public Integer verifyNotebookByUserIdAndNotebookId(Integer notebookId, Integer userId) {
+  public Integer verifyNotebookCollaborator(Integer notebookId, Integer userId) {
     System.out.println("userId = " + userId + " notebookId = " + notebookId);
     String sql = "SELECT n.id FROM notebooks n "
         + "JOIN users u ON u.id = n.userId "
         + "LEFT JOIN collaborators c ON c.notebookId = n.id "
-        + "WHERE (u.id = :userId AND n.id = :notebookId) "
-        + "OR (c.userId = :userId AND c.notebookId = :notebookId)";
+        + "WHERE c.userId = :userId AND c.notebookId = :notebookId";
+    Map<String, Object> map = new HashMap<>();
+    map.put("userId", userId);
+    map.put("notebookId", notebookId);
+    List<Integer> tagId = namedParameterJdbcTemplate.query(sql, map, new RowMapper<Integer>() {
+      @Override
+      public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return rs.getInt("id");
+      }
+    });
+    System.out.println(tagId);
+    if(tagId.isEmpty()){
+      return null;
+    }else{
+      return tagId.get(0);
+    }
+  }
+
+  @Override
+  public Integer verifyNotebookOwner(Integer notebookId, Integer userId) {
+    System.out.println("userId = " + userId + " notebookId = " + notebookId);
+    String sql = "SELECT n.id FROM notebooks n "
+        + "JOIN users u ON u.id = n.userId "
+        + "WHERE u.id = :userId AND n.id = :notebookId";
     Map<String, Object> map = new HashMap<>();
     map.put("userId", userId);
     map.put("notebookId", notebookId);
