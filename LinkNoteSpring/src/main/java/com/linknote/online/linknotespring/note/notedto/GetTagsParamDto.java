@@ -6,6 +6,16 @@ public class GetTagsParamDto {
   private Integer noteId;
   private Integer userId;
 
+  private Boolean collaborators;
+
+  public Boolean getCollaborators() {
+    return collaborators;
+  }
+
+  public void setCollaborators(Boolean collaborators) {
+    this.collaborators = collaborators;
+  }
+
   public Integer getNotebookId() {
     return notebookId;
   }

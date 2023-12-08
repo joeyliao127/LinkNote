@@ -1,5 +1,6 @@
 package com.linknote.online.linknotespring.note.notedao;
 
+import com.linknote.online.linknotespring.note.notedto.GetTagsParamDto;
 import com.linknote.online.linknotespring.note.notedto.UpdateNoteTagParamDto;
 import com.linknote.online.linknotespring.note.notepo.po.TagPO;
 import com.linknote.online.linknotespring.note.noterowmapper.TagsRowMapper;
@@ -44,14 +45,23 @@ public class TagDaoImpl implements TagDao{
   }
 
   @Override
-  public List<TagPO> getNotebookTags(Integer userId, Integer notebookId) {
-    String sql = "SELECT t.name as name, t.id as id FROM tags t "
-        + "JOIN notebooks n ON t.notebookId = n.id "
-        + "JOIN users u ON n.userId = u.id "
-        + "WHERE n.userId = :userId AND t.notebookId = :notebookId";
+  public List<TagPO> getNotebookTags(GetTagsParamDto params) {
+    String sql;
+    if(params.getCollaborators()){
+      sql = "SELECT t.name as name, t.id as id FROM tags t "
+          + "JOIN notebooks n ON t.notebookId = n.id "
+          + "JOIN collaborators c ON c.notebookId = n.id "
+          + "WHERE c.userId =:userId AND t.notebookId = :notebookId";
+    }else{
+      sql = "SELECT t.name as name, t.id as id FROM tags t "
+          + "JOIN notebooks n ON t.notebookId = n.id "
+          + "JOIN users u ON n.userId = u.id "
+          + "WHERE n.userId = :userId AND t.notebookId = :notebookId";
+    }
+
     Map<String, Object> map = new HashMap<>();
-    map.put("notebookId", notebookId);
-    map.put("userId", userId);
+    map.put("notebookId", params.getNotebookId());
+    map.put("userId", params.getUserId());
     return namedParameterJdbcTemplate.query(sql, map, new TagsRowMapper());
   }
 

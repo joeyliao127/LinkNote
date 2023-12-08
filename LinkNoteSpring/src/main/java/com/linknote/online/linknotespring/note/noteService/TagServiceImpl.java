@@ -29,7 +29,7 @@ public class TagServiceImpl implements TagService{
     TagResPO tagResPO = new TagResPO();
     tagResPO.setResult(true);
     if(params.getNoteId() == null){
-      tagResPO.setTag(tagDao.getNotebookTags(params.getUserId(), params.getNotebookId()));
+      tagResPO.setTag(tagDao.getNotebookTags(params));
     }else{
       tagResPO.setTag(tagDao.getNoteTags(params.getNoteId()));
     }

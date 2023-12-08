@@ -101,7 +101,8 @@ public class NotebookServiceImpl implements NotebookService {
 
   @Override
   public TagResPO getNotebookTags(GetTagsParamDto params) {
-    permissionValidatorService.verifyNotebookPermission(params.getNotebookId(), params.getUserId());
+    Boolean isCollaborator = permissionValidatorService.verifyNotebookPermission(params.getNotebookId(), params.getUserId());
+    params.setCollaborators(isCollaborator);
     return tagService.getTags(params);
   }
 
