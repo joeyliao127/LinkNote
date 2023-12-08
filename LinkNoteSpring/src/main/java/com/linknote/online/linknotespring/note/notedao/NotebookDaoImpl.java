@@ -13,6 +13,7 @@ import com.linknote.online.linknotespring.note.noterowmapper.NotebookIdRowMapper
 import com.linknote.online.linknotespring.note.noterowmapper.NotesRowMapper;
 import com.linknote.online.linknotespring.note.noterowmapper.TagRowMapper;
 import com.linknote.online.linknotespring.note.noterowmapper.NotebooksPORowMapper;
+import com.linknote.online.linknotespring.user.userpo.CollaboratorPO;
 import com.linknote.online.linknotespring.user.userpo.UserInfoPO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -106,6 +107,8 @@ public class NotebookDaoImpl implements NotebookDao {
 
     if(params.getTimeAsc()){
       sql += "ORDER BY createDate asc ";
+    }else {
+      sql += "ORDER BY createDate desc ";
     }
 
     sql += "LIMIT :limit OFFSET :offset ";
@@ -117,21 +120,24 @@ public class NotebookDaoImpl implements NotebookDao {
   }
 
   @Override
-  public List<UserInfoPO> getCollaborators(GetCollaboratorParamDto param) {
-    String sql = "SELECT u.id as id, u.email as email, u.username as username, u.status as status FROM collaborators c JOIN users u ON u.id = c.userId JOIN notebooks n ON n.id = c.notebookId WHERE n.id = :notebookId AND c.owner = :userId";
+  public List<CollaboratorPO> getCollaborators(GetCollaboratorParamDto param) {
+    String sql = "SELECT u.id as id, u.email as email, u.username as username, u.status as status "
+        + "FROM collaborators c "
+        + "JOIN users u ON u.id = c.userId "
+        + "JOIN notebooks n ON n.id = c.notebookId WHERE n.id = :notebookId AND c.owner = :userId";
     Map<String, Object> map = new HashMap<>();
     map.put("userId", param.getUserId());
     map.put("notebookId", param.getNotebookId());
     return namedParameterJdbcTemplate.query(sql, map,
-        new RowMapper<UserInfoPO>() {
+        new RowMapper<CollaboratorPO>() {
           @Override
-          public UserInfoPO mapRow(ResultSet rs, int rowNum) throws SQLException {
-            UserInfoPO userInfoPO = new UserInfoPO();
-            userInfoPO.setEmail(rs.getString("email"));
-            userInfoPO.setStatus(rs.getBoolean("status"));
-            userInfoPO.setUserId(rs.getInt("id"));
-            userInfoPO.setUsername(rs.getString("username"));
-            return userInfoPO;
+          public CollaboratorPO mapRow(ResultSet rs, int rowNum) throws SQLException {
+            CollaboratorPO collaboratorPO = new CollaboratorPO();
+            collaboratorPO.setEmail(rs.getString("email"));
+            collaboratorPO.setStatus(rs.getBoolean("status"));
+            collaboratorPO.setUserId(rs.getInt("id"));
+            collaboratorPO.setUsername(rs.getString("username"));
+            return collaboratorPO;
           }
         });
   }

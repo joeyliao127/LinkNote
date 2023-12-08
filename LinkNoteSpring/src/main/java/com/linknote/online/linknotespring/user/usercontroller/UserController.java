@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -86,6 +87,11 @@ public class UserController {
         "result", true,
         "email", payload.get("email", String.class),
         "username", payload.getSubject()));
+  }
+
+  @GetMapping("/api/user/notebook/{notebookId}")
+  public ResponseEntity<Object> getUserInfoByNotebookId(@PathVariable Integer notebookId){
+    return ResponseEntity.status(200).body(Map.of("result", true, "owner", userService.getUsernameByNotebookId(notebookId)));
   }
 
 }

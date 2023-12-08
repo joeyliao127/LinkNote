@@ -37,7 +37,9 @@ function noteToolBtnsListener() {
 function createNotebookTagListener() {
   const btn = document.querySelector(".tagBtnGroup button");
   btn.addEventListener("click", async () => {
-    const tag = document.querySelector("#createTag").value;
+    const tagInput = document.querySelector("#createTag");
+    const tag = tagInput.value;
+    tagInput.vale = "";
     if (!tag.trim()) {
       return;
     }
@@ -49,9 +51,12 @@ function createNotebookTagListener() {
       document
         .querySelector(".tagList")
         .appendChild(genTagItemBtn(tag, result.tagId));
+      document.querySelector(".tagCtn").classList.add("display-none");
       MsgMaker.success("create tag success!");
+    } else if (result.msg === "重複的資料") {
+      MsgMaker.error("tag already exist.");
     } else {
-      MsgMaker.error("create tag failed");
+      Ms.error("create tag failed");
     }
   });
 }

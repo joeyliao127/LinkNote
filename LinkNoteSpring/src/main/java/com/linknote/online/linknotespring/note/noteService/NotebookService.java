@@ -14,6 +14,7 @@ import com.linknote.online.linknotespring.note.notedto.GetNotebooksParamsDto;
 import com.linknote.online.linknotespring.note.notepo.response.NotebooksResPO;
 import com.linknote.online.linknotespring.note.notepo.response.NotesResPO;
 import com.linknote.online.linknotespring.note.notepo.response.TagResPO;
+import com.linknote.online.linknotespring.user.userpo.CollaboratorPO;
 import com.linknote.online.linknotespring.user.userpo.UserInfoPO;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,7 @@ public interface NotebookService {
 
   TagResPO getNotebookTags(GetTagsParamDto params);
 
-  List<UserInfoPO> getCollaborators(GetCollaboratorParamDto params);
+  List<CollaboratorPO> getCollaborators(GetCollaboratorParamDto params);
 
 
   Integer createNotebook(CreateNotebookParamsDto params);

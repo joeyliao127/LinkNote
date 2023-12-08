@@ -127,6 +127,26 @@ public class UserDAOImpl implements UserDAO{
   }
 
   @Override
+  public String getUsernameByNotebookId(Integer notebookId) {
+    String sql = "SELECT u.username FROM users u "
+        + "JOIN notebooks n ON n.userId = u.id "
+        + "WHERE n.id = :notebookId";
+    Map<String, Object> map = new HashMap<>();
+    map.put("notebookId", notebookId);
+    List<String> username = namedParameterJdbcTemplate.query(sql, map, new RowMapper<String>() {
+      @Override
+      public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return rs.getString("username");
+      }
+    });
+    if(username.isEmpty()){
+      return null;
+    }else{
+      return username.get(0);
+    }
+  }
+
+  @Override
   public List<UserInfoPO> getByEmailAndPassword(
       SignInRequestDto signInRequestDto) {
     String sql = "SELECT id as userId, username, email, status FROM users WHERE email = :email and password = :password";

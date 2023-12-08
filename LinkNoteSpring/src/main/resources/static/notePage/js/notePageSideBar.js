@@ -348,8 +348,8 @@ async function genCollaboratorsList() {
   const collaboratorsCtn = document.querySelector(".sideBar-ctn-editors");
   const owner = collaboratorsCtn.querySelector("#owner p");
 
-  const ownerInfo = await fetchData(`/api/user`, "GET");
-  owner.textContent = ownerInfo.username;
+  const ownerInfo = await fetchData(`/api/user/notebook/${notebookId}`, "GET");
+  owner.textContent = ownerInfo.owner;
   const path = `/api/notebooks/${notebookId}/collaborators`;
   const collaborators = await fetchData(path, "GET");
   collaborators.collaborators.forEach((collaborator) => {

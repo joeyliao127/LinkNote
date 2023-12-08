@@ -81,4 +81,9 @@ public class UserServiceImpl implements UserService{
   public Integer getUserIdByEmail(String email) {
     return userDAO.getUserIdByEmail(email);
   }
+
+  @Override
+  public String getUsernameByNotebookId(Integer notebookId) {
+    return userDAO.getUsernameByNotebookId(notebookId);
+  }
 }

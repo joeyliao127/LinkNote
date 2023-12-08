@@ -22,6 +22,7 @@ import com.linknote.online.linknotespring.note.notepo.response.NotesResPO;
 import com.linknote.online.linknotespring.note.notepo.response.TagResPO;
 import com.linknote.online.linknotespring.user.userdao.UserDAO;
 import com.linknote.online.linknotespring.user.userexception.EmailDoesNotExistException;
+import com.linknote.online.linknotespring.user.userpo.CollaboratorPO;
 import com.linknote.online.linknotespring.user.userpo.UserInfoPO;
 import com.linknote.online.linknotespring.user.userservice.UserService;
 import java.util.ArrayList;
@@ -107,7 +108,7 @@ public class NotebookServiceImpl implements NotebookService {
   }
 
   @Override
-  public List<UserInfoPO> getCollaborators(GetCollaboratorParamDto params) {
+  public List<CollaboratorPO> getCollaborators(GetCollaboratorParamDto params) {
     permissionValidatorService.verifyNotebookPermission(params.getNotebookId(), params.getUserId());
     return notebookDao.getCollaborators(params);
   }

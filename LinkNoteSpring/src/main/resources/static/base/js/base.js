@@ -31,6 +31,9 @@ async function fetchData(path, method, body) {
     method: method,
     body: JSON.stringify(body),
   });
+  if (response.status === 401) {
+    window.location.href = "/notebooks";
+  }
   return response.json();
 }
 

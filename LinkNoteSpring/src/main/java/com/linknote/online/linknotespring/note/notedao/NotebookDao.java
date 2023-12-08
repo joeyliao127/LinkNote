@@ -10,6 +10,7 @@ import com.linknote.online.linknotespring.note.notedto.GetNotebooksParamsDto;
 import com.linknote.online.linknotespring.note.notepo.po.NotebooksPO;
 import com.linknote.online.linknotespring.note.notepo.po.NotesPO;
 import com.linknote.online.linknotespring.note.notepo.po.TagPO;
+import com.linknote.online.linknotespring.user.userpo.CollaboratorPO;
 import com.linknote.online.linknotespring.user.userpo.UserInfoPO;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public interface NotebookDao {
 
   List<NotesPO> getNotes(GetNotesParamDto params);
 
-  List<UserInfoPO> getCollaborators(GetCollaboratorParamDto param);
+  List<CollaboratorPO> getCollaborators(GetCollaboratorParamDto param);
 
   void createNotebook(CreateNotebookParamsDto params, Integer userId);
 

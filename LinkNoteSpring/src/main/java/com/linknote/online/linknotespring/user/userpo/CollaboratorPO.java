@@ -1,10 +1,11 @@
 package com.linknote.online.linknotespring.user.userpo;
 
-public class UserInfoPO {
-  //用於token中payload所許資訊
+public class CollaboratorPO {
   private String username;
   private Integer userId;
   private String email;
+  private String owner;
+
   private Boolean status;
 
   public Boolean getStatus() {
@@ -14,8 +15,6 @@ public class UserInfoPO {
   public void setStatus(Boolean status) {
     this.status = status;
   }
-
-
 
   public String getUsername() {
     return username;
@@ -39,5 +38,14 @@ public class UserInfoPO {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+
+  public String getOwner() {
+    return owner;
+  }
+
+  public void setOwner(String owner) {
+    this.owner = owner;
   }
 }
