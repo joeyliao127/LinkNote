@@ -71,6 +71,7 @@
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/user/userdao/UserDAOImpl.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/note/notepo/po/NotebooksPO.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/note/notedto/DeleteNotebookParamsDto.java
+/Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/user/userpo/CollaboratorPO.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/note/noterowmapper/NotebooksPORowMapper.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/note/noteService/NotebookService.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/user/userexception/TokenExpirationException.java
