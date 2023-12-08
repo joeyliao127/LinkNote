@@ -62,12 +62,14 @@ let filter = {
   tag: null,
   keyword: null,
 };
+
 async function setNoteCardCtnByFilter() {
   const notebookBtn = document.querySelector(".notebook.selected");
   if (!notebookBtn) {
     MsgMaker.warn("please select your notebook first");
     return;
   }
+
   const notebookName = notebookBtn.dataset.name;
   const notebookId = notebookBtn.dataset.notebookId;
   const description = notebookBtn.dataset.description;
@@ -100,6 +102,21 @@ async function setNoteCardCtnByFilter() {
     return;
   }
   noteBoxBtn.classList.remove("selected");
+  if (filter.star) {
+    starBtn.classList.add("selected");
+  } else {
+    starBtn.classList.remove("selected");
+  }
+  if (filter.time) {
+    timeBtn.classList.add("selected");
+  } else {
+    timeBtn.classList.remove("selected");
+  }
+  if (filter.tag) {
+    tagBtn.classList.add("selected");
+  } else {
+    tagBtn.classList.remove("selected");
+  }
 
   if (filter.star) {
     path += `&star=1`;
@@ -130,7 +147,6 @@ function noteBoxBtnListener() {
   console.log(`=======點擊boxBtn=======`);
   const noteBox = document.querySelector("#boxBtn");
   noteBox.addEventListener("click", () => {
-    noteBox.classList.add("selected");
     document.querySelector(".tagCtn").classList.add("display-none");
     if (!CheckIfNotebookIsSelected()) {
       return;
@@ -143,15 +159,12 @@ document.querySelector(".tagCtn").classList.add("display-none");
 function displayTagListBtnListener() {
   const tagBtn = document.querySelector("#tagBtn");
   const tagCtn = document.querySelector(".tagCtn");
-  const noteBoxBtn = document.querySelector("#boxBtn");
   tagBtn.addEventListener("click", () => {
     console.log(`=======點擊tag=======`);
     if (!CheckIfNotebookIsSelected()) {
       return;
     }
-    tagBtn.classList.add("selected");
-    noteBoxBtn.classList.remove("selected");
-    tagCtn.classList.toggle("display-none");
+    tagCtn.classList.remove("display-none");
 
     console.log(`filter`);
     console.log(filter);
@@ -166,11 +179,9 @@ function noteSortByTimeBtnListener() {
     }
     if (timeBtn.classList.contains("selected")) {
       filter.time = false;
-      timeBtn.classList.remove("selected");
     } else {
       filter.noteBox = false;
       filter.time = true;
-      timeBtn.classList.add("selected");
     }
     setNoteCardCtnByFilter();
   });
@@ -184,11 +195,9 @@ function setNoteStarBtnListner() {
     }
     if (starBtn.classList.contains("selected")) {
       filter.star = false;
-      starBtn.classList.remove("selected");
     } else {
       filter.noteBox = false;
       filter.star = true;
-      starBtn.classList.add("selected");
     }
     setNoteCardCtnByFilter();
   });

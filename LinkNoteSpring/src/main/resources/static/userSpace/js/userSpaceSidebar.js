@@ -202,7 +202,7 @@ function genTagItemBtn(name, tagId) {
         return;
       }
     }
-    displayTagCtnBtn.classList.add("selected");
+    // displayTagCtnBtn.classList.add("selected");
     if (tagBtn.classList.contains("selected")) {
       displayTagCtnBtn.classList.remove("selected");
       filter.tag = null;
