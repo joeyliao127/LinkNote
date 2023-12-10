@@ -26,10 +26,13 @@
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/note/noterowmapper/TagsRowMapper.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/note/noterowmapper/NotesRowMapper.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/LinkNoteSpringApplication.java
+/Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/note/noteService/PermissionValidatorService.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/generic/exception/DatabaseOperationException.java
+/Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/note/noteexception/PermissionDeniedException.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/note/notedto/CreateNotebookTagsParamsDto.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/note/notedao/NoteDaoImpl.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/note/notepo/response/NotebooksResPO.java
+/Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/note/noteService/PermissionValidatorServiceImpl.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/note/notecontroller/NoteController.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/user/userdto/SignInRequestDto.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/user/userrowmapper/RegisterRowMapper.java
@@ -54,6 +57,7 @@
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/user/userexception/EmailAlreadyDisabledException.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/note/noteService/NoteServiceImpl.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/note/notepo/po/NotePO.java
+/Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/note/noteService/PermissionValidatorDao.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/note/notedto/DeleteNotebookTagParamDto.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/note/notedto/CreateNotebookParamsDto.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/note/noteService/TagService.java
@@ -67,10 +71,12 @@
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/user/userdao/UserDAOImpl.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/note/notepo/po/NotebooksPO.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/note/notedto/DeleteNotebookParamsDto.java
+/Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/user/userpo/CollaboratorPO.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/note/noterowmapper/NotebooksPORowMapper.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/note/noteService/NotebookService.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/user/userexception/TokenExpirationException.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/note/notedto/UpdateNotebookParamDto.java
+/Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/note/noteService/PermissionValidatorDaoImpl.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/user/userdto/RegisterRequestDto.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/note/noteService/NoteService.java
 /Users/joeyliao/LinkNote/LinkNoteSpring/src/main/java/com/linknote/online/linknotespring/note/noteService/IntermediaryServiceImpl.java

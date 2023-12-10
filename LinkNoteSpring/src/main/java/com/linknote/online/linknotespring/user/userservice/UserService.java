@@ -10,4 +10,5 @@ public interface UserService {
   UserInfoPO signInVerify(SignInRequestDto signInRequestDto);
   Integer getUserIdByEmail(String email);
 
+  String getUsernameByNotebookId(Integer notebookId);
 }

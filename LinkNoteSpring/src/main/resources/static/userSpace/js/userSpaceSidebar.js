@@ -1,9 +1,16 @@
 function sideBarInit() {
+  initLocalStorageValue();
   switchNotebooksTpyeBtn();
   newNotbookBtnListener();
   signOutBtn();
   setUserInfo();
   setNotebooks();
+}
+
+function initLocalStorageValue() {
+  localStorage.setItem("notebookId", null);
+  localStorage.setItem("notebookName", null);
+  localStorage.setItem("noteId", null);
 }
 
 function switchNotebooksTpyeBtn() {
@@ -78,49 +85,163 @@ async function genNotebooksBtn(notebookInfos, notebookCtn, isCoNotebook) {
     notebookBtn.dataset.name = notebookName;
     notebookBtn.dataset.notebookId = notebook.notebookId;
     notebookBtn.dataset.description = notebook.description;
-    if (isCoNotebook) {
-      notebookBtn.classList.add("coNotebook");
-    } else {
-      notebookBtn.classList.add("notebook");
-    }
-    genNotebooksBtnListener(notebookBtn);
+    notebookBtn.classList.add("notebook");
+    genNotebooksBtnListener(notebookBtn, isCoNotebook);
     notebookCtn.appendChild(notebookBtn);
   }
 }
+function filterInit() {
+  filter.noteBox = true;
+  filter.keyword = null;
+  filter.tag = null;
+  filter.star = false;
+  filter.time = false;
+}
 
-function genNotebooksBtnListener(notebookBtn) {
+function genNotebooksBtnListener(notebookBtn, isCoNotebook) {
   notebookBtn.addEventListener("click", () => {
+    filterInit();
     const lastReadNotebookId = localStorage.getItem("notebookId");
-
-    if (!lastReadNotebookId) {
-      localStorage.setItem("notebookId", notebookBtn.dataset.notebookId);
+    const currentNotebookId = notebookBtn.dataset.notebookId;
+    const noteBox = document.querySelector("#boxBtn");
+    const tagCtn = document.querySelector(".tagCtn");
+    let path = "";
+    tagCtn.classList.add("display-none");
+    noteBox.classList.add("selected");
+    if (lastReadNotebookId === "null") {
+      notebookBtn.classList.add("selected");
+      localStorage.setItem("notebookId", currentNotebookId);
+      if (isCoNotebook) {
+        path = `/api/notebooks/${currentNotebookId}/notes?offset=0&limit=20&collaborators=1`;
+      } else {
+        path = `/api/notebooks/${currentNotebookId}/notes?offset=0&limit=20`;
+      }
       genNotesCardCtn(
         notebookBtn.dataset.name,
         notebookBtn.dataset.notebookId,
-        notebookBtn.dataset.description
+        notebookBtn.dataset.description,
+        path
       );
+      genNotebookTagItems(notebookBtn.dataset.notebookId);
       return;
     }
-    const lastSelectedNotebookBtn = document.querySelector(
-      `.myNotebooks .notebook[data-notebook-id = '${lastReadNotebookId}'`
+    let lastSelectedNotebookBtn = document.querySelector(
+      `.notebook[data-notebook-id = '${lastReadNotebookId}'`
     );
-    const currentNotebookId = notebookBtn.dataset.notebookId;
-    lastSelectedNotebookBtn.classList.remove("selected");
-    notebookBtn.classList.toggle("selected");
-    localStorage.setItem("notebookId", currentNotebookId);
 
-    const path = `/api/notebooks/${currentNotebookId}/notes?offset=0&limit=20`;
+    if (!lastSelectedNotebookBtn) {
+      localStorage.setItem("notebookId", currentNotebookId);
+      genNotesCardCtn(
+        notebookBtn.dataset.name,
+        notebookBtn.dataset.notebookId,
+        notebookBtn.dataset.description,
+        path
+      );
+      genNotebookTagItems(notebookBtn.dataset.notebookId);
+      return;
+    }
+    lastSelectedNotebookBtn.classList.remove("selected");
+    notebookBtn.classList.add("selected");
+    localStorage.setItem("notebookId", currentNotebookId);
+    if (isCoNotebook) {
+      path = `/api/notebooks/${currentNotebookId}/notes?offset=0&limit=20&collaborators=1`;
+    } else {
+      path = `/api/notebooks/${currentNotebookId}/notes?offset=0&limit=20`;
+    }
+
     genNotesCardCtn(
       notebookBtn.dataset.name,
       notebookBtn.dataset.notebookId,
       notebookBtn.dataset.description,
       path
     );
+
+    genNotebookTagItems(notebookBtn.dataset.notebookId);
   });
 }
 
-async function genNotebookTagItems(notebookName) {
-  const path = `/api/notebooks/${notebookName}/tags`;
+async function genNotebookTagItems(notebookId) {
+  const path = `/api/notebooks/${notebookId}/tags`;
+  console.log(path);
+  const tagDatas = await fetchData(path, `GET`);
+  console.log(`notebook tag = ${tagDatas}`);
+  const tagCtn = document.querySelector(".tagList");
+  tagCtn.innerHTML = "";
+  for (let tagData of tagDatas.tag) {
+    const tagBtn = genTagItemBtn(tagData.name, tagData.tagId);
+    tagCtn.appendChild(tagBtn);
+  }
+}
+
+function genTagItemBtn(name, tagId) {
+  const tagItem = document.createElement("div");
+  const tagBtn = document.createElement("p");
+  const trashBtn = document.createElement("img");
+  tagItem.classList.add("tagItem");
+  tagItem.classList.add("flex");
+  tagBtn.textContent = name;
+  trashBtn.src = "/static/resource/images/trash-white.png";
+  trashBtn.dataset.tagName = name;
+  trashBtn.dataset.tagid = tagId;
+
+  const tagCtn = document.querySelector(".tagCtn");
+  const displayTagCtnBtn = document.querySelector("#tagBtn");
+  const notebookId = localStorage.getItem("notebookId");
+
+  tagBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    tagCtn.classList.add("display-none");
+    const lastSelectBtn = document.querySelector(".tagItem p.selected");
+    if (lastSelectBtn) {
+      lastSelectBtn.classList.remove("selected");
+      console.log(lastSelectBtn === tagBtn);
+      if (lastSelectBtn === tagBtn) {
+        filter.tag = null;
+        tagBtn.classList.remove("selected");
+        setNoteCardCtnByFilter();
+        return;
+      }
+    }
+    // displayTagCtnBtn.classList.add("selected");
+    if (tagBtn.classList.contains("selected")) {
+      displayTagCtnBtn.classList.remove("selected");
+      filter.tag = null;
+      tagBtn.classList.remove("selected");
+    } else {
+      filter.tag = name;
+      filter.noteBox = false;
+      tagBtn.classList.add("selected");
+    }
+    setNoteCardCtnByFilter();
+  });
+
+  trashBtn.addEventListener("click", async () => {
+    const userCheck = confirm("Delete this tag?");
+    if (!userCheck) {
+      return;
+    }
+    tagCtn.classList.add("display-none");
+    const path = `/api/notebooks/${notebookId}/tags?tag=${name}`;
+    const result = await fetchData(path, "DELETE");
+    console.log(result);
+    if (result.result) {
+      tagItem.remove();
+      if (tagBtn.classList.contains("selected")) {
+        filter.tag = null;
+        filter.noteBox = true;
+        filter.star = false;
+        filter.time = false;
+        filter.keyword = false;
+        setNoteCardCtnByFilter();
+      }
+      MsgMaker.success("removed!");
+    } else {
+      MsgMaker.error("removed failed.");
+    }
+  });
+  tagItem.appendChild(tagBtn);
+  tagItem.appendChild(trashBtn);
+  return tagItem;
 }
 
 async function genNotesCardCtn(notebookName, notebookId, description, path) {

@@ -22,7 +22,5 @@ public interface UserDAO {
   Integer createUser(RegisterRequestDto registerRequestDto);
 
 
-
-
-
+  String getUsernameByNotebookId(Integer notebookId);
 }

@@ -13,6 +13,7 @@ import com.linknote.online.linknotespring.note.noterowmapper.NotebookIdRowMapper
 import com.linknote.online.linknotespring.note.noterowmapper.NotesRowMapper;
 import com.linknote.online.linknotespring.note.noterowmapper.TagRowMapper;
 import com.linknote.online.linknotespring.note.noterowmapper.NotebooksPORowMapper;
+import com.linknote.online.linknotespring.user.userpo.CollaboratorPO;
 import com.linknote.online.linknotespring.user.userpo.UserInfoPO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -61,17 +62,35 @@ public class NotebookDaoImpl implements NotebookDao {
   @Override
   public List<NotesPO> getNotes(GetNotesParamDto params) {
     Map<String, Object> map = new HashMap<>();
-    String sql = "SELECT nt.id as noteId, nt.name, nt.question, nt.star, nt.createDate "
-        + "FROM notes nt JOIN notebooks n ON nt.notebookId = n.id ";
-    if(!Objects.equals(params.getTag(), "null")){
-      sql += "JOIN tags t ON n.id = t.notebookId "
-          + "JOIN notes_tags nts ON t.id = nts.tagId AND nts.noteId = nt.id "
-          + "WHERE nt.notebookId = :notebookId "
-          + "AND n.userId = :userId AND t.name = :tag ";
-      map.put("tag", params.getTag());
+    String sql ="";
+    if(params.getCollaborators()){
+      System.out.println("執行co notes查詢");
+      sql = "SELECT nt.id as noteId, nt.name, nt.question, nt.star, nt.createDate "
+          + "FROM notes nt JOIN collaborators c ON c.notebookId = nt.notebookId ";
+      if(!Objects.equals(params.getTag(), "null")){
+        sql += "JOIN notes_tags nts ON nts.noteId = nt.id "
+            + "JOIN tags t ON t.id = nts.tagId "
+            + "WHERE c.notebookId = :notebookId AND c.userId = :userId AND t.name = :tag ";
+        map.put("tag", params.getTag());
+      }else{
+        sql += "WHERE nt.notebookId = :notebookId AND c.userId = :userId ";
+      }
     }else{
-      sql += "WHERE nt.notebookId = :notebookId AND n.userId = :userId ";
+      sql = "SELECT nt.id as noteId, nt.name, nt.question, nt.star, nt.createDate "
+          + "FROM notes nt ";
+      if(!Objects.equals(params.getTag(), "null")){
+        sql +="JOIN notes_tags nts ON nts.noteId = nt.id " +
+        "JOIN tags t ON t.id = nts.tagId " +
+        "WHERE nt.notebookId = :notebookId AND t.name = :tag ";
+        map.put("tag", params.getTag());
+      }else{
+        sql += "JOIN notebooks n ON n.id = nt.notebookId "
+            + "JOIN users u ON u.id = n.userId "
+            + "WHERE nt.notebookId = :notebookId AND n.userId = :userId ";
+      }
     }
+
+
     map.put("notebookId", params.getNotebookId());
     map.put("userId", params.getUserId());
 
@@ -87,9 +106,9 @@ public class NotebookDaoImpl implements NotebookDao {
     }
 
     if(params.getTimeAsc()){
-      sql += "ORDER BY createDate ASC ";
+      sql += "ORDER BY createDate asc ";
     }else {
-      sql += "ORDER BY createDate DESC ";
+      sql += "ORDER BY createDate desc ";
     }
 
     sql += "LIMIT :limit OFFSET :offset ";
@@ -101,21 +120,24 @@ public class NotebookDaoImpl implements NotebookDao {
   }
 
   @Override
-  public List<UserInfoPO> getCollaborators(GetCollaboratorParamDto param) {
-    String sql = "SELECT u.id as id, u.email as email, u.username as username, u.status as status FROM collaborators c JOIN users u ON u.id = c.userId JOIN notebooks n ON n.id = c.notebookId WHERE n.id = :notebookId AND c.owner = :userId";
+  public List<CollaboratorPO> getCollaborators(GetCollaboratorParamDto param) {
+    String sql = "SELECT u.id as id, u.email as email, u.username as username, u.status as status "
+        + "FROM collaborators c "
+        + "JOIN users u ON u.id = c.userId "
+        + "JOIN notebooks n ON n.id = c.notebookId WHERE n.id = :notebookId AND c.owner = :userId";
     Map<String, Object> map = new HashMap<>();
     map.put("userId", param.getUserId());
     map.put("notebookId", param.getNotebookId());
     return namedParameterJdbcTemplate.query(sql, map,
-        new RowMapper<UserInfoPO>() {
+        new RowMapper<CollaboratorPO>() {
           @Override
-          public UserInfoPO mapRow(ResultSet rs, int rowNum) throws SQLException {
-            UserInfoPO userInfoPO = new UserInfoPO();
-            userInfoPO.setEmail(rs.getString("email"));
-            userInfoPO.setStatus(rs.getBoolean("status"));
-            userInfoPO.setUserId(rs.getInt("id"));
-            userInfoPO.setUsername(rs.getString("username"));
-            return userInfoPO;
+          public CollaboratorPO mapRow(ResultSet rs, int rowNum) throws SQLException {
+            CollaboratorPO collaboratorPO = new CollaboratorPO();
+            collaboratorPO.setEmail(rs.getString("email"));
+            collaboratorPO.setStatus(rs.getBoolean("status"));
+            collaboratorPO.setUserId(rs.getInt("id"));
+            collaboratorPO.setUsername(rs.getString("username"));
+            return collaboratorPO;
           }
         });
   }
@@ -134,27 +156,6 @@ public class NotebookDaoImpl implements NotebookDao {
   public Integer verifyNotebookExist(Integer notebookId) {
     String sql = "SELECT id FROM notebooks WHERE id = :notebookId";
     Map<String, Object> map = new HashMap<>();
-    map.put("notebookId", notebookId);
-    List<Integer> tagId = namedParameterJdbcTemplate.query(sql, map, new RowMapper<Integer>() {
-      @Override
-      public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
-        log.info("驗證owner的Dao: 取得的id為 = " + rs.getInt("id"));
-        return rs.getInt("id");
-      }
-    });
-    if(tagId.isEmpty()){
-      return null;
-    }else{
-      return tagId.get(0);
-    }
-  }
-
-  @Override
-  public Integer verifyNotebookOwnerByUserId(Integer userId, Integer notebookId) {
-    log.info("notebook dao: 收到的userId: "+ userId + " notebookId: "+notebookId);
-    String sql = "SELECT id FROM notebooks WHERE userId = :userId AND id = :notebookId";
-    Map<String, Object> map = new HashMap<>();
-    map.put("userId", userId);
     map.put("notebookId", notebookId);
     List<Integer> tagId = namedParameterJdbcTemplate.query(sql, map, new RowMapper<Integer>() {
       @Override

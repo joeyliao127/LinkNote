@@ -10,6 +10,16 @@ public class GetNotesParamDto {
   private Boolean timeAsc;
   private String keyword;
 
+  private Boolean collaborators;
+
+  public Boolean getCollaborators() {
+    return collaborators;
+  }
+
+  public void setCollaborators(Boolean collaborators) {
+    this.collaborators = collaborators;
+  }
+
   public Integer getUserId() {
     return userId;
   }

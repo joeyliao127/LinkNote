@@ -5,6 +5,7 @@ public class UserInfoPO {
   private String username;
   private Integer userId;
   private String email;
+  private Boolean status;
 
   public Boolean getStatus() {
     return status;
@@ -14,7 +15,7 @@ public class UserInfoPO {
     this.status = status;
   }
 
-  private Boolean status;
+
 
   public String getUsername() {
     return username;
