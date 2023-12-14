@@ -5,8 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="31befe92-750a-4d2c-ab08-ee48786e5281" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/linknote/online/linknotespring/user/userdao/UserDAOImplTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/linknote/online/linknotespring/user/userservice/TokenServiceImplMockTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/userSpace.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/userSpace.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/linknote/online/linknotespring/LinkNoteSpringApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/linknote/online/linknotespring/LinkNoteSpringApplicationTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/LinkNoteSpring-0.0.1-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/LinkNoteSpring-0.0.1-SNAPSHOT.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/LinkNoteSpring-0.0.1-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/LinkNoteSpring-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.linknote.online.linknotespring.LinkNoteSpringApplicationTests.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.linknote.online.linknotespring.LinkNoteSpringApplicationTests.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.linknote.online.linknotespring.LinkNoteSpringApplicationTests.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.linknote.online.linknotespring.LinkNoteSpringApplicationTests.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/linknote/online/linknotespring/LinkNoteSpringApplicationTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/linknote/online/linknotespring/LinkNoteSpringApplicationTests.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,6 +29,7 @@
       <list>
         <option value="Interface" />
         <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -38,41 +50,111 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "extract.method.default.visibility": "private",
+    "last_opened_file_path": "/Users/joeyliao/LinkNote/LinkNoteSpring/src/test/resources",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.linknote.online.linknotespring.note.notedao" />
     </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/test/resources" />
+      <recent name="$PROJECT_DIR$/src/test" />
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/templates" />
       <recent name="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note" />
       <recent name="$PROJECT_DIR$/src/main/java/com/linknote/online/linknotespring/note/" />
     </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="com.linknote.online.linknotespring.user.userdao" />
+      <recent name="com.linknote.online.linknotespring.user.userservice" />
+      <recent name="com.linknote.online.linknotespring.note.noteService" />
+      <recent name="com.linknote.online.linknotespring.note.notecontroller" />
+      <recent name="com.linknote.online.linknotespring.note.notedao" />
+    </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.UserDAOImplTest.testGetUserInfo">
+    <configuration name="NotebookDaoImplTest.getNotes" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="LinkNoteSpring" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.linknote.online.linknotespring.note.notedao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.linknote.online.linknotespring.note.notedao" />
+      <option name="MAIN_CLASS_NAME" value="com.linknote.online.linknotespring.note.notedao.NotebookDaoImplTest" />
+      <option name="METHOD_NAME" value="getNotes" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TokenServiceImplMockTest.parserJWTToken" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="LinkNoteSpring" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.linknote.online.linknotespring.user.userservice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.linknote.online.linknotespring.user.userservice" />
+      <option name="MAIN_CLASS_NAME" value="com.linknote.online.linknotespring.user.userservice.TokenServiceImplMockTest" />
+      <option name="METHOD_NAME" value="parserJWTToken" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserDAOImplTest.testGetUserInfo" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="LinkNoteSpring" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.linknote.online.linknotespring.user.userdao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.linknote.online.linknotespring.user.userdao" />
+      <option name="MAIN_CLASS_NAME" value="com.linknote.online.linknotespring.user.userdao.UserDAOImplTest" />
+      <option name="METHOD_NAME" value="testGetUserInfo" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="LinkNoteSpringApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="LinkNoteSpring" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.linknote.online.linknotespring.LinkNoteSpringApplication" />
@@ -80,6 +162,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="JUnit.NotebookDaoImplTest.getNotes" />
+      <item itemvalue="JUnit.TokenServiceImplMockTest.parserJWTToken" />
+      <item itemvalue="JUnit.UserDAOImplTest.testGetUserInfo" />
+      <item itemvalue="Spring Boot.LinkNoteSpringApplication" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.UserDAOImplTest.testGetUserInfo" />
+        <item itemvalue="JUnit.TokenServiceImplMockTest.parserJWTToken" />
+        <item itemvalue="JUnit.NotebookDaoImplTest.getNotes" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -96,7 +191,7 @@
       <workItem from="1701663610328" duration="47068000" />
       <workItem from="1701824104169" duration="32229000" />
       <workItem from="1701914108648" duration="26837000" />
-      <workItem from="1701994520818" duration="26972000" />
+      <workItem from="1701994520818" duration="71381000" />
     </task>
     <servers />
   </component>
