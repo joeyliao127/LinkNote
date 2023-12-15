@@ -14,6 +14,7 @@ public interface UserDAO {
 
   //給建立notebook時，使用者會點選add來檢查是否有此email。
   UserInfoPO getUserInfo (String email);
+
   Integer getUserIdByEmail(String email);
 
   List<UserInfoPO> getByEmailAndPassword(
