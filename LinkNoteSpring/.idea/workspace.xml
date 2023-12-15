@@ -5,19 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="31befe92-750a-4d2c-ab08-ee48786e5281" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/linknote/online/linknotespring/user/userdao/UserDAOImplTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/linknote/online/linknotespring/user/userservice/TokenServiceImplMockTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/userSpace.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/userSpace.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/linknote/online/linknotespring/LinkNoteSpringApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/linknote/online/linknotespring/LinkNoteSpringApplicationTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/LinkNoteSpring-0.0.1-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/LinkNoteSpring-0.0.1-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/LinkNoteSpring-0.0.1-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/LinkNoteSpring-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.linknote.online.linknotespring.LinkNoteSpringApplicationTests.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.linknote.online.linknotespring.LinkNoteSpringApplicationTests.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.linknote.online.linknotespring.LinkNoteSpringApplicationTests.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.linknote.online.linknotespring.LinkNoteSpringApplicationTests.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/com/linknote/online/linknotespring/LinkNoteSpringApplicationTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/linknote/online/linknotespring/LinkNoteSpringApplicationTests.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -191,7 +179,7 @@
       <workItem from="1701663610328" duration="47068000" />
       <workItem from="1701824104169" duration="32229000" />
       <workItem from="1701914108648" duration="26837000" />
-      <workItem from="1701994520818" duration="71381000" />
+      <workItem from="1701994520818" duration="73997000" />
     </task>
     <servers />
   </component>
