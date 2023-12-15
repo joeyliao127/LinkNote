@@ -1,6 +1,6 @@
 # LinkNote
 
-網址：https://https://linknote.online
+網址：https://linknote.online
 
 ## 網站簡介
 
