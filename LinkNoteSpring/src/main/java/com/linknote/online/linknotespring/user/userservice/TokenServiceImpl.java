@@ -1,5 +1,6 @@
 package com.linknote.online.linknotespring.user.userservice;
 import com.linknote.online.linknotespring.user.userdao.UserDAO;
+import com.linknote.online.linknotespring.user.userdao.UserDAOImpl;
 import com.linknote.online.linknotespring.user.userexception.TokenExpirationException;
 import com.linknote.online.linknotespring.user.userexception.TokenInvalidException;
 import com.linknote.online.linknotespring.user.userexception.TokenParseException;

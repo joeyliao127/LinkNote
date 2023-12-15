@@ -1,6 +1,7 @@
 # LinkNote
 
 網址：https://linknote.online
+![LinkNote](https://github.com/joeyliao127/LinkNote/blob/dev/LinkNoteHomePage.jpg?raw=true)
 
 ## 網站簡介
 
