@@ -14,8 +14,8 @@ class UserDAOImplTest {
 
   @Test
   public void testGetUserInfo(){
-    UserInfoPO po1 = userDAO.getUserInfo("test4@test.com");
-    assertEquals("Test4", po1.getUsername());
+    UserInfoPO po1 = userDAO.getUserInfo("joey.liao@gmail.com");
+    assertEquals("Joey Liao", po1.getUsername());
   }
 
 }

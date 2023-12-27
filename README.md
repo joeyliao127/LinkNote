@@ -77,7 +77,7 @@
 
 ![ERD](https://github.com/joeyliao127/LinkNote/blob/19ed11e7981dcaf786f5cf9c6d7cc12fe1e6047c/LinkNoteERD.jpg?raw=true)
 
-- 資料庫設計：符合第二正規劃。
+- 資料庫設計：符合第三正規劃。
 
 - 權限管理：透過 collaborator 紀錄 notebooks 和 users 之間的關係，哪個使用者允許訪問哪些筆記都紀錄在 collaborator table。此表的角色也算是中介表，避免 notebooks table 出現重複的資料。
 
