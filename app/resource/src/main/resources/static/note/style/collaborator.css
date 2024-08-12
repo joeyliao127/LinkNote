@@ -1,0 +1,34 @@
+.collaboratorCtn {
+  width: 200px;
+  overflow: hidden;
+  background-color: #333;
+  border-radius: 5px;
+  border: 2px solid #666;
+  position: absolute;
+  top: 36px;
+  right: 40px;
+  z-index: 20;
+  p {
+    color: white;
+    padding: 3px 20px 3px 5px;
+    font-weight: 500;
+    font-size: 14px;
+  }
+}
+
+.owner .title {
+  font-weight: 700;
+  font-size: 16px;
+  color: #999;
+}
+
+.collaborators .title {
+  font-weight: 700;
+  font-size: 16px;
+  color: #999;
+}
+
+.collaboratorCtn .user {
+  position: relative;
+  left: 20px;
+}

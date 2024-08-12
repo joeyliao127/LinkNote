@@ -1,0 +1,95 @@
+.tagForm {
+  background-color: #393939;
+  border-radius: 5px;
+  border: 1px solid #999;
+  position: absolute;
+  top: 40px;
+  left: 175px;
+  padding: 5px 0;
+  z-index: 10;
+  width: 240px;
+}
+
+.tagForm h5 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ccc;
+  padding: 0px 5px 5px 8px;
+}
+
+.tag {
+  display: flex;
+  gap: 14px;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #999;
+  padding: 3px 12px;
+  user-select: none;
+  cursor: pointer;
+  &:hover {
+    background-color: #555;
+  }
+}
+
+.tag p {
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: 500;
+}
+.deleteTagBtn {
+  width: 65px;
+  flex-grow: 0;
+  padding: 5px;
+  border-radius: 5px;
+  transition: all ease-in-out 0.1s;
+  cursor: pointer;
+  border: 2px solid transparent;
+  &:hover {
+    background-color: #444;
+    border: 2px solid #333;
+    p {
+      color: red;
+    }
+  }
+  p {
+    color: #999;
+    font-weight: 700;
+  }
+}
+
+.createTagForm {
+  display: flex;
+  border-top: 1px solid #999;
+  padding: 10px 8px 5px 8px;
+  gap: 10px;
+}
+
+.createTagForm p {
+  color: #ccc;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.createTagForm input {
+  background-color: transparent;
+  border: 1px solid #999;
+  border-radius: 3px;
+  font-size: 12px;
+  padding: 5px 10px;
+  &::placeholder {
+    font-size: 13px;
+    color: #999;
+  }
+}
+
+#createTagBtn {
+  font-size: 12x;
+  background-color: green;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: all ease-in-out 0.1s;
+  &:hover {
+    opacity: 0.8;
+  }
+}

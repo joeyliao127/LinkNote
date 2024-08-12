@@ -1,0 +1,115 @@
+.createNotebookWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  height: 90%;
+  width: 700px;
+  border: 1px solid #5d5b62;
+  border-radius: 10px;
+  background-color: rgba(33, 33, 33, 0.8);
+  padding: 40px 80px;
+  margin: 40px auto;
+  h3 {
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+  }
+}
+
+.createNotebookForm {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+
+.createNotebookForm label {
+  display: block;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+}
+.createNotebookForm input {
+  display: block;
+  height: 35px;
+  border: 1px solid #5d5b62;
+  border-radius: 5px;
+  padding: 5px 15px;
+  color: white;
+  background-color: transparent;
+  &::placeholder {
+    color: #bab7b7;
+    font-weight: 500;
+  }
+}
+
+.tagInput {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  button {
+    background-color: #1e5f1e;
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 3px;
+    border: none;
+    cursor: pointer;
+    padding: 0px 10px;
+    flex-grow: 0;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+  input {
+    flex-grow: 1;
+  }
+}
+
+.tags {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.tags p {
+  background-color: #1e5f1e;
+  color: white;
+  padding: 8px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.createNotebookBtns {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  div {
+    padding: 10px 15px;
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 5px;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+  #submit {
+    background-color: #1e5f1e;
+  }
+  #cancel {
+    background-color: #5d5b62;
+  }
+}

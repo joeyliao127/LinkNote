@@ -1,0 +1,91 @@
+version: '3.1'
+
+services:
+  nginx:
+    container_name: nginx
+    build:
+      context: ./Nginx
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    networks:
+      linknote:
+        ipv4_address: 172.20.0.2
+  db:
+    container_name: mysql
+    build:
+      context: ./MySQL
+      dockerfile: Dockerfile
+    ports:
+      - ${DB_PORT}:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      DB_USER: ${DB_USER}
+    depends_on:
+      - nginx
+    networks:
+      linknote:
+        ipv4_address: 172.20.0.3
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD}"]
+
+  authentication:
+    container_name: authentication
+    build:
+      context: ./app/authentication
+      dockerfile: Dockerfile
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - DB_PORT=${DB_PORT}
+    ports:
+      - 8080:8080
+    depends_on:
+      db:
+        condition: service_healthy
+
+    networks:
+      linknote:
+        ipv4_address: 172.20.0.4
+
+  resource:
+    container_name: resource
+    build:
+      context: ./app/resource
+      dockerfile: Dockerfile
+    ports:
+      - 8081:8081
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - DB_PORT=${DB_PORT}
+      - AUTHENTICATION_HOST=${AUTHENTICATION_HOST}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      linknote:
+        ipv4_address: 172.20.0.5
+
+volumes:
+  mysql_data:
+
+networks:
+  linknote:
+    driver: bridge
+    ipam:
+        driver: default
+        config:
+          - subnet: 172.20.0.0/16
+
+
+
+
+

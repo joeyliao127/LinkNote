@@ -1,0 +1,63 @@
+.userProfileWrapper {
+  width: 80%;
+  height: 90%;
+  max-width: 800px;
+  margin: auto;
+  margin-top: 50px;
+  border-radius: 10px;
+  border: 1px solid #666;
+  background-color: rgba(44, 44, 44, 0.7);
+  padding: 20px 80px;
+  position: relative;
+}
+.userProfileWrapper h4 {
+  text-align: center;
+  font-weight: 700;
+  font-size: 22px;
+}
+
+.title {
+  font-weight: 500;
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+}
+#email {
+  font-size: 17px;
+  position: relative;
+  left: 20px;
+  bottom: 5px;
+}
+.userProfile {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.userProfileForm {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.userProfileForm input {
+  background-color: transparent;
+  border: 1px solid #666;
+  border-radius: 3px;
+  padding: 5px 15px;
+}
+
+#userProfileBtn {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  background-color: green;
+  border: none;
+  border-radius: 5px;
+  width: 80px;
+  padding: 5px;
+  cursor: pointer;
+  transition: all ease-in-out 0.1s;
+  &:hover {
+    opacity: 0.8;
+  }
+}

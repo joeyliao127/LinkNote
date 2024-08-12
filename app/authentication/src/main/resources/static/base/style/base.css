@@ -1,0 +1,38 @@
+@import url(/base/style/reset.css);
+* {
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.font {
+  font-family: kanit;
+}
+
+.flex {
+  display: flex;
+}
+
+.display-none {
+  display: none;
+}
+
+.selected {
+  background-color: #999999;
+}
+
+.btn {
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+.btn:hover {
+  opacity: 0.8;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-text-fill-color: white !important;
+  -webkit-transition: background-color 5000s ease-in-out 0s;
+  transition: background-color 5000s ease-in-out 0s;
+}

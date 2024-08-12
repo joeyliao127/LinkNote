@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/base/style/base.css" />
+    <link rel="stylesheet" href="/notebook/style/style.css" />
+    <link rel="icon" href="/icons/nodes-colorful.png" />
+    <title>notebook</title>
+  </head>
+  <body>
+    <div class="wrapper flex">
+      <section class="sideBar">
+        <h1 class="display-none">Linknote</h1>
+        <div class="sideBar-welcome">
+          <div class="welcome-username">
+            <img src="/icons/person-black.png" alt="person-black" />
+            <p class="no-select">Hi <span id="username"></span></p>
+          </div>
+          <h2 class="no-select">Welcome to LinkNote!</h2>
+        </div>
+        <button id="createNotebookBtn" class="no-select">+ New Notebook</button>
+
+        <div class="sideBarBtnArea">
+          <div class="sideBarMyNotebookArea">
+            <div class="sideBarBtn no-select notebookGroup">
+              <div class="myNotebookBtn">
+                <img src="/icons/person-white.png" alt="person-white" />
+                <p>My Notebooks</p>
+              </div>
+
+              <!-- <div id="myNotebookExtendBtn" class="extendBtn"></div> -->
+            </div>
+            <div
+              class="notebooksCtn scroll"
+              id="sideBar-myNotebookBtnCtn"
+            ></div>
+          </div>
+
+          <div class="sideBarCoNotebookArea">
+            <div class="sideBarBtn no-select notebookGroup">
+              <div class="coNotebookBtn">
+                <img src="/icons/collaborators.png" alt="person-white" />
+                <p>Collaborative Notebooks</p>
+              </div>
+              <!-- <div id="coNotebookExtendBtn" class="extendBtn"></div> -->
+            </div>
+            <div class="notebooksCtn scroll" id="sideBar-coNotebookBtnCtn">
+              <!-- <div class="loader sideBarLoader"></div> -->
+            </div>
+          </div>
+
+          <div class="sideBarBtn no-select invitationsBtn">
+            <img
+              src="/icons/notebook.png"
+              alt="Collaborative Notebooks 
+              Management"
+            />
+            <p>Invitations Management</p>
+          </div>
+
+          <div class="sideBarBtn no-select settingBtn">
+            <img src="/icons/setting.png" alt="setting" />
+            <p>Setting</p>
+          </div>
+        </div>
+
+        <div class="sideBarBottom">
+          <div class="userEmail sideBarBottomBlock no-select">
+            <p id="userEmail"></p>
+          </div>
+          <div class="signoutBtn sideBarBottomBlock no-select">
+            <p>SignOut</p>
+          </div>
+        </div>
+      </section>
+      <main>
+        <div class="mainWrapper"></div>
+      </main>
+    </div>
+
+    <script src="/base/js/Authentication.js"></script>
+    <script src="/base/js/FetchData.js"></script>
+    <script src="/base/js/Validator.js"></script>
+    <script src="/base/js/DeleteAlert.js"></script>
+    <script src="/notebook/js/ReRenderElement.js"></script>
+    <script src="/notebook/js/createNotebook.js"></script>
+    <script src="/notebook/js/NotebookRender.js"></script>
+    <script src="/notebook/js/sideBar.js"></script>
+    <script src="/base/js/Message.js"></script>
+  </body>
+</html>
