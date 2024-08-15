@@ -90,6 +90,8 @@
   </dependencies>
 
   <build>
+    <finalName>LinkNoteAuthentication-0.0.1-SNAPSHOT</finalName>
+    <directory>${project.basedir}/docker_volume</directory>
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>

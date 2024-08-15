@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/icons/nodes-colorful.png" />
+    <link rel="stylesheet" href="/note/style/note-base.css" />
+    <link rel="stylesheet" href="/note/style/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/themes/prism.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://uicdn.toast.com/editor-plugin-code-syntax-highlight/latest/toastui-editor-plugin-code-syntax-highlight.min.css"
+    />
+    <title>Note</title>
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <div class="topBarLeft">
+          <div id="hamburger">
+            <img src="/icons/hamburger.png" alt="hamburger" />
+          </div>
+        </div>
+
+        <div class="topBarMid">
+          <p class="noteName" contenteditable="true"></p>
+        </div>
+        <div class="topBarRigth">
+          <div class="noteTagBtn">
+            <img src="/icons/tag-yellow.png" alt="tag" />
+            <p>Add tag</p>
+          </div>
+          <div class="tagForm display-none">
+            <h5>Add tags to this note</h5>
+            <div class="tagCtn">
+              <div class="noTag">
+                <p>None</p>
+              </div>
+            </div>
+          </div>
+          <div class="collaboratorBtn">
+            <img src="/icons/collaborators.png" alt="collaborators" />
+          </div>
+          <div class="collaboratorCtn display-none">
+            <div class="owner">
+              <p class="title">Owner</p>
+              <p class="user"></p>
+            </div>
+            <div class="collaborators">
+              <p class="title">Collaborators</p>
+            </div>
+          </div>
+
+          <div class="deleteNoteBtn">
+            <img src="/icons/trash-white.png" alt="trash" />
+          </div>
+        </div>
+      </header>
+      <div class="sideBarWrapper">
+        <section class="sideBar">
+          <a id="linkNoteBtn" href="/notebooks">LinkNote</a>
+          <div id="hiddenSideBarBtn">
+            <img src="/icons/hamburger.png" alt="hamburger" />
+          </div>
+          <div class="searchNote">
+            <input type="text" placeholder="Search note" />
+            <img src="/icons/search.png" alt="search" />
+          </div>
+          <div class="noteCtn">
+            <div class="noteCtnTop">
+              <h3 class="notebookName"></h3>
+              <div class="sideBarBtnArea">
+                <div class="createNoteBtn">
+                  <p>New</p>
+                </div>
+                <div class="filter">
+                  <img src="/icons/filter.png" alt="filter" />
+                  <p>Filter</p>
+                </div>
+                <div class="filterCtn display-none">
+                  <div class="allNoteBtn filterBtn">
+                    <img src="/icons/notes.png" alt="notes" />
+                    <p>All notes</p>
+                    <img
+                      class="filterCheck display-none"
+                      src="/icons/check.png"
+                      alt="check"
+                    />
+                  </div>
+                  <div class="starBtn filterBtn">
+                    <img src="/icons/full-star.png" alt="notes" />
+                    <p>Star</p>
+                    <img
+                      class="filterCheck display-none"
+                      src="/icons/check.png"
+                      alt="check"
+                    />
+                  </div>
+                  <div class="sortBtn filterBtn">
+                    <img src="/icons/clock.png" alt="notes" />
+                    <p>Sort By Time</p>
+                    <img
+                      class="filterCheck display-none"
+                      src="/icons/check.png"
+                      alt="check"
+                    />
+                  </div>
+                </div>
+                <div class="notebookTagBtn">
+                  <img src="/icons/tag-yellow.png" alt="tag" />
+                </div>
+                <div class="notebookTagCtn display-none">
+                  <p class="title">Tags</p>
+                  <div class="tagArea"></div>
+                  <div class="createTagForm">
+                    <input
+                      type="text"
+                      id="newTag"
+                      placeholder="Craete new tag"
+                    />
+                    <div id="createTagBtn">
+                      <p>Create</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="noteArea"></div>
+          </div>
+          <div class="sideBarBottom">
+            <div class="userEmail">
+              <p></p>
+            </div>
+            <div class="signoutBtn">
+              <img src="/icons/signout.png" alt="signout" />
+              <p>SignOut</p>
+            </div>
+          </div>
+        </section>
+      </div>
+      <main></main>
+    </div>
+
+    <script src="/tuiEditor/js/toastui-editor-all.min.js"></script>
+
+    <script src="https://uicdn.toast.com/editor-plugin-code-syntax-highlight/latest/toastui-editor-plugin-code-syntax-highlight-all.min.js"></script>
+    <script src="/base/js/FetchData.js"></script>
+    <script src="/base/js/Message.js"></script>
+    <script src="/base/js/DeleteAlert.js"></script>
+    <script src="/note/js/NoteMain.js"></script>
+  </body>
+</html>

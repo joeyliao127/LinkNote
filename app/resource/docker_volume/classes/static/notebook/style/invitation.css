@@ -1,0 +1,68 @@
+.invitationWrapper {
+  padding: 30px;
+  h4 {
+    font-weight: 700;
+    font-size: 20px;
+  }
+}
+.invitationTable {
+  overflow-x: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.invitationTable table {
+  width: 100%;
+  overflow-x: scroll;
+  margin: 15px auto;
+  padding-top: 5px;
+  border: 1px solid #666;
+  border-radius: 5px;
+  background-color: rgba(31, 31, 31, 0.8);
+}
+
+.invitationTable table td {
+  text-align: center;
+  padding: 5px 0;
+  font-size: 15px;
+  border-top: 1px solid #666;
+}
+.invitationTable table th {
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  padding: 5px;
+}
+
+.invitationTable table tr {
+  border-top: 1px solid #999;
+}
+.invitationTable table button {
+  border-radius: 3px;
+  border: none;
+  padding: 5px 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.acceptInvitation {
+  background-color: green;
+}
+.denyInvitation {
+  background-color: red;
+}
+
+.invitationTable table .deleteInvitation {
+  background-color: #222;
+  color: rgb(194, 8, 8);
+  border: 2px solid rgb(194, 8, 8);
+  &:hover {
+    background-color: red;
+    color: white;
+  }
+}

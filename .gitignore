@@ -1,2 +1,5 @@
 .idea
 .env
+ssl
+dist
+.git_commit_message_template.txt

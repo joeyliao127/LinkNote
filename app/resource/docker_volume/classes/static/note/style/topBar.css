@@ -1,0 +1,112 @@
+header {
+  position: relative;
+  background-color: #333;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  padding: 5px 15px 5px 10px;
+  height: 45px;
+}
+
+#hamburger {
+  padding: 5px;
+  cursor: pointer;
+}
+#hamburger img {
+  width: 20px;
+  height: 20px;
+}
+
+.topBarMid {
+  position: absolute;
+  width: 50%;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin: auto;
+}
+.topBarMid .noteName {
+  max-width: 50%;
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  padding: 0px 10px;
+  &:hover {
+    border-radius: 5px;
+    border: 1px solid #999;
+  }
+}
+
+.editNoteName {
+  border-radius: 5px;
+  border: 1px solid #999;
+}
+
+.topBarRigth {
+  position: relative;
+  display: flex;
+}
+
+.noteTagBtn {
+  display: flex;
+  padding: 5px 8px;
+  border: 2px solid #666;
+  margin-right: 15px;
+  align-items: center;
+  gap: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all ease-in-out 0.1s;
+  &:hover {
+    background-color: #666;
+    border: 2px solid #999;
+  }
+  p {
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.collaboratorBtn {
+  padding: 5px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  margin-right: 5px;
+  &:hover {
+    border: 2px solid #666;
+  }
+  img {
+    position: relative;
+    bottom: 2px;
+    display: block;
+    margin: auto;
+  }
+}
+
+.deleteNoteBtn {
+  border-radius: 5px;
+  padding: 5px;
+  position: relative;
+  bottom: 1px;
+  cursor: pointer;
+  border: 2px solid #333;
+  &:hover {
+    border: 2px solid #666;
+    background-color: red;
+  }
+  img {
+    width: 24px;
+    height: 24px;
+  }
+}

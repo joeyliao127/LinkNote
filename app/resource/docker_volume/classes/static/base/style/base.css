@@ -1,0 +1,83 @@
+@import url(/base/style/reset.css);
+@import url(/base/style/message.css);
+@import url(/base/style/deleteAlert.css);
+* {
+  text-decoration: none;
+  box-sizing: border-box;
+  color: white;
+  line-height: 1.5;
+}
+
+.scroll {
+  &::-webkit-scrollbar {
+    background-color: transparent;
+    width: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+  }
+  &:hover::-webkit-scrollbar-thumb {
+    background-color: #999;
+  }
+}
+
+.divide {
+  height: 2px;
+  background-color: #aaa;
+}
+.font {
+  font-family: kanit;
+}
+
+.flex {
+  display: flex;
+}
+
+.display-none {
+  display: none;
+}
+
+.selected {
+  background-color: #999999;
+}
+.selected666 {
+  background-color: #666;
+}
+
+.btn {
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+.btn:hover {
+  opacity: 0.8;
+}
+
+/* 禁止使用者選取文字 */
+.no-select {
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  user-select: none; /* 標準語法 */
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-text-fill-color: white !important;
+  -webkit-transition: background-color 5000s ease-in-out 0s;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 30px;
+  height: 5px;
+  -webkit-mask: linear-gradient(90deg, #000 70%, #0000 0) left/20% 100%;
+  background: linear-gradient(#000 0 0) left -25% top 0 /20% 100% no-repeat #ddd;
+  animation: l7 1s infinite steps(6);
+}
+@keyframes l7 {
+  100% {
+    background-position: right -25% top 0;
+  }
+}

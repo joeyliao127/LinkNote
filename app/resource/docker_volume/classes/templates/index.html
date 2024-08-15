@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400&family=Open+Sans:ital,wght@0,300;1,400&family=Titillium+Web:ital,wght@1,200&family=Ubuntu:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <!-- /google font/ -->
+    <link rel="icon" href="/icons/nodes-colorful.png" />
+    <!-- /shared resuroce/ -->
+
+    <link rel="stylesheet" href="/index/style/style.css" />
+    <title>Link Note</title>
+  </head>
+  <body>
+    <h1 class="display-none">LinkNote</h1>
+    <div class="kv-wrapper flex">
+      <main class="flex">
+        <section class="slogan-ctn">
+          <h2>Collaborate with partners</h2>
+          <div class="subtitle">
+            <p>Build your second brain</p>
+            <p id="slogan-nextLine">
+              with <span id="slogan-CODE">CODE</span> Method.
+            </p>
+          </div>
+
+          <div class="CODE flex">
+            <!-- <p>What is the CODE?</p> -->
+            <p><span class="initials">C</span>apture</p>
+            <p><span class="initials">O</span>rganization</p>
+            <p><span class="initials">D</span>istill</p>
+            <p><span class="initials">E</span>xpress</p>
+          </div>
+        </section>
+        <section class="signInUp-area flex">
+          <div class="signin-ctn blurry-background">
+            <div class="form-ctn flex">
+              <p id="login-text">SignIn</p>
+              <div class="email flex input-box">
+                <input type="email" id="signin-email" value="test@test.com" />
+                <div class="icon">
+                  <img src="/icons/email.png" alt="email" />
+                </div>
+              </div>
+              <div class="password flex input-box">
+                <input
+                  type="password"
+                  name="password"
+                  id="signin-password"
+                  value="abc123"
+                />
+                <div class="icon">
+                  <img src="/icons/password.png" alt="password" />
+                </div>
+              </div>
+              <p id="signin-error-msg"></p>
+              <button>SignIn</button>
+
+              <div class="switch-form">
+                <p>
+                  Don't have an account? Click<span id="toSignup">
+                    Register</span
+                  >
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="signup-ctn blurry-background display-none">
+            <div class="form-ctn flex">
+              <p id="login-text">SignUp</p>
+              <div class="username flex input-box">
+                <input
+                  type="text"
+                  name="username"
+                  id="username"
+                  placeholder="username"
+                />
+                <div class="icon">
+                  <img src="/icons/person-black.png" alt="email" />
+                </div>
+              </div>
+              <div class="email flex input-box">
+                <input
+                  type="email"
+                  name="email"
+                  id="signup-email"
+                  placeholder="Email"
+                />
+                <div class="icon">
+                  <img src="/icons/email.png" alt="email" />
+                </div>
+              </div>
+
+              <div class="password flex input-box">
+                <input
+                  type="password"
+                  name="password"
+                  id="signup-password"
+                  placeholder="Password"
+                />
+                <div class="icon">
+                  <img src="/icons/password.png" alt="password" />
+                </div>
+              </div>
+              <div class="password flex input-box">
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  id="confirmPassword"
+                  placeholder="Confirm Your Password"
+                />
+                <div class="icon">
+                  <img src="/icons/password.png" alt="password" />
+                </div>
+              </div>
+              <p id="signup-error-msg"></p>
+              <button>SignUp</button>
+
+              <div class="switch-form">
+                <p>Back to <span id="toSignin">Sigin</span></p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="/base/js/FetchData.js"></script>
+    <script src="/base/js/Authentication.js"></script>
+    <script src="/index/js/index.js"></script>
+  </body>
+</html>

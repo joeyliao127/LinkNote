@@ -1,27 +1,28 @@
-version: '3.1'
+version: '3'
 
 services:
   nginx:
     container_name: nginx
-    build:
-      context: ./Nginx
-      dockerfile: Dockerfile
+    image: nginx:1.25.4
     ports:
       - 80:80
+    volumes:
+      - ./Nginx/ssl:/etc/nginx/ssl
+      - ./Nginx/config:/etc/nginx/conf.d/
     networks:
       linknote:
         ipv4_address: 172.20.0.2
   db:
     container_name: mysql
-    build:
-      context: ./MySQL
-      dockerfile: Dockerfile
+    image: mysql:8.0.35
     ports:
       - ${DB_PORT}:3306
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
       DB_USER: ${DB_USER}
+    volumes:
+      - ./Mysql/data:/data
     depends_on:
       - nginx
     networks:
@@ -42,6 +43,8 @@ services:
       - DB_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - JWT_SECRET_KEY=${JWT_SECRET_KEY}
       - DB_PORT=${DB_PORT}
+    volumes:
+      - ./app/authentication/docker_volume:/docker_volume
     ports:
       - 8080:8080
     depends_on:
@@ -67,6 +70,8 @@ services:
       - JWT_SECRET_KEY=${JWT_SECRET_KEY}
       - DB_PORT=${DB_PORT}
       - AUTHENTICATION_HOST=${AUTHENTICATION_HOST}
+    volumes:
+      - ./app/resource/docker_volume:/docker_volume
     depends_on:
       db:
         condition: service_healthy

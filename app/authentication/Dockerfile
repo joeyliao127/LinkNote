@@ -1,9 +1,6 @@
 FROM openjdk:17-jdk-slim
 
-WORKDIR /app
-
-COPY ./target/LinkNoteAuthentication-0.0.1-SNAPSHOT.jar .
-COPY application.properties .
+WORKDIR /docker_volume
 
 #ENV DB_HOST=${DB_HOST}
 #ENV DB_PORT=${DB_PORT}
@@ -13,7 +10,7 @@ COPY application.properties .
 #ENV JWT_SECRET_KEY=${JWT_SECRET_KEY}
 
 
-CMD [ "nohup", "java", "-jar", "/app/LinkNoteAuthentication-0.0.1-SNAPSHOT.jar", "&" ]
-
+CMD [ "nohup", "java", "-jar", "/docker_volume/LinkNoteAuthentication-0.0.1-SNAPSHOT.jar", "&" ]
+#CMD ["sleep", "3000"]
 EXPOSE 8080
 

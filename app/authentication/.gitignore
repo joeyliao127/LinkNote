@@ -1,3 +1,6 @@
 .idea
 target
 *.jar
+docker_volume
+.mvn
+HELP.md
