@@ -1,14 +1,7 @@
 FROM  openjdk:17-jdk-slim
 
 WORKDIR /docker_volume
-#ENV DB_HOST=${DB_HOST}
-#ENV DB_PORT=${DB_PORT}
-#ENV DB_USER=${DB_USER}
-#ENV MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-#ENV DB_NAME=${DB_NAME}
-#ENV JWT_SECRET_KEY=${JWT_SECRET_KEY}
-#ENV AUTHENTICATION_HOST=${AUTHENTICATION_HOST}
 
-CMD [ "nohup", "java", "-jar", "/docker_volume/LinkNoteResource-0.0.1-SNAPSHOT.jar", "&" ]
+#CMD [ "nohup", "java", "-jar", "/docker_volume/LinkNoteResource-0.0.1-SNAPSHOT.jar", "&" ]
 #CMD ["sleep", "3000"]
 EXPOSE 8081

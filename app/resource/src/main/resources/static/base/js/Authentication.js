@@ -6,7 +6,6 @@ class AuthenticationHandler {
       this.verifyUserToken();
     } else {
       window.location.href = "/";
-      console.log(`沒有token`);
     }
   }
 

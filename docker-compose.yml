@@ -3,7 +3,9 @@ version: '3'
 services:
   nginx:
     container_name: nginx
-    image: nginx:1.25.4
+    build:
+      context: ./Nginx
+      dockerfile: Dockerfile
     ports:
       - 80:80
     volumes:
@@ -14,7 +16,9 @@ services:
         ipv4_address: 172.20.0.2
   db:
     container_name: mysql
-    image: mysql:8.0.35
+    build:
+      context: ./MySQL
+      dockerfile: Dockerfile
     ports:
       - ${DB_PORT}:3306
     environment:
@@ -22,7 +26,8 @@ services:
       MYSQL_DATABASE: ${DB_NAME}
       DB_USER: ${DB_USER}
     volumes:
-      - ./Mysql/data:/data
+      #在服務完全起後後會自動執行docker-entrypoint-initdb.d底下的sql
+      - ./Mysql/data:/docker-entrypoint-initdb.d
     depends_on:
       - nginx
     networks:
@@ -45,8 +50,9 @@ services:
       - DB_PORT=${DB_PORT}
     volumes:
       - ./app/authentication/docker_volume:/docker_volume
-    ports:
-      - 8080:8080
+    command: ["java", "-jar", "LinkNoteAuthentication-0.0.1-SNAPSHOT.jar"]
+    #    ports:
+#      - 8080:8080
     depends_on:
       db:
         condition: service_healthy
@@ -60,8 +66,9 @@ services:
     build:
       context: ./app/resource
       dockerfile: Dockerfile
-    ports:
-      - 8081:8081
+#    ports:
+#      - 8081:8081
+    command: ["java", "-jar", "LinkNoteResource-0.0.1-SNAPSHOT.jar"]
     environment:
       - DB_HOST=${DB_HOST}
       - DB_NAME=${DB_NAME}

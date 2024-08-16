@@ -2,8 +2,9 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    notebookPage: './src/main/resources/static/js/entry/notebookEntry.js',
-    notePage: './src/main/resources/static/js/entry/noteEntry.js'
+    index: './src/main/resources/static/js/entry/indexEntry.js',
+    notebook: './src/main/resources/static/js/entry/notebookEntry.js',
+    note: './src/main/resources/static/js/entry/noteEntry.js'
   },
   output: {
     filename: '[name].bundle.js',

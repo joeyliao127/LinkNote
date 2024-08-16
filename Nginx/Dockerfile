@@ -1,11 +1,6 @@
-#FROM nginx:1.25.4
-#
-#RUN apt update && mkdir /etc/nginx/temp_ssl
-#
-#WORKDIR /etc/nginx/conf.d
-#COPY linknote.conf .
-#
-#RUN rm default.conf
-#
-#EXPOSE 80
+FROM nginx:1.25.4
+
+RUN apt update && apt install -y iputils-ping
+
+EXPOSE 80
 
