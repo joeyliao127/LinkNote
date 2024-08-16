@@ -51,8 +51,9 @@ services:
     volumes:
       - ./app/authentication/docker_volume:/docker_volume
     command: ["java", "-jar", "LinkNoteAuthentication-0.0.1-SNAPSHOT.jar"]
-    #    ports:
-#      - 8080:8080
+    #對外開放的port為開發使用，正式環境時不會用到
+    ports:
+      - 8080:8080
     depends_on:
       db:
         condition: service_healthy
@@ -66,8 +67,9 @@ services:
     build:
       context: ./app/resource
       dockerfile: Dockerfile
-#    ports:
-#      - 8081:8081
+    #對外開放的port為開發使用，正式環境時不會用到
+    ports:
+      - 8081:8081
     command: ["java", "-jar", "LinkNoteResource-0.0.1-SNAPSHOT.jar"]
     environment:
       - DB_HOST=${DB_HOST}

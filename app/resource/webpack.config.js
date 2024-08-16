@@ -13,7 +13,10 @@ module.exports = {
   },
   resolve: {
     alias: {
-      '@components': path.resolve(__dirname, 'src/main/resources/static/js/component')
+      '@indexJS': path.resolve(__dirname, 'src/main/resources/static/js/index'),
+      '@notebookJS': path.resolve(__dirname, 'src/main/resources/static/js/notebook'),
+      '@noteJS': path.resolve(__dirname, 'src/main/resources/static/js/note'),
+      '@unityJS': path.resolve(__dirname, 'src/main/resources/static/js/unity'),
     }
   },
   mode: 'development',
