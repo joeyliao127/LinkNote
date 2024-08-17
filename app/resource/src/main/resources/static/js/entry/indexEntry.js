@@ -1,4 +1,3 @@
-import {SignInHandler} from "@indexJS/SiginHandler";
 import {Index} from "@indexJS";
 const $ = require( "jquery" );
 

@@ -67,11 +67,9 @@ function register() {
     } else if (response.status == 400) {
       document.querySelector("#signup-error-msg").textContent =
         "Email already exist.";
-      console.log(`Error msg: ${data.message}`);
     } else {
       document.querySelector("#signup-error-msg").textContent =
         "Email already exist.";
-      console.log(`Error msg: ${data.message}`);
     }
   }
 }
