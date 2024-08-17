@@ -22,6 +22,7 @@ export class Index {
     this.redirectToNotebooksIfTokenValid();
     this.switchSignInAndRegisterForm();
     this.listenSubmitRegisterEvent();
+    this.signInEventListener();
   }
 
   redirectToNotebooksIfTokenValid() {
@@ -54,7 +55,8 @@ export class Index {
       const username = $("#username").val();
       const password = $("#signup-password").val();
       const confirmPassword = $("#confirmPassword").val();
-      const validResult = this.validParams(username, email, password, confirmPassword);
+      const validResult = this.validParams(username, email, password,
+          confirmPassword);
 
       if (!validResult.result) {
         this.displayErrorMsg($("#signup-error-msg"), validResult.message);
@@ -83,7 +85,7 @@ export class Index {
 
   validParams(username, email, password, confirmPassword) {
 
-    if(!username) {
+    if (!username) {
       return {
         result: false,
         message: "Please enter your username."
@@ -97,7 +99,7 @@ export class Index {
       };
     }
 
-    if(password === "") {
+    if (password === "") {
       return {
         result: false,
         message: "Please enter your password."
@@ -120,7 +122,75 @@ export class Index {
     const domain = "http://127.0.01:8080";
     const path = domain + "/api/user/register";
     const requestBody = {username, email, password};
-    return await this.requestHandler.sendRequestWithToken(path, "POST", requestBody);
+    return await this.requestHandler.sendRequestWithToken(path, "POST",
+        requestBody);
+  }
+
+  signInEventListener() {
+    $(".signin-ctn button").on("click", this.signInEventCallback);
+
+    $("#signin-email").on("keypress", (e) => {
+      if (e.key === "Enter") {
+        this.signInEventCallback();
+      }
+    });
+
+    $("#signin-password").on("keypress", (e) => {
+      if (e.key === "Enter") {
+        this.signInEventCallback();
+      }
+    });
+  }
+
+  signInEventCallback = async () => {
+    const email = $("#signin-email").val();
+    const password = $("#signin-password").val();
+    const verifyRequestParamsResult = this.verifyRequestParams(email, password);
+
+    if (!verifyRequestParamsResult.result) {
+      this.displayErrorMsg($("#signin-error-msg"),
+          verifyRequestParamsResult.message);
+      return;
+    }
+
+    const requestBody = {email, password};
+
+    //TODO 開發用的url，正式機要移除 domain ;
+    const domain = "http://127.0.0.1:8080";
+    const path = domain + "/api/auth/user/signin";
+
+    const response = await this.requestHandler.sendRequestWithToken(path,
+        "POST", requestBody);
+    const data = await response.json();
+
+    if (data.result) {
+      localStorage.setItem("token", data.token);
+      window.location.href = "/notebooks";
+    } else {
+      this.displayErrorMsg($("#signin-error-msg"), "Email or password incorrect. ");
+    }
+  }
+
+
+  verifyRequestParams(email, password) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return {
+        result: false,
+        message: "Please enter the correct format for your email."
+      }
+    }
+
+    if (!password) {
+      return {
+        result: false,
+        message: "Password can not be null"
+      }
+    }
+
+    return {
+      result: true
+    };
   }
 
   displayErrorMsg(msgElement, message) {
