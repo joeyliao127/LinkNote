@@ -2,7 +2,7 @@ class SideBarRender {
   constructor() {
     this.#notebookRender.renderMyNotebooks();
     this.genNotebookBtns("myNotebooks");
-    this.setUsernameAndEmail();
+    this.setUsernameAndEmail(); //doing...
     this.genCreateNotebookBtnListner();
     this.myNotebookBtnListner();
     this.coNotebookBtnListner();
