@@ -18,7 +18,7 @@
           </div>
           <h2 class="no-select">Welcome to LinkNote!</h2>
         </div>
-        <button id="createNotebookBtn" class="no-select">+ New Notebook</button>
+        <button id="createNotebookBtn" class="no-select js_create_notebook_btn">+ New Notebook</button>
 
         <div class="sideBarBtnArea">
 <!--          mynotebook 按鈕-->
@@ -78,6 +78,41 @@
       <main>
         <div class="mainWrapper">
 
+<!--          新增notebook表單-->
+          <section class="createNotebookWrapper js_create_notebook_wrapper display-none">
+            <h3>Create Notebook</h3>
+            <div class="createNotebookForm">
+              <div class="inputs">
+                <label for="notebookName">Notebook Name</label>
+                <input
+                    type="text"
+                    name="notebookName"
+                    id="notebookName"
+                    class="js_new_notebook_name_input"
+                    placeholder="Name"
+                />
+                <label for="description">Description (Optional)</label>
+                <input
+                    type="text"
+                    name="description"
+                    id="description"
+                    class="js_new_notebook_description_input"
+                    placeholder="What is the purpose of the notebook?"
+                />
+                <label for="tag">Tags</label>
+                <div class="tagInput">
+                  <input type="text" name="tag" id="tag" class="js_new_tag_input" placeholder="Tag Name" />
+                  <button id="addTag" class="js_add_tag_btn">Add</button>
+                </div>
+                <div class="tags"></div>
+              </div>
+
+              <div class="flex createNotebookBtns">
+                <div id="cancel" class="no-select">Cancel</div>
+                <div id="submit" class="js_create_notebook_submit_btn no-select">Submit</div>
+              </div>
+            </div>
+          </section>
 <!--          更新使用者資訊表單-->
           <section class="userProfileWrapper js_user_profile_wrapper display-none">
             <h4>Member Profile</h4>

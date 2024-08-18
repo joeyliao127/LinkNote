@@ -39,12 +39,31 @@ export class SideBarRender {
   }
 
   buttonClickEventRegister() {
-    $(".settingBtn").on("click", () => this.displaySettingForm(localStorage.getItem("lastMainComponent")));
+    $(".js_create_notebook_btn").on('click', this.displayCreateNotebookForm);
+    $(".settingBtn").on("click", this.displaySettingForm);
+    $(".signoutBtn").on("click", this.signOutBtnListener);
+
   }
 
-  displaySettingForm = (lastMainComponent) => {
-    if(lastMainComponent !== this.mainComponents.setting) {
-      this.notebookMainRender.displayMainComponent(this.mainComponents.setting);
+  displayCreateNotebookForm = () => {
+    if(!this.isCurrentMainComponent(this.mainComponents.createNotebook)) {
+      this.notebookMainRender.displayMainComponent(this.mainComponents.createNotebook);
     }
   }
+  displaySettingForm = () => {
+    if(!this.isCurrentMainComponent(this.mainComponents.setting)) {
+      this.notebookMainRender.displayMainComponent(this.mainComponents.setting);
+      localStorage.setItem("lastMainComponent", this.mainComponents.setting);
+    }
+  }
+
+  isCurrentMainComponent(displayComponentName) {
+    return displayComponentName === localStorage.getItem("lastMainComponent");
+  }
+
+  signOutBtnListener = () => {
+    localStorage.clear();
+    window.location.href = "/";
+  }
+
 }

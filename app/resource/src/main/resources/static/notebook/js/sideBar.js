@@ -7,8 +7,8 @@ class SideBarRender {
     this.myNotebookBtnListner();
     this.coNotebookBtnListner();
     this.invitationPageBtnListner();
-    this.settingPageBtnListner(); //doing...
-    this.signoutBtnListener();
+    this.settingPageBtnListner(); //ok
+    this.signoutBtnListener(); //ok
   }
 
   #notebookRender = new NotebookRender();
