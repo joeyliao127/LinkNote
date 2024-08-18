@@ -1,14 +1,27 @@
 const $ = require( "jquery" );
-import {RequestHandler} from "@unityJS/RequestHandler";
 
 export class SideBarRender {
   requestHandler;
-  constructor() {
-    this.requestHandler = new RequestHandler();
+  notebookComponentGenerator;
+  mainComponents;
+  notebookMainRender;
+  constructor(requestHandler, notebookComponentGenerator, notebookMainRender) {
+    this.requestHandler = requestHandler;
+    this.notebookComponentGenerator = notebookComponentGenerator;
+    this.notebookMainRender = notebookMainRender;
+    this.mainComponents = {
+      createNotebook: "createNotebookForm",
+      myNotebook: "myNotebookArea",
+      coNotebook: "coNotebookArea",
+      invitation: "invitationsForm",
+      setting: "settingForm",
+    }
   }
 
   async init() {
     this.renderUserInfo();
+    this.buttonClickEventRegister();
+
   }
 
   async renderUserInfo() {
@@ -19,9 +32,19 @@ export class SideBarRender {
     const data = await response.json();
     $("#username").text(data.username);
     $("#userEmail").text(data.email);
+    $("#js_setting_email").text(data.email);
+    $("#setting_username").val(data.username);
     localStorage.setItem("email", data.email);
     localStorage.setItem("username", data.username);
   }
 
+  buttonClickEventRegister() {
+    $(".settingBtn").on("click", () => this.displaySettingForm(localStorage.getItem("lastMainComponent")));
+  }
 
+  displaySettingForm = (lastMainComponent) => {
+    if(lastMainComponent !== this.mainComponents.setting) {
+      this.notebookMainRender.displayMainComponent(this.mainComponents.setting);
+    }
+  }
 }

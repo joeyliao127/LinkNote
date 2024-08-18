@@ -19,5 +19,13 @@ module.exports = {
       '@unityJS': path.resolve(__dirname, 'src/main/resources/static/js/unity'),
     }
   },
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
+  },
   mode: 'development',
 };

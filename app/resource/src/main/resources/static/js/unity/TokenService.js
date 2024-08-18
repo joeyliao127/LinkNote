@@ -15,7 +15,10 @@ export class TokenService {
     const token = localStorage.getItem("token");
 
     if (token !== null) {
+      // 回傳boolean
       return await this.requestHandler.sendRequestWithToken(path, "POST", null);
     }
+
+    return false;
   }
 }

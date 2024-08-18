@@ -2,12 +2,12 @@ class SideBarRender {
   constructor() {
     this.#notebookRender.renderMyNotebooks();
     this.genNotebookBtns("myNotebooks");
-    this.setUsernameAndEmail(); //doing...
+    this.setUsernameAndEmail(); //ok
     this.genCreateNotebookBtnListner();
     this.myNotebookBtnListner();
     this.coNotebookBtnListner();
     this.invitationPageBtnListner();
-    this.settingPageBtnListner();
+    this.settingPageBtnListner(); //doing...
     this.signoutBtnListener();
   }
 

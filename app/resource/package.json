@@ -12,10 +12,14 @@
   "description": "",
   "private": true,
   "devDependencies": {
+    "css-loader": "^7.1.2",
+    "style-loader": "^4.0.0",
     "webpack": "^5.93.0",
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "jquery": "^3.7.1"
+    "izitoast": "^1.4.0",
+    "jquery": "^3.7.1",
+    "sweetalert2": "^11.12.4"
   }
 }

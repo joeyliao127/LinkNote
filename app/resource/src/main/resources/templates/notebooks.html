@@ -21,6 +21,7 @@
         <button id="createNotebookBtn" class="no-select">+ New Notebook</button>
 
         <div class="sideBarBtnArea">
+<!--          mynotebook 按鈕-->
           <div class="sideBarMyNotebookArea">
             <div class="sideBarBtn no-select notebookGroup">
               <div class="myNotebookBtn">
@@ -35,7 +36,7 @@
               id="sideBar-myNotebookBtnCtn"
             ></div>
           </div>
-
+<!--          coNotebook 按鈕-->
           <div class="sideBarCoNotebookArea">
             <div class="sideBarBtn no-select notebookGroup">
               <div class="coNotebookBtn">
@@ -48,8 +49,8 @@
               <!-- <div class="loader sideBarLoader"></div> -->
             </div>
           </div>
-
-          <div class="sideBarBtn no-select invitationsBtn">
+<!--           invitation 按鈕-->
+          <div class="sideBarBtn no-select invitationsBtn js_invitations_btn">
             <img
               src="/icons/notebook.png"
               alt="Collaborative Notebooks
@@ -57,8 +58,8 @@
             />
             <p>Invitations Management</p>
           </div>
-
-          <div class="sideBarBtn no-select settingBtn">
+<!--           setting 按鈕-->
+          <div class="sideBarBtn no-select settingBtn js_setting_btn">
             <img src="/icons/setting.png" alt="setting" />
             <p>Setting</p>
           </div>
@@ -68,13 +69,41 @@
           <div class="userEmail sideBarBottomBlock no-select">
             <p id="userEmail"></p>
           </div>
+<!--            登出按鈕-->
           <div class="signoutBtn sideBarBottomBlock no-select">
             <p>SignOut</p>
           </div>
         </div>
       </section>
       <main>
-        <div class="mainWrapper"></div>
+        <div class="mainWrapper">
+
+<!--          更新使用者資訊表單-->
+          <section class="userProfileWrapper js_user_profile_wrapper display-none">
+            <h4>Member Profile</h4>
+            <div class="userProfileForm">
+              <div class="userProfile">
+                <p class="title">Email</p>
+                <p id="js_setting_email"></p>
+              </div>
+              <div class="userProfile">
+                <label class="title" for="setting_username">Username</label>
+                <input type="text" name="" id="setting_username" class="js_setting_username" value="" />
+              </div>
+              <div class="userProfile">
+                <label class="title" for="password">Password</label>
+                <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    class="js_setting_password"
+                    placeholder="password"
+                />
+              </div>
+              <button id="userProfileBtn" class="js_update_user_profile_btn">Save</button>
+            </div>
+          </section>
+        </div>
       </main>
     </div>
 
