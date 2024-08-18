@@ -79,7 +79,7 @@
         <div class="mainWrapper">
 
 <!--          新增notebook表單-->
-          <section class="createNotebookWrapper js_create_notebook_wrapper display-none">
+          <section class="createNotebookWrapper js_create_notebook_wrapper">
             <h3>Create Notebook</h3>
             <div class="createNotebookForm">
               <div class="inputs">
@@ -113,7 +113,43 @@
               </div>
             </div>
           </section>
+
+<!--          邀請表單-->
+<!--          todo 未來要將display-none拿掉，在notebookMainInit時會使用jq的hide()-->
+          <section class="invitationWrapper js_invitation_wrapper display-none">
+            <section class="invitationTable" id="receivedInvitationTable">
+              <h4>Pending Received Invitations</h4>
+              <table id="received-table" class="js_received_table">
+                <tr id="received-none" class="js_received_none">
+                  <th>none</th>
+                </tr>
+                <tr  id="received-header" class="js_received_header display-none" >
+                  <th>Inviter</th>
+                  <th>Notebook Name</th>
+                  <th>Create Date</th>
+                  <th>Message</th>
+                  <th>Confirm</th>
+                </tr>
+              </table>
+            </section>
+            <section class="invitationTable" id="sentInvitationTable">
+                <h4>Pending Sent Invitations</h4>
+                <table id="sent-table" class="js_sent_table">
+                  <tr id="sent-none"  class="js_sent_invitation_none">
+                    <th>none</th>
+                  </tr>
+                  <tr  id="sent-header" class="js_sent_invitation_header display-none" >
+                    <th>Invitee</th>
+                    <th>Notebook Name</th>
+                    <th>Create Date</th>
+                    <th>Message</th>
+                    <th>Confirm</th>
+                  </tr>
+                </table>
+              </section>
+            </section>
 <!--          更新使用者資訊表單-->
+<!--          todo 未來要將display-none拿掉，在notebookMainInit時會使用jq的hide()-->
           <section class="userProfileWrapper js_user_profile_wrapper display-none">
             <h4>Member Profile</h4>
             <div class="userProfileForm">

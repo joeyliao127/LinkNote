@@ -2,12 +2,10 @@ const $ = require( "jquery" );
 
 export class SideBarRender {
   requestHandler;
-  notebookComponentGenerator;
   mainComponents;
   notebookMainRender;
   constructor(requestHandler, notebookComponentGenerator, notebookMainRender) {
     this.requestHandler = requestHandler;
-    this.notebookComponentGenerator = notebookComponentGenerator;
     this.notebookMainRender = notebookMainRender;
     this.mainComponents = {
       createNotebook: "createNotebookForm",
@@ -42,14 +40,24 @@ export class SideBarRender {
     $(".js_create_notebook_btn").on('click', this.displayCreateNotebookForm);
     $(".settingBtn").on("click", this.displaySettingForm);
     $(".signoutBtn").on("click", this.signOutBtnListener);
-
+    $(".js_invitations_btn").on("click", this.displayInvitationForm);
   }
 
+  // 顯示新增筆記本表單
   displayCreateNotebookForm = () => {
     if(!this.isCurrentMainComponent(this.mainComponents.createNotebook)) {
       this.notebookMainRender.displayMainComponent(this.mainComponents.createNotebook);
     }
   }
+
+  //顯示邀請表單
+  displayInvitationForm = () => {
+    if(!this.isCurrentMainComponent(this.mainComponents.invitation)) {
+      this.notebookMainRender.displayMainComponent(this.mainComponents.invitation);
+      this.notebookMainRender.renderInvitationForm();
+    }
+  }
+  //顯示設定表單
   displaySettingForm = () => {
     if(!this.isCurrentMainComponent(this.mainComponents.setting)) {
       this.notebookMainRender.displayMainComponent(this.mainComponents.setting);

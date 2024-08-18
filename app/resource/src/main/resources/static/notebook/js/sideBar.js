@@ -3,10 +3,10 @@ class SideBarRender {
     this.#notebookRender.renderMyNotebooks();
     this.genNotebookBtns("myNotebooks");
     this.setUsernameAndEmail(); //ok
-    this.genCreateNotebookBtnListner();
+    this.genCreateNotebookBtnListner();//ok
     this.myNotebookBtnListner();
     this.coNotebookBtnListner();
-    this.invitationPageBtnListner();
+    this.invitationPageBtnListner(); //doing..
     this.settingPageBtnListner(); //ok
     this.signoutBtnListener(); //ok
   }
@@ -120,19 +120,19 @@ class SideBarRender {
       invitationWrapper.classList.add("invitationWrapper");
       invitationWrapper.innerHTML = `
       <section class="invitationTable" id="receivedInvitaionTable">
-      <h4>Pending Received Invitations</h4>
-      <table id="received-table">
-        <tr id="received-none">
-          <th>none</th>
-        </tr>
-        <tr  id="received-header" class="display-none" >
-          <th>Inviter</th>
-          <th>Notebook Name</th>
-          <th>Create Date</th>
-          <th>Message</th>
-          <th>Confirm</th>
-        </tr>
-      </table>
+        <h4>Pending Received Invitations</h4>
+        <table id="received-table">
+          <tr id="received-none">
+            <th>none</th>
+          </tr>
+          <tr  id="received-header" class="display-none" >
+            <th>Inviter</th>
+            <th>Notebook Name</th>
+            <th>Create Date</th>
+            <th>Message</th>
+            <th>Confirm</th>
+          </tr>
+        </table>
     </section>
     <section class="invitaionTable" id="sentInvitaionTable">
       <section class="invitationTable" id="receivedInvitaionTable">
@@ -148,7 +148,6 @@ class SideBarRender {
             <th>Message</th>
             <th>Confirm</th>
           </tr>
-          
         </table>
       </section>
     </section>

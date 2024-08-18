@@ -1,4 +1,6 @@
-import {NotebookComponentGenerator} from "@notebookJS/NotebookComponentGenerator";
+import {
+  NotebookComponentGenerator
+} from "@notebookJS/NotebookComponentGenerator";
 import iziToast from "izitoast";
 import 'izitoast/dist/css/iziToast.min.css';
 import Swal from "sweetalert2";
@@ -19,7 +21,7 @@ export class NotebookMainRender {
       "createNotebookForm": $(".js_create_notebook_wrapper"),
       // "myNotebookArea": $(""),
       // "coNotebookArea": $(""),
-      // "invitationsForm": $(""),
+      "invitationsForm": $(".js_invitation_wrapper"),
       "settingForm": $(".js_user_profile_wrapper"),
     }
   }
@@ -45,15 +47,16 @@ export class NotebookMainRender {
             component.hide();
           }
         })
-    localStorage.setItem("lastMainComponent", this.mainComponents.createNotebook);
+    localStorage.setItem("lastMainComponent", displayComponentName);
   }
 
   eventRegister() {
     $(".js_update_user_profile_btn").on('click', this.submitSettingForm);
-    $(".js_create_notebook_submit_btn").on('click', this.submitCreateNotebookForm);
+    $(".js_create_notebook_submit_btn").on('click',
+        this.submitCreateNotebookForm);
     $(".js_add_tag_btn").on('click', this.handleCreateNewTag);
     $(".js_new_tag_input").on('keypress', (e) => {
-      if(e.key === "Enter") {
+      if (e.key === "Enter") {
         this.handleCreateNewTag();
       }
     })
@@ -61,7 +64,7 @@ export class NotebookMainRender {
 
   submitCreateNotebookForm = async () => {
     const notebookName = $(".js_new_notebook_name_input").val();
-    if(!notebookName) {
+    if (!notebookName) {
       iziToast.error({
         "title": "Error",
         "message": "Notebook name cannot be empty.",
@@ -83,9 +86,10 @@ export class NotebookMainRender {
       tags: tags
     }
 
-    const response = await this.requestHandler.sendRequestWithToken("/api/notebooks", "POST", requestBody);
+    const response = await this.requestHandler.sendRequestWithToken(
+        "/api/notebooks", "POST", requestBody);
 
-    if(response.ok) {
+    if (response.ok) {
       const data = await response.json();
       // TODO 渲染main，寫在.then裡面
       Swal.fire({
@@ -103,6 +107,169 @@ export class NotebookMainRender {
       })
     }
   }
+
+  renderInvitationForm = () => {
+    $('.js_received_invitation').remove();
+    $('.js_sent_invitation').remove();
+    this.handleReceivedInvitations();
+    this.handleSentInvitations();
+  }
+
+  handleReceivedInvitations = async () => {
+    const response = await this.requestHandler.sendRequestWithToken(
+        "/api/invitations/received-invitations?offset=0&limit=20", "GET", null);
+
+    if (!response.ok) {
+      iziToast.error({
+        "title": "Error",
+        "message": "Fetch invitations failed. Please try again.",
+        "position": "topRight"
+      })
+    }
+
+    const data = await response.json();
+    const invitations = data.invitations;
+
+    if (invitations.length > 0) {
+      $('.js_received_none').hide();
+      $('.js_received_header').show();
+      invitations.forEach((invitation) => {
+        $('.js_received_table').append(
+            this.genReceivedInvitationTr(invitation));
+      })
+    }
+  }
+
+  genReceivedInvitationTr(invitation) {
+    const createDate = invitation.createDate.split(" ");
+    const invitationElement = $(
+        `<tr class="js_received_invitation">
+          <td>${invitation.inviterName}</td>
+          <td>${invitation.notebookName}</td>
+          <td>${createDate[0]}</td>
+          <td>${invitation.message}</td>
+          <td>
+            <button class="acceptInvitation">Accept</button>
+            <button class="denyInvitation">Deny</button>
+          </td>
+        </tr>`
+    );
+
+    const acceptBtn = invitationElement.find(".acceptInvitation");
+    acceptBtn.click(async () => {
+      const result =await this.updateNotebookReceivedInvitation(invitation, true);
+      if(result) {
+        const message = "Accept invitation success!";
+        this.updateInvitationSuccess(invitationElement, message);
+      } else {
+        iziToast.error({
+          "title": "Error",
+          "message": "Accept invitation failed. Please try again.",
+          "position": "topRight"
+        })
+      }
+    })
+
+    const denyBtn = invitationElement.find(".denyInvitation");
+    denyBtn.click( async () => {
+      const result = await this.updateNotebookReceivedInvitation(invitation, false);
+      if(result) {
+        const message = "Reject invitation success!";
+        this.updateInvitationSuccess(invitationElement, message);
+      } else {
+        iziToast.error({
+          "title": "Error",
+          "message": "Accept invitation failed. Please try again.",
+          "position": "topRight"
+        })
+      }
+    })
+
+    return invitationElement;
+  }
+
+  updateInvitationSuccess = (invitationElement, message) => {
+    invitationElement.remove();
+    iziToast.success({
+      "title": "Success",
+      "message": message,
+      "position": "topRight"
+    })
+    if(!$('.js_received_invitation').length) {
+      $('.js_received_none').show();
+      $('.js_received_header').hide();
+    }
+  }
+
+  // 接受筆記本共編邀請
+  updateNotebookReceivedInvitation = async (invitation, isAccept) => {
+    const path = `/api/invitations/received-invitation`;
+    const response = await this.requestHandler.sendRequestWithToken(path, "PUT",
+        {notebookId: invitation.notebookId, isAccept});
+    return response.ok;
+  }
+
+  handleSentInvitations = async () => {
+    const response = await this.requestHandler.sendRequestWithToken(
+        "/api/invitations/sent-invitations?offset=0&limit=20", "GET", null);
+    const data = await response.json();
+    const invitations = data.invitations;
+    if (invitations.length > 0) {
+      $('.js_sent_invitation_none').hide();
+      $('.js_sent_invitation_header').show();
+      invitations.forEach((invitation) => {
+        $('.js_sent_table').append(this.genSentInvitationTr(invitation));
+      })
+    }
+  }
+
+  genSentInvitationTr = (invitation) => {
+    const createDate = invitation.createDate.split(" ");
+    const invitationElement = $(
+        `<tr class="js_sent_invitation">
+          <td>${invitation.inviteeName}</td>
+          <td>${invitation.notebookName}</td>
+          <td>${createDate[0]}</td>
+          <td>${invitation.message}</td>
+          <td>
+            <button class="deleteInvitation js_withdraw_invitation_btn">Delete</button>
+          </td>
+        </tr>`
+    );
+
+    const withDrawInvitationBtn = invitationElement.find('.js_withdraw_invitation_btn');
+    withDrawInvitationBtn.on('click', async () => {
+      const result = await this.withdrawInvitation(invitation);
+      if(result) {
+        invitationElement.remove();
+        iziToast.success({
+          "title": "Success",
+          "message": "Withdraw invitation success!",
+          "position": "topRight"
+        })
+      } else {
+        iziToast.error({
+          "title": "Error",
+          "message": "Withdraw invitation failed. Please try again.",
+          "position": "topRight"
+        })
+      }
+
+      if(!$('.js_sent_invitation').length) {
+        $('.js_sent_invitation_none').show();
+        $('.js_sent_invitation_header').hide();
+      }
+    });
+
+    return invitationElement;
+  }
+
+  withdrawInvitation = async (invitation) => {
+    const path = `/api/notebooks/${invitation.notebookId}/invitations`;
+    const response = await this.requestHandler.sendRequestWithToken(path, "DELETE", null);
+    return response.ok;
+  }
+
   submitSettingForm = async () => {
     const username = $(".js_setting_username").val();
     const password = $(".js_setting_password").val();
@@ -120,9 +287,10 @@ export class NotebookMainRender {
     const path = domain + "/api/user";
     const email = localStorage.getItem("email");
     const requestBody = {username, password, email};
-    const response = await this.requestHandler.sendRequestWithToken(path, "PUT", requestBody);
+    const response = await this.requestHandler.sendRequestWithToken(path, "PUT",
+        requestBody);
 
-    if(response.ok) {
+    if (response.ok) {
       localStorage.setItem("username", username);
       Swal.fire({
         title: 'Success!',
@@ -147,7 +315,7 @@ export class NotebookMainRender {
   handleCreateNewTag = () => {
     const inputElement = $('.js_new_tag_input')
     const tagName = inputElement.val();
-    if(this.isDuplicateTagOrNull(tagName)){
+    if (this.isDuplicateTagOrNull(tagName)) {
       iziToast.error({
         "title": "Error",
         "message": "Tag name already exists.",
@@ -172,7 +340,7 @@ export class NotebookMainRender {
 
   //檢查tag是否有重複
   isDuplicateTagOrNull = (newTagName) => {
-    if(newTagName === '') {
+    if (newTagName === '') {
       return true;
     }
 

@@ -1,7 +1,7 @@
 export class RequestHandler {
 
   async sendRequestWithToken(path, method, requestBody) {
-    switch (method) {
+    switch (method.toUpperCase()) {
       case "GET":
         return await this.sendGetRequest(path);
       case "POST":
