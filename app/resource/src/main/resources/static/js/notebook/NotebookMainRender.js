@@ -1,8 +1,6 @@
-import {NotebookComponentGenerator} from "@notebookJS/NotebookComponentGenerator";
-import iziToast from "izitoast";
-import 'izitoast/dist/css/iziToast.min.css';
 import Swal from "sweetalert2";
 import {RequestHandler} from "@unityJS/RequestHandler";
+import {MessageSender} from "@unityJS/MessageSender";
 
 const $ = require("jquery");
 
@@ -10,10 +8,10 @@ export class NotebookMainRender {
 
   requestHandler;
   mainComponents;
-  notebookComponentGenerator;
+  messageSender;
 
   constructor() {
-    this.notebookComponentGenerator = new NotebookComponentGenerator();
+    this.messageSender = new MessageSender();
     this.requestHandler = new RequestHandler();
     this.mainComponents = {
       "createNotebookForm": $(".js_create_notebook_wrapper"),
@@ -26,11 +24,9 @@ export class NotebookMainRender {
 
   async init() {
     const lastMainComponent = localStorage.getItem("lastMainComponent");
-    if (lastMainComponent) {
-      this.displayMainComponent(lastMainComponent);
-    } else {
-      this.displayMainComponent("settingForm");
-    }
+    // if (lastMainComponent) {
+    //   this.displayMainComponent(lastMainComponent);
+    // }
     this.eventRegister();
 
     //TODO 渲染localstorage中的lastOpenNotebookId，如果沒有則渲染All notebook
@@ -41,17 +37,37 @@ export class NotebookMainRender {
   displayMainComponent(displayComponentName) {
     Object.entries(this.mainComponents).forEach(
         ([componentName, component]) => {
-          //todo 這個if else要移除，全部先hide後，在根據componentName來show
-          //todo 用switch case 判斷 component name，除了mynotebook和conotebook，其餘的都走default
-          //todo default是渲染lastOpenNotebookId的notebook，如果沒有則渲染myNotebook
-          if (componentName === displayComponentName) {
-            component.show();
-          } else {
-            component.hide();
-          }
+          component.hide();
         })
 
-    localStorage.setItem("lastMainComponent", displayComponentName);
+    switch (displayComponentName) {
+      case "myNotebookArea":
+        this.renderOwnerNotebooks();
+        localStorage.setItem("lastMainComponent", displayComponentName);
+        break;
+      case "coNotebookArea":
+        this.renderCollaborativeNotebooks();
+        localStorage.setItem("lastMainComponent", displayComponentName);
+        break;
+      case "specificOwnerNotebook":
+        this.renderSpecificOwnerNotebook();
+        localStorage.setItem("lastMainComponent", displayComponentName);
+        break;
+      case "specificCollaboratorNotebook":
+        this.renderSpecificCollaborativeNotebook();
+        localStorage.setItem("lastMainComponent", displayComponentName);
+        break;
+      case "invitationsForm":
+        this.renderInvitationForm();
+        break;
+      case "settingForm":
+        break;
+      case "createNotebookForm":
+        break;
+      default:
+        break;
+    }
+    this.mainComponents[displayComponentName].show();
   }
 
   eventRegister() {
@@ -72,11 +88,7 @@ export class NotebookMainRender {
   submitCreateNotebookForm = async () => {
     const notebookName = $(".js_new_notebook_name_input").val();
     if (!notebookName) {
-      iziToast.error({
-        "title": "Error",
-        "message": "Notebook name cannot be empty.",
-        "position": "topRight"
-      })
+      this.messageSender.error("Notebook name cannot be empty.");
       return;
     }
 
@@ -97,21 +109,26 @@ export class NotebookMainRender {
         "/api/notebooks", "POST", requestBody);
 
     if (response.ok) {
+      //todo 記得刪除，data回傳格式為
+      // {
+      //   "result": true,
+      //     "notebookId": "NBe6d72aae2fe2e258a87d7d17f1c19d4d"
+      // }
       const data = await response.json();
-      // TODO 渲染main，寫在.then裡面
+
       Swal.fire({
         title: 'Success!',
         text: 'Create notebook success!',
         icon: 'success',
         showConfirmButton: true,
-        timer: 1500
-      }).then();
+        timer: 5000
+      }).then(() => {
+        this.clearCreateNotebookFormInput();
+        // TODO 暫時先渲染main，未來要改為渲染specific notebookId
+        this.displayMainComponent("myNotebookArea");
+      });
     } else {
-      iziToast.error({
-        "title": "Error",
-        "message": "Create notebook failed. Please try again.",
-        "position": "topRight"
-      })
+      this.messageSender.error("Create notebook failed. Please try again.");
     }
   }
 
@@ -119,11 +136,7 @@ export class NotebookMainRender {
     const inputElement = $('.js_new_tag_input')
     const tagName = inputElement.val();
     if (this.isDuplicateTagOrNull(tagName)) {
-      iziToast.error({
-        "title": "Error",
-        "message": "Tag name already exists.",
-        "position": "topRight"
-      })
+      this.messageSender.error("Tag name already exists.");
       inputElement.val('');
       return;
     }
@@ -161,11 +174,31 @@ export class NotebookMainRender {
 
   // 清空create notebook表單內容
   cancelCreateNotebookForm = () => {
+    this.clearCreateNotebookFormInput();
+    // todo 取消後應該要渲染上一本開的notebook，這邊暫時先渲染myNotebook
+    this.displayMainComponent("myNotebookArea");
+  }
+
+  clearCreateNotebookFormInput() {
     $(".js_new_notebook_name_input").val('');
     $(".js_new_tag").remove();
     $(".js_new_notebook_description_input").val('');
-    // todo 取消後應該要渲染上一本開的notebook，這邊暫時先渲染myNotebook
-    this.displayMainComponent("myNotebookArea");
+  }
+
+  renderOwnerNotebooks = () => {
+
+  }
+
+  renderCollaborativeNotebooks = () => {
+
+  }
+
+  renderSpecificOwnerNotebook = () => {
+    this.displayMainComponent("specificNotebookArea");
+  }
+
+  renderSpecificCollaborativeNotebook = () => {
+
   }
 
   // 渲染共編邀請表單，每次渲染都會重新fetch，所以要將表單中原有的html移除
@@ -181,11 +214,7 @@ export class NotebookMainRender {
         "/api/invitations/received-invitations?offset=0&limit=20", "GET", null);
 
     if (!response.ok) {
-      iziToast.error({
-        "title": "Error",
-        "message": "Fetch invitations failed. Please try again.",
-        "position": "topRight"
-      })
+      this.messageSender.error("Fetch invitations failed. Please try again.");
     }
 
     const data = await response.json();
@@ -223,11 +252,7 @@ export class NotebookMainRender {
         const message = "Accept invitation success!";
         this.updateInvitationSuccessCallback(invitationElement, message);
       } else {
-        iziToast.error({
-          "title": "Error",
-          "message": "Accept invitation failed. Please try again.",
-          "position": "topRight"
-        })
+        this.messageSender.error("Accept invitation failed. Please try again.");
       }
     })
 
@@ -238,11 +263,7 @@ export class NotebookMainRender {
         const message = "Reject invitation success!";
         this.updateInvitationSuccessCallback(invitationElement, message);
       } else {
-        iziToast.error({
-          "title": "Error",
-          "message": "Accept invitation failed. Please try again.",
-          "position": "topRight"
-        })
+        this.messageSender.error("Accept invitation failed. Please try again.");
       }
     })
 
@@ -251,11 +272,7 @@ export class NotebookMainRender {
 
   updateInvitationSuccessCallback = (invitationElement, message) => {
     invitationElement.remove();
-    iziToast.success({
-      "title": "Success",
-      "message": message,
-      "position": "topRight"
-    })
+    this.messageSender.success(message);
     if(!$('.js_received_invitation').length) {
       $('.js_received_none').show();
       $('.js_received_header').hide();
@@ -303,17 +320,9 @@ export class NotebookMainRender {
       const result = await this.withdrawInvitation(invitation);
       if(result) {
         invitationElement.remove();
-        iziToast.success({
-          "title": "Success",
-          "message": "Withdraw invitation success!",
-          "position": "topRight"
-        })
+        this.messageSender.success("Withdraw invitation success!");
       } else {
-        iziToast.error({
-          "title": "Error",
-          "message": "Withdraw invitation failed. Please try again.",
-          "position": "topRight"
-        })
+        this.messageSender.error("Withdraw invitation failed. Please try again.");
       }
 
       if(!$('.js_sent_invitation').length) {
@@ -337,11 +346,7 @@ export class NotebookMainRender {
     const password = $(".js_setting_password").val();
     // 驗證username & password
     if (!(username && password)) {
-      iziToast.error({
-        "title": "Error",
-        "message": "Username or password cannot be empty.",
-        "position": "topRight"
-      })
+      this.messageSender.error("Username or password cannot be empty.");
       return;
     }
     //TODO 開發用的url，正式機要移除 domain ;
@@ -366,12 +371,8 @@ export class NotebookMainRender {
         }
       })
     } else {
-      iziToast.error({
-        "title": "Error",
-        "message": "Update user profile failed!",
-        "position": "topRight"
-      })
+      this.messageSender.error("Update user profile failed. Please try again.");
     }
   }
-
 }
+

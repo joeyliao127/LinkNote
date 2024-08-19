@@ -1,8 +1,6 @@
 import {TokenService} from "@unityJS/TokenService";
 import {SideBarRender} from "@notebookJS/sideBarRender";
 import {NotebookMainRender} from "@notebookJS/NotebookMainRender";
-import {RequestHandler} from "@unityJS/RequestHandler";
-import {NotebookComponentGenerator} from "@notebookJS/NotebookComponentGenerator";
 
 const $ = require( "jquery" );
 
@@ -14,7 +12,7 @@ $(document).ready(async () => {
   }
 
   const notebookMainRender = new NotebookMainRender();
-  const sideBarRender = new SideBarRender(new NotebookComponentGenerator(), notebookMainRender);
+  const sideBarRender = new SideBarRender(notebookMainRender);
 
   sideBarRender.init();
   notebookMainRender.init();

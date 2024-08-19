@@ -1,12 +1,15 @@
 const $ = require( "jquery" );
 import {RequestHandler} from "@unityJS/RequestHandler";
+import {SideBarNotebookBtnFactory} from "@notebookJS/componentFactory/SideBarNotebookBtnFactory";
 
 export class SideBarRender {
   requestHandler;
   mainComponents;
   notebookMainRender;
-  constructor(notebookComponentGenerator, notebookMainRender) {
+  sideBarNotebookBtnFactory
+  constructor(notebookMainRender) {
     this.requestHandler = new RequestHandler();
+    this.sideBarNotebookBtnFactory = new SideBarNotebookBtnFactory();
     this.notebookMainRender = notebookMainRender;
     this.mainComponents = {
       createNotebook: "createNotebookForm",
@@ -49,18 +52,22 @@ export class SideBarRender {
   displayCreateNotebookForm = () => {
     if(!this.isCurrentMainComponent(this.mainComponents.createNotebook)) {
       this.notebookMainRender.displayMainComponent(this.mainComponents.createNotebook);
+      localStorage.setItem("lastMainComponent", this.mainComponents.createNotebook);
     }
   }
 
   displayMyNotebooks = () => {
+    this.sideBarNotebookBtnFactory.renderOwnerNotebookBtn()
     if(!this.isCurrentMainComponent(this.mainComponents.myNotebook)) {
       this.notebookMainRender.displayMainComponent(this.mainComponents.myNotebook);
+      localStorage.setItem("lastMainComponent", this.mainComponents.myNotebook);
     }
   }
 
   displayCoNotebooks = () => {
     if(!this.isCurrentMainComponent(this.mainComponents.coNotebook)) {
       this.notebookMainRender.displayMainComponent(this.mainComponents.coNotebook);
+      localStorage.setItem("lastMainComponent", this.mainComponents.coNotebook);
     }
   }
 
@@ -68,7 +75,8 @@ export class SideBarRender {
   displayInvitationForm = () => {
     if(!this.isCurrentMainComponent(this.mainComponents.invitation)) {
       this.notebookMainRender.displayMainComponent(this.mainComponents.invitation);
-      this.notebookMainRender.renderInvitationForm();
+      localStorage.setItem("lastMainComponent", this.mainComponents.invitation);
+      // this.notebookMainRender.renderInvitationForm();
     }
   }
 
