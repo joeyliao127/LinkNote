@@ -6,7 +6,7 @@ main {
   justify-content: center;
 }
 .mainWrapper {
-  width: calc(100vw - 270px);
+  width: calc(100vw - 260px);
   height: 100vh;
   position: relative;
   background-color: rgba(44, 44, 44, 0.5);

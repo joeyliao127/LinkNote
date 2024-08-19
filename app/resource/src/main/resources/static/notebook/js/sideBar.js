@@ -4,9 +4,9 @@ class SideBarRender {
     this.genNotebookBtns("myNotebooks");
     this.setUsernameAndEmail(); //ok
     this.genCreateNotebookBtnListner();//ok
-    this.myNotebookBtnListner();
+    this.myNotebookBtnListner(); //doing..
     this.coNotebookBtnListner();
-    this.invitationPageBtnListner(); //doing..
+    this.invitationPageBtnListner(); //ok
     this.settingPageBtnListner(); //ok
     this.signoutBtnListener(); //ok
   }

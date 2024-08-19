@@ -1,11 +1,12 @@
 const $ = require( "jquery" );
+import {RequestHandler} from "@unityJS/RequestHandler";
 
 export class SideBarRender {
   requestHandler;
   mainComponents;
   notebookMainRender;
-  constructor(requestHandler, notebookComponentGenerator, notebookMainRender) {
-    this.requestHandler = requestHandler;
+  constructor(notebookComponentGenerator, notebookMainRender) {
+    this.requestHandler = new RequestHandler();
     this.notebookMainRender = notebookMainRender;
     this.mainComponents = {
       createNotebook: "createNotebookForm",
@@ -19,7 +20,6 @@ export class SideBarRender {
   async init() {
     this.renderUserInfo();
     this.buttonClickEventRegister();
-
   }
 
   async renderUserInfo() {
@@ -38,6 +38,8 @@ export class SideBarRender {
 
   buttonClickEventRegister() {
     $(".js_create_notebook_btn").on('click', this.displayCreateNotebookForm);
+    $(".js_sideBar_myNotebook_btn").on('click', this.displayMyNotebooks);
+    $(".js_sideBar_coNotebook_btn").on('click', this.displayCoNotebooks);
     $(".settingBtn").on("click", this.displaySettingForm);
     $(".signoutBtn").on("click", this.signOutBtnListener);
     $(".js_invitations_btn").on("click", this.displayInvitationForm);
@@ -50,6 +52,18 @@ export class SideBarRender {
     }
   }
 
+  displayMyNotebooks = () => {
+    if(!this.isCurrentMainComponent(this.mainComponents.myNotebook)) {
+      this.notebookMainRender.displayMainComponent(this.mainComponents.myNotebook);
+    }
+  }
+
+  displayCoNotebooks = () => {
+    if(!this.isCurrentMainComponent(this.mainComponents.coNotebook)) {
+      this.notebookMainRender.displayMainComponent(this.mainComponents.coNotebook);
+    }
+  }
+
   //顯示邀請表單
   displayInvitationForm = () => {
     if(!this.isCurrentMainComponent(this.mainComponents.invitation)) {
@@ -57,6 +71,7 @@ export class SideBarRender {
       this.notebookMainRender.renderInvitationForm();
     }
   }
+
   //顯示設定表單
   displaySettingForm = () => {
     if(!this.isCurrentMainComponent(this.mainComponents.setting)) {
@@ -73,5 +88,4 @@ export class SideBarRender {
     localStorage.clear();
     window.location.href = "/";
   }
-
 }

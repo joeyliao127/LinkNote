@@ -135,6 +135,7 @@ class NotebookRender {
     `;
 
     let path = "";
+    //todo 原本的id會被改為 js_search_myNotebook 和 js_search_coNotebook
     const searchElemet = notebookArea.querySelector("#searchNotebook");
     if (this.#role === "owner") {
       path = `/api/notebooks?offset=${this.#filter.offset}&limit=${

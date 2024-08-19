@@ -13,8 +13,8 @@ $(document).ready(async () => {
     location.href = "/";
   }
 
-  const notebookMainRender = new NotebookMainRender(new RequestHandler(), new NotebookComponentGenerator());
-  const sideBarRender = new SideBarRender(new RequestHandler(), new NotebookComponentGenerator(), notebookMainRender);
+  const notebookMainRender = new NotebookMainRender();
+  const sideBarRender = new SideBarRender(new NotebookComponentGenerator(), notebookMainRender);
 
   sideBarRender.init();
   notebookMainRender.init();

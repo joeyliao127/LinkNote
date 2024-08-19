@@ -1,9 +1,8 @@
-import {
-  NotebookComponentGenerator
-} from "@notebookJS/NotebookComponentGenerator";
+import {NotebookComponentGenerator} from "@notebookJS/NotebookComponentGenerator";
 import iziToast from "izitoast";
 import 'izitoast/dist/css/iziToast.min.css';
 import Swal from "sweetalert2";
+import {RequestHandler} from "@unityJS/RequestHandler";
 
 const $ = require("jquery");
 
@@ -13,14 +12,13 @@ export class NotebookMainRender {
   mainComponents;
   notebookComponentGenerator;
 
-  constructor(requestHandler, notebookComponentGenerator) {
+  constructor() {
     this.notebookComponentGenerator = new NotebookComponentGenerator();
-    this.notebookComponentGenerator = notebookComponentGenerator;
-    this.requestHandler = requestHandler;
+    this.requestHandler = new RequestHandler();
     this.mainComponents = {
       "createNotebookForm": $(".js_create_notebook_wrapper"),
-      // "myNotebookArea": $(""),
-      // "coNotebookArea": $(""),
+      "myNotebookArea": $(".js_myNotebook_area"),
+      "coNotebookArea": $(".js_coNotebook_area"),
       "invitationsForm": $(".js_invitation_wrapper"),
       "settingForm": $(".js_user_profile_wrapper"),
     }
@@ -36,30 +34,39 @@ export class NotebookMainRender {
     this.eventRegister();
 
     //TODO 渲染localstorage中的lastOpenNotebookId，如果沒有則渲染All notebook
+    //TODO 暫時先渲染myNotebook
+    this.displayMainComponent("myNotebookArea");
   }
 
   displayMainComponent(displayComponentName) {
     Object.entries(this.mainComponents).forEach(
         ([componentName, component]) => {
+          //todo 這個if else要移除，全部先hide後，在根據componentName來show
+          //todo 用switch case 判斷 component name，除了mynotebook和conotebook，其餘的都走default
+          //todo default是渲染lastOpenNotebookId的notebook，如果沒有則渲染myNotebook
           if (componentName === displayComponentName) {
             component.show();
           } else {
             component.hide();
           }
         })
+
     localStorage.setItem("lastMainComponent", displayComponentName);
   }
 
   eventRegister() {
     $(".js_update_user_profile_btn").on('click', this.submitSettingForm);
-    $(".js_create_notebook_submit_btn").on('click',
-        this.submitCreateNotebookForm);
+    $(".js_create_notebook_submit_btn").on('click', this.submitCreateNotebookForm);
+    $(".js_cancel_create_notebook_btn").on('click', this.cancelCreateNotebookForm);
     $(".js_add_tag_btn").on('click', this.handleCreateNewTag);
     $(".js_new_tag_input").on('keypress', (e) => {
       if (e.key === "Enter") {
         this.handleCreateNewTag();
       }
     })
+    $(".js_init_create_notebook_btn").on('click', () => {
+      this.displayMainComponent("createNotebookForm");
+    });
   }
 
   submitCreateNotebookForm = async () => {
@@ -108,6 +115,60 @@ export class NotebookMainRender {
     }
   }
 
+  handleCreateNewTag = () => {
+    const inputElement = $('.js_new_tag_input')
+    const tagName = inputElement.val();
+    if (this.isDuplicateTagOrNull(tagName)) {
+      iziToast.error({
+        "title": "Error",
+        "message": "Tag name already exists.",
+        "position": "topRight"
+      })
+      inputElement.val('');
+      return;
+    }
+    // 清空input
+    inputElement.val('');
+    const newTagElement = this.generateNotebookTagElement(tagName);
+    $('.tags').append(newTagElement);
+  }
+
+  generateNotebookTagElement = (tagName) => {
+    const newTagElement = $(`<p class="js_new_tag">${tagName}</p>`);
+    newTagElement.on('click', () => {
+      newTagElement.remove();
+    })
+    return newTagElement;
+  }
+
+  //檢查tag是否有重複
+  isDuplicateTagOrNull = (newTagName) => {
+    if (newTagName === '') {
+      return true;
+    }
+
+    let isDuplicate = false;
+    //檢查是否有重複的tag
+    $('.js_new_tag').each((index, element) => {
+      if (newTagName === element.textContent) {
+        isDuplicate = true;
+        return false;
+      }
+    })
+
+    return isDuplicate;
+  }
+
+  // 清空create notebook表單內容
+  cancelCreateNotebookForm = () => {
+    $(".js_new_notebook_name_input").val('');
+    $(".js_new_tag").remove();
+    $(".js_new_notebook_description_input").val('');
+    // todo 取消後應該要渲染上一本開的notebook，這邊暫時先渲染myNotebook
+    this.displayMainComponent("myNotebookArea");
+  }
+
+  // 渲染共編邀請表單，每次渲染都會重新fetch，所以要將表單中原有的html移除
   renderInvitationForm = () => {
     $('.js_received_invitation').remove();
     $('.js_sent_invitation').remove();
@@ -160,7 +221,7 @@ export class NotebookMainRender {
       const result =await this.updateNotebookReceivedInvitation(invitation, true);
       if(result) {
         const message = "Accept invitation success!";
-        this.updateInvitationSuccess(invitationElement, message);
+        this.updateInvitationSuccessCallback(invitationElement, message);
       } else {
         iziToast.error({
           "title": "Error",
@@ -175,7 +236,7 @@ export class NotebookMainRender {
       const result = await this.updateNotebookReceivedInvitation(invitation, false);
       if(result) {
         const message = "Reject invitation success!";
-        this.updateInvitationSuccess(invitationElement, message);
+        this.updateInvitationSuccessCallback(invitationElement, message);
       } else {
         iziToast.error({
           "title": "Error",
@@ -188,7 +249,7 @@ export class NotebookMainRender {
     return invitationElement;
   }
 
-  updateInvitationSuccess = (invitationElement, message) => {
+  updateInvitationSuccessCallback = (invitationElement, message) => {
     invitationElement.remove();
     iziToast.success({
       "title": "Success",
@@ -264,6 +325,7 @@ export class NotebookMainRender {
     return invitationElement;
   }
 
+  // 退回筆記本共編邀請
   withdrawInvitation = async (invitation) => {
     const path = `/api/notebooks/${invitation.notebookId}/invitations`;
     const response = await this.requestHandler.sendRequestWithToken(path, "DELETE", null);
@@ -299,7 +361,7 @@ export class NotebookMainRender {
         confirmButtonText: 'OK'
       }).then((result) => {
         if (result.isConfirmed) {
-          localStorage.removeItem("token");
+          localStorage.clear();
           window.location.href = "/";
         }
       })
@@ -310,50 +372,6 @@ export class NotebookMainRender {
         "position": "topRight"
       })
     }
-  }
-
-  handleCreateNewTag = () => {
-    const inputElement = $('.js_new_tag_input')
-    const tagName = inputElement.val();
-    if (this.isDuplicateTagOrNull(tagName)) {
-      iziToast.error({
-        "title": "Error",
-        "message": "Tag name already exists.",
-        "position": "topRight"
-      })
-      inputElement.val('');
-      return;
-    }
-    // 清空input
-    inputElement.val('');
-    const newTagElement = this.generateNotebookTagElement(tagName);
-    $('.tags').append(newTagElement);
-  }
-
-  generateNotebookTagElement = (tagName) => {
-    const newTagElement = $(`<p class="js_new_tag">${tagName}</p>`);
-    newTagElement.on('click', () => {
-      newTagElement.remove();
-    })
-    return newTagElement;
-  }
-
-  //檢查tag是否有重複
-  isDuplicateTagOrNull = (newTagName) => {
-    if (newTagName === '') {
-      return true;
-    }
-
-    let isDuplicate = false;
-    //檢查是否有重複的tag
-    $('.js_new_tag').each((index, element) => {
-      if (newTagName === element.textContent) {
-        isDuplicate = true;
-        return false;
-      }
-    })
-
-    return isDuplicate;
   }
 
 }
