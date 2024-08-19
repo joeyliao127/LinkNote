@@ -6,7 +6,8 @@ export class SideBarRender {
   requestHandler;
   mainComponents;
   notebookMainRender;
-  sideBarNotebookBtnFactory
+  sideBarNotebookBtnFactory;
+  sideBarBtnList;
   constructor(notebookMainRender) {
     this.requestHandler = new RequestHandler();
     this.sideBarNotebookBtnFactory = new SideBarNotebookBtnFactory();
@@ -17,6 +18,14 @@ export class SideBarRender {
       coNotebook: "coNotebookArea",
       invitation: "invitationsForm",
       setting: "settingForm",
+    }
+
+    this.sideBarBtnList = {
+      "createNotebook": $('.js_create_notebook_btn'),
+      "myNotebook": $('.js_sideBar_myNotebook_btn'),
+      "coNotebook": $('.js_sideBar_coNotebook_btn'),
+      "invitation": $('.js_invitations_btn'),
+      "setting": $('.js_setting_btn'),
     }
   }
 
@@ -51,6 +60,7 @@ export class SideBarRender {
   // 顯示新增筆記本表單
   displayCreateNotebookForm = () => {
     if(!this.isCurrentMainComponent(this.mainComponents.createNotebook)) {
+      this.renderSelectedSideBarBtn("createNotebook");
       this.notebookMainRender.displayMainComponent(this.mainComponents.createNotebook);
       localStorage.setItem("lastMainComponent", this.mainComponents.createNotebook);
     }
@@ -59,6 +69,7 @@ export class SideBarRender {
   displayMyNotebooks = () => {
     this.sideBarNotebookBtnFactory.renderOwnerNotebookBtn()
     if(!this.isCurrentMainComponent(this.mainComponents.myNotebook)) {
+      this.renderSelectedSideBarBtn("myNotebook");
       this.notebookMainRender.displayMainComponent(this.mainComponents.myNotebook);
       localStorage.setItem("lastMainComponent", this.mainComponents.myNotebook);
     }
@@ -66,6 +77,7 @@ export class SideBarRender {
 
   displayCoNotebooks = () => {
     if(!this.isCurrentMainComponent(this.mainComponents.coNotebook)) {
+      this.renderSelectedSideBarBtn("coNotebook");
       this.notebookMainRender.displayMainComponent(this.mainComponents.coNotebook);
       localStorage.setItem("lastMainComponent", this.mainComponents.coNotebook);
     }
@@ -74,6 +86,7 @@ export class SideBarRender {
   //顯示邀請表單
   displayInvitationForm = () => {
     if(!this.isCurrentMainComponent(this.mainComponents.invitation)) {
+      this.renderSelectedSideBarBtn("invitation");
       this.notebookMainRender.displayMainComponent(this.mainComponents.invitation);
       localStorage.setItem("lastMainComponent", this.mainComponents.invitation);
       // this.notebookMainRender.renderInvitationForm();
@@ -83,6 +96,7 @@ export class SideBarRender {
   //顯示設定表單
   displaySettingForm = () => {
     if(!this.isCurrentMainComponent(this.mainComponents.setting)) {
+      this.renderSelectedSideBarBtn("setting");
       this.notebookMainRender.displayMainComponent(this.mainComponents.setting);
       localStorage.setItem("lastMainComponent", this.mainComponents.setting);
     }
@@ -95,5 +109,17 @@ export class SideBarRender {
   signOutBtnListener = () => {
     localStorage.clear();
     window.location.href = "/";
+  }
+
+  renderSelectedSideBarBtn(btnName) {
+    $('.js_sideBar_ownerNotebookBtn_Ctn').empty();
+    $('.js_sideBar_coNotebookBtn_Ctn').empty();
+    Object.entries(this.sideBarBtnList).forEach(([name, btn]) => {
+      if (btnName === name) {
+        btn.addClass("selected");
+      } else {
+        btn.removeClass("selected");
+      }
+    })
   }
 }

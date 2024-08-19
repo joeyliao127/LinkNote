@@ -14,6 +14,10 @@ export class OwnerNotebookFactory {
   renderSpecificOwnerNotebook = () => {
 
   }
+
+  displayCreateNotebookElement() {
+    $('.js_init_create_notebook_wrapper').show();
+  }
 }
 
 export class CollaborativeNotebookFactory {
