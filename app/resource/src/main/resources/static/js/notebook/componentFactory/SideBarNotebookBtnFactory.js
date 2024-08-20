@@ -17,18 +17,18 @@ export class SideBarNotebookBtnFactory {
     this.notebookMainRender = new NotebookMainRender();
   }
 
-  renderOwnerNotebookBtn = async () => {
-    $(".js_sideBar_ownerNotebookBtn_Ctn").empty();
-    const ownerBtnList = await this.generateOwnerNotebookBtnList();
+  renderNotebookBtn = async (params) => {
+    params.container.empty();
+    const ownerBtnList = await this.generateNotebookBtnList(params.type, params.path, params.offset, params.limit);
 
     ownerBtnList.forEach((btn) => {
-      $(".js_sideBar_ownerNotebookBtn_Ctn").append(btn);
+      params.container.append(btn);
     })
   }
 
   // 產生sidebar的my notebook底下所有notebook btn
-  generateOwnerNotebookBtnList = async () => {
-    const path = `/api/notebooks?offset=${this.offset}&limit=${this.limit}`;
+  generateNotebookBtnList = async (type, path, offset, limit) => {
+    path += `?offset=${offset}&limit=${limit}`;
     const response = await this.requestHandler.sendRequestWithToken(path, "GET", null);
 
     if (!response.ok) {
@@ -39,16 +39,29 @@ export class SideBarNotebookBtnFactory {
     const data = await response.json();
     const notebooks = data.notebooks;
     notebooks.forEach((notebook) => {
-      notebookBtnList.push(this.generateOwnerNotebookBtn(notebook));
+      notebookBtnList.push(this.generateNotebookBtn(notebook, type));
     })
     return notebookBtnList;
   }
-  generateOwnerNotebookBtn = (notebook) => {
+  generateNotebookBtn = (notebook, type) => {
     const notebookBtn = $(`<p data-description="${notebook.description} data-id="${notebook.id}">${notebook.name}</p>`);
     notebookBtn.on('click', () => {
-      this.notebookMainRender.displayMainComponent("specificOwnerNotebook");
+      switch (type) {
+        case "owner":
+          this.notebookMainRender.displayMainComponent({
+            displayComponentName: "specificOwnerNotebook",
+            notebookId: notebook.id
+          });
+          break;
+        case "collaborator":
+          this.notebookMainRender.displayMainComponent({
+            displayComponentName: "specificCollaboratorNotebook",
+            notebookId: notebook.id
+          });
+          break;
+      }
     })
+
+    return notebookBtn;
   }
-
-
 }

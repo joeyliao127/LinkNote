@@ -78,7 +78,7 @@
         <div class="mainWrapper">
 
 <!--          新增notebook表單-->
-          <section class="createNotebookWrapper js_create_notebook_wrapper">
+          <section class="createNotebookWrapper js_create_notebook_wrapper display-none">
             <h3>Create Notebook</h3>
             <div class="createNotebookForm">
               <div class="inputs">
@@ -113,7 +113,7 @@
             </div>
           </section>
 <!--          myNotebook筆記區域-->
-          <section class="notebookArea scroll js_myNotebook_area">
+          <section class="notebookArea scroll js_myNotebook_area display-none">
 <!--            沒有筆記本則顯示此區塊-->
             <div class="initNotebookWrapper js_init_create_notebook_wrapper">
               <div class="initNotebookWrapper">
@@ -135,29 +135,30 @@
               </div>
             </div>
 <!--            notebook頂端搜尋區-->
-<!--            <div class="notebooksTop">-->
-<!--              <h3>My Notebook</h3>-->
-<!--              <div class="search">-->
-<!--&lt;!&ndash;                todo 要將id改為class，叫js_search_myNotebook&ndash;&gt;-->
-<!--                <input type="text" id="searchNotebook" placeholder="search notebook"/>-->
-<!--                <img src="/icons/search.png" alt="search"/>-->
-<!--              </div>-->
-<!--            </div>-->
-          </section>
-
-          <section class="notebookArea scroll js_coNotebook_area">
-            <div class="notebooksTop js_coNotebook_top">
-              <h3>Collaborative Notebook</h3>
-              <div class="search">
-                <!--                todo 要將id改為class，叫js_search_coNotebook-->
-                <input type="text" id="searchNotebook" placeholder="search notebook"/>
+            <div class="notebooksTop js_myNotebook_top">
+              <h3>My Notebook</h3>
+              <div class="search js_search_owner_notebook">
+                <input type="text"  placeholder="search notebook"/>
                 <img src="/icons/search.png" alt="search"/>
               </div>
             </div>
-            <div class="none">There is no notebooks.</div>
+            <div class="notebookCtn js_owner_notebook_ctn"></div>
+          </section>
+<!--          collaborative notebooks 區域-->
+          <section class="notebookArea scroll js_coNotebook_area display-none">
+            <div class="notebooksTop js_coNotebook_top">
+              <h3>Collaborative Notebook</h3>
+              <div class="search js_search_collaborate_notebook">
+                <input type="text" placeholder="search notebook"/>
+                <img src="/icons/search.png" alt="search"/>
+              </div>
+            </div>
+
+            <div class="none js_none_collaborative_notebook">There is no notebooks.</div>
+            <div class="notebookCtn js_collaborative_notebook_ctn"></div>
           </section>
 <!--          邀請表單-->
-          <section class="invitationWrapper js_invitation_wrapper">
+          <section class="invitationWrapper js_invitation_wrapper display-none">
             <section class="invitationTable" id="receivedInvitationTable">
               <h4>Pending Received Invitations</h4>
               <table id="received-table" class="js_received_table">
@@ -190,7 +191,7 @@
               </section>
             </section>
 <!--          更新使用者資訊表單-->
-          <section class="userProfileWrapper js_user_profile_wrapper">
+          <section class="userProfileWrapper js_user_profile_wrapper display-none">
             <h4>Member Profile</h4>
             <div class="userProfileForm">
               <div class="userProfile">

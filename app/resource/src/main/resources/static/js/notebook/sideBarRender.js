@@ -32,6 +32,7 @@ export class SideBarRender {
   async init() {
     this.renderUserInfo();
     this.buttonClickEventRegister();
+    this.displayMyNotebooks("/api/notebooks?offset=0&limit=20");
   }
 
   async renderUserInfo() {
@@ -50,8 +51,12 @@ export class SideBarRender {
 
   buttonClickEventRegister() {
     $(".js_create_notebook_btn").on('click', this.displayCreateNotebookForm);
-    $(".js_sideBar_myNotebook_btn").on('click', this.displayMyNotebooks);
-    $(".js_sideBar_coNotebook_btn").on('click', this.displayCoNotebooks);
+    $(".js_sideBar_myNotebook_btn").on('click', () => {
+      this.displayMyNotebooks("/api/notebooks?offset=0&limit=20");
+    });
+    $(".js_sideBar_coNotebook_btn").on('click', () => {
+      this.displayCoNotebooks("/api/coNotebooks?offset=0&limit=20");
+    });
     $(".settingBtn").on("click", this.displaySettingForm);
     $(".signoutBtn").on("click", this.signOutBtnListener);
     $(".js_invitations_btn").on("click", this.displayInvitationForm);
@@ -61,24 +66,47 @@ export class SideBarRender {
   displayCreateNotebookForm = () => {
     if(!this.isCurrentMainComponent(this.mainComponents.createNotebook)) {
       this.renderSelectedSideBarBtn("createNotebook");
-      this.notebookMainRender.displayMainComponent(this.mainComponents.createNotebook);
+      this.notebookMainRender.displayMainComponent({
+        displayComponentName: this.mainComponents.createNotebook
+      });
       localStorage.setItem("lastMainComponent", this.mainComponents.createNotebook);
     }
   }
 
-  displayMyNotebooks = () => {
-    this.sideBarNotebookBtnFactory.renderOwnerNotebookBtn()
+  displayMyNotebooks = (path) => {
     if(!this.isCurrentMainComponent(this.mainComponents.myNotebook)) {
       this.renderSelectedSideBarBtn("myNotebook");
-      this.notebookMainRender.displayMainComponent(this.mainComponents.myNotebook);
+      const config = {
+        type: "owner",
+        container: $('.js_sideBar_ownerNotebookBtn_Ctn'),
+        path: `/api/notebooks`,
+        offset: 0,
+        limit: 20
+      }
+      this.sideBarNotebookBtnFactory.renderNotebookBtn(config);
+      this.notebookMainRender.displayMainComponent({
+        displayComponentName: this.mainComponents.myNotebook,
+        path: path
+      });
       localStorage.setItem("lastMainComponent", this.mainComponents.myNotebook);
     }
   }
 
-  displayCoNotebooks = () => {
+  displayCoNotebooks = (path) => {
     if(!this.isCurrentMainComponent(this.mainComponents.coNotebook)) {
       this.renderSelectedSideBarBtn("coNotebook");
-      this.notebookMainRender.displayMainComponent(this.mainComponents.coNotebook);
+      const config = {
+        type: "collaborator",
+        container: $('.js_sideBar_coNotebookBtn_Ctn'),
+        path: `/api/coNotebooks`,
+        offset: 0,
+        limit: 20
+      }
+      this.sideBarNotebookBtnFactory.renderNotebookBtn(config);
+      this.notebookMainRender.displayMainComponent({
+        displayComponentName: this.mainComponents.coNotebook,
+        path: path
+      });
       localStorage.setItem("lastMainComponent", this.mainComponents.coNotebook);
     }
   }
@@ -87,7 +115,9 @@ export class SideBarRender {
   displayInvitationForm = () => {
     if(!this.isCurrentMainComponent(this.mainComponents.invitation)) {
       this.renderSelectedSideBarBtn("invitation");
-      this.notebookMainRender.displayMainComponent(this.mainComponents.invitation);
+      this.notebookMainRender.displayMainComponent({
+        displayComponentName: this.mainComponents.invitation
+      });
       localStorage.setItem("lastMainComponent", this.mainComponents.invitation);
       // this.notebookMainRender.renderInvitationForm();
     }
@@ -97,7 +127,9 @@ export class SideBarRender {
   displaySettingForm = () => {
     if(!this.isCurrentMainComponent(this.mainComponents.setting)) {
       this.renderSelectedSideBarBtn("setting");
-      this.notebookMainRender.displayMainComponent(this.mainComponents.setting);
+      this.notebookMainRender.displayMainComponent({
+        displayComponentName: this.mainComponents.setting
+      });
       localStorage.setItem("lastMainComponent", this.mainComponents.setting);
     }
   }

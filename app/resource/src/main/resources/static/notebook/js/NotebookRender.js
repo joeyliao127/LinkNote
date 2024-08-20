@@ -234,13 +234,16 @@ class NotebookRender {
     }
     const noteTitle = document.createElement("h5");
     noteTitle.textContent = "Notes";
+
     noteCtn.appendChild(genNotebookNameElement(notebookInfo.name));
+
     noteCtn.appendChild(
       genNotebookDescriptionElement(notebookInfo.description, this.#role)
     );
 
     noteCtn.appendChild(genUpdateBtnCtn(notebookInfo));
     noteCtn.appendChild(noteTitle);
+    //todo 看到這裡
     noteCtn.appendChild(await this.genNoteCardCtn(notebookInfo.id, renderPage));
     return noteCtn;
 
@@ -780,6 +783,7 @@ class NotebookRender {
       return noteCardCtn;
     } else {
       notes.forEach((note) => {
+        // todo 看到這 -2層
         noteCardCtn.appendChild(this.genNoteCard(note, notebookId));
       });
       return noteCardCtn;
@@ -817,6 +821,7 @@ class NotebookRender {
     const noteCard = document.createElement("a");
     noteCard.classList.add("noteCard");
     noteCard.href = `/notebooks/${notebookId}/notes/${note.noteId}`;
+    //todo 看到這 -3
     noteCard.appendChild(
       genStar(note.name, note.star, notebookId, note.noteId)
     );

@@ -1,6 +1,8 @@
 import Swal from "sweetalert2";
 import {RequestHandler} from "@unityJS/RequestHandler";
 import {MessageSender} from "@unityJS/MessageSender";
+import {OwnerNotebookComponentFactory} from "@notebookJS/componentFactory/NotebookComponentFactory";
+import {CollaborativeNotebookComponentFactory} from "@notebookJS/componentFactory/NotebookComponentFactory";
 
 const $ = require("jquery");
 
@@ -9,10 +11,14 @@ export class NotebookMainRender {
   requestHandler;
   mainComponents;
   messageSender;
+  ownerNotebookComponentFactory;
+  collaborativeNotebookComponentFactory;
 
   constructor() {
     this.messageSender = new MessageSender();
     this.requestHandler = new RequestHandler();
+    this.ownerNotebookComponentFactory = new OwnerNotebookComponentFactory();
+    this.collaborativeNotebookComponentFactory = new CollaborativeNotebookComponentFactory();
     this.mainComponents = {
       "createNotebookForm": $(".js_create_notebook_wrapper"),
       "myNotebookArea": $(".js_myNotebook_area"),
@@ -24,38 +30,44 @@ export class NotebookMainRender {
 
   async init() {
     const lastMainComponent = localStorage.getItem("lastMainComponent");
-    // if (lastMainComponent) {
-    //   this.displayMainComponent(lastMainComponent);
-    // }
     this.eventRegister();
 
     //TODO 渲染localstorage中的lastOpenNotebookId，如果沒有則渲染All notebook
     //TODO 暫時先渲染myNotebook
-    this.displayMainComponent("myNotebookArea");
+    this.displayMainComponent({
+      displayComponentName: "myNotebookArea",
+      path: "/api/notebooks?offset=0&limit=20"
+    });
   }
 
-  displayMainComponent(displayComponentName) {
+  async displayMainComponent(displayComponent) {
     Object.entries(this.mainComponents).forEach(
         ([componentName, component]) => {
-          component.hide();
+          component.addClass("display-none");
         })
-
+    const {displayComponentName} = displayComponent;
     switch (displayComponentName) {
       case "myNotebookArea":
-        this.renderOwnerNotebooks();
+        const ownerNotebookPath = displayComponent['path'];
+        const ownerNotebooks = await this.getNotebooks(ownerNotebookPath);
+        this.renderOwnerNotebooks(ownerNotebooks);
         localStorage.setItem("lastMainComponent", displayComponentName);
         break;
       case "coNotebookArea":
-        this.renderCollaborativeNotebooks();
+        const collaborativeNotebookPath = displayComponent['path'];
+        const collaborativeNotebooks = await this.getNotebooks(collaborativeNotebookPath);
+        this.renderCollaborativeNotebooks(collaborativeNotebooks);
         localStorage.setItem("lastMainComponent", displayComponentName);
         break;
       case "specificOwnerNotebook":
-        this.renderSpecificOwnerNotebook();
+        this.renderSpecificOwnerNotebook(displayComponent["notebookId"]);
         localStorage.setItem("lastMainComponent", displayComponentName);
+        localStorage.setItem("lastOpenNotebookId", displayComponent["notebookId"]);
         break;
       case "specificCollaboratorNotebook":
-        this.renderSpecificCollaborativeNotebook();
+        this.renderSpecificCollaborativeNotebook(displayComponent["notebookId"]);
         localStorage.setItem("lastMainComponent", displayComponentName);
+        localStorage.setItem("lastOpenNotebookId", displayComponent["notebookId"]);
         break;
       case "invitationsForm":
         this.renderInvitationForm();
@@ -67,7 +79,18 @@ export class NotebookMainRender {
       default:
         break;
     }
-    this.mainComponents[displayComponentName].show();
+    this.mainComponents[displayComponentName].removeClass("display-none");
+  }
+
+  getNotebooks = async (path) => {
+    const response = await this.requestHandler.sendRequestWithToken(path, "GET", null);
+
+    if(!response.ok) {
+      this.messageSender.error("Get notebooks failed");
+    }
+
+    const data = await response.json();
+    return data.notebooks;
   }
 
   eventRegister() {
@@ -81,8 +104,56 @@ export class NotebookMainRender {
       }
     })
     $(".js_init_create_notebook_btn").on('click', () => {
-      this.displayMainComponent("createNotebookForm");
+      this.displayMainComponent({
+        displayComponentName: "createNotebookForm"
+      });
     });
+    $(".js_search_owner_notebook input").on("keypress", (e) => {
+      const input = $(".js_search_owner_notebook input");
+      const keyword = input.val();
+      if ((e.key === "Enter") && keyword) {
+        this.displayMainComponent({
+          displayComponentName: "myNotebookArea",
+          path: `/api/notebooks?keyword=${keyword}&offset=0&limit=20`
+        });
+        input.val('');
+      }
+    })
+
+    $(".js_search_owner_notebook img").on('click', () => {
+      const input = $(".js_search_owner_notebook input");
+      const keyword = input.val();
+      if(keyword) {
+        this.displayMainComponent({
+          displayComponentName: "myNotebookArea",
+          path: `/api/notebooks?keyword=${keyword}&offset=0&limit=20`
+        });
+        input.val('');
+      }
+    })
+
+    $(".js_search_collaborate_notebook input").on("keypress", (e) => {
+      const input = $(".js_search_collaborate_notebook input");
+      const keyword = input.val();
+      if ((e.key === "Enter") && keyword) {
+        this.displayMainComponent({
+          displayComponentName: "coNotebookArea",
+          path: `/api/coNotebooks?keyword=${keyword}&offset=0&limit=20`
+        });
+        input.val("");
+      }
+    })
+    $(".js_search_collaborate_notebook img").on('click', () => {
+      const input = $(".js_search_collaborate_notebook input");
+      const keyword = input.val();
+      if(keyword) {
+        this.displayMainComponent({
+          displayComponentName: "coNotebookArea",
+          path: `/api/coNotebooks?keyword=${keyword}&offset=0&limit=20`
+        });
+        input.val("");
+      }
+    })
   }
 
   submitCreateNotebookForm = async () => {
@@ -125,7 +196,9 @@ export class NotebookMainRender {
       }).then(() => {
         this.clearCreateNotebookFormInput();
         // TODO 暫時先渲染main，未來要改為渲染specific notebookId
-        this.displayMainComponent("myNotebookArea");
+        this.displayMainComponent({
+          displayComponentName: "specificOwnerNotebook"
+        });
       });
     } else {
       this.messageSender.error("Create notebook failed. Please try again.");
@@ -176,7 +249,9 @@ export class NotebookMainRender {
   cancelCreateNotebookForm = () => {
     this.clearCreateNotebookFormInput();
     // todo 取消後應該要渲染上一本開的notebook，這邊暫時先渲染myNotebook
-    this.displayMainComponent("myNotebookArea");
+    this.displayMainComponent({
+      displayComponentName: "myNotebookArea"
+    });
   }
 
   clearCreateNotebookFormInput() {
@@ -185,16 +260,39 @@ export class NotebookMainRender {
     $(".js_new_notebook_description_input").val('');
   }
 
-  renderOwnerNotebooks = () => {
+  renderOwnerNotebooks = (notebooks) => {
+    const myNotebookArea = $(".js_myNotebook_area");
+    $(`.js_owner_notebook_ctn`).empty();
 
+    if(notebooks.length === 0) {
+      this.displayCreateNotebookElement();
+      return;
+    }
+    $('.js_myNotebook_top').show();
+    this.hideCreateNotebookElement();
+    const notebookContainer = this.ownerNotebookComponentFactory.generateOwnerNotebooks(notebooks);
+    myNotebookArea.append(notebookContainer);
   }
 
-  renderCollaborativeNotebooks = () => {
+  renderCollaborativeNotebooks = (notebooks) => {
+    const collaborativeNotebookArea = $(".js_coNotebook_area");
+    $(".js_collaborative_notebook_ctn").empty();
 
+    if(notebooks.length === 0) {
+      $('.js_none_collaborative_notebook').show();
+      return;
+    }
+    $('.js_coNotebook_top').show();
+    $('.js_none_collaborative_notebook').hide();
+    // this.registerSearchCollaborativeNotebooksEvent($('.js_search_collaborate_notebook'));
+    const notebookContainer = this.collaborativeNotebookComponentFactory.generateCollaborativeNotebooks(notebooks);
+    collaborativeNotebookArea.append(notebookContainer);
   }
 
-  renderSpecificOwnerNotebook = () => {
-    this.displayMainComponent("specificNotebookArea");
+  renderSpecificOwnerNotebook = (notebookId) => {
+    this.displayMainComponent({
+      displayComponentName: "specificNotebookArea"
+    });
   }
 
   renderSpecificCollaborativeNotebook = () => {
@@ -373,6 +471,19 @@ export class NotebookMainRender {
     } else {
       this.messageSender.error("Update user profile failed. Please try again.");
     }
+  }
+
+  displayCreateNotebookElement() {
+    $('.js_init_create_notebook_wrapper').show();
+    $('.notebooksTop').hide();
+  }
+
+  hideCreateNotebookElement() {
+    $('.js_init_create_notebook_wrapper').hide();
+  }
+
+  renderNotebookArea(params) {
+    this.displayMainComponent();
   }
 }
 

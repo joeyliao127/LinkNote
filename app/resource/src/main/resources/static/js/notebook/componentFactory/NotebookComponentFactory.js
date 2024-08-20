@@ -1,26 +1,29 @@
 const $ = require("jquery");
-import {RequestHandler} from "@unityJS/RequestHandler";
 import {NoteCardComponentFactory} from "@notebookJS/componentFactory/NoteCardComponentFactory";
 import {NoteFilterComponentFactory} from "@notebookJS/componentFactory/NoteFilterComponentFactory";
 
-export class OwnerNotebookFactory {
+export class OwnerNotebookComponentFactory {
   noteCardComponentFactory = new NoteCardComponentFactory();
   noteFilterComponentFactory = new NoteFilterComponentFactory();
 
-  renderOwnerNotebooks = () => {
 
+  generateOwnerNotebooks = (notebooks) => {
+    const notebookCtn = $(`.js_owner_notebook_ctn`);
+    notebooks.forEach(async (notebook) => {
+      const noteCardCtn = await this.noteCardComponentFactory.genNoteCtn(notebook, "owner");
+      notebookCtn.append(noteCardCtn);
+      notebookCtn.append($(`<div class="divide"></div>`));
+    })
+
+    return notebookCtn;
   }
 
   renderSpecificOwnerNotebook = () => {
 
   }
-
-  displayCreateNotebookElement() {
-    $('.js_init_create_notebook_wrapper').show();
-  }
 }
 
-export class CollaborativeNotebookFactory {
+export class CollaborativeNotebookComponentFactory {
   noteCardComponentFactory;
   noteFilterComponentFactory;
 
@@ -28,8 +31,15 @@ export class CollaborativeNotebookFactory {
     this.noteCardComponentFactory = new NoteCardComponentFactory();
     this.noteFilterComponentFactory =  new NoteFilterComponentFactory();
   }
-  renderCollaborativeNotebooks = () => {
+  generateCollaborativeNotebooks = (notebooks) => {
+    const notebookCtn = $(`.js_collaborative_notebook_ctn`);
+    notebooks.forEach(async (notebook) => {
+      const noteCardCtn = await this.noteCardComponentFactory.genNoteCtn(notebook, "collaborate");
+      notebookCtn.append(noteCardCtn);
+      notebookCtn.append($(`<div class="divide"></div>`));
+    })
 
+    return notebookCtn;
   }
 
   renderSpecificCollaborativeNotebook = () => {

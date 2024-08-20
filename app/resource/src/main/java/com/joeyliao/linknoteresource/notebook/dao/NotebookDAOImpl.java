@@ -90,7 +90,7 @@ public class NotebookDAOImpl implements NotebookDAO {
           """;
     }
     if (!Objects.equals(po.getKeyword(), "null")) {
-      sql += "AND n.name like :keyword ORDER BY n.create_date DESC";
+      sql += "AND n.name like :keyword ORDER BY n.create_date DESC ";
     }
     sql += "LIMIT :limit OFFSET :offset ";
     Map<String, Object> map = new HashMap<>();
