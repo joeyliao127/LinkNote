@@ -23,7 +23,7 @@ export class OwnerNotebookComponentFactory {
     notebooks.forEach(async (notebook) => {
       const noteCtn = await this.noteCardComponentFactory.genNoteCtn(notebook, "owner");
       notebookCtn.append(noteCtn);
-      // notebookCtn.append($(`<div class="divide"></div>`));
+      notebookCtn.append($(`<div class="divide"></div>`));
     })
 
     return notebookCtn;

@@ -87,7 +87,6 @@ class NotebookRender {
   }
 
   async renderNotebook(notebook) {
-    //todo 渲染單頁面筆記本
     const notebookArea = document.createElement("section");
     notebookArea.classList.add("notebookArea");
     notebookArea.classList.add("scroll");
@@ -136,7 +135,6 @@ class NotebookRender {
     `;
 
     let path = "";
-    //todo 原本的id會被改為 js_search_myNotebook 和 js_search_coNotebook
     const searchElemet = notebookArea.querySelector("#searchNotebook");
     if (this.#role === "owner") {
       path = `/api/notebooks?offset=${this.#filter.offset}&limit=${
@@ -244,7 +242,8 @@ class NotebookRender {
 
     noteCtn.appendChild(genUpdateBtnCtn(notebookInfo));
     noteCtn.appendChild(noteTitle);
-    //todo 看到這裡
+
+
     noteCtn.appendChild(await this.genNoteCardCtn(notebookInfo.id, renderPage));
     return noteCtn;
 
@@ -821,7 +820,6 @@ class NotebookRender {
     const noteCard = document.createElement("a");
     noteCard.classList.add("noteCard");
     noteCard.href = `/notebooks/${notebookId}/notes/${note.noteId}`;
-    //todo 看到這 -3
     noteCard.appendChild(
       genStar(note.name, note.star, notebookId, note.noteId)
     );

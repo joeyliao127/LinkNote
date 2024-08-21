@@ -1,6 +1,7 @@
 import {MessageSender} from "@unityJS/MessageSender";
 import {DeleteAlert} from "@unityJS/DeleteAlert";
 import {RequestHandler} from "@unityJS/RequestHandler";
+import {Validator} from "@unityJS/Validator";
 
 const $ = require("jquery");
 
@@ -9,6 +10,7 @@ export class NoteToolBarComponentFactory {
   requestHandler = new RequestHandler();
   messageSender = new MessageSender();
   deleteAlert = new DeleteAlert();
+  validator = new Validator();
 
   allNoteBtn;
   tag;
@@ -21,9 +23,11 @@ export class NoteToolBarComponentFactory {
   filters;
   noteCardCtn;
 
-  constructor(notebook) {
+  constructor(notebook, noteCtn, genNoteCard) {
+    this.noteCtn = noteCtn;
+    this.genNoteCard = genNoteCard;
     this.filters = {
-      tag: [],
+      tag: "",
       sortByDesc: false,
       star: false,
       keyword: null,
@@ -33,31 +37,26 @@ export class NoteToolBarComponentFactory {
   }
 
   genCreateNoteComponent = () => {
-    return $(`
+    const createNoteBtn = $(`
       <div class="createNoteBtn js_create_note_btn">
           <p>New note</p>
       </div>
     `);
-    // const createNoteBtn = $(`
-    //   <div class="createNoteBtn js_create_note_btn">
-    //       <p>New note</p>
-    //   </div>
-    // `);
-    //
-    // createNoteBtn.on("click", async () => {
-    //   const path = `/api/notebooks/${this.notebookId}/notes`;
-    //   const response = await this.requestHandler.sendRequestWithToken(path, "POST", {
-    //     notebookId: this.notebookId,
-    //   });
-    //   if (response.ok) {
-    //     const data = await response.json();
-    //     window.location.href = `/notebooks/${this.notebookId}/notes/${data.noteId}`;
-    //   } else {
-    //     MessageMaker.failed("Create note failed");
-    //   }
-    // });
-    //
-    // return createNoteBtn;
+
+    createNoteBtn.on("click", async () => {
+      const path = `/api/notebooks/${this.notebookId}/notes`;
+      const response = await this.requestHandler.sendRequestWithToken(path, "POST", {
+        notebookId: this.notebookId,
+      });
+      if (response.ok) {
+        const data = await response.json();
+        window.location.href = `/notebooks/${this.notebookId}/notes/${data.noteId}`;
+      } else {
+        MessageMaker.failed("Create note failed");
+      }
+    });
+
+    return createNoteBtn;
   }
 
   genInvitationBtnComponent = () => {
@@ -80,9 +79,10 @@ export class NoteToolBarComponentFactory {
       </div>
     `);
 
-    btn.on('click', () => {
+    btn.on('click',async () => {
       this.closeForm();
       this.resetFilter();
+      await this.rerenderNoteCardCtn();
     });
 
     this.allNoteBtn = btn;
@@ -111,8 +111,10 @@ export class NoteToolBarComponentFactory {
       </div>
     `);
 
-    btn.on("click", () => {
+    btn.on("click",async () => {
       this.filters.sortByDesc = !this.filters.sortByDesc;
+      this.renderSelectedFilter();
+      await this.rerenderNoteCardCtn();
     });
 
     this.sortBtn = btn;
@@ -126,8 +128,10 @@ export class NoteToolBarComponentFactory {
       </div>
     `);
 
-    btn.on("click", () => {
+    btn.on("click",async () => {
       this.filters.star = !this.filters.star;
+      this.renderSelectedFilter();
+      await this.rerenderNoteCardCtn();
     });
 
     this.starBtn = btn;
@@ -137,26 +141,29 @@ export class NoteToolBarComponentFactory {
   genSearchComponent = () => {
     const searchBar = $(`
       <div class="searchNote js_search_btn search">
-        <input type="text" id="searchNote" placeholder="search notes"/>
+        <input type="text" class="js_search_notes_input" id="searchNote" placeholder="search notes"/>
         <img src="/icons/search.png" alt="search"/>
       </div>
     `);
 
-    searchBar.find('input').on('keypress', () => {
+    searchBar.find('.js_search_notes_input').on('keypress', async (e) => {
       if (e.key === "Enter") {
         this.filters.keyword = searchBar.find('input').val();
+        searchBar.find('input').val("");
+        await this.rerenderNoteCardCtn();
       }
     });
 
-    searchBar.find('img').on('click', () => {
+    searchBar.find('img').on('click',async () => {
       this.filters.keyword = searchBar.find('input').val();
       searchBar.find('input').val("");
+      await this.rerenderNoteCardCtn();
     });
 
     return searchBar;
   }
 
-  genDeleteComponent = () => {
+  genDeleteNotebookComponent = () => {
     const deleteBtn = $(`
       <div class="toolBtn js_delete_notebook_btn">
           <img src="/icons/trash-white.png" alt="deleteBtn" class="deleteBtn"/>
@@ -199,20 +206,19 @@ export class NoteToolBarComponentFactory {
       tagForm.find(".tagCtn").append(this.genTagBtn(tag));
     });
 
-    tagForm.find("#js_create_tag_btn").on("click", async () => {
-      const input = tagForm.find(".createTagInput")
+    tagForm.find(".js_create_tag_btn").on("click", async () => {
+      const input = tagForm.find(".js_create_tag_input");
       const tagName = input.val();
 
-      if( tagName === "") {
-        this.messageSender.error("Tag name cannot be empty");
+      if( tagName.trim() === "") {
+        this.messageSender.warning("Tag name cannot be empty");
         return;
       }
       const response = await this.createTag(tagName);
 
       if (!response.ok) {
         this.messageSender.error("Create tag failed");
-      } else {
-        this.messageSender.success("Create tag success");
+        return;
       }
 
       const data = response.json();
@@ -224,12 +230,38 @@ export class NoteToolBarComponentFactory {
       input.val("");
     });
 
+    tagForm.find(".js_create_tag_input").on("keypress",async (e) => {
+      if (e.key === "Enter") {
+        const input = tagForm.find(".createTagInput");
+        const tagName = input.val();
+
+        if( tagName.trim() === "") {
+          this.messageSender.warning("Tag name cannot be empty");
+          return;
+        }
+        const response = await this.createTag(tagName);
+
+        if (!response.ok) {
+          this.messageSender.error("Create tag failed");
+          return;
+        }
+
+        const data = response.json();
+        const tag = {
+          name: tagName,
+          tagId: data.tagId
+        };
+        tagForm.find(".tagCtn").append(this.genTagBtn(tag));
+        input.val("");
+      }
+    });
+
     return tagForm;
   }
 
   genTagBtn = (tag) => {
     const tagEl = $(`
-      <div class="tag">
+      <div class="tag js_tag_filter_el">
         <p>${tag.name}</p>
         <div class="deleteTagBtn">
           <p>Remove</p>
@@ -237,24 +269,32 @@ export class NoteToolBarComponentFactory {
       </div>
     `);
 
+    //刪除tag
     tagEl.find('.deleteTagBtn').on('click', async (e) => {
       e.stopPropagation();
       const path = `/api/notebooks/${this.notebookId}/tags?tagId=${tag.tagId}`;
       const response = await this.requestHandler.sendRequestWithToken(path, "DELETE");
       if (response.ok) {
-        this.messageSender.success(`Delete tag ${tags.name} success!`);
         tagEl.remove();
       } else {
         this.messageSender.error(`Delete tag ${tag.name} failed.`);
       }
     })
 
-    tagEl.on('click', () => {
-      this.filters.tag.push(tag.name);
-      tagEl.parent().addClass("display-none");
+    //選擇tag
+    tagEl.on('click',async () => {
+      this.filters.tag = tag.name;
+      tagEl.parent().parent().addClass("display-none");
+      this.renderSelectedTag(tagEl);
+      await this.rerenderNoteCardCtn();
     })
 
     return tagEl;
+  }
+
+  renderSelectedTag(target) {
+    $(`.js_tag_filter_el`).removeClass("selected");
+    target.addClass("selected");
   }
 
   createTag = async (tagName) => {
@@ -268,11 +308,35 @@ export class NoteToolBarComponentFactory {
     const invitationForm = $(`
       <div class="collaboratorForm display-none">
         <h5>Collaborators</h5>
-        <div class="collaborators">
-        
-        </div>
+        <div class="collaborators"></div>
+        <div class="invitationForm">
+        <p>Invite Collaborator</p>
+        <input type="email" id="inviteEmail" placeholder="Email Address"/>
+        <input type="text" id="inviteMessage" placeholder="Invitation message"/>
+        <div id="inviteBtn" class="js_send_invitation_btn">Invite</div>
+      </div>
       </div>
     `);
+
+    invitationForm.find(`.js_send_invitation_btn`).on("click", async () => {
+      const email = invitationForm.find("#inviteEmail").val();
+      const message = invitationForm.find("#inviteMessage").val();
+      if(!this.validator.validateEmailFormat(email)) {
+        this.messageSender.error("Invalid email format");
+      }
+      const result = await this.inviteCollaborator(email, message, this.notebookId);
+
+      if(result.ok) {
+        this.messageSender.success("Invitation sent");
+        return;
+      } else {
+        this.messageSender.error("Invitation failed");
+      }
+      invitationForm.find("#inviteEmail").val("");
+      invitationForm.find("#inviteMessage").val("");
+      invitationForm.addClass("display-none");
+    });
+
     const response = await this.requestHandler.sendRequestWithToken(`/api/notebooks/${this.notebookId}/collaborators`, "GET");
 
     if (!response.ok) {
@@ -291,11 +355,20 @@ export class NoteToolBarComponentFactory {
     return invitationForm;
   }
 
+  inviteCollaborator = async (email, message) => {
+    const path = `/api/notebooks/${this.notebookId}/invitations`;
+    const requestBody = {
+      inviteeEmail: email,
+      message
+    };
+    return await this.requestHandler.sendRequestWithToken(path, "POST", requestBody);
+  }
+
   genInvitationBtn = (collaborator) => {
     const collaboratorEl = $(`
       <div class="collaborator">
         <p>${collaborator.name}</p>
-        <div class=deleteCollaboratorBtn data-userEmail= ${collaboratorInfo.userEmail}>
+        <div class=deleteCollaboratorBtn data-userEmail= ${collaborator.userEmail}>
           <p>Remove</p>
         </div>
       </div>
@@ -325,11 +398,30 @@ export class NoteToolBarComponentFactory {
     }
   }
   generateFilterPath() {
-    let filterPath = `/api/notebooks/${this.notebookId}/notes`;
+    let filterPath = `/api/notebooks/${this.notebookId}/notes?offset=0&limit=20`;
+    if (this.filters.tag.trim() !== "") {
+      filterPath += `&tag=${this.filters.tag}`;
+    }
+    if (this.filters.star) {
+      filterPath += "&star=true";
+    } else {
+      filterPath += "&star=false";
+    }
+    if (this.filters.sortByDesc) {
+      filterPath += "&sortDesc=true";
+    } else {
+      filterPath += "&sortDesc=false";
+    }
+
+    if (this.filters.keyword) {
+      filterPath += `&keyword=${this.filters.keyword}`;
+    }
+
+    return filterPath;
   }
 
   resetFilter() {
-    this.filters.tag = [];
+    this.filters.tag = "";
     this.filters.sortByDesc = false;
     this.filters.star = false;
     this.filters.keyword = null;
@@ -364,11 +456,25 @@ export class NoteToolBarComponentFactory {
 
     if(selectedAllBtn) {
       this.allNoteBtn.addClass("selected");
+    } else {
+      this.allNoteBtn.removeClass("selected");
     }
   }
 
   closeForm = () => {
     $('.tagForm').addClass("display-none");
     $('.collaboratorForm').addClass('display-none');
+  }
+
+  rerenderNoteCardCtn = async () => {
+    const path = this.generateFilterPath();
+    const response = await this.requestHandler.sendRequestWithToken(path, "GET");
+    if (response.ok) {
+      const data = await response.json();
+      this.noteCtn.find(".noteCardCtn").empty();
+      data.notes.forEach((note) => {
+        this.noteCtn.find(".noteCardCtn").append(this.genNoteCard(note, this.notebookId));
+      })
+    }
   }
 }

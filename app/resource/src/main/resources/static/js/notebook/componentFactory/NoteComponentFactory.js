@@ -31,6 +31,7 @@ export class NoteComponentFactory {
       </section>
     `);
     this.appendNotebookToolBar(noteCtn, notebook);
+    this.registerUpdateNotebookEvent(noteCtn, notebook, type);
 
     const notesData = await this.getNotes(notebook.id);
 
@@ -40,12 +41,11 @@ export class NoteComponentFactory {
     notesData.forEach((note) => {
       noteCtn.find(".noteCardCtn").append(this.genNoteCard(note, notebook.id));
     })
-    this.registerNoteCtnElementEvent(noteCtn, notebook, type);
-    console.log(noteCtn);
+
     return noteCtn;
   }
   appendNotebookToolBar = (noteCtn, notebook) => {
-    const noteFilterComponentFactory = new NoteToolBarComponentFactory(notebook);
+    const noteFilterComponentFactory = new NoteToolBarComponentFactory(notebook, noteCtn, this.genNoteCard);
     Object.entries(this.filterType).forEach(async ([key, value]) => {
       if(!value) {
         return;
@@ -75,27 +75,16 @@ export class NoteComponentFactory {
             noteCtn.find(".toolBar").append(noteFilterComponentFactory.genSearchComponent());
           break;
         case "deleteNoteBtn":
-            noteCtn.find(".toolBar").append(noteFilterComponentFactory.genDeleteComponent());
+            noteCtn.find(".toolBar").append(noteFilterComponentFactory.genDeleteNotebookComponent());
           break;
     }});
   }
 
-  appendSpecificCollaborativeNotebookToolBar = (noteCtn, notebook) => {
-
-  }
-
-  //註冊noteCtn底下的html元素 event
-  registerNoteCtnElementEvent = (noteCtn, notebook, type) => {
-
-    //刪除notebook事件
-    // noteCtn.find(".toolBtn").on("click", () => {
-    //   this.deleteNotebook(notebook.id);
-    // });
-
+  registerUpdateNotebookEvent = (noteCtn, notebook, type) => {
     // 更新description事件
     const descriptionElement = noteCtn.find('.js_edit_description');
 
-    if(type === "owner") {
+    if(type === "owner" || type === "specificOwner") {
       descriptionElement.on('click', () => {
         this.editMode(noteCtn);
       });
@@ -177,7 +166,7 @@ export class NoteComponentFactory {
        <a class="noteCard" href="/notebooks/${notebookId}/notes/${note.noteId}">
         <div class="star ${note.star ? "star-full" : "star-empty"}"></div>
         <h5>${note.name}</h5>
-        <p class="question">${note.question}</p>
+        <p class="question">${note.question === null ? "" : note.question}</p>
         <div class="deleteNoteBtn"></div>
         <p class="createTime">${note.createDate}</p>
       </a>

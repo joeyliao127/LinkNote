@@ -45,15 +45,18 @@ export class SideBarNotebookBtnFactory {
   }
   generateNotebookBtn = (notebook, type) => {
     const notebookBtn = $(`<p data-description="${notebook.description} data-id="${notebook.id}">${notebook.name}</p>`);
+    notebookBtn.addClass(type === "owner" ? "js_sideBar_owner_notebook_btn" : "js_sideBar_collaborative_notebook_btn");
     notebookBtn.on('click', () => {
       switch (type) {
         case "owner":
+          renderOwnerNotebookSelectBtn(notebookBtn);
           this.notebookMainRender.displayMainComponent({
             displayComponentName: "specificOwnerNotebook",
             path: `/api/notebooks/${notebook.id}/notes`,
           });
           break;
         case "collaborator":
+          renderCollaborativeNotebookSelectBtn(notebookBtn);
           this.notebookMainRender.displayMainComponent({
             displayComponentName: "specificCollaboratorNotebook",
             path: `/api/notebooks/${notebook.id}/notes`,
@@ -64,4 +67,14 @@ export class SideBarNotebookBtnFactory {
 
     return notebookBtn;
   }
+}
+
+function renderOwnerNotebookSelectBtn(selectBtn) {
+ $('.js_sideBar_owner_notebook_btn').removeClass("selected");
+  selectBtn.addClass("selected");
+}
+
+function renderCollaborativeNotebookSelectBtn(selectBtn) {
+  $('.js_sideBar_collaborative_notebook_btn').removeClass("selected");
+  selectBtn.addClass("selected");
 }

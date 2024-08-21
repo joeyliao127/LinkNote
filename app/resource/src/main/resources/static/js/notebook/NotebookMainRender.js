@@ -202,11 +202,6 @@ export class NotebookMainRender {
         "/api/notebooks", "POST", requestBody);
 
     if (response.ok) {
-      //todo 記得刪除，data回傳格式為
-      // {
-      //   "result": true,
-      //     "notebookId": "NBe6d72aae2fe2e258a87d7d17f1c19d4d"
-      // }
       const data = await response.json();
 
       Swal.fire({
@@ -271,9 +266,11 @@ export class NotebookMainRender {
   // 清空create notebook表單內容
   cancelCreateNotebookForm = () => {
     this.clearCreateNotebookFormInput();
+    localStorage.getItem("lastOpen")
     // todo 取消後應該要渲染上一本開的notebook，這邊暫時先渲染myNotebook
     this.displayMainComponent({
-      displayComponentName: "myNotebookArea"
+      displayComponentName: "myNotebookArea",
+      path: "/api/notebooks?offset=0&limit=20"
     });
   }
 
@@ -347,7 +344,7 @@ export class NotebookMainRender {
 
     if (invitations.length > 0) {
       $('.js_received_none').hide();
-      $('.js_received_header').show();
+      $('.js_received_header').removeClass("display-none");
       invitations.forEach((invitation) => {
         $('.js_received_table').append(
             this.genReceivedInvitationTr(invitation));
@@ -419,7 +416,7 @@ export class NotebookMainRender {
     const invitations = data.invitations;
     if (invitations.length > 0) {
       $('.js_sent_invitation_none').hide();
-      $('.js_sent_invitation_header').show();
+      $('.js_sent_invitation_header').removeClass("display-none");
       invitations.forEach((invitation) => {
         $('.js_sent_table').append(this.genSentInvitationTr(invitation));
       })
