@@ -20,5 +20,5 @@ public interface NotebookDAO {
 
   NotebookOwnerDTO getNotebookOwner(String notebookId);
 
-  String getNotebookName(String notebookId);
+  NotebooksDTO getNotebook(String notebookId);
 }

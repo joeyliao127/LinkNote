@@ -9,6 +9,8 @@ import lombok.Data;
 public class GetNotesResponsePo {
   private List<NoteDTO> notes;
   private List<TagDTO> tags;
-  private String notebookName;
+  private String name;
+  private String description;
+  private String id;
   private Boolean nextPage;
 }

@@ -12,6 +12,7 @@ import com.joeyliao.linknoteresource.note.po.GetNotesRequestPo;
 import com.joeyliao.linknoteresource.note.po.GetNotesResponsePo;
 import com.joeyliao.linknoteresource.note.po.updateNotePo;
 import com.joeyliao.linknoteresource.notebook.dao.NotebookDAO;
+import com.joeyliao.linknoteresource.notebook.dto.NotebooksDTO;
 import com.joeyliao.linknoteresource.tag.dao.TagDAO;
 import com.joeyliao.linknoteresource.tag.service.TagService;
 import java.util.List;
@@ -57,7 +58,10 @@ public class NoteServiceImpl implements NoteService {
     }
     responsePo.setNotes(list);
     responsePo.setTags(tagDAO.getNotebookTags(po.getNotebookId()));
-    responsePo.setNotebookName(notebookDAO.getNotebookName(po.getNotebookId()));
+    NotebooksDTO dto = notebookDAO.getNotebook(po.getNotebookId());
+    responsePo.setName(dto.getName());
+    responsePo.setDescription(dto.getDescription());
+    responsePo.setId(dto.getId());
     return responsePo;
   }
 

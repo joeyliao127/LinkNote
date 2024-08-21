@@ -50,13 +50,13 @@ export class SideBarNotebookBtnFactory {
         case "owner":
           this.notebookMainRender.displayMainComponent({
             displayComponentName: "specificOwnerNotebook",
-            notebookId: notebook.id
+            path: `/api/notebooks/${notebook.id}/notes`,
           });
           break;
         case "collaborator":
           this.notebookMainRender.displayMainComponent({
             displayComponentName: "specificCollaboratorNotebook",
-            notebookId: notebook.id
+            path: `/api/notebooks/${notebook.id}/notes`,
           });
           break;
       }

@@ -3,18 +3,19 @@ import {RequestHandler} from "@unityJS/RequestHandler";
 import Swal from "sweetalert2";
 import {MessageSender} from "@unityJS/MessageSender";
 import {DeleteAlert} from "@unityJS/DeleteAlert";
+import {NoteToolBarComponentFactory} from "@notebookJS/componentFactory/NoteToolBarComponentFactory";
 
-export class NoteCardComponentFactory {
+export class NoteComponentFactory {
   requestHandler = new RequestHandler();
   messageSender = new MessageSender();
   deleteAlert = new DeleteAlert();
+  constructor(filterType) {
+    this.filterType = filterType;
+  }
   genNoteCtn = async (notebook, type) => {
-    const noteCardCtn = $(`
+    const noteCtn = $(`
       <section class="noteCtn">
         <div class="toolBar">
-          <div class="toolBtn">
-            <img src="/icons/trash-white.png" alt="deleteBtn" class="deleteBtn"/>
-          </div>
         </div>
         <h4 class="js_notebook_name">${notebook.name}</h4>
         <p class="description js_edit_description" contenteditable="true">${notebook.description}</p>
@@ -24,29 +25,72 @@ export class NoteCardComponentFactory {
         </div>
         <h5>Notes</h5>
         <div class="noteCardCtn">
-        
+         
         </div>
+        <div class="none no_notes display-none">There is no notes.</div>
       </section>
     `);
-    if (type !== "owner") {
-      noteCardCtn.find(".toolBar").hide();
-    }
+    this.appendNotebookToolBar(noteCtn, notebook);
 
     const notesData = await this.getNotes(notebook.id);
+
+    if(notesData.length === 0){
+      noteCtn.find(".none").removeClass("display-none");
+    }
     notesData.forEach((note) => {
-      noteCardCtn.find(".noteCardCtn").append(this.genNoteCard(note, notebook.id));
+      noteCtn.find(".noteCardCtn").append(this.genNoteCard(note, notebook.id));
     })
-    this.registerNoteCtnElementEvent(noteCardCtn, notebook, type);
-    return noteCardCtn;
+    this.registerNoteCtnElementEvent(noteCtn, notebook, type);
+    console.log(noteCtn);
+    return noteCtn;
+  }
+  appendNotebookToolBar = (noteCtn, notebook) => {
+    const noteFilterComponentFactory = new NoteToolBarComponentFactory(notebook);
+    Object.entries(this.filterType).forEach(async ([key, value]) => {
+      if(!value) {
+        return;
+      }
+      switch (key) {
+        case "createNoteBtn":
+            noteCtn.find(".toolBar").append(noteFilterComponentFactory.genCreateNoteComponent());
+          break;
+        case "invitationBtn":
+            noteCtn.find(".toolBar").append(noteFilterComponentFactory.genInvitationBtnComponent());
+            noteCtn.find(".toolBar").append(await noteFilterComponentFactory.genInvitationForm());
+          break;
+        case "allNoteBtn":
+            noteCtn.find(".toolBar").append(noteFilterComponentFactory.genAllNoteComponent());
+          break;
+        case "tagBtn":
+          noteCtn.find(".toolBar").append(noteFilterComponentFactory.genTagComponent());
+          noteCtn.find(".toolBar").append(await noteFilterComponentFactory.genTagFilterForm());
+          break;
+        case "sortBtn":
+            noteCtn.find(".toolBar").append(noteFilterComponentFactory.genSortComponent());
+          break;
+        case "starBtn":
+          noteCtn.find(".toolBar").append(noteFilterComponentFactory.genStarComponent());
+          break;
+        case "keyword":
+            noteCtn.find(".toolBar").append(noteFilterComponentFactory.genSearchComponent());
+          break;
+        case "deleteNoteBtn":
+            noteCtn.find(".toolBar").append(noteFilterComponentFactory.genDeleteComponent());
+          break;
+    }});
+  }
+
+  appendSpecificCollaborativeNotebookToolBar = (noteCtn, notebook) => {
+
   }
 
   //註冊noteCtn底下的html元素 event
   registerNoteCtnElementEvent = (noteCtn, notebook, type) => {
 
     //刪除notebook事件
-    noteCtn.find(".toolBtn").on("click", () => {
-      this.deleteNotebook(notebook.id);
-    });
+    // noteCtn.find(".toolBtn").on("click", () => {
+    //   this.deleteNotebook(notebook.id);
+    // });
 
     // 更新description事件
     const descriptionElement = noteCtn.find('.js_edit_description');
@@ -162,7 +206,6 @@ export class NoteCardComponentFactory {
       this.deleteAlert.renderDeleteAlertBox(
           "Note",
           note.name,
-          `/api/notebooks/${notebookId}/notes/${note.noteId}`,
           () => {
             this.deleteNote(notebookId, note.noteId, note.name);
             card.remove();

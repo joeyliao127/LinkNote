@@ -1,8 +1,12 @@
 import Swal from "sweetalert2";
 import {RequestHandler} from "@unityJS/RequestHandler";
 import {MessageSender} from "@unityJS/MessageSender";
-import {OwnerNotebookComponentFactory} from "@notebookJS/componentFactory/NotebookComponentFactory";
-import {CollaborativeNotebookComponentFactory} from "@notebookJS/componentFactory/NotebookComponentFactory";
+import {
+  CollaborativeNotebookComponentFactory,
+  OwnerNotebookComponentFactory,
+  SpecificCollaborativeNotebookComponentFactory,
+  SpecificOwnerNotebookComponentFactory
+} from "@notebookJS/componentFactory/NotebookComponentFactory";
 
 const $ = require("jquery");
 
@@ -11,33 +15,32 @@ export class NotebookMainRender {
   requestHandler;
   mainComponents;
   messageSender;
-  ownerNotebookComponentFactory;
-  collaborativeNotebookComponentFactory;
+  ownerNotebookFactory;
+  collaborativeNotebookFactory;
+  specificOwnerNotebookFactory;
+  specificCollaborativeNotebookFactory;
+
 
   constructor() {
     this.messageSender = new MessageSender();
     this.requestHandler = new RequestHandler();
-    this.ownerNotebookComponentFactory = new OwnerNotebookComponentFactory();
-    this.collaborativeNotebookComponentFactory = new CollaborativeNotebookComponentFactory();
+    this.ownerNotebookFactory = new OwnerNotebookComponentFactory();
+    this.collaborativeNotebookFactory = new CollaborativeNotebookComponentFactory();
+    this.specificOwnerNotebookFactory = new SpecificOwnerNotebookComponentFactory();
+    this.specificCollaborativeNotebookFactory = new SpecificCollaborativeNotebookComponentFactory();
     this.mainComponents = {
       "createNotebookForm": $(".js_create_notebook_wrapper"),
       "myNotebookArea": $(".js_myNotebook_area"),
       "coNotebookArea": $(".js_coNotebook_area"),
+      "specificOwnerNotebook": $(".js_specific_owner_notebook_area"),
+      "specificCollaboratorNotebook": $(".js_specific_collaborative_notebook_area"),
       "invitationsForm": $(".js_invitation_wrapper"),
       "settingForm": $(".js_user_profile_wrapper"),
     }
   }
 
   async init() {
-    const lastMainComponent = localStorage.getItem("lastMainComponent");
     this.eventRegister();
-
-    //TODO 渲染localstorage中的lastOpenNotebookId，如果沒有則渲染All notebook
-    //TODO 暫時先渲染myNotebook
-    this.displayMainComponent({
-      displayComponentName: "myNotebookArea",
-      path: "/api/notebooks?offset=0&limit=20"
-    });
   }
 
   async displayMainComponent(displayComponent) {
@@ -60,12 +63,14 @@ export class NotebookMainRender {
         localStorage.setItem("lastMainComponent", displayComponentName);
         break;
       case "specificOwnerNotebook":
-        this.renderSpecificOwnerNotebook(displayComponent["notebookId"]);
+        const specificOwnerNotebook = await this.getNotebook(displayComponent["path"]);
+        await this.renderSpecificOwnerNotebook(specificOwnerNotebook);
         localStorage.setItem("lastMainComponent", displayComponentName);
         localStorage.setItem("lastOpenNotebookId", displayComponent["notebookId"]);
         break;
       case "specificCollaboratorNotebook":
-        this.renderSpecificCollaborativeNotebook(displayComponent["notebookId"]);
+        const specificCollaboratorNotebook = await this.getNotebook(displayComponent["path"]);
+        await this.renderSpecificCollaborativeNotebook(specificCollaboratorNotebook);
         localStorage.setItem("lastMainComponent", displayComponentName);
         localStorage.setItem("lastOpenNotebookId", displayComponent["notebookId"]);
         break;
@@ -91,6 +96,23 @@ export class NotebookMainRender {
 
     const data = await response.json();
     return data.notebooks;
+  }
+
+  /**
+   *
+   * @returns Object
+   *  notebookName: LinkNote開發歷程,
+   *  description: LinkNote開發的血汗史
+   *  id: NB000000001
+   *  notes: []
+   *  nextPage: false
+   */
+  getNotebook = async (path) => {
+    const response = await this.requestHandler.sendRequestWithToken(path, "GET", null);
+    if(!response.ok) {
+      this.messageSender.error("Get notes failed");
+    }
+    return await response.json();
   }
 
   eventRegister() {
@@ -195,9 +217,10 @@ export class NotebookMainRender {
         timer: 5000
       }).then(() => {
         this.clearCreateNotebookFormInput();
-        // TODO 暫時先渲染main，未來要改為渲染specific notebookId
+        //建立notebook後渲染該頁面
         this.displayMainComponent({
-          displayComponentName: "specificOwnerNotebook"
+          displayComponentName: "specificOwnerNotebook",
+          path: `/api/notebooks/${data.notebookId}/notes`,
         });
       });
     } else {
@@ -270,33 +293,37 @@ export class NotebookMainRender {
     }
     $('.js_myNotebook_top').show();
     this.hideCreateNotebookElement();
-    const notebookContainer = this.ownerNotebookComponentFactory.generateOwnerNotebooks(notebooks);
+    const notebookContainer = this.ownerNotebookFactory.generateOwnerNotebooks(notebooks);
     myNotebookArea.append(notebookContainer);
   }
 
   renderCollaborativeNotebooks = (notebooks) => {
     const collaborativeNotebookArea = $(".js_coNotebook_area");
+    const noneNotebooks = $(`.js_none_collaborative_notebook`);
     $(".js_collaborative_notebook_ctn").empty();
 
     if(notebooks.length === 0) {
-      $('.js_none_collaborative_notebook').show();
+      noneNotebooks.show();
       return;
     }
     $('.js_coNotebook_top').show();
-    $('.js_none_collaborative_notebook').hide();
-    // this.registerSearchCollaborativeNotebooksEvent($('.js_search_collaborate_notebook'));
-    const notebookContainer = this.collaborativeNotebookComponentFactory.generateCollaborativeNotebooks(notebooks);
+    noneNotebooks.hide();
+    const notebookContainer = this.collaborativeNotebookFactory.generateCollaborativeNotebooks(notebooks);
     collaborativeNotebookArea.append(notebookContainer);
   }
 
-  renderSpecificOwnerNotebook = (notebookId) => {
-    this.displayMainComponent({
-      displayComponentName: "specificNotebookArea"
-    });
+  renderSpecificOwnerNotebook = async (notebook) => {
+    const ownerNotebookArea = $(".js_specific_owner_notebook_area");
+    ownerNotebookArea.empty();
+    const ownerNotebook = await this.specificOwnerNotebookFactory.generateSpecificOwnerNotebook(notebook);
+    ownerNotebookArea.append(ownerNotebook);
   }
 
-  renderSpecificCollaborativeNotebook = () => {
-
+  renderSpecificCollaborativeNotebook = async (notebook) => {
+    const collaborativeNotebookArea = $(".js_specific_collaborative_notebook_area");
+    collaborativeNotebookArea.empty();
+    const collaborativeNotebook = await this.specificCollaborativeNotebookFactory.generateSpecificCollaborativeNotebook(notebook);
+    collaborativeNotebookArea.append(collaborativeNotebook);
   }
 
   // 渲染共編邀請表單，每次渲染都會重新fetch，所以要將表單中原有的html移除

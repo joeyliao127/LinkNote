@@ -87,6 +87,7 @@ class NotebookRender {
   }
 
   async renderNotebook(notebook) {
+    //todo 渲染單頁面筆記本
     const notebookArea = document.createElement("section");
     notebookArea.classList.add("notebookArea");
     notebookArea.classList.add("scroll");
@@ -783,7 +784,6 @@ class NotebookRender {
       return noteCardCtn;
     } else {
       notes.forEach((note) => {
-        // todo 看到這 -2層
         noteCardCtn.appendChild(this.genNoteCard(note, notebookId));
       });
       return noteCardCtn;

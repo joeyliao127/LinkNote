@@ -3,7 +3,7 @@ const $ = require("jquery");
 export class DeleteAlert {
 
   requestHandler = new RequestHandler();
-  renderDeleteAlertBox(target, name, path, callback) {
+  renderDeleteAlertBox(target, name, confirmCallback) {
     const alertBoxWrapper = $(`
         <div class="alertWrapper">
           <div class="alertBox">
@@ -22,7 +22,7 @@ export class DeleteAlert {
 
     const deleteBtn = alertBoxWrapper.find("#delete");
     deleteBtn.on('click', () => {
-      callback();
+      confirmCallback();
       alertBoxWrapper.remove();
     });
 

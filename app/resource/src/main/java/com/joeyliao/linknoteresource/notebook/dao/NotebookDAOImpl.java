@@ -139,13 +139,13 @@ public class NotebookDAOImpl implements NotebookDAO {
   }
 
   @Override
-  public String getNotebookName(String notebookId) {
+  public NotebooksDTO getNotebook(String notebookId) {
     String sql = """
-        SELECT name FROM notebooks WHERE id = :id
+        SELECT id, name, description FROM notebooks WHERE id = :id
         """;
     Map<String, Object> map = new HashMap<>();
     map.put("id", notebookId);
-    List<String> list =  namedParameterJdbcTemplate.query(sql, map, new NotebookNameRowMapper());
+    List<NotebooksDTO> list =  namedParameterJdbcTemplate.query(sql, map, new NotebookNameRowMapper());
     if(list.isEmpty()){
       return null;
     }
