@@ -62,6 +62,13 @@ public class NotebookController {
     return ResponseEntity.status(200).body(notebookService.getCoNotebooks(po));
   }
 
+  @GetMapping("/api/notebooks/{notebookId}")
+  public ResponseEntity<Object> getNotebook(
+      @PathVariable String notebookId
+  ) {
+    return ResponseEntity.status(200).body(notebookService.getNotebook(notebookId));
+  }
+
   @PutMapping("/api/notebooks/{notebookId}")
   public ResponseEntity<Object> updateNotebook(
       @PathVariable @NotNull String notebookId,

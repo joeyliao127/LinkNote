@@ -4,12 +4,11 @@ import com.joeyliao.linknoteresource.generic.enums.Target;
 import com.joeyliao.linknoteresource.generic.po.UserInfo;
 import com.joeyliao.linknoteresource.generic.uuidgenerator.service.UUIDGeneratorService;
 import com.joeyliao.linknoteresource.notebook.dao.NotebookDAO;
+import com.joeyliao.linknoteresource.notebook.dto.NotebooksDTO;
+import com.joeyliao.linknoteresource.notebook.po.CreateNotebookRequestPo;
 import com.joeyliao.linknoteresource.notebook.po.GetNotebooksRequestPo;
 import com.joeyliao.linknoteresource.notebook.po.GetNotebooksResponsePo;
-import com.joeyliao.linknoteresource.notebook.po.CreateNotebookRequestPo;
 import com.joeyliao.linknoteresource.notebook.po.UpdateNotebookPo;
-import com.joeyliao.linknoteresource.tag.dao.TagDAO;
-import com.joeyliao.linknoteresource.tag.po.CreateNotebookTagRequestPo;
 import com.joeyliao.linknoteresource.tag.po.CreateNotebookTagsRequestPo;
 import com.joeyliao.linknoteresource.tag.service.TagService;
 import lombok.extern.slf4j.Slf4j;
@@ -70,6 +69,11 @@ public class NotebookServiceImpl implements NotebookService {
   }
 
   @Override
+  public NotebooksDTO getNotebook(String notebookId) {
+    return notebookDAO.getNotebook(notebookId);
+  }
+
+  @Override
   public void updateNotebook(UpdateNotebookPo po) {
     notebookDAO.updateNotebook(po);
   }
@@ -102,13 +106,14 @@ public class NotebookServiceImpl implements NotebookService {
     return responsePo;
   }
 
-  private UserInfo getUserInfo(String Authorization){
+  private UserInfo getUserInfo(String Authorization) {
     RestTemplate restTemplate = new RestTemplate();
     HttpHeaders headers = new HttpHeaders();
     headers.set("Authorization", Authorization);
     HttpEntity<UserInfo> requestEntity = new HttpEntity<>(headers);
-    String url = "http://"+ authenticationServer +"/api/user/info";
-    ResponseEntity<UserInfo> response = restTemplate.exchange(url, HttpMethod.GET, requestEntity,UserInfo.class);
+    String url = "http://" + authenticationServer + "/api/user/info";
+    ResponseEntity<UserInfo> response = restTemplate.exchange(url, HttpMethod.GET, requestEntity,
+        UserInfo.class);
     UserInfo body = response.getBody();
     return response.getBody();
   }

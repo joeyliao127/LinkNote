@@ -146,6 +146,7 @@
   border-radius: 5px;
   border: 1px solid #666;
   top: 30px;
+  left: 45px;
 }
 
 .filterBtn {
@@ -200,7 +201,7 @@
 .notebookTagCtn {
   position: absolute;
   top: 31px;
-  left: 72px;
+  left: 118px;
   width: 220px;
   border: 1px solid #666;
   border-radius: 5px;

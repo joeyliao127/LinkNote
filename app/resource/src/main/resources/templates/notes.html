@@ -78,11 +78,11 @@
               <h3 class="notebookName"></h3>
               <div class="sideBarBtnArea">
                 <div class="createNoteBtn">
-                  <p>New</p>
+                  <p class="no-select">New</p>
                 </div>
                 <div class="filter js_filter_btn">
-                  <img src="/icons/filter.png" alt="filter" />
-                  <p>Filter</p>
+                  <img class="no-select" src="/icons/filter.png" alt="filter" />
+                  <p class="no-select">Filter</p>
                 </div>
                 <div class="filterCtn display-none js_filter_ctn">
                   <div class="allNoteBtn filterBtn">
@@ -114,18 +114,19 @@
                   </div>
                 </div>
                 <div class="notebookTagBtn js_notebook_tags_btn">
-                  <img src="/icons/tag-yellow.png" alt="tag" />
+                  <img class="no-select" src="/icons/tag-yellow.png" alt="tag" />
                 </div>
                 <div class="notebookTagCtn display-none js_notebook_tags_ctn">
                   <p class="title">Tags</p>
-                  <div class="tagArea"></div>
+                  <div class="tagArea js_tag_area"></div>
                   <div class="createTagForm">
                     <input
                       type="text"
                       id="newTag"
                       placeholder="Craete new tag"
+                      class="js_create_tag_input"
                     />
-                    <div id="createTagBtn">
+                    <div id="createTagBtn" class="js_create_tag_btn">
                       <p>Create</p>
                     </div>
                   </div>

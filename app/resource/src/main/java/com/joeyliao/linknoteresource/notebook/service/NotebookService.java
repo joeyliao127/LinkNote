@@ -1,5 +1,6 @@
 package com.joeyliao.linknoteresource.notebook.service;
 
+import com.joeyliao.linknoteresource.notebook.dto.NotebooksDTO;
 import com.joeyliao.linknoteresource.notebook.po.GetNotebooksRequestPo;
 import com.joeyliao.linknoteresource.notebook.po.GetNotebooksResponsePo;
 import com.joeyliao.linknoteresource.notebook.po.CreateNotebookRequestPo;
@@ -12,6 +13,8 @@ public interface NotebookService {
   GetNotebooksResponsePo getNotebooks(GetNotebooksRequestPo po);
 
   GetNotebooksResponsePo getCoNotebooks(GetNotebooksRequestPo po);
+
+  NotebooksDTO getNotebook(String notebookId);
 
   void updateNotebook(UpdateNotebookPo po);
 

@@ -216,12 +216,15 @@ export class NoteToolBarComponentFactory {
       }
       const response = await this.createTag(tagName);
 
-      if (!response.ok) {
+      if (response.status === 400) {
+        this.messageSender.error("Tag name already exists");
+        return;
+      } else if(!response.ok) {
         this.messageSender.error("Create tag failed");
         return;
       }
 
-      const data = response.json();
+      const data = await response.json();
       const tag = {
         name: tagName,
         tagId: data.tagId

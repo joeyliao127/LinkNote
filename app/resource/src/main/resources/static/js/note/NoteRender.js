@@ -1,15 +1,19 @@
 const $ = require( "jquery" );
 import {NoteComponentGenerator} from "@noteJS/NoteComponentGenerator";
 import {RequestHandler} from "@unityJS/RequestHandler";
+import {DeleteAlert} from "@unityJS/DeleteAlert";
+import {MessageSender} from "@unityJS/MessageSender";
 
 export class NoteRender {
 
-  componentGenerator = new NoteComponentGenerator();
   requestHandler = new RequestHandler();
+  deleteAlert = new DeleteAlert();
+  messageSender = new MessageSender();
 
   constructor() {
     this.noteId = $(location).attr('href').split("/").pop();
     this.notebookId = $(location).attr('href').split("/")[4];
+    this.componentGenerator = new NoteComponentGenerator(this.notebookId);
   }
 
   init() {
@@ -26,6 +30,8 @@ export class NoteRender {
 
   renderSideBar = () => {
     this.renderUserInfo();
+    this.renderNotebook();
+    this.renderNotebookTags();
     this.renderNotes();
   }
 
@@ -38,26 +44,55 @@ export class NoteRender {
     $(".js_user_email").text(data.email);
   }
 
-  renderMain = () => {
-    this.renderTags();
+  renderNotebook = async () => {
+    const response = await this.requestHandler.sendRequestWithToken(
+        `/api/notebooks/${this.notebookId}`,
+        "GET",
+        null
+    );
+
+    if(response.ok) {
+      const data = await response.json();
+      $(".notebookName").text(data.name);
+    }
+  }
+
+  renderMain = async () => {
     this.renderCollaborators();
-    this.renderNoteContent();
+    const response = await this.requestHandler.sendRequestWithToken(
+        `/api/notebooks/${this.notebookId}/notes/${this.noteId}`,
+        "GET",
+        null
+    )
+    const data = await response.json();
+    this.renderNoteContent(data.note);
+    this.renderTags(data.tags);
   }
 
-  renderTags = () => {
-
+  renderNotebookTags = async () => {
+    const tagsComponents = await this.componentGenerator.generateTagsComponent();
+    tagsComponents.forEach((tagComponent) => {
+      $(".js_tag_area").append(tagComponent);
+    })
   }
 
-  renderCollaborators = () => {
+  renderTags = (tags) => {
+    //todo 渲染tags元件
+  }
 
+  renderCollaborators = async () => {
+    //todo 渲染collaborator元件
   }
 
   renderNotes = async () => {
-
+    const notes = await this.componentGenerator.generateNotesComponent();
+    notes.forEach((noteComponent) => {
+      $('.noteArea').append(noteComponent);
+    })
   }
 
-  renderNoteContent = async () => {
-
+  renderNoteContent = (note) => {
+    //todo 渲染tui editor，將內容和標題插入html
   }
   registerEvent = () => {
     this.displaySideBarClickEvent();
@@ -70,6 +105,8 @@ export class NoteRender {
     this.signOutClickEvent();
     this.navigateToNotebookClickEvent();
     this.clickBodyEvent();
+    this.sideBarClickEvent();
+    this.createTagEvent();
   }
 
   closeForm = (excludeForm) => {
@@ -136,6 +173,11 @@ export class NoteRender {
       }
     })
 
+    //監聽input click事件避免點擊後收起side bar (body有監聽close事件)
+    input.on('click', (e) => {
+      e.stopPropagation();
+    })
+
     $('.js_search_note_btn').on("click", (e) => {
       e.stopPropagation();
     })
@@ -155,9 +197,59 @@ export class NoteRender {
     })
   }
 
+  sideBarClickEvent = () => {
+    $(".sideBar").on("click", (e) => {
+      e.stopPropagation();
+    })
+  }
+
   clickBodyEvent = () => {
     $("body").on("click", () => {
       this.closeForm("body");
+      $('.sideBar').removeClass("displaySideBar");
     })
+  }
+
+  createTagEvent = () => {
+    $(".js_create_tag_btn").on("click", async () => {
+      await this.createTag();
+    });
+
+    $(".js_create_tag_input").on("keypress",async (e) => {
+      if (e.key === "Enter") {
+        await this.createTag();
+      }
+    });
+  }
+
+  createTag = async () => {
+    const input = $(".js_create_tag_input");
+    const tagName = input.val();
+
+    if( tagName.trim() === "") {
+      this.messageSender.warning("Tag name cannot be empty");
+      return;
+    }
+    const path = `/api/notebooks/${this.notebookId}/tags`;
+    const requestBody = {
+      name: tagName
+    };
+    const response = await this.requestHandler.sendRequestWithToken(path, "POST", requestBody);
+
+    if (response.status === 400) {
+      this.messageSender.error("Tag name already exists");
+      return;
+    } else if(!response.ok) {
+      this.messageSender.error("Create tag failed");
+      return;
+    }
+
+    const data = await response.json();
+    const tag = {
+      name: tagName,
+      tagId: data.tagId
+    };
+    $(".js_tag_area").append(this.componentGenerator.generateTagComponent(tag));
+    input.val("");
   }
 }
