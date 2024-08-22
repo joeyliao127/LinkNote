@@ -1,11 +1,14 @@
-@import url(/base/style/reset.css);
-@import url(/base/style/message.css);
-@import url(/base/style/deleteAlert.css);
+@import url(/style/base/reset.css);
+@import url(/style/base/message.css);
+@import url(/style/base/deleteAlert.css);
 * {
   text-decoration: none;
   box-sizing: border-box;
-  color: white;
   line-height: 1.5;
+}
+
+.alertBox {
+  color: white;
 }
 
 .scroll {
@@ -34,11 +37,11 @@
 }
 
 .display-none {
-  display: none!important;
+  display: none;
 }
 
 .selected {
-  background-color: #999999;
+  background-color: #444;
 }
 .selected666 {
   background-color: #666;

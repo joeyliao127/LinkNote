@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/icons/nodes-colorful.png" />
-    <link rel="stylesheet" href="/note/style/note-base.css" />
-    <link rel="stylesheet" href="/note/style/style.css" />
+    <link rel="stylesheet" href="/style/note/note-base.css" />
+    <link rel="stylesheet" href="/style/note/style.css" />
     <link
       rel="stylesheet"
       href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"
@@ -24,7 +24,7 @@
     <div class="wrapper">
       <header>
         <div class="topBarLeft">
-          <div id="hamburger">
+          <div id="hamburger" class="js_display_sidebar_btn">
             <img src="/icons/hamburger.png" alt="hamburger" />
           </div>
         </div>
@@ -33,11 +33,11 @@
           <p class="noteName" contenteditable="true"></p>
         </div>
         <div class="topBarRigth">
-          <div class="noteTagBtn">
+          <div class="noteTagBtn js_note_tags_btn">
             <img src="/icons/tag-yellow.png" alt="tag" />
             <p>Add tag</p>
           </div>
-          <div class="tagForm display-none">
+          <div class="tagForm display-none js_note_tag_form">
             <h5>Add tags to this note</h5>
             <div class="tagCtn">
               <div class="noTag">
@@ -45,10 +45,10 @@
               </div>
             </div>
           </div>
-          <div class="collaboratorBtn">
+          <div class="collaboratorBtn js_collaborator_btn">
             <img src="/icons/collaborators.png" alt="collaborators" />
           </div>
-          <div class="collaboratorCtn display-none">
+          <div class="collaboratorCtn js_collaborator_ctn display-none">
             <div class="owner">
               <p class="title">Owner</p>
               <p class="user"></p>
@@ -65,13 +65,13 @@
       </header>
       <div class="sideBarWrapper">
         <section class="sideBar">
-          <a id="linkNoteBtn" href="/notebooks">LinkNote</a>
-          <div id="hiddenSideBarBtn">
+          <a id="linkNoteBtn" class="js_notebook_navigate_btn" href="/notebooks">LinkNote</a>
+          <div id="hiddenSideBarBtn" class="js_hidden_sideBar_btn">
             <img src="/icons/hamburger.png" alt="hamburger" />
           </div>
           <div class="searchNote">
-            <input type="text" placeholder="Search note" />
-            <img src="/icons/search.png" alt="search" />
+            <input type="text" placeholder="Search note" class="js_search_note_input"/>
+            <img src="/icons/search.png" alt="search" class="js_search_note_btn" />
           </div>
           <div class="noteCtn">
             <div class="noteCtnTop">
@@ -80,11 +80,11 @@
                 <div class="createNoteBtn">
                   <p>New</p>
                 </div>
-                <div class="filter">
+                <div class="filter js_filter_btn">
                   <img src="/icons/filter.png" alt="filter" />
                   <p>Filter</p>
                 </div>
-                <div class="filterCtn display-none">
+                <div class="filterCtn display-none js_filter_ctn">
                   <div class="allNoteBtn filterBtn">
                     <img src="/icons/notes.png" alt="notes" />
                     <p>All notes</p>
@@ -113,10 +113,10 @@
                     />
                   </div>
                 </div>
-                <div class="notebookTagBtn">
+                <div class="notebookTagBtn js_notebook_tags_btn">
                   <img src="/icons/tag-yellow.png" alt="tag" />
                 </div>
-                <div class="notebookTagCtn display-none">
+                <div class="notebookTagCtn display-none js_notebook_tags_ctn">
                   <p class="title">Tags</p>
                   <div class="tagArea"></div>
                   <div class="createTagForm">
@@ -136,9 +136,9 @@
           </div>
           <div class="sideBarBottom">
             <div class="userEmail">
-              <p></p>
+              <p class="js_user_email"></p>
             </div>
-            <div class="signoutBtn">
+            <div class="signoutBtn js_signOut_btn">
               <img src="/icons/signout.png" alt="signout" />
               <p>SignOut</p>
             </div>
@@ -151,9 +151,7 @@
     <script src="/tuiEditor/js/toastui-editor-all.min.js"></script>
 
     <script src="https://uicdn.toast.com/editor-plugin-code-syntax-highlight/latest/toastui-editor-plugin-code-syntax-highlight-all.min.js"></script>
-    <script src="/base/js/FetchData.js"></script>
-    <script src="/base/js/Message.js"></script>
-    <script src="/base/js/DeleteAlert.js"></script>
-    <script src="/note/js/NoteMain.js"></script>
+
+    <script src="/js/dist/note.bundle.js"></script>
   </body>
 </html>
