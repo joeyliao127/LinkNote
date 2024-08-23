@@ -14,8 +14,9 @@ export class NoteComponentGenerator {
   requestHandler = new RequestHandler();
   deleteAlert = new DeleteAlert();
 
-  constructor(notebookId) {
+  constructor(notebookId, noteId) {
     this.notebookId = notebookId;
+    this.noteId = noteId;
     this.filters = {
       "star": false,
       "tag": "",
@@ -160,11 +161,6 @@ export class NoteComponentGenerator {
 
     return tagComponent;
   }
-
-  updateFilters = (key, value) => {
-    this.filters[key] = value;
-  }
-
   resetFilters = () => {
     this.filters = {
       "star": false,
@@ -172,5 +168,87 @@ export class NoteComponentGenerator {
       "keyword": "",
       "sortByDesc": false
     }
+  }
+
+  generateNoteTagsComponent = (tags, noteTags) => {
+    let tagComponents = [];
+    tags.forEach((tag) => {
+      tagComponents.push(this.generateNoteTagComponent(tag, noteTags));
+    })
+
+    return tagComponents;
+  }
+
+  generateNoteTagComponent = (tag, noteTags) => {
+    const tagComponent = $(`
+      <div class="tag js_note_tag data-tagid="${tag.tagId}">
+        <img class="checked display-none" src="/icons/check.png" alt="check"/>
+        <p>${tag.name}</p>
+      </div>
+    `);
+
+    // todo 將noteTag從array改為map，提高搜尋效率
+    for (const noteTag of noteTags) {
+      if(noteTag.tagId === tag.tagId) {
+        tagComponent.addClass("js_selected");
+        tagComponent.find(".checked").removeClass("display-none");
+        break;
+      }
+    }
+
+    tagComponent.on('click',async (e) => {
+      e.stopPropagation();
+
+      if(tagComponent.hasClass("js_selected")) {
+        tagComponent.removeClass("js_selected");
+        tagComponent.find(".checked").addClass("display-none");
+        this.deleteNoteTag(tag.tagId);
+      } else {
+        tagComponent.addClass("js_selected");
+        tagComponent.find(".checked").removeClass("display-none");
+        this.addNoteTag(tag.tagId);
+      }
+
+    })
+    return tagComponent;
+  }
+
+  addNoteTag = async (tagId) => {
+    const response = await this.requestHandler.sendRequestWithToken(
+        `/api/notebooks/${this.notebookId}/notes/${this.noteId}/tags`,
+        "POST",
+        {
+          "tagId": tagId
+        }
+    );
+
+    if(!response.ok) {
+      this.messageSender.error("Add tag failed");
+    }
+  }
+
+  deleteNoteTag = async (tagId) => {
+    const response = await this.requestHandler.sendRequestWithToken(
+        `/api/notebooks/${this.notebookId}/notes/${this.noteId}/tags?tagId=${tagId}`,
+        "DELETE",
+        null
+    );
+    if(!response.ok) {
+      this.messageSender.error("Delete tag failed");
+    }
+  }
+
+  generateCollaboratorsComponent = (collaborators) => {
+    let collaboratorComponent = [];
+    collaborators.forEach((collaborator) => {
+      collaboratorComponent.push(this.generateCollaboratorComponent(collaborator));
+    })
+
+    return collaboratorComponent;
+  }
+  generateCollaboratorComponent = (collaborator) => {
+    return $(`
+      <p class="user" data-userMail="${collaborator.userEmail}">${collaborator.name}</p> 
+    `);
   }
 }

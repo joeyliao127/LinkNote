@@ -6,18 +6,6 @@
     <link rel="icon" href="/icons/nodes-colorful.png" />
     <link rel="stylesheet" href="/style/note/note-base.css" />
     <link rel="stylesheet" href="/style/note/style.css" />
-    <link
-      rel="stylesheet"
-      href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/themes/prism.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://uicdn.toast.com/editor-plugin-code-syntax-highlight/latest/toastui-editor-plugin-code-syntax-highlight.min.css"
-    />
     <title>Note</title>
   </head>
   <body>
@@ -30,7 +18,7 @@
         </div>
 
         <div class="topBarMid">
-          <p class="noteName" contenteditable="true"></p>
+          <p class="noteName js_note_name" contenteditable="true"></p>
         </div>
         <div class="topBarRigth">
           <div class="noteTagBtn js_note_tags_btn">
@@ -39,8 +27,8 @@
           </div>
           <div class="tagForm display-none js_note_tag_form">
             <h5>Add tags to this note</h5>
-            <div class="tagCtn">
-              <div class="noTag">
+            <div class="tagCtn js_note_tag_ctn">
+              <div class="noTag js_none_tag">
                 <p>None</p>
               </div>
             </div>
@@ -51,14 +39,14 @@
           <div class="collaboratorCtn js_collaborator_ctn display-none">
             <div class="owner">
               <p class="title">Owner</p>
-              <p class="user"></p>
+              <p class="user js_owner_name"></p>
             </div>
             <div class="collaborators">
               <p class="title">Collaborators</p>
             </div>
           </div>
 
-          <div class="deleteNoteBtn">
+          <div class="deleteNoteBtn js_delete_note_btn">
             <img src="/icons/trash-white.png" alt="trash" />
           </div>
         </div>
@@ -146,13 +134,10 @@
           </div>
         </section>
       </div>
-      <main></main>
+      <main>
+        <div class="js_tui_editor" id="editor"></div>
+      </main>
     </div>
-
-    <script src="/tuiEditor/js/toastui-editor-all.min.js"></script>
-
-    <script src="https://uicdn.toast.com/editor-plugin-code-syntax-highlight/latest/toastui-editor-plugin-code-syntax-highlight-all.min.js"></script>
-
     <script src="/js/dist/note.bundle.js"></script>
   </body>
 </html>

@@ -3,6 +3,9 @@ import {NoteComponentGenerator} from "@noteJS/NoteComponentGenerator";
 import {RequestHandler} from "@unityJS/RequestHandler";
 import {DeleteAlert} from "@unityJS/DeleteAlert";
 import {MessageSender} from "@unityJS/MessageSender";
+import {Editor} from "@toast-ui/editor";
+import '@toast-ui/editor/dist/toastui-editor.css';
+import '@toast-ui/editor/dist/theme/toastui-editor-dark.css';
 
 export class NoteRender {
 
@@ -13,7 +16,7 @@ export class NoteRender {
   constructor() {
     this.noteId = $(location).attr('href').split("/").pop();
     this.notebookId = $(location).attr('href').split("/")[4];
-    this.componentGenerator = new NoteComponentGenerator(this.notebookId);
+    this.componentGenerator = new NoteComponentGenerator(this.notebookId, this.noteId);
   }
 
   init() {
@@ -59,14 +62,8 @@ export class NoteRender {
 
   renderMain = async () => {
     this.renderCollaborators();
-    const response = await this.requestHandler.sendRequestWithToken(
-        `/api/notebooks/${this.notebookId}/notes/${this.noteId}`,
-        "GET",
-        null
-    )
-    const data = await response.json();
-    this.renderNoteContent(data.note);
-    this.renderTags(data.tags);
+    this.renderNoteContent();
+    this.renderNoteTags();
   }
 
   renderNotebookTags = async () => {
@@ -77,12 +74,50 @@ export class NoteRender {
     this.displaySpecificTagNotesClickEvent();
   }
 
-  renderTags = (tags) => {
-    //todo 渲染tags元件
+  renderNoteTags = async () => {
+    const noteTags = await this.getNoteTags();
+    const data = await this.componentGenerator.getNotebookTags();
+    const notebookTags = data.tags;
+    if(!(notebookTags.length === 0)) {
+      $(`.js_none_tag`).hide();
+      const tagsComponents = this.componentGenerator.generateNoteTagsComponent(notebookTags, noteTags);
+      tagsComponents.forEach((tagComponent) => {
+        $(`.js_note_tag_ctn`).append(tagComponent);
+      })
+    }
+  }
+
+  getNoteTags = async () => {
+    const noteTagResponse = await this.requestHandler.sendRequestWithToken(
+        `/api/notebooks/${this.notebookId}/notes/${this.noteId}/tags`,
+        "GET",
+        null
+    );
+
+    if(!noteTagResponse.ok) {
+      this.messageSender.error("Get tags failed");
+    }
+
+    const data = await noteTagResponse.json();
+    const {tags} = data;
+    return tags;
   }
 
   renderCollaborators = async () => {
-    //todo 渲染collaborator元件
+    const response = await this.requestHandler.sendRequestWithToken(
+        `/api/notebooks/${this.notebookId}/collaborators`,
+        "GET",
+        null
+    );
+    const data = await response.json();
+    const {ownerName} = data.owner;
+    $(`.js_owner_name`).text(ownerName);
+
+    const collaborators = data.collaborators;
+    collaborators.forEach((collaborator) => {
+      const collaboratorComponent = this.componentGenerator.generateCollaboratorsComponent(collaborator);
+      $(".js_collaborator_ctn").append(collaboratorComponent);
+    })
   }
 
   renderNotes = async () => {
@@ -98,8 +133,30 @@ export class NoteRender {
     })
   }
 
-  renderNoteContent = (note) => {
-    //todo 渲染tui editor，將內容和標題插入html
+  renderNoteContent =async () => {
+    const response = await this.requestHandler.sendRequestWithToken(
+        `/api/notebooks/${this.notebookId}/notes/${this.noteId}`,
+        "GET",
+        null
+    )
+    const data = await response.json();
+    const {note} = data;
+    $(`.js_note_name`).text(note.name);
+    this.renderTuiEditor(note);
+  }
+
+  //todo 渲染tui區域
+  renderTuiEditor = (note) => {
+    const initialValue = note.content.trim() === "" ? `# Title\n\n## Question\n\n## Keypoint` : note.content;
+    // const { codeSyntaxHighlight } = Editor.plugin;
+    const editor = new Editor({
+      el: document.querySelector("#editor"),
+      height: "93vh",
+      previewStyle: "vertical",
+      initialValue: initialValue,
+      theme: "dark",
+      // plugins: [codeSyntaxHighlight],
+    });
   }
 
   registerEvent = () => {
@@ -115,6 +172,7 @@ export class NoteRender {
     this.sideBarClickEvent();
     this.createTagEvent();
     this.registerFiltersEvent();
+    this.deleteNoteClickEvent();
   }
 
   closeForm = (excludeForm) => {
@@ -332,5 +390,23 @@ export class NoteRender {
   renderSelectedTagFilter = (target) => {
     $('.js_specific_tag').removeClass("selected");
     target.classList.add("selected");
+  }
+
+  deleteNoteClickEvent = () => {
+    $(`.js_delete_note_btn`).on('click', async () => {
+      this.deleteAlert.renderDeleteAlertBox(
+          "",
+          "this note",
+          async () => {
+            const path = `/api/notebooks/${this.notebookId}/notes/${this.noteId}`;
+            const response = await this.requestHandler.sendRequestWithToken(path, "DELETE", null);
+            if(!response.ok) {
+              this.messageSender.error("Delete note failed");
+              return;
+            }
+            window.location.href = `/notebooks`;
+          }
+      )
+    })
   }
 }
