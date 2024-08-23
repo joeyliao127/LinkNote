@@ -92,7 +92,7 @@ export class NoteComponentGenerator {
   getPath = () => {
     let path = `/api/notebooks/${this.notebookId}/notes?offset=0&limit=20`;
     if(this.filters.star) {
-      path += "?star=true";
+      path += "&star=true";
     }
     if(this.filters.tag.trim() !== "") {
       path += `&tag=${this.filters.tag}`;
@@ -138,8 +138,8 @@ export class NoteComponentGenerator {
 
   generateTagComponent = (tag) => {
     const tagComponent = $(`
-      <div class="tag">
-        <p>${tag.name}</p>
+      <div class="tag js_specific_tag">
+        <p class="js_tag_name">${tag.name}</p>
         <div class="deleteTagBtn">
           <p class="js_remove_notebook_tag_btn">Removev</p>
         </div>
@@ -159,6 +159,10 @@ export class NoteComponentGenerator {
     })
 
     return tagComponent;
+  }
+
+  updateFilters = (key, value) => {
+    this.filters[key] = value;
   }
 
   resetFilters = () => {

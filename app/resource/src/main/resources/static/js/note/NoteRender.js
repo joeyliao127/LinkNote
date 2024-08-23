@@ -74,6 +74,7 @@ export class NoteRender {
     tagsComponents.forEach((tagComponent) => {
       $(".js_tag_area").append(tagComponent);
     })
+    this.displaySpecificTagNotesClickEvent();
   }
 
   renderTags = (tags) => {
@@ -85,8 +86,14 @@ export class NoteRender {
   }
 
   renderNotes = async () => {
+    $('.noteArea').empty();
     const notes = await this.componentGenerator.generateNotesComponent();
     notes.forEach((noteComponent) => {
+      if(noteComponent.data("noteid") === this.noteId) {
+        noteComponent.addClass("selected");
+      } else {
+        noteComponent.removeClass("selected");
+      }
       $('.noteArea').append(noteComponent);
     })
   }
@@ -94,6 +101,7 @@ export class NoteRender {
   renderNoteContent = (note) => {
     //todo 渲染tui editor，將內容和標題插入html
   }
+
   registerEvent = () => {
     this.displaySideBarClickEvent();
     this.displayTagsClickEvent();
@@ -101,12 +109,12 @@ export class NoteRender {
     this.displayFilterClickEvent();
     this.displayFilterTagClickEvent();
     this.createNoteClickEvent();
-    this.searchNoteEvent();
     this.signOutClickEvent();
     this.navigateToNotebookClickEvent();
     this.clickBodyEvent();
     this.sideBarClickEvent();
     this.createTagEvent();
+    this.registerFiltersEvent();
   }
 
   closeForm = (excludeForm) => {
@@ -159,32 +167,25 @@ export class NoteRender {
     })
   }
   createNoteClickEvent = () => {
-
-  }
-  searchNoteEvent = () => {
-    const input = $(".js_search_note_input");
-    input.on("keypress", (e) => {
-      if(e.key === "Enter") {
-        const keyword = $(".js_search_note_input").val();
-        this.displayMainComponent({
-          displayComponentName: "noteList",
-          path: `/api/notebooks/${this.notebookId}/notes?keyword=${keyword}&offset=0&limit=20`
-        });
+    $(".js_create_note_btn").on("click", async (e) => {
+      e.stopPropagation();
+      try{
+        const response = await this.requestHandler.sendRequestWithToken(
+            `/api/notebooks/${this.notebookId}/notes`,
+            "POST",
+            {notebookId: this.notebookId}
+        );
+        if(response.ok) {
+          const data = await response.json();
+          window.location.href = `/notebooks/${this.notebookId}/notes/${data.noteId}`
+        }
+      }
+      catch(err) {
+        this.messageSender.error("create note error");
       }
     })
-
-    //監聽input click事件避免點擊後收起side bar (body有監聽close事件)
-    input.on('click', (e) => {
-      e.stopPropagation();
-    })
-
-    $('.js_search_note_btn').on("click", (e) => {
-      e.stopPropagation();
-    })
-
-
-
   }
+
   signOutClickEvent = () => {
     $(".js_signOut_btn").on("click", () => {
       localStorage.clear();
@@ -249,7 +250,87 @@ export class NoteRender {
       name: tagName,
       tagId: data.tagId
     };
-    $(".js_tag_area").append(this.componentGenerator.generateTagComponent(tag));
+    const tagComponent = this.componentGenerator.generateTagComponent(tag)
+    $(".js_tag_area").append(tagComponent);
+    tagComponent.on("click", async (e) => {
+      this.componentGenerator.filters.tag = tagComponent.text();
+      await this.renderNotes();
+      this.renderSelectedTagFilter(tagComponent.get(0));
+    })
     input.val("");
+  }
+
+  registerFiltersEvent = () => {
+    this.displayAllNotesClickEvent();
+    this.displayStarredNotesClickEvent();
+    this.displaySortedNotesClickEvent();
+    this.displaySearchNotesClickEvent();
+  }
+
+  displaySearchNotesClickEvent = () => {
+    const input = $(".js_search_note_input");
+    input.on("keypress", async (e) => {
+      if(e.key === "Enter") {
+        this.componentGenerator.filters.keyword = input.val();
+        await this.renderNotes();
+        input.val("");
+      }
+    })
+
+    //監聽input click事件避免點擊後收起side bar (body有監聽close事件)
+    input.on('click', (e) => {
+      e.stopPropagation();
+    })
+
+    $('.js_search_note_btn').on("click", async (e) => {
+      e.stopPropagation();
+      this.componentGenerator.filters.keyword = input.val();
+      await this.renderNotes();
+      input.val("");
+    })
+  }
+
+  displayAllNotesClickEvent = () => {
+    $(".js_all_note_btn").on("click", async () => {
+      this.componentGenerator.resetFilters();
+      this.renderSelectedFilter($(`.js_all_note_btn`));
+      await this.renderNotes();
+    });
+  }
+
+  displayStarredNotesClickEvent = () => {
+    $(".js_star_note_btn").on("click", async () => {
+      this.componentGenerator.filters.star = !this.componentGenerator.filters.star;
+      $(`.js_star_note_btn`).find(".filterCheck").toggleClass("display-none");
+      await this.renderNotes();
+    });
+  }
+
+  displaySortedNotesClickEvent = () => {
+    $(`.js_sort_note_btn`).on("click", async () => {
+      this.componentGenerator.filters.sortByDesc = !this.componentGenerator.filters.sortByDesc;
+      $(`.js_sort_note_btn`).find(".filterCheck").toggleClass("display-none");
+      await this.renderNotes();
+    })
+  }
+
+  displaySpecificTagNotesClickEvent = () => {
+    const tags = document.querySelectorAll(".js_specific_tag");
+    tags.forEach((tag) => {
+      tag.addEventListener("click", async () => {
+        this.componentGenerator.filters.tag = tag.querySelector(".js_tag_name").textContent;
+        await this.renderNotes();
+        this.renderSelectedTagFilter(tag);
+      })
+    })
+  }
+
+  renderSelectedFilter = (target) => {
+    $(".filterBtn").find('.filterCheck').addClass("display-none");
+    target.find('.filterCheck').removeClass("display-none");
+  }
+  renderSelectedTagFilter = (target) => {
+    $('.js_specific_tag').removeClass("selected");
+    target.classList.add("selected");
   }
 }
