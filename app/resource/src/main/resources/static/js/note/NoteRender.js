@@ -3,10 +3,12 @@ import {NoteComponentGenerator} from "@noteJS/NoteComponentGenerator";
 import {RequestHandler} from "@unityJS/RequestHandler";
 import {DeleteAlert} from "@unityJS/DeleteAlert";
 import {MessageSender} from "@unityJS/MessageSender";
-import {Editor} from "@toast-ui/editor";
+import Editor from '@toast-ui/editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import '@toast-ui/editor/dist/theme/toastui-editor-dark.css';
-
+import 'prismjs/themes/prism.css';
+import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
+import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight-all';
 export class NoteRender {
 
   requestHandler = new RequestHandler();
@@ -148,14 +150,13 @@ export class NoteRender {
   //todo 渲染tui區域
   renderTuiEditor = (note) => {
     const initialValue = note.content.trim() === "" ? `# Title\n\n## Question\n\n## Keypoint` : note.content;
-    // const { codeSyntaxHighlight } = Editor.plugin;
     const editor = new Editor({
       el: document.querySelector("#editor"),
       height: "93vh",
       previewStyle: "vertical",
       initialValue: initialValue,
       theme: "dark",
-      // plugins: [codeSyntaxHighlight],
+      plugins: [codeSyntaxHighlight],
     });
   }
 
