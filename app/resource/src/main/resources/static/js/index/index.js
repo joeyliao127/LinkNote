@@ -66,7 +66,8 @@ export class Index {
       const response = await this.submitRegisterForm(username, email, password);
       switch (response.status) {
         case 201:
-          const token = await response.json();
+          const data = await response.json();
+          const token = data.token;
           localStorage.setItem("token", token);
           window.alert("Success!");
           window.location.href = "/notebooks";
