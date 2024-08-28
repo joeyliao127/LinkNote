@@ -9,16 +9,20 @@ import '@toast-ui/editor/dist/theme/toastui-editor-dark.css';
 import 'prismjs/themes/prism.css';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight-all';
+import {CollaborationWebSocket} from "@webSocketJS/CollaborationWebSocket";
+
 export class NoteRender {
 
   requestHandler = new RequestHandler();
   deleteAlert = new DeleteAlert();
   messageSender = new MessageSender();
+  collaborationWebSocket;
 
   constructor() {
     this.noteId = $(location).attr('href').split("/").pop();
     this.notebookId = $(location).attr('href').split("/")[4];
     this.componentGenerator = new NoteComponentGenerator(this.notebookId, this.noteId);
+    this.collaborationWebSocket = new CollaborationWebSocket(this.noteId, localStorage.getItem("username"), localStorage.getItem("email"));
   }
 
   init() {
@@ -66,6 +70,7 @@ export class NoteRender {
     this.renderCollaborators();
     this.renderNoteContent();
     this.renderNoteTags();
+    this.connectToCollaborationBroker();
   }
 
   renderNotebookTags = async () => {
@@ -117,7 +122,7 @@ export class NoteRender {
 
     const collaborators = data.collaborators;
     collaborators.forEach((collaborator) => {
-      const collaboratorComponent = this.componentGenerator.generateCollaboratorsComponent(collaborator);
+      const collaboratorComponent = this.componentGenerator.generateCollaboratorComponent(collaborator);
       $(".js_collaborator_ctn").append(collaboratorComponent);
     })
   }
@@ -410,4 +415,9 @@ export class NoteRender {
       )
     })
   }
+  connectToCollaborationBroker = () => {
+    this.collaborationWebSocket.connect();
+  }
+
+
 }

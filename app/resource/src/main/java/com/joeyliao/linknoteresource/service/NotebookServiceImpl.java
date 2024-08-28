@@ -1,6 +1,6 @@
 package com.joeyliao.linknoteresource.service;
 
-import com.joeyliao.linknoteresource.enums.generic.Target;
+import com.joeyliao.linknoteresource.enums.Target;
 import com.joeyliao.linknoteresource.po.generic.UserInfo;
 import com.joeyliao.linknoteresource.dao.NotebookDAO;
 import com.joeyliao.linknoteresource.dto.notebookdto.NotebooksDTO;

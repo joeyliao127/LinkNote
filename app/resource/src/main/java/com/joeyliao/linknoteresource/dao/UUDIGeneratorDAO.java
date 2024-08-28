@@ -1,6 +1,6 @@
 package com.joeyliao.linknoteresource.dao;
 
-import com.joeyliao.linknoteresource.enums.generic.Target;
+import com.joeyliao.linknoteresource.enums.Target;
 import java.util.List;
 
 public interface UUDIGeneratorDAO {

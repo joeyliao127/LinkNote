@@ -1,7 +1,7 @@
 package com.joeyliao.linknoteresource.interceptor;
 
-import com.joeyliao.linknoteresource.enums.generic.Behavior;
-import com.joeyliao.linknoteresource.enums.generic.Target;
+import com.joeyliao.linknoteresource.enums.Behavior;
+import com.joeyliao.linknoteresource.enums.Target;
 import com.joeyliao.linknoteresource.po.generic.AuthRequestBody;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -27,7 +27,7 @@ public class AuthorizationHandler {
   String authenticationServer;
 
   public Boolean checkAccessPermission(HttpServletRequest request, HttpServletResponse response,
-      Target target) throws BadRequestException {
+    Target target) throws BadRequestException {
     log.info("=================執行Notebook preHandle=================");
 
     Map pathVariables = (Map) request.getAttribute(

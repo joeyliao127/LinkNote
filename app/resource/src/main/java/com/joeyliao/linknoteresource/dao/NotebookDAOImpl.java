@@ -2,7 +2,7 @@ package com.joeyliao.linknoteresource.dao;
 
 import com.joeyliao.linknoteresource.po.collaboratorpo.NotebookOwnerDTO;
 import com.joeyliao.linknoteresource.rowmapper.NotebookOwnerRowMapper;
-import com.joeyliao.linknoteresource.enums.generic.Role;
+import com.joeyliao.linknoteresource.enums.Role;
 import com.joeyliao.linknoteresource.dto.notebookdto.NotebooksDTO;
 import com.joeyliao.linknoteresource.po.notebookpo.GetNotebooksRequestPo;
 import com.joeyliao.linknoteresource.po.notebookpo.CreateNotebookRequestPo;

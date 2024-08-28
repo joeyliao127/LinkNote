@@ -232,15 +232,6 @@ export class NoteComponentGenerator {
       this.messageSender.error("Delete tag failed");
     }
   }
-
-  generateCollaboratorsComponent = (collaborators) => {
-    let collaboratorComponent = [];
-    collaborators.forEach((collaborator) => {
-      collaboratorComponent.push(this.generateCollaboratorComponent(collaborator));
-    })
-
-    return collaboratorComponent;
-  }
   generateCollaboratorComponent = (collaborator) => {
     return $(`
       <p class="user" data-userMail="${collaborator.userEmail}">${collaborator.name}</p> 

@@ -1,6 +1,6 @@
 package com.joeyliao.linknoteresource.po.generic;
 
-import com.joeyliao.linknoteresource.enums.generic.Behavior;
+import com.joeyliao.linknoteresource.enums.Behavior;
 import lombok.Data;
 
 @Data

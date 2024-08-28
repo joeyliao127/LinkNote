@@ -1,4 +1,4 @@
-package com.joeyliao.linknoteresource.enums.generic;
+package com.joeyliao.linknoteresource.enums;
 
 public enum Role {
   OWNER,COLLABORATOR,MEMBER,GUEST

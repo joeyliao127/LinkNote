@@ -1,6 +1,6 @@
 package com.joeyliao.linknoteresource.service;
 
-import com.joeyliao.linknoteresource.enums.generic.Target;
+import com.joeyliao.linknoteresource.enums.Target;
 import com.joeyliao.linknoteresource.dao.NoteDAO;
 import com.joeyliao.linknoteresource.dto.note.NoteDTO;
 import com.joeyliao.linknoteresource.po.note.CreateNotePo;

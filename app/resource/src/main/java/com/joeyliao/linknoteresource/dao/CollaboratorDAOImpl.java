@@ -4,7 +4,7 @@ import com.joeyliao.linknoteresource.dto.collaboratordto.CollaboratorsDTO;
 import com.joeyliao.linknoteresource.po.collaboratorpo.DeleteCollaboratorPo;
 import com.joeyliao.linknoteresource.po.collaboratorpo.GetCollaboratorsRequestPo;
 import com.joeyliao.linknoteresource.rowmapper.CollaboratorRowMapper;
-import com.joeyliao.linknoteresource.enums.generic.Role;
+import com.joeyliao.linknoteresource.enums.Role;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

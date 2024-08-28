@@ -1,6 +1,6 @@
 package com.joeyliao.linknoteresource.service;
 
-import com.joeyliao.linknoteresource.enums.generic.Target;
+import com.joeyliao.linknoteresource.enums.Target;
 import com.joeyliao.linknoteresource.dao.TagDAO;
 import com.joeyliao.linknoteresource.po.tag.CreateNoteTagRequestPo;
 import com.joeyliao.linknoteresource.po.tag.CreateNotebookTagRequestPo;

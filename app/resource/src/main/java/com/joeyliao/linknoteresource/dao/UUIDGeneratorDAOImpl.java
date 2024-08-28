@@ -1,6 +1,6 @@
 package com.joeyliao.linknoteresource.dao;
 
-import com.joeyliao.linknoteresource.enums.generic.Target;
+import com.joeyliao.linknoteresource.enums.Target;
 import com.joeyliao.linknoteresource.rowmapper.UUIDRowMapper;
 import java.util.HashMap;
 import java.util.List;

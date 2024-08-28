@@ -17,6 +17,7 @@ module.exports = {
       '@notebookJS': path.resolve(__dirname, 'src/main/resources/static/js/notebook'),
       '@noteJS': path.resolve(__dirname, 'src/main/resources/static/js/note'),
       '@unityJS': path.resolve(__dirname, 'src/main/resources/static/js/unity'),
+      '@webSocketJS': path.resolve(__dirname, 'src/main/resources/static/js/websocket'),
     }
   },
   module: {

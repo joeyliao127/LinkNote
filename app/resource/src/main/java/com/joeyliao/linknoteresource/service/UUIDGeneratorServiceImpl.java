@@ -2,7 +2,7 @@ package com.joeyliao.linknoteresource.service;
 
 import static org.springframework.util.DigestUtils.md5DigestAsHex;
 
-import com.joeyliao.linknoteresource.enums.generic.Target;
+import com.joeyliao.linknoteresource.enums.Target;
 import com.joeyliao.linknoteresource.dao.UUDIGeneratorDAO;
 import java.util.HashMap;
 import java.util.List;
