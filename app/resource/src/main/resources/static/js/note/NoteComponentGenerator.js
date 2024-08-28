@@ -234,7 +234,10 @@ export class NoteComponentGenerator {
   }
   generateCollaboratorComponent = (collaborator) => {
     return $(`
-      <p class="user" data-userMail="${collaborator.userEmail}">${collaborator.name}</p> 
+      <div class="js_collaborator_name_ctn flex">
+          <p class="offline js_status_point status_point"></p>
+          <p class="user" data-email="${collaborator.userEmail}">${collaborator.name}</p>
+      </div> 
     `);
   }
 }

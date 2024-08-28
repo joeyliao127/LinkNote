@@ -1,10 +1,12 @@
 import SockJS from "sockjs-client";
 import {Client} from "@stomp/stompjs";
+import {MessageSender} from "@unityJS/MessageSender";
 import $ from "jquery";
 
 export class CollaborationWebSocket {
 
   stompClient = null;
+  messageSender = new MessageSender();
 
   constructor(noteId, username, email) {
     this.noteId = noteId;
@@ -59,7 +61,7 @@ export class CollaborationWebSocket {
 
     switch (type) {
       case "SUBSCRIBE":
-        console.log("SUBSCRIBE EVENT");
+        this.renderCollaborator(data);
         break;
       case "DISCONNECT":
         console.log("DISCONNECT");
@@ -98,5 +100,22 @@ export class CollaborationWebSocket {
       body: JSON.stringify(payload),
     })
   }
+
+  renderCollaborator = (userData) => {
+    const {users} = userData;
+    const joinedUsername = userData.username;
+    const joinedEmail = userData.email;
+    $('.js_status_point').removeClass("online offline");
+    users.forEach((user) => {
+      $(`.user[data-email="${user}"]`).parent().find(".js_status_point").addClass("online");
+    })
+    $('.js_status_point:not(.online)').addClass("offline");
+
+    if(localStorage.getItem("email") !== joinedEmail) {
+      this.messageSender.info(`${joinedUsername} joined.`);
+    }
+
+  }
+
 
 }

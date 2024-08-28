@@ -1,6 +1,7 @@
 .collaboratorCtn {
   width: 200px;
   overflow: hidden;
+  padding: 2px 5px 5px 5px;
   background-color: #333;
   border-radius: 5px;
   border: 2px solid #666;
@@ -8,12 +9,28 @@
   top: 36px;
   right: 40px;
   z-index: 20;
-  p {
+  .user {
     color: white;
     padding: 3px 20px 3px 5px;
     font-weight: 500;
     font-size: 14px;
   }
+}
+
+.status_point {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  position: relative;
+  left: 15px;
+  top: 11px;
+}
+.collaboratorCtn .online {
+  background-color: green;
+}
+
+.collaboratorCtn .offline {
+  background-color: #666666;
 }
 
 .owner .title {
