@@ -1,7 +1,7 @@
 package com.joeyliao.linknoteresource.po.websocket;
 
-import com.joeyliao.linknoteresource.enums.collaboration.BrokerMessageType;
-import lombok.Data;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,4 +10,5 @@ import lombok.Setter;
 public class SubscribeBrokerMessage extends BrokerType {
   private String username;
   private String email;
+  private ArrayList<String> users;
 }

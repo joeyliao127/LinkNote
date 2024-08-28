@@ -27,7 +27,7 @@ public class CollaborationWebSocketController {
     log.info("content: " + sendOperationMessage.getContent());
     log.info("操作: " + sendOperationMessage.getOperationType());
     log.info("type: " + sendOperationMessage.getType());
-    log.info("type: " + sendOperationMessage.getPosition());
+    log.info("position: " + sendOperationMessage.getPosition());
     return sendOperationMessage;
   }
 }

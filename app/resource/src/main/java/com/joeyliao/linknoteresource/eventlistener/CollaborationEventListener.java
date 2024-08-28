@@ -3,9 +3,9 @@ package com.joeyliao.linknoteresource.eventlistener;
 import com.joeyliao.linknoteresource.enums.collaboration.BrokerMessageType;
 import com.joeyliao.linknoteresource.po.websocket.DisconnectedBrokerMessage;
 import com.joeyliao.linknoteresource.po.websocket.SubscribeBrokerMessage;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,28 +23,48 @@ import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 public class CollaborationEventListener {
 
   private final SimpMessageSendingOperations messagingTemplate;
-  private Map<String, Map<String, String>> users = new ConcurrentHashMap<>();
+  private Map<String, Map<String, String>> user = new ConcurrentHashMap<>();
 
+  private ArrayList<String> userList = new ArrayList<>();
+
+  //建立連線事件
   @EventListener
-  public void connectedEvent(SessionConnectEvent event) {
-    log.info("connectedEvent: " + event.getMessage());
+  public void connectEvent(SessionConnectEvent event) {
+    log.info("連線事件: \n" + event.getMessage());
     StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-    String username = (String) Objects.requireNonNull(headerAccessor.getSessionAttributes()).get("username");
-    String email = (String) Objects.requireNonNull(headerAccessor.getNativeHeader("email")).get(0);
-    String sessionId = (String) headerAccessor.getSessionId();
-    this.putUser(sessionId, username, email);
+    log.info("使用者：" + headerAccessor.getFirstNativeHeader("username"));
+    log.info("email: " + headerAccessor.getFirstNativeHeader("email"));
+    log.info("sessionId: " + headerAccessor.getSessionId());
+    String username = headerAccessor.getFirstNativeHeader("username");
+    String email = headerAccessor.getFirstNativeHeader("email");
+    String noteId = headerAccessor.getFirstNativeHeader("noteId");
+    String sessionId = headerAccessor.getSessionId();
+    this.putUser(sessionId, username, email, noteId);
+    log.info("===================");
   }
 
   @EventListener
   public void disconnectBrokerEvent(SessionDisconnectEvent event) {
+    log.info("連線斷開事件: \n" + event.getMessage());
     StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
     String sessionId = headerAccessor.getSessionId();
-    String noteId = (String) Objects.requireNonNull(headerAccessor.getSessionAttributes()).get("noteId");
     DisconnectedBrokerMessage message = new DisconnectedBrokerMessage();
     Map<String, String> user =this.findUsersBySessionId(sessionId);
+
+    String email = user.get("email");
+    String noteId = user.get("noteId");
+    this.removeUser(email);
+
+    message.setType(BrokerMessageType.DISCONNECT);
     message.setUsername(user.get("username"));
-    message.setEmail(user.get("email"));
+    message.setEmail(email);
+
     messagingTemplate.convertAndSend("/collaboration/" + noteId, message);
+
+    log.info("username: " + user.get("username"));
+    log.info("email: " + user.get("email"));
+    log.info("noteId: " + noteId);
+    log.info("===================");
   }
 
 
@@ -53,25 +73,45 @@ public class CollaborationEventListener {
     //從event中取得header，方便調用STOMP中的header參數
     StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
     String sessionId = headerAccessor.getSessionId();
-    log.info("訂閱:");
-    String noteId = Objects.requireNonNull(headerAccessor.getNativeHeader("noteId")).toString();
     Map<String, String> user = findUsersBySessionId(sessionId);
+
     SubscribeBrokerMessage message = new SubscribeBrokerMessage();
+    String noteId = user.get("noteId");
+    String email = user.get("email");
     String username = user.get("username");
+    this.appendUser(email);
+
     message.setUsername(username);
     message.setEmail(user.get("email"));
     message.setType(BrokerMessageType.SUBSCRIBE);
+    message.setUsers(this.userList);
+
     messagingTemplate.convertAndSend("/collaboration/" + noteId, message);
+//TODO 記得刪除
+//    log.info("訂閱事件");
+//    log.info("username: " + username);
+//    log.info("email: " + user.get("email"));
+//    log.info("noteId: " + noteId);
+//    log.info("===================");
   }
 
-  private void putUser(String sessionId, String username, String email) {
+  private void putUser(String sessionId, String username, String email, String noteId) {
     Map<String, String> map = new HashMap<>();
     map.put("email", email);
     map.put("username", username);
-    this.users.put(sessionId, map);
+    map.put("noteId", noteId);
+    this.user.put(sessionId, map);
   }
 
   private Map<String, String> findUsersBySessionId(String sessionId) {
-    return this.users.get(sessionId);
+    return this.user.get(sessionId);
+  }
+
+  private void appendUser(String email) {
+    this.userList.add(email);
+  }
+
+  private void removeUser(String email) {
+    this.userList.remove(email);
   }
 }

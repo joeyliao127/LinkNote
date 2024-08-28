@@ -58,8 +58,8 @@ export class CollaborationWebSocket {
     const type = data.type;
 
     switch (type) {
-      case "JOIN":
-        console.log("JOIN");
+      case "SUBSCRIBE":
+        console.log("SUBSCRIBE EVENT");
         break;
       case "DISCONNECT":
         console.log("DISCONNECT");
@@ -68,7 +68,6 @@ export class CollaborationWebSocket {
         const p = document.createElement("p");
         p.textContent = `${data.username}: ${data.content}`;
         $(`.msgBoard`).append(p);
-        console.log("SEND");
         break;
       default:
         console.log("Default");
