@@ -167,6 +167,17 @@ export class NoteRender {
       theme: "dark",
       plugins: [codeSyntaxHighlight],
     });
+
+    editor.on('keydown', (type, event) => {
+      console.log("-----以下為keyup-----");
+      console.log('按下的按鍵代碼:', event.key);
+      if (event.key === 'x' && (event.ctrlKey || event.metaKey)) {
+        console.log('剪下事件觸發');
+        const position = editor.getSelection();
+        console.log(editor.getSelectedText(position[0], position[1]));
+        // 在這裡執行你想要的操作
+      }
+    });
   }
 
   registerEvent = () => {

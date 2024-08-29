@@ -1,4 +1,3 @@
-.toastui-editor-dark {
-  --toastui-editor-bg-color: rgba(30, 30, 30, 0.8); /* 半透明的深色背景 */
-  --toastui-editor-main-color: #e0e0e0; /* 主要文字顏色 */
+.toastui-editor-md-container.toastui-editor-md-vertical-style {
+  background-color: rgba(12, 12, 12, 0.8)!important; /* 你想要的背景顏色 */
 }
