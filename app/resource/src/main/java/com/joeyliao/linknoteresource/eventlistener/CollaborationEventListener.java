@@ -58,6 +58,7 @@ public class CollaborationEventListener {
     message.setType(BrokerMessageType.DISCONNECT);
     message.setUsername(user.get("username"));
     message.setEmail(email);
+    message.setUsers(this.userList);
 
     messagingTemplate.convertAndSend("/collaboration/" + noteId, message);
 

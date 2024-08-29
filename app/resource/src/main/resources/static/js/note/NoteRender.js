@@ -24,6 +24,7 @@ export class NoteRender {
   }
 
   init() {
+    this.setNoteOwner();
     this.renderSideBar();
     this.renderMain();
     this.registerEvent();
@@ -35,6 +36,10 @@ export class NoteRender {
     }
   }
 
+  setNoteOwner = () => {
+    const owner = $(`.js_owner_name`);
+    owner.attr("data-email", localStorage.getItem("email"));
+  }
   renderSideBar = () => {
     this.renderUserInfo();
     this.renderNotebook();
@@ -68,7 +73,6 @@ export class NoteRender {
     this.renderCollaborators();
     this.renderNoteContent();
     this.renderNoteTags();
-    this.connectToCollaborationBroker();
   }
 
   renderNotebookTags = async () => {
@@ -119,7 +123,6 @@ export class NoteRender {
     const {ownerEmail} = data.owner;
     const owner = $(`.js_owner_name`);
     owner.text(ownerName);
-    owner.data("email", ownerEmail);
 
     const collaborators = data.collaborators;
     collaborators.forEach((collaborator) => {

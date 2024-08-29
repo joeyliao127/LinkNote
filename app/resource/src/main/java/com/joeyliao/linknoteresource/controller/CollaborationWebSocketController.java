@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CollaborationWebSocketController {
 
-  //發送訊息path，前綴為app
+  //發送訊息path，前綴為app`
   @MessageMapping("/message/{noteId}")
   //廣播的目的
   @SendTo("/collaboration/{noteId}")
