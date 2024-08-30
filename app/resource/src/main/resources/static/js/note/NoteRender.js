@@ -1,22 +1,15 @@
 const $ = require( "jquery" );
-import {NoteComponentGenerator} from "@noteJS/NoteComponentGenerator";
+import {NoteComponentGenerator} from "@noteJS/componenetFactory/NoteComponentGenerator";
 import {RequestHandler} from "@unityJS/RequestHandler";
 import {DeleteAlert} from "@unityJS/DeleteAlert";
 import {MessageSender} from "@unityJS/MessageSender";
-import Editor from '@toast-ui/editor';
-import '@toast-ui/editor/dist/toastui-editor.css';
-import '@toast-ui/editor/dist/theme/toastui-editor-dark.css';
-import 'prismjs/themes/prism.css';
-import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
-import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight-all';
-
+import {EditorHandler} from "@noteJS/EditorHandler";
 
 export class NoteRender {
 
   requestHandler = new RequestHandler();
   deleteAlert = new DeleteAlert();
   messageSender = new MessageSender();
-
   constructor(notebookId, noteId) {
     this.noteId = noteId;
     this.notebookId = notebookId;
@@ -71,7 +64,6 @@ export class NoteRender {
 
   renderMain = async () => {
     this.renderCollaborators();
-    this.renderNoteContent();
     this.renderNoteTags();
   }
 
@@ -142,42 +134,6 @@ export class NoteRender {
       }
       $('.noteArea').append(noteComponent);
     })
-  }
-
-  renderNoteContent =async () => {
-    const response = await this.requestHandler.sendRequestWithToken(
-        `/api/notebooks/${this.notebookId}/notes/${this.noteId}`,
-        "GET",
-        null
-    )
-    const data = await response.json();
-    const {note} = data;
-    $(`.js_note_name`).text(note.name);
-    this.renderTuiEditor(note);
-  }
-
-  //todo 渲染tui區域
-  renderTuiEditor = (note) => {
-    const initialValue = note.content.trim() === "" ? `# Title\n\n## Question\n\n## Keypoint` : note.content;
-    const editor = new Editor({
-      el: document.querySelector("#editor"),
-      height: "93vh",
-      previewStyle: "vertical",
-      initialValue: initialValue,
-      theme: "dark",
-      plugins: [codeSyntaxHighlight],
-    });
-
-    editor.on('keydown', (type, event) => {
-      console.log("-----以下為keyup-----");
-      console.log('按下的按鍵代碼:', event.key);
-      if (event.key === 'x' && (event.ctrlKey || event.metaKey)) {
-        console.log('剪下事件觸發');
-        const position = editor.getSelection();
-        console.log(editor.getSelectedText(position[0], position[1]));
-        // 在這裡執行你想要的操作
-      }
-    });
   }
 
   registerEvent = () => {

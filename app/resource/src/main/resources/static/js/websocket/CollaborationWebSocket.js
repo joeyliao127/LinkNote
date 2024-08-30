@@ -5,6 +5,7 @@ import {CollaborationEventHandler} from "@webSocketJS/CollaborationEventHandler"
 export class CollaborationWebSocket {
 
   stompClient = null;
+  editorHandler;
 
   constructor(noteId, username, email) {
     this.noteId = noteId;
@@ -12,6 +13,10 @@ export class CollaborationWebSocket {
     this.email = email;
     this.collaborationEventHandler = new CollaborationEventHandler(noteId, username, email);
     this.collaborationEventHandler.init();
+  }
+
+  setEditorHandler = (editorHandler) => {
+    this.collaborationEventHandler.setEditorHandler(editorHandler);
   }
 
   connect = () => {
@@ -44,12 +49,17 @@ export class CollaborationWebSocket {
     this.stompClient.subscribe("/collaboration/" + this.noteId, this.collaborationEventHandler.receivedBrokerMessage, headers);
   }
 
-  sendMessage = (message, position, operationType) => {
+  /**
+   * @param key String
+   * @param position Array<Array<number>>
+   * @param operationType "INSERT", "DELETE"
+   */
+  sendMessage = (key, position, operationType) => {
     const payload = {
       type: "SEND",
       position: position,
       operationType: operationType,
-      content: message,
+      content: key,
       email: this.email,
       username: this.username,
     }

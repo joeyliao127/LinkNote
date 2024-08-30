@@ -2,12 +2,17 @@ const $ = require( "jquery" );
 import {MessageSender} from "@unityJS/MessageSender";
 
 export class CollaborationEventHandler {
+  editorHandler;
 
   constructor(noteId, username, email) {
     this.noteId = noteId;
     this.username = username;
     this.email = email;
     this.meesageSender = new MessageSender();
+  }
+
+  setEditorHandler = (editorHandler) => {
+    this.editorHandler = editorHandler;
   }
 
   init() {
@@ -20,10 +25,7 @@ export class CollaborationEventHandler {
   }
 
   receivedBrokerMessage = (message) => {
-    console.log("收到來自後端的訊息");
     const data = JSON.parse(message.body);
-    console.log("原始data");
-    console.log(data);
     const type = data.type;
     let notifyMessage = "";
 
@@ -39,6 +41,7 @@ export class CollaborationEventHandler {
       case "SEND":
         console.log("收到來自後端的SEND訊息");
         console.log(data);
+        this.appendMessageToEditor(data);
         break;
       default:
         console.log("Default");
@@ -47,22 +50,6 @@ export class CollaborationEventHandler {
   }
   connectFailed = () => {
     this.meesageSender.error("Cannot connect to the server.");
-  }
-
-  sendMessage = (message, position, operationType) => {
-    const payload = {
-      type: "SEND",
-      position: position,
-      operationType: operationType,
-      content: message,
-      email: this.email,
-      username: this.username,
-    }
-
-    this.stompClient.publish({
-      destination: "/app/message/" + this.noteId,
-      body: JSON.stringify(payload),
-    })
   }
 
   renderCollaborator = (userData, message) => {
@@ -79,5 +66,9 @@ export class CollaborationEventHandler {
     if (localStorage.getItem("email") !== joinedEmail) {
       this.meesageSender.info(message);
     }
+  }
+
+  appendMessageToEditor = (data) => {
+    this.editorHandler.appendMessage(data);
   }
 }
