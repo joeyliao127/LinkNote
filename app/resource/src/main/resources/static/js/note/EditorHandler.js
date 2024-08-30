@@ -10,10 +10,6 @@ export class EditorHandler {
   editor;
   wsConnector;
 
-  operationType = {
-    insert: "INSERT",
-    delete: "DELETE",
-  }
   cursorPosition;
   constructor(noteId, notebookId) {
     this.noteId = noteId;
@@ -94,13 +90,19 @@ export class EditorHandler {
     });
   }
 
+  //剪下事件
   cutEventCallback = async () => {
     const position = this.editor.getSelection();
-    console.log(this.editor.getSelectedText(position[0], position[1]));
+    this.wsConnector.sendDeleteMessage(position);
   }
 
+  //貼上事件
   pasteEventCallback = async () => {
     const md = this.editor.getMarkdown();
+    const message = await navigator.clipboard.readText();
+    const position = this.editor.getSelection();
+    console.log(message);
+    this.wsConnector.sendInsertMessage(message, position)
 
     // console.log(md);
     // const smd = md.split("\n");
@@ -111,29 +113,53 @@ export class EditorHandler {
   }
 
   withdrawEventCallback = async () => {
-
+    //TODO 想想要怎麼實踐Undo
   }
 
   enterEventCallback = () => {
-
+    const message = "\n";
+    const position = this.editor.getSelection();
+    this.wsConnector.sendInsertMessage(message, position);
   }
 
   tabEventCallback = () => {
-
+    const message = "    ";
+    const position = this.editor.getSelection();
+    this.wsConnector.sendInsertMessage(message, position);
   }
 
   backspaceEventCallback = () => {
-
-  }
-
-  inputEventCallback = (key) => {
     const position = this.editor.getSelection();
-    this.wsConnector.sendMessage(key, position, this.operationType.insert);
+    //如果游標沒有選到任何字
+    if(
+        position[0][0] === position[1][0] &&
+        position[0][1] === position[1][1]
+    ) {
+      position[0][1] -= 1;
+    }
+
+    this.wsConnector.sendDeleteMessage(position);
   }
 
+  inputEventCallback = (message) => {
+    const position = this.editor.getSelection();
+    this.wsConnector.sendInsertMessage(message, position);
+  }
+
+  // 插入接收到的訊息
   appendMessage = (data) => {
+    console.log("收到來自後端的SEND訊息");
+    console.log(data);
     const {content} = data;
     this.editor.insertText(content);
+  }
+
+  // 刪除接收到的訊息
+  deleteMessage = (data) => {
+    const {position} = data;
+    const start = position[0];
+    const end = position[1];
+    this.editor.deleteSelection(start, end);
   }
 
   isNotInExcludedKeys = (key) => {

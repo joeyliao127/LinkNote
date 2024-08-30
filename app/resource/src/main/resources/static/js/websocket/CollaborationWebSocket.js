@@ -11,6 +11,10 @@ export class CollaborationWebSocket {
     this.noteId = noteId;
     this.username = username;
     this.email = email;
+    this.operationType = {
+      insert: "INSERT",
+      delete: "DELETE",
+    }
     this.collaborationEventHandler = new CollaborationEventHandler(noteId, username, email);
     this.collaborationEventHandler.init();
   }
@@ -50,16 +54,31 @@ export class CollaborationWebSocket {
   }
 
   /**
-   * @param key String
+   * @param message String
    * @param position Array<Array<number>>
    * @param operationType "INSERT", "DELETE"
    */
-  sendMessage = (key, position, operationType) => {
+  sendInsertMessage = (message, position) => {
     const payload = {
       type: "SEND",
       position: position,
-      operationType: operationType,
-      content: key,
+      operationType: this.operationType.insert,
+      content: message,
+      email: this.email,
+      username: this.username,
+    }
+
+    this.stompClient.publish({
+      destination: "/app/message/" + this.noteId,
+      body: JSON.stringify(payload),
+    })
+  }
+
+  sendDeleteMessage = (position) => {
+    const payload = {
+      type: "SEND",
+      position: position,
+      operationType: this.operationType.delete,
       email: this.email,
       username: this.username,
     }

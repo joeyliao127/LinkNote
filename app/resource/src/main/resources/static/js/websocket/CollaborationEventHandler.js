@@ -26,6 +26,15 @@ export class CollaborationEventHandler {
 
   receivedBrokerMessage = (message) => {
     const data = JSON.parse(message.body);
+    const joinedEmail = data.email;
+
+    if(joinedEmail === this.email) {
+      return;
+    }
+
+    console.log("接收到後端訊息：");
+    console.log(data);
+
     const type = data.type;
     let notifyMessage = "";
 
@@ -39,9 +48,13 @@ export class CollaborationEventHandler {
         this.renderCollaborator(data, notifyMessage);
         break;
       case "SEND":
-        console.log("收到來自後端的SEND訊息");
-        console.log(data);
-        this.appendMessageToEditor(data);
+        const {operationType} = data;
+        if(operationType === "INSERT") {
+          this.appendMessageToEditor(data);
+        } else if (operationType === "DELETE") {
+          this.deleteEditorMessage(data);
+        }
+
         break;
       default:
         console.log("Default");
@@ -54,7 +67,6 @@ export class CollaborationEventHandler {
 
   renderCollaborator = (userData, message) => {
     const {users} = userData;
-    const joinedEmail = userData.email;
     $('.js_status_point').removeClass("online offline");
     users.forEach((user) => {
       $(`.user[data-email="${user}"]`).parent().find(
@@ -63,12 +75,14 @@ export class CollaborationEventHandler {
 
     $('.js_status_point:not(.online)').addClass("offline");
 
-    if (localStorage.getItem("email") !== joinedEmail) {
-      this.meesageSender.info(message);
-    }
+    this.meesageSender.info(message);
   }
 
   appendMessageToEditor = (data) => {
     this.editorHandler.appendMessage(data);
+  }
+
+  deleteEditorMessage = (data) => {
+    this.editorHandler.deleteMessage(data);
   }
 }
