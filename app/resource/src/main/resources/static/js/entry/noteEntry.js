@@ -17,7 +17,8 @@ $(document).ready(async () => {
 
   //連線WebSocket broker
   const editorMediator = new EditorMediator(noteId, notebookId, username, email);
-  editorMediator.wsConnector.connect();
+  // TODO 練線websocket時要開啟
+  // editorMediator.wsConnector.connect();
   editorMediator.editorHanlder.generateEditor();
 })
 

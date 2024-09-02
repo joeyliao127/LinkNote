@@ -37,7 +37,7 @@ services:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD}"]
 
   authentication:
-    container_name: authentication
+    container_name: app_authentication
     build:
       context: ./app/authentication
       dockerfile: Dockerfile
@@ -63,7 +63,7 @@ services:
         ipv4_address: 172.20.0.4
 
   resource:
-    container_name: resource
+    container_name: app_resource
     build:
       context: ./app/resource
       dockerfile: Dockerfile

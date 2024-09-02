@@ -3,6 +3,7 @@ import {NoteComponentGenerator} from "@noteJS/componenetFactory/NoteComponentGen
 import {RequestHandler} from "@unityJS/RequestHandler";
 import {DeleteAlert} from "@unityJS/DeleteAlert";
 import {MessageSender} from "@unityJS/MessageSender";
+import {URL} from "@unityJS/URL";
 import {EditorHandler} from "@noteJS/EditorHandler";
 
 export class NoteRender {
@@ -10,6 +11,7 @@ export class NoteRender {
   requestHandler = new RequestHandler();
   deleteAlert = new DeleteAlert();
   messageSender = new MessageSender();
+  url = new URL();
   constructor(notebookId, noteId) {
     this.noteId = noteId;
     this.notebookId = notebookId;
@@ -41,9 +43,7 @@ export class NoteRender {
   }
 
   renderUserInfo = async () => {
-    //TODO 開發用的url，正式機要移除 domain ;
-    const domain = "http://127.0.0.1:8080";
-    const path = domain + "/api/user/info";
+    const path = this.url.domain + "/api/user/info";
     const response = await this.requestHandler.sendRequestWithToken(path, "GET", null);
     const data = await response.json();
     $(".js_user_email").text(data.email);
@@ -115,7 +115,6 @@ export class NoteRender {
     const {ownerEmail} = data.owner;
     const owner = $(`.js_owner_name`);
     owner.text(ownerName);
-
     const collaborators = data.collaborators;
     collaborators.forEach((collaborator) => {
       const collaboratorComponent = this.componentGenerator.generateCollaboratorComponent(collaborator);

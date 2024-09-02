@@ -5,7 +5,6 @@ import {
 
 export class OwnerNotebookComponentFactory {
   constructor() {
-    //todo 建構參數要加上filterType，用來決定toolbar有哪些內容
     this.noteCardComponentFactory = new NoteComponentFactory({
           createNoteBtn: true,
           invitationBtn: false,
@@ -33,7 +32,6 @@ export class OwnerNotebookComponentFactory {
 export class CollaborativeNotebookComponentFactory {
 
   constructor() {
-    //todo 建構參數要加上filterType，用來決定toolbar有哪些內容
     this.noteCardComponentFactory = new NoteComponentFactory({
       createNoteBtn: true,
       invitationBtn: false,
@@ -79,7 +77,6 @@ export class SpecificOwnerNotebookComponentFactory {
 export class SpecificCollaborativeNotebookComponentFactory {
 
   constructor() {
-    //todo 建構參數要加上filterType，用來決定toolbar有哪些內容
     this.noteCardComponentFactory = new NoteComponentFactory({
           createNoteBtn: true,
           invitationBtn: false,

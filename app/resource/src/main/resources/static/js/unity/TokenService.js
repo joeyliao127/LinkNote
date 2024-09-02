@@ -1,17 +1,17 @@
 import {RequestHandler} from "@unityJS/RequestHandler";
+import {URL} from "@unityJS/URL";
 
 export class TokenService {
 
   requestHandler;
   constructor() {
     this.requestHandler = new RequestHandler();
+    this.URL = new URL();
   }
 
   // 回傳boolean
   async verifyUserToken() {
-    //TODO 開發用的url，正式機要移除 domain ;
-    const domain = "http://127.0.0.1:8080";
-    const path = domain + "/api/auth/user/token";
+    const path = this.URL.domain + "/api/auth/user/token";
     const token = localStorage.getItem("token");
 
     if (token !== null) {

@@ -7,6 +7,7 @@ import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin
 import codeSyntaxHighlight
   from '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight-all';
 import {RequestHandler} from "@unityJS/RequestHandler";
+import {MessageSender} from "@unityJS/MessageSender";
 
 export class EditorHandler {
   editor;
@@ -18,6 +19,7 @@ export class EditorHandler {
     this.noteId = noteId;
     this.notebookId = notebookId;
     this.requestHandler = new RequestHandler();
+    this.messageSender = new MessageSender();
   }
 
   setWsConnector = (wsConnector) => {
@@ -33,7 +35,12 @@ export class EditorHandler {
     const data = await response.json();
     const {note} = data;
     $(`.js_note_name`).text(note.name);
-    const initialValue = note.content.trim() === "" ? `# Title\n\n## Question\n\n## Keypoint` : note.content;
+    let initialValue = "";
+    if (note.content === null || note.content.trim() === "") {
+      initialValue = "# Title\n\n## Question\n\n## Keypoint";
+    } else {
+      initialValue = note.content;
+    }
     this.editor = new Editor({
       el: document.querySelector("#editor"),
       height: "93vh",
@@ -45,8 +52,30 @@ export class EditorHandler {
 
     this.latestNoteContent = initialValue;
     this.editor.setSelection([1,1], [1,1]);
+    this.registerSaveNoteEvent();
 
-    this.registerEvents();
+    //TODO 實做共編時記得完成
+    // this.registerEvents();
+  }
+
+  registerSaveNoteEvent = () => {
+    setInterval(async () => {
+      const markdown = this.editor.getMarkdown();
+      const path = `/api/notebooks/${this.notebookId}/notes/${this.noteId}`;
+      const question = $("h2:contains('Question')").next("p").text();
+      const keypoint = $("h2:contains('Keypoint')").next("p").text();
+      console.log("question: " + question);
+      console.log("keypoint: " + keypoint);
+      const response = await this.requestHandler.sendRequestWithToken(path, "PUT",{
+        content: markdown,
+        question: question,
+        keypoint: keypoint,
+      });
+
+      if (!response.ok) {
+        this.messageSender.error("Save note error.");
+      }
+    }, 3000);
   }
 
   registerEvents = () => {

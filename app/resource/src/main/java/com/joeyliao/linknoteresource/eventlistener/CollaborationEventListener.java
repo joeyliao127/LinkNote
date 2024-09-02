@@ -88,12 +88,11 @@ public class CollaborationEventListener {
     message.setUsers(this.userList);
 
     messagingTemplate.convertAndSend("/collaboration/" + noteId, message);
-//TODO 記得刪除
-//    log.info("訂閱事件");
-//    log.info("username: " + username);
-//    log.info("email: " + user.get("email"));
-//    log.info("noteId: " + noteId);
-//    log.info("===================");
+    log.info("訂閱事件");
+    log.info("username: " + username);
+    log.info("email: " + user.get("email"));
+    log.info("noteId: " + noteId);
+    log.info("===================");
   }
 
   private void putUser(String sessionId, String username, String email, String noteId) {

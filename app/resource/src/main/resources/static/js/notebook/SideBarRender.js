@@ -1,6 +1,7 @@
 const $ = require( "jquery" );
 import {RequestHandler} from "@unityJS/RequestHandler";
 import {SideBarNotebookBtnFactory} from "@notebookJS/componentFactory/SideBarNotebookBtnFactory";
+import {URL} from "@unityJS/URL";
 
 export class SideBarRender {
   requestHandler;
@@ -27,6 +28,7 @@ export class SideBarRender {
       "invitation": $('.js_invitations_btn'),
       "setting": $('.js_setting_btn'),
     }
+    this.URL = new URL();
   }
 
   async init() {
@@ -36,9 +38,7 @@ export class SideBarRender {
   }
 
   async renderUserInfo() {
-    //TODO 開發用的url，正式機要移除 domain ;
-    const domain = "http://127.0.0.1:8080";
-    const path = domain + "/api/user/info";
+    const path = this.URL.domain + "/api/user/info";
     const response = await this.requestHandler.sendRequestWithToken(path, "GET", null);
     const data = await response.json();
     $("#username").text(data.username);

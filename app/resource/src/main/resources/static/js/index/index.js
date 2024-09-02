@@ -1,6 +1,7 @@
 import {TokenService} from "@unityJS/TokenService";
 import {Validator} from "@unityJS/Validator";
 import {RequestHandler} from "@unityJS/RequestHandler";
+import {URL} from "@unityJS/URL";
 
 const $ = require("jquery");
 
@@ -16,6 +17,7 @@ export class Index {
     this.tokenService = new TokenService();
     this.validator = new Validator();
     this.requestHandler = new RequestHandler();
+    this.URL = new URL();
   }
 
   init() {
@@ -119,9 +121,7 @@ export class Index {
   }
 
   async submitRegisterForm(username, email, password) {
-    //TODO 開發用的url，正式機要移除 domain ;
-    const domain = "http://127.0.01:8080";
-    const path = domain + "/api/user/register";
+    const path = this.URL.domain + "/api/user/register";
     const requestBody = {username, email, password};
     return await this.requestHandler.sendRequestWithToken(path, "POST",
         requestBody);
@@ -156,9 +156,7 @@ export class Index {
 
     const requestBody = {email, password};
 
-    //TODO 開發用的url，正式機要移除 domain ;
-    const domain = "http://127.0.0.1:8080";
-    const path = domain + "/api/auth/user/signin";
+    const path = this.URL.domain + "/api/auth/user/signin";
 
     const response = await this.requestHandler.sendRequestWithToken(path,
         "POST", requestBody);

@@ -7,6 +7,7 @@ import {
   SpecificCollaborativeNotebookComponentFactory,
   SpecificOwnerNotebookComponentFactory
 } from "@notebookJS/componentFactory/NotebookComponentFactory";
+import {URL} from "@unityJS/URL";
 
 const $ = require("jquery");
 
@@ -37,6 +38,7 @@ export class NotebookMainRender {
       "invitationsForm": $(".js_invitation_wrapper"),
       "settingForm": $(".js_user_profile_wrapper"),
     }
+    this.URL = new URL();
   }
 
   async init() {
@@ -471,9 +473,7 @@ export class NotebookMainRender {
       this.messageSender.error("Username or password cannot be empty.");
       return;
     }
-    //TODO 開發用的url，正式機要移除 domain ;
-    const domain = "http://127.0.0.1:8080";
-    const path = domain + "/api/user";
+    const path = this.URL.domain + "/api/user";
     const email = localStorage.getItem("email");
     const requestBody = {username, password, email};
     const response = await this.requestHandler.sendRequestWithToken(path, "PUT",
