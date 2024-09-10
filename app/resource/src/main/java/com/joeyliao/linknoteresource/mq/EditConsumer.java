@@ -8,7 +8,8 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class EditConsumer {
 
-  @RabbitListener(queues = "CO_EDIT_EXCHANGE")
+  //TODO 這邊要想如何動態取得queue名稱(noteId)
+  @RabbitListener(queues = "DIRECT_QUEUE")
   public void listen(String content) {
     log.info("=========接收MQ中的訊息==========");
     log.info("content: " + content);
