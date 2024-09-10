@@ -1,6 +1,7 @@
 package com.joeyliao.linknoteresource.eventlistener;
 
 import com.joeyliao.linknoteresource.enums.collaboration.BrokerMessageType;
+import com.joeyliao.linknoteresource.mq.CoEditQueueHandler;
 import com.joeyliao.linknoteresource.po.websocket.DisconnectedBrokerMessage;
 import com.joeyliao.linknoteresource.po.websocket.SubscribeBrokerMessage;
 import java.util.ArrayList;
@@ -9,6 +10,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.Queue;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
@@ -23,9 +26,20 @@ import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 public class CollaborationEventListener {
 
   private final SimpMessageSendingOperations messagingTemplate;
+
+  private final CoEditQueueHandler coEditQueueHandler;
+
   private Map<String, Map<String, String>> user = new ConcurrentHashMap<>();
 
   private ArrayList<String> userList = new ArrayList<>();
+
+
+
+  @Autowired
+  public CollaborationEventListener(CoEditQueueHandler coEditQueueHandler, SimpMessageSendingOperations messagingTemplate) {
+    this.coEditQueueHandler = coEditQueueHandler;
+    this.messagingTemplate = messagingTemplate;
+  }
 
   //建立連線事件
   @EventListener
@@ -93,6 +107,9 @@ public class CollaborationEventListener {
     log.info("email: " + user.get("email"));
     log.info("noteId: " + noteId);
     log.info("===================");
+
+    Queue queue = this.coEditQueueHandler.createNoteQueue(noteId);
+    this.coEditQueueHandler.bindingExchange(queue);
   }
 
   private void putUser(String sessionId, String username, String email, String noteId) {

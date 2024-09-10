@@ -32,8 +32,8 @@ export class CollaborationEventHandler {
       return;
     }
 
-    // console.log("接收到後端訊息：");
-    // console.log(data);
+    console.log("接收到後端訊息：");
+    console.log(data);
 
     const type = data.type;
     let notifyMessage = "";
