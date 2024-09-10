@@ -52,24 +52,24 @@ export class EditorHandler {
 
     this.latestNoteContent = initialValue;
     this.editor.setSelection([1,1], [1,1]);
-    this.registerSaveNoteEvent();
+    // this.registerSaveNoteEvent();
 
     //TODO 實做共編時記得完成
-    // this.registerEvents();
+    this.registerEvents();
   }
 
   registerSaveNoteEvent = () => {
     setInterval(async () => {
       const markdown = this.editor.getMarkdown();
       const path = `/api/notebooks/${this.notebookId}/notes/${this.noteId}`;
+      const noteName = $('.js_note_name').text();
       const question = $("h2:contains('Question')").next("p").text();
       const keypoint = $("h2:contains('Keypoint')").next("p").text();
-      console.log("question: " + question);
-      console.log("keypoint: " + keypoint);
       const response = await this.requestHandler.sendRequestWithToken(path, "PUT",{
         content: markdown,
         question: question,
         keypoint: keypoint,
+        name: noteName,
       });
 
       if (!response.ok) {
