@@ -66,6 +66,7 @@ export class CollaborationWebSocket {
       content: message,
       email: this.email,
       username: this.username,
+      noteId: this.noteId,
     }
 
     this.stompClient.publish({

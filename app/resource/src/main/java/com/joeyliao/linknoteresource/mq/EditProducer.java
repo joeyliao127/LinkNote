@@ -20,6 +20,8 @@ public class EditProducer {
   // TODO Content之後要改為SendOperationMessage物件，這邊先測試用
   public void sendMessage(String noteId, String content) {
     String exchange = "CO_EDIT_EXCHANGE";
-    this.amqpTemplate.convertAndSend(exchange, noteId, content);
+    String routingKey = "note_queue_" + noteId;
+    log.info("Producer接收訊息，準備發送");
+    this.amqpTemplate.convertAndSend(exchange, routingKey, content);
   }
 }

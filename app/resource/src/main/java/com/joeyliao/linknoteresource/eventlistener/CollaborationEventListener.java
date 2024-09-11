@@ -1,7 +1,7 @@
 package com.joeyliao.linknoteresource.eventlistener;
 
 import com.joeyliao.linknoteresource.enums.collaboration.BrokerMessageType;
-import com.joeyliao.linknoteresource.mq.CoEditQueueHandler;
+import com.joeyliao.linknoteresource.service.CoEditQueueService;
 import com.joeyliao.linknoteresource.po.websocket.DisconnectedBrokerMessage;
 import com.joeyliao.linknoteresource.po.websocket.SubscribeBrokerMessage;
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class CollaborationEventListener {
 
   private final SimpMessageSendingOperations messagingTemplate;
 
-  private final CoEditQueueHandler coEditQueueHandler;
+  private final CoEditQueueService coEditQueueService;
 
   private Map<String, Map<String, String>> user = new ConcurrentHashMap<>();
 
@@ -36,8 +36,8 @@ public class CollaborationEventListener {
 
 
   @Autowired
-  public CollaborationEventListener(CoEditQueueHandler coEditQueueHandler, SimpMessageSendingOperations messagingTemplate) {
-    this.coEditQueueHandler = coEditQueueHandler;
+  public CollaborationEventListener(CoEditQueueService coEditQueueService, SimpMessageSendingOperations messagingTemplate) {
+    this.coEditQueueService = coEditQueueService;
     this.messagingTemplate = messagingTemplate;
   }
 
@@ -108,8 +108,7 @@ public class CollaborationEventListener {
     log.info("noteId: " + noteId);
     log.info("===================");
 
-    Queue queue = this.coEditQueueHandler.createNoteQueue(noteId);
-    this.coEditQueueHandler.bindingExchange(queue);
+    this.coEditQueueService.createNoteQueue(noteId);
   }
 
   private void putUser(String sessionId, String username, String email, String noteId) {

@@ -15,4 +15,5 @@ public class SendOperationMessage extends BrokerType {
   private String content;
   private String email;
   private String username;
+  private String noteId;
 }
