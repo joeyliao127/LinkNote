@@ -20,9 +20,9 @@ public class EditConsumer {
   }
 
   //  @SendTo("/collaboration/{noteId}")
-  public void handleMessage(byte[] byteCode) throws IOException {
+  public void handleMessage(byte[] byteMessage) throws IOException {
 
-    ReceivedOperationMessage receivedOperationMessage = this.objectMapper.readValue(byteCode, ReceivedOperationMessage.class);
+    ReceivedOperationMessage receivedOperationMessage = this.objectMapper.readValue(byteMessage, ReceivedOperationMessage.class);
     log.info("=========接收MQ中的訊息==========");
     log.info("content: " + receivedOperationMessage.toString());
     //TODO OT算法在這邊實現

@@ -8,6 +8,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BrokerType implements Serializable {
+public class BrokerType {
   private BrokerMessageType type;
 }

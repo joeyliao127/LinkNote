@@ -24,11 +24,12 @@ public class EditProducer {
     this.objectMapper = objectMapper;
   }
 
-  // TODO Content之後要改為SendOperationMessage物件，這邊先測試用
-  public void sendMessage(String noteId, ReceivedOperationMessage receivedOperationMessage) {
+  public void sendMessage(String noteId, ReceivedOperationMessage receivedOperationMessage)
+      throws JsonProcessingException {
     String exchange = "CO_EDIT_EXCHANGE";
     String routingKey = "note_queue_" + noteId;
     log.info("Producer接收訊息，準備發送");
-    this.amqpTemplate.convertAndSend(exchange, routingKey, receivedOperationMessage);
+    byte[] bytesMessage = this.objectMapper.writeValueAsBytes(receivedOperationMessage);
+    this.amqpTemplate.convertAndSend(exchange, routingKey, bytesMessage);
   }
 }

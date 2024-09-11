@@ -10,11 +10,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class ReceivedOperationMessage extends BrokerType implements Serializable {
+public class ReceivedOperationMessage extends BrokerType{
 
-  @Serial
-  private static final long serialVersionUID = 11234877563926L;
   public ReceivedOperationMessage() {}
 
   private ArrayList<ArrayList<Integer>> position;

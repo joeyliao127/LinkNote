@@ -28,20 +28,17 @@ public class CoEditQueueService {
   private final EditConsumer consumer;
 
   private final RabbitListenerContainerFactory<?> rabbitListenerContainerFactory;
-  private final MessageConverter messageConverter;
 
   @Autowired
   public CoEditQueueService(RabbitAdmin rabbitAdmin, DirectExchange directExchange,
       RabbitListenerEndpointRegistry registry, EditConsumer consumer,
-      RabbitListenerContainerFactory<?> rabbitListenerContainerFactory,
-      MessageConverter messageConverter
+      RabbitListenerContainerFactory<?> rabbitListenerContainerFactory
       ) {
     this.rabbitAdmin = rabbitAdmin;
     this.directExchange = directExchange;
     this.registry = registry;
     this.consumer = consumer;
     this.rabbitListenerContainerFactory = rabbitListenerContainerFactory;
-    this.messageConverter = messageConverter;
   }
 
   public void createNoteQueue(String noteId) {
@@ -66,14 +63,12 @@ public class CoEditQueueService {
     endpoint.setId(queueName);
     endpoint.setQueueNames(queueName);
     endpoint.setMessageListener(listenerAdapter);
-    endpoint.setMessageConverter(this.messageConverter);
     registry.registerListenerContainer(endpoint, this.rabbitListenerContainerFactory, true);
   }
 
   public Boolean isQueueExist(String noteId) {
     String queueName = "note_queue_" + noteId;
     QueueInformation queueInformation = this.rabbitAdmin.getQueueInfo(queueName);
-    boolean res = (queueInformation != null);
     return queueInformation != null;
   }
 }
