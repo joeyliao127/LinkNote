@@ -231,9 +231,10 @@ export class EditorHandler {
   inputEventCallback = (message) => {
     const latestText = this.latestNoteContent;
     const updatedText = this.editor.getMarkdown();
-    console.log("----------------分隔線----------------");
+    console.log("----------------input事件分隔線----------------");
+    console.log("按下的key: " + message);
     const textAndPosition = this.compareTextDifference(latestText, updatedText);
-    this.wsConnector.sendInsertMessage(textAndPosition.text, [textAndPosition.position, textAndPosition.position]);
+    this.wsConnector.sendInsertMessage(message, [textAndPosition.position, textAndPosition.position]);
   }
 
   compareTextDifference = (latestText, updatedText) => {

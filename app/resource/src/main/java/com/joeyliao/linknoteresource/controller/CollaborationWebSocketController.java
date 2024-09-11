@@ -24,8 +24,6 @@ public class CollaborationWebSocketController {
 
   //發送訊息path，前綴為app`
   @MessageMapping("/message/{noteId}")
-  //廣播的目的
-  @SendTo("/collaboration/{noteId}")
   public void sendMessage(
       @Payload ReceivedOperationMessage receivedOperationMessage,
       SimpMessageHeaderAccessor headerAccessor

@@ -59,6 +59,7 @@ export class CollaborationWebSocket {
    * @param operationType "INSERT", "DELETE"
    */
   sendInsertMessage = (message, position) => {
+    console.log("按下的按鍵: ", message);
     const payload = {
       type: "SEND",
       position: position,
