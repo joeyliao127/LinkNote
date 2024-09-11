@@ -6,7 +6,9 @@ import com.joeyliao.linknoteresource.interceptor.InvitationInterceptor;
 import com.joeyliao.linknoteresource.interceptor.NoteInterceptor;
 import com.joeyliao.linknoteresource.interceptor.NotebookInterceptor;
 import com.joeyliao.linknoteresource.interceptor.TagInterceptor;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -84,4 +86,6 @@ public class AppConfig implements WebMvcConfigurer {
         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
         .allowedHeaders("*");
   }
+
+
 }

@@ -1,5 +1,6 @@
 package com.joeyliao.linknoteresource.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.joeyliao.linknoteresource.mq.EditProducer;
 import com.joeyliao.linknoteresource.pojo.websocket.ReceivedOperationMessage;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,7 @@ public class CollaborationWebSocketController {
   public void sendMessage(
       @Payload ReceivedOperationMessage receivedOperationMessage,
       SimpMessageHeaderAccessor headerAccessor
-  ) {
+  ) throws JsonProcessingException {
     log.info("--------------Operation--------------");
     log.info("sendMessage: " + receivedOperationMessage);
     log.info("username: " + receivedOperationMessage.getUsername());

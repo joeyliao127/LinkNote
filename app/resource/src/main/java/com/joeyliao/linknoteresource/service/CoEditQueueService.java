@@ -13,6 +13,7 @@ import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.listener.RabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistry;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,16 +28,20 @@ public class CoEditQueueService {
   private final EditConsumer consumer;
 
   private final RabbitListenerContainerFactory<?> rabbitListenerContainerFactory;
+  private final MessageConverter messageConverter;
 
   @Autowired
   public CoEditQueueService(RabbitAdmin rabbitAdmin, DirectExchange directExchange,
       RabbitListenerEndpointRegistry registry, EditConsumer consumer,
-      RabbitListenerContainerFactory<?> rabbitListenerContainerFactory) {
+      RabbitListenerContainerFactory<?> rabbitListenerContainerFactory,
+      MessageConverter messageConverter
+      ) {
     this.rabbitAdmin = rabbitAdmin;
     this.directExchange = directExchange;
     this.registry = registry;
     this.consumer = consumer;
     this.rabbitListenerContainerFactory = rabbitListenerContainerFactory;
+    this.messageConverter = messageConverter;
   }
 
   public void createNoteQueue(String noteId) {
@@ -61,7 +66,7 @@ public class CoEditQueueService {
     endpoint.setId(queueName);
     endpoint.setQueueNames(queueName);
     endpoint.setMessageListener(listenerAdapter);
-
+    endpoint.setMessageConverter(this.messageConverter);
     registry.registerListenerContainer(endpoint, this.rabbitListenerContainerFactory, true);
   }
 
