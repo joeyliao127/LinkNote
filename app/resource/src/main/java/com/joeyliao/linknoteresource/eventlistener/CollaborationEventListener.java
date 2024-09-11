@@ -2,15 +2,14 @@ package com.joeyliao.linknoteresource.eventlistener;
 
 import com.joeyliao.linknoteresource.enums.collaboration.BrokerMessageType;
 import com.joeyliao.linknoteresource.service.CoEditQueueService;
-import com.joeyliao.linknoteresource.po.websocket.DisconnectedBrokerMessage;
-import com.joeyliao.linknoteresource.po.websocket.SubscribeBrokerMessage;
+import com.joeyliao.linknoteresource.pojo.websocket.DisconnectedBrokerMessage;
+import com.joeyliao.linknoteresource.pojo.websocket.SubscribeBrokerMessage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.core.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -108,7 +107,9 @@ public class CollaborationEventListener {
     log.info("noteId: " + noteId);
     log.info("===================");
 
-    this.coEditQueueService.createNoteQueue(noteId);
+    if(!this.coEditQueueService.isQueueExist(noteId)) {
+      this.coEditQueueService.createNoteQueue(noteId);
+    }
   }
 
   private void putUser(String sessionId, String username, String email, String noteId) {

@@ -2,13 +2,12 @@ package com.joeyliao.linknoteresource.service;
 
 
 import com.joeyliao.linknoteresource.mq.EditConsumer;
-import java.util.concurrent.ConcurrentHashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
+import org.springframework.amqp.core.QueueInformation;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerEndpoint;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.listener.RabbitListenerContainerFactory;
@@ -64,5 +63,12 @@ public class CoEditQueueService {
     endpoint.setMessageListener(listenerAdapter);
 
     registry.registerListenerContainer(endpoint, this.rabbitListenerContainerFactory, true);
+  }
+
+  public Boolean isQueueExist(String noteId) {
+    String queueName = "note_queue_" + noteId;
+    QueueInformation queueInformation = this.rabbitAdmin.getQueueInfo(queueName);
+    boolean res = (queueInformation != null);
+    return queueInformation != null;
   }
 }

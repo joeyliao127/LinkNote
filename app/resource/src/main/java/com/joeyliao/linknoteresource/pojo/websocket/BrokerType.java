@@ -1,4 +1,4 @@
-package com.joeyliao.linknoteresource.po.websocket;
+package com.joeyliao.linknoteresource.pojo.websocket;
 
 import com.joeyliao.linknoteresource.enums.collaboration.BrokerMessageType;
 import lombok.Data;

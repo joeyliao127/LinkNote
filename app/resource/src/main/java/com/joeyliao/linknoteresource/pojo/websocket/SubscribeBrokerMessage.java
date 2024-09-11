@@ -1,6 +1,5 @@
-package com.joeyliao.linknoteresource.po.websocket;
+package com.joeyliao.linknoteresource.pojo.websocket;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;

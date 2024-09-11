@@ -1,4 +1,4 @@
-package com.joeyliao.linknoteresource.po.websocket;
+package com.joeyliao.linknoteresource.pojo.websocket;
 
 import java.util.ArrayList;
 import lombok.Getter;
