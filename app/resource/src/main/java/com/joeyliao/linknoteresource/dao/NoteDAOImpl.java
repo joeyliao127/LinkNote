@@ -77,14 +77,14 @@ public class NoteDAOImpl implements NoteDAO {
   }
 
   @Override
-  public NoteDTO getNote(GetNoteRequestPo po) {
+  public NoteDTO getNote(String noteId) {
     String sql = """
         SELECT n.id, n.name, n.content, n.question
         , n.keypoint, n.star, n.createDate
         FROM notes n WHERE n.id = :noteId;
         """;
     Map<String, Object> map = new HashMap<>();
-    map.put("noteId", po.getNoteId());
+    map.put("noteId", noteId);
     List<NoteDTO> list = namedParameterJdbcTemplate.query(sql ,map, new NotesRowMapper());
     if(list.isEmpty()){
       return null;

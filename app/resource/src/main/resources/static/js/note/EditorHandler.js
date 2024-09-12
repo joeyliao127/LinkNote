@@ -35,27 +35,28 @@ export class EditorHandler {
     const data = await response.json();
     const {note} = data;
     $(`.js_note_name`).text(note.name);
-    let initialValue = "";
-    if (note.content === null || note.content.trim() === "") {
-      initialValue = "# Title\n\n## Question\n\n## Keypoint";
-    } else {
-      initialValue = note.content;
-    }
+    // if (note.content === null || note.content.trim() === "") {
+    //   initialValue = "# Title\n\n## Question\n\n## Keypoint";
+    // } else {
+    //   initialValue = note.content;
+    // }
     this.editor = new Editor({
       el: document.querySelector("#editor"),
       height: "93vh",
       previewStyle: "vertical",
-      initialValue: initialValue,
       theme: "dark",
       plugins: [codeSyntaxHighlight],
     });
-
-    this.latestNoteContent = initialValue;
+    
     this.editor.setSelection([1,1], [1,1]);
     // this.registerSaveNoteEvent();
 
     //TODO 實做共編時記得完成
     this.registerEvents();
+  }
+
+  setNoteContent = (content) => {
+    this.editor.insertText(content);
   }
 
   registerSaveNoteEvent = () => {

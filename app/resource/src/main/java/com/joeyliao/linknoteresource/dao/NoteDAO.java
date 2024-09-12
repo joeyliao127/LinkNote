@@ -14,7 +14,7 @@ public interface NoteDAO {
 
   List<NoteDTO> getNotes(GetNotesRequestPo po);
 
-  NoteDTO getNote(GetNoteRequestPo po);
+  NoteDTO getNote(String noteId);
 
   void updateNote(updateNotePo po);
 

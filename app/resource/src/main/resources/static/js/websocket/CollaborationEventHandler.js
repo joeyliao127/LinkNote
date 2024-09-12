@@ -27,15 +27,20 @@ export class CollaborationEventHandler {
   receivedBrokerMessage = (message) => {
     const data = JSON.parse(message.body);
     const joinedEmail = data.email;
+    const type = data.type;
 
-    if(joinedEmail === this.email) {
+    if(type === "SUBSCRIBE" && joinedEmail === this.email) {
+      const {noteContent} = data;
+      this.editorHandler.setNoteContent(noteContent);
+      return;
+    } else if (joinedEmail === this.email) {
       return;
     }
 
     console.log("接收到後端訊息：");
     console.log(data);
 
-    const type = data.type;
+
     let notifyMessage = "";
 
     switch (type) {

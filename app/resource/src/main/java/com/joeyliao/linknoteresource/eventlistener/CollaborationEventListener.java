@@ -1,5 +1,6 @@
 package com.joeyliao.linknoteresource.eventlistener;
 
+import com.joeyliao.linknoteresource.coedit.NoteContainer;
 import com.joeyliao.linknoteresource.enums.collaboration.BrokerMessageType;
 import com.joeyliao.linknoteresource.service.CoEditQueueService;
 import com.joeyliao.linknoteresource.pojo.websocket.DisconnectedBrokerMessage;
@@ -28,6 +29,8 @@ public class CollaborationEventListener {
 
   private final CoEditQueueService coEditQueueService;
 
+  private final NoteContainer noteContainer;
+
   private Map<String, Map<String, String>> user = new ConcurrentHashMap<>();
 
   private ArrayList<String> userList = new ArrayList<>();
@@ -35,9 +38,11 @@ public class CollaborationEventListener {
 
 
   @Autowired
-  public CollaborationEventListener(CoEditQueueService coEditQueueService, SimpMessageSendingOperations messagingTemplate) {
+  public CollaborationEventListener(CoEditQueueService coEditQueueService,
+      SimpMessageSendingOperations messagingTemplate, NoteContainer noteContainer) {
     this.coEditQueueService = coEditQueueService;
     this.messagingTemplate = messagingTemplate;
+    this.noteContainer = noteContainer;
   }
 
   //建立連線事件
@@ -76,6 +81,7 @@ public class CollaborationEventListener {
     messagingTemplate.convertAndSend("/collaboration/" + noteId, message);
 
     //TODO 注入NoteContainer，判斷連線人數是否為0，如果是則刪除queue。
+    //TODO 如果人數為0，清除noteContainer中指定noteId的資料
     log.info("username: " + user.get("username"));
     log.info("email: " + user.get("email"));
     log.info("noteId: " + noteId);
@@ -94,12 +100,14 @@ public class CollaborationEventListener {
     String noteId = user.get("noteId");
     String email = user.get("email");
     String username = user.get("username");
+    String noteContent = noteContainer.getNoteContent(noteId);
     this.appendUser(email);
 
     message.setUsername(username);
     message.setEmail(user.get("email"));
     message.setType(BrokerMessageType.SUBSCRIBE);
     message.setUsers(this.userList);
+    message.setNoteContent(noteContent);
 
     messagingTemplate.convertAndSend("/collaboration/" + noteId, message);
     log.info("訂閱事件");

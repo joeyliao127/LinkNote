@@ -14,7 +14,7 @@ public interface NoteService {
 
   GetNotesResponsePo getNotes(GetNotesRequestPo po);
 
-  GetNoteResponsePo getNote(GetNoteRequestPo po);
+  GetNoteResponsePo getNote(String noteID);
 
   void updateNote(updateNotePo po);
 

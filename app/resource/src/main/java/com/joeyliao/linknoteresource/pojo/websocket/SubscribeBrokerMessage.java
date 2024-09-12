@@ -9,5 +9,6 @@ import lombok.Setter;
 public class SubscribeBrokerMessage extends BrokerType {
   private String username;
   private String email;
+  private String noteContent;
   private ArrayList<String> users;
 }

@@ -64,10 +64,10 @@ public class NoteServiceImpl implements NoteService {
   }
 
   @Override
-  public GetNoteResponsePo getNote(GetNoteRequestPo po) {
+  public GetNoteResponsePo getNote(String noteId) {
     GetNoteResponsePo responsePo = new GetNoteResponsePo();
-    responsePo.setNote(noteDAO.getNote(po));
-    responsePo.setTags(tagDAO.getNoteTags(po.getNoteId()));
+    responsePo.setNote(noteDAO.getNote(noteId));
+    responsePo.setTags(tagDAO.getNoteTags(noteId));
     return responsePo;
   }
 

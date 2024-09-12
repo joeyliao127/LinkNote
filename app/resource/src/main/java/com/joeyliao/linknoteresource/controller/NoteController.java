@@ -69,7 +69,7 @@ public class NoteController {
     GetNoteRequestPo po = new GetNoteRequestPo();
     po.setNotebookId(notebookId);
     po.setNoteId(noteId);
-    return ResponseEntity.status(200).body(noteService.getNote(po));
+    return ResponseEntity.status(200).body(noteService.getNote(po.getNoteId()));
   }
 
   @PutMapping("/api/notebooks/{notebookId}/notes/{noteId}")
