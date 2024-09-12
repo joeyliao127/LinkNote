@@ -40,6 +40,7 @@ public class ReceivedOperationMessage extends BrokerType{
         ", content='" + content + '\'' +
         ", email='" + email + '\'' +
         ", username='" + username + '\'' +
+        ", username='" + position + '\'' +
         '}';
   }
 }

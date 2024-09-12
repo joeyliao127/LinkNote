@@ -47,7 +47,7 @@ export class EditorHandler {
       theme: "dark",
       plugins: [codeSyntaxHighlight],
     });
-    
+
     this.editor.setSelection([1,1], [1,1]);
     // this.registerSaveNoteEvent();
 
@@ -234,8 +234,8 @@ export class EditorHandler {
     const updatedText = this.editor.getMarkdown();
     console.log("----------------input事件分隔線----------------");
     console.log("按下的key: " + message);
-    const textAndPosition = this.compareTextDifference(latestText, updatedText);
-    this.wsConnector.sendInsertMessage(message, [textAndPosition.position, textAndPosition.position]);
+    // const textAndPosition = this.compareTextDifference(latestText, updatedText);
+    this.wsConnector.sendInsertMessage(message, this.editor.getSelection());
   }
 
   compareTextDifference = (latestText, updatedText) => {

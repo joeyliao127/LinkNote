@@ -1,10 +1,10 @@
 package com.joeyliao.linknoteresource.eventlistener;
 
-import com.joeyliao.linknoteresource.coedit.NoteContainer;
 import com.joeyliao.linknoteresource.enums.collaboration.BrokerMessageType;
-import com.joeyliao.linknoteresource.service.CoEditQueueService;
 import com.joeyliao.linknoteresource.pojo.websocket.DisconnectedBrokerMessage;
 import com.joeyliao.linknoteresource.pojo.websocket.SubscribeBrokerMessage;
+import com.joeyliao.linknoteresource.service.CoEditQueueService;
+import com.joeyliao.linknoteresource.service.CoEditService;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,23 +26,20 @@ import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 public class CollaborationEventListener {
 
   private final SimpMessageSendingOperations messagingTemplate;
-
   private final CoEditQueueService coEditQueueService;
-
-  private final NoteContainer noteContainer;
+  private final CoEditService coEditService;
 
   private Map<String, Map<String, String>> user = new ConcurrentHashMap<>();
-
   private ArrayList<String> userList = new ArrayList<>();
 
 
 
   @Autowired
   public CollaborationEventListener(CoEditQueueService coEditQueueService,
-      SimpMessageSendingOperations messagingTemplate, NoteContainer noteContainer) {
+      SimpMessageSendingOperations messagingTemplate, CoEditService coEditService) {
     this.coEditQueueService = coEditQueueService;
     this.messagingTemplate = messagingTemplate;
-    this.noteContainer = noteContainer;
+    this.coEditService = coEditService;
   }
 
   //建立連線事件
@@ -100,7 +97,7 @@ public class CollaborationEventListener {
     String noteId = user.get("noteId");
     String email = user.get("email");
     String username = user.get("username");
-    String noteContent = noteContainer.getNoteContent(noteId);
+    String noteContent = this.coEditService.getNoteContent(noteId);
     this.appendUser(email);
 
     message.setUsername(username);

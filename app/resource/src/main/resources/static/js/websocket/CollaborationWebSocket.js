@@ -58,7 +58,7 @@ export class CollaborationWebSocket {
    * @param position Array<Array<number>>
    * @param operationType "INSERT", "DELETE"
    */
-  sendInsertMessage = (message, position) => {
+  sendInsertMessage = (message, position, version) => {
     console.log("按下的按鍵: ", message);
     const payload = {
       type: "SEND",
@@ -68,6 +68,7 @@ export class CollaborationWebSocket {
       email: this.email,
       username: this.username,
       noteId: this.noteId,
+      version: version,
     }
 
     this.stompClient.publish({

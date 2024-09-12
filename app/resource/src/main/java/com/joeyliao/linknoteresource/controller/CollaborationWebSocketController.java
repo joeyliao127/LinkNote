@@ -3,6 +3,7 @@ package com.joeyliao.linknoteresource.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.joeyliao.linknoteresource.mq.EditProducer;
 import com.joeyliao.linknoteresource.pojo.websocket.ReceivedOperationMessage;
+import com.joeyliao.linknoteresource.service.CoEditService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -17,14 +18,18 @@ public class CollaborationWebSocketController {
 
   private final EditProducer producer;
 
+  private final CoEditService coEditService;
+
   @Autowired
-  public CollaborationWebSocketController(EditProducer producer) {
+  public CollaborationWebSocketController(EditProducer producer, CoEditService coEditService) {
     this.producer = producer;
+    this.coEditService = coEditService;
   }
 
   //發送訊息path，前綴為app`
   @MessageMapping("/message/{noteId}")
-  public void sendMessage(
+  @SendTo("/collaboration/{noteId}")
+  public ReceivedOperationMessage sendMessage(
       @Payload ReceivedOperationMessage receivedOperationMessage,
       SimpMessageHeaderAccessor headerAccessor
   ) throws JsonProcessingException {
@@ -36,6 +41,12 @@ public class CollaborationWebSocketController {
     log.info("操作: " + receivedOperationMessage.getOperationType());
     log.info("type: " + receivedOperationMessage.getType());
     log.info("position: " + receivedOperationMessage.getPosition());
-    this.producer.sendMessage(receivedOperationMessage.getNoteId(), receivedOperationMessage);
+    //TODO 用MQ發送 return 改為void，用ws發送return 改為receivedOperationMessage
+//    this.producer.sendMessage(receivedOperationMessage.getNoteId(), receivedOperationMessage);
+
+    this.coEditService.getTransformOperation(receivedOperationMessage);
+
+
+    return receivedOperationMessage;
   }
 }
