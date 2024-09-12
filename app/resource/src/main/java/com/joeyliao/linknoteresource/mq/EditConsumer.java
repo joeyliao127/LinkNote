@@ -24,7 +24,6 @@ public class EditConsumer {
     this.simpMessagingTemplate = simpMessagingTemplate;
   }
 
-//  @SendTo("/collaboration/{noteId}")
   public void handleMessage(byte[] byteMessage) throws IOException {
 
     ReceivedOperationMessage receivedOperationMessage = this.objectMapper.readValue(byteMessage, ReceivedOperationMessage.class);

@@ -75,6 +75,7 @@ public class CollaborationEventListener {
 
     messagingTemplate.convertAndSend("/collaboration/" + noteId, message);
 
+    //TODO 注入NoteContainer，判斷連線人數是否為0，如果是則刪除queue。
     log.info("username: " + user.get("username"));
     log.info("email: " + user.get("email"));
     log.info("noteId: " + noteId);
@@ -107,7 +108,7 @@ public class CollaborationEventListener {
     log.info("noteId: " + noteId);
     log.info("===================");
 
-    if(!this.coEditQueueService.isQueueExist(noteId)) {
+    if(this.coEditQueueService.isNotQueueExist(noteId)) {
       this.coEditQueueService.createNoteQueue(noteId);
     }
   }

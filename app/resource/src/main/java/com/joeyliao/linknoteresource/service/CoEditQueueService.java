@@ -66,9 +66,9 @@ public class CoEditQueueService {
     registry.registerListenerContainer(endpoint, this.rabbitListenerContainerFactory, true);
   }
 
-  public Boolean isQueueExist(String noteId) {
+  public Boolean isNotQueueExist(String noteId) {
     String queueName = "note_queue_" + noteId;
     QueueInformation queueInformation = this.rabbitAdmin.getQueueInfo(queueName);
-    return queueInformation != null;
+    return queueInformation == null;
   }
 }
