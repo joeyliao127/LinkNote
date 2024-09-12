@@ -13,6 +13,7 @@ export class EditorHandler {
   editor;
   wsConnector;
   latestNoteContent;
+  versionId;
 
   cursorPosition;
   constructor(noteId, notebookId) {
@@ -55,8 +56,9 @@ export class EditorHandler {
     this.registerEvents();
   }
 
-  setNoteContent = (content) => {
+  setNoteContentAndVersionId = (content, versionId) => {
     this.editor.insertText(content);
+    this.versionId = versionId;
   }
 
   registerSaveNoteEvent = () => {
@@ -197,7 +199,7 @@ export class EditorHandler {
     const message = await navigator.clipboard.readText();
     const position = this.editor.getSelection();
     console.log(message);
-    this.wsConnector.sendInsertMessage(message, position);
+    this.wsConnector.sendInsertMessage(message, position, this.versionId);
   }
 
   withdrawEventCallback = async () => {
@@ -207,13 +209,13 @@ export class EditorHandler {
   enterEventCallback = () => {
     const message = "\n";
     const position = this.editor.getSelection();
-    this.wsConnector.sendInsertMessage(message, position);
+    this.wsConnector.sendInsertMessage(message, position, this.versionId);
   }
 
   tabEventCallback = () => {
     const message = "    ";
     const position = this.editor.getSelection();
-    this.wsConnector.sendInsertMessage(message, position);
+    this.wsConnector.sendInsertMessage(message, position, this.versionId);
   }
 
   backspaceEventCallback = () => {
@@ -235,7 +237,7 @@ export class EditorHandler {
     console.log("----------------input事件分隔線----------------");
     console.log("按下的key: " + message);
     // const textAndPosition = this.compareTextDifference(latestText, updatedText);
-    this.wsConnector.sendInsertMessage(message, this.editor.getSelection());
+    this.wsConnector.sendInsertMessage(message, this.editor.getSelection(), this.versionId);
   }
 
   compareTextDifference = (latestText, updatedText) => {
@@ -310,7 +312,10 @@ export class EditorHandler {
     console.log(data);
     const {content} = data;
     const {position} = data;
+    const {versionId} = data;
     const currentPosition = this.editor.getSelection();
+    //TODO 前端OT算法在這邊執行
+    this.versionId = versionId;
     this.editor.setSelection(position[0], position[1]);
     this.editor.insertText(content);
     this.latestNoteContent = this.editor.getMarkdown(); //接收訊息並insert之後，要更新last版本的text

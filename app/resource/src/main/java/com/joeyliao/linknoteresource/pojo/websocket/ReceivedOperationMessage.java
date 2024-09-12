@@ -20,17 +20,19 @@ public class ReceivedOperationMessage extends BrokerType{
   private String email;
   private String username;
   private String noteId;
+  private String versionId;
 
-  public ReceivedOperationMessage(ArrayList<ArrayList<Integer>> position,
-      OperationType operationType,
-      String content, String email, String username, String noteId) {
-    this.position = position;
-    this.operationType = operationType;
-    this.content = content;
-    this.email = email;
-    this.username = username;
-    this.noteId = noteId;
-  }
+//  public ReceivedOperationMessage(ArrayList<ArrayList<Integer>> position,
+//      OperationType operationType,
+//      String content, String email, String username, String noteId,) {
+//    this.position = position;
+//    this.operationType = operationType;
+//    this.content = content;
+//    this.email = email;
+//    this.username = username;
+//    this.noteId = noteId;
+//    this.versionId =
+//  }
 
   @Override
   public String toString() {
@@ -40,7 +42,8 @@ public class ReceivedOperationMessage extends BrokerType{
         ", content='" + content + '\'' +
         ", email='" + email + '\'' +
         ", username='" + username + '\'' +
-        ", username='" + position + '\'' +
+        ", position='" + position + '\'' +
+        ", versionId='" + versionId + '\'' +
         '}';
   }
 }

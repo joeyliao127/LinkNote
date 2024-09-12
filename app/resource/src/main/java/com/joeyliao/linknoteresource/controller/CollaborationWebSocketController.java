@@ -34,13 +34,7 @@ public class CollaborationWebSocketController {
       SimpMessageHeaderAccessor headerAccessor
   ) throws JsonProcessingException {
     log.info("--------------Operation--------------");
-    log.info("sendMessage: " + receivedOperationMessage);
-    log.info("username: " + receivedOperationMessage.getUsername());
-    log.info("email: " + receivedOperationMessage.getEmail());
-    log.info("content: " + receivedOperationMessage.getContent());
-    log.info("操作: " + receivedOperationMessage.getOperationType());
-    log.info("type: " + receivedOperationMessage.getType());
-    log.info("position: " + receivedOperationMessage.getPosition());
+    log.info("接收到的資料: " + receivedOperationMessage.toString());
     //TODO 用MQ發送 return 改為void，用ws發送return 改為receivedOperationMessage
 //    this.producer.sendMessage(receivedOperationMessage.getNoteId(), receivedOperationMessage);
 

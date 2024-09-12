@@ -10,5 +10,6 @@ public class SubscribeBrokerMessage extends BrokerType {
   private String username;
   private String email;
   private String noteContent;
+  private String versionId;
   private ArrayList<String> users;
 }

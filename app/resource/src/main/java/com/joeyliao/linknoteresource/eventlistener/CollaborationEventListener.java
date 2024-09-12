@@ -97,14 +97,15 @@ public class CollaborationEventListener {
     String noteId = user.get("noteId");
     String email = user.get("email");
     String username = user.get("username");
-    String noteContent = this.coEditService.getNoteContent(noteId);
+    Map<String, Object> noteContentAndVersion = this.coEditService.getNoteContentAndVersion(noteId);
     this.appendUser(email);
 
     message.setUsername(username);
     message.setEmail(user.get("email"));
     message.setType(BrokerMessageType.SUBSCRIBE);
     message.setUsers(this.userList);
-    message.setNoteContent(noteContent);
+    message.setNoteContent(noteContentAndVersion.get("noteContent").toString());
+    message.setVersionId(noteContentAndVersion.get("versionId").toString());
 
     messagingTemplate.convertAndSend("/collaboration/" + noteId, message);
     log.info("訂閱事件");

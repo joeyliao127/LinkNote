@@ -31,7 +31,8 @@ export class CollaborationEventHandler {
 
     if(type === "SUBSCRIBE" && joinedEmail === this.email) {
       const {noteContent} = data;
-      this.editorHandler.setNoteContent(noteContent);
+      const {versionId} = data;
+      this.editorHandler.setNoteContentAndVersionId(noteContent, versionId);
       return;
     } else if (joinedEmail === this.email) {
       return;
