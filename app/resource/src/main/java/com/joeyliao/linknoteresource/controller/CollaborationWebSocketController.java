@@ -3,6 +3,7 @@ package com.joeyliao.linknoteresource.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.joeyliao.linknoteresource.mq.EditProducer;
 import com.joeyliao.linknoteresource.pojo.websocket.ReceivedOperationMessage;
+import com.joeyliao.linknoteresource.pojo.websocket.SendOperationMessage;
 import com.joeyliao.linknoteresource.service.CoEditService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class CollaborationWebSocketController {
   //發送訊息path，前綴為app`
   @MessageMapping("/message/{noteId}")
   @SendTo("/collaboration/{noteId}")
-  public ReceivedOperationMessage sendMessage(
+  public SendOperationMessage sendMessage(
       @Payload ReceivedOperationMessage receivedOperationMessage,
       SimpMessageHeaderAccessor headerAccessor
   ) throws JsonProcessingException {
@@ -38,9 +39,8 @@ public class CollaborationWebSocketController {
     //TODO 用MQ發送 return 改為void，用ws發送return 改為receivedOperationMessage
 //    this.producer.sendMessage(receivedOperationMessage.getNoteId(), receivedOperationMessage);
 
-    this.coEditService.getTransformOperation(receivedOperationMessage);
+    SendOperationMessage message = this.coEditService.getTransformOperation(receivedOperationMessage);
 
-
-    return receivedOperationMessage;
+    return message;
   }
 }

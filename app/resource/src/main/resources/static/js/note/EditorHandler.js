@@ -191,7 +191,7 @@ export class EditorHandler {
   //剪下事件
   cutEventCallback = async () => {
     const position = this.editor.getSelection();
-    this.wsConnector.sendDeleteMessage(position);
+    this.wsConnector.sendDeleteMessage(position, this.versionId);
   }
 
   //貼上事件
@@ -228,7 +228,7 @@ export class EditorHandler {
       position[0][1] -= 1;
     }
 
-    this.wsConnector.sendDeleteMessage(position);
+    this.wsConnector.sendDeleteMessage(position, this.versionId);
   }
 
   inputEventCallback = (message) => {
@@ -316,7 +316,7 @@ export class EditorHandler {
     const currentPosition = this.editor.getSelection();
     //TODO 前端OT算法在這邊執行
     this.versionId = versionId;
-    this.editor.setSelection(position[0], position[1]);
+    this.editor.setSelection(position.startPosition, position.endPosition);
     this.editor.insertText(content);
     this.latestNoteContent = this.editor.getMarkdown(); //接收訊息並insert之後，要更新last版本的text
     this.editor.setSelection(currentPosition[0], currentPosition[1]);
@@ -324,9 +324,10 @@ export class EditorHandler {
 
   // 刪除接收到的訊息
   deleteMessage = (data) => {
+    console.log("接收到刪除訊息");
     const {position} = data;
-    const start = position[0];
-    const end = position[1];
+    const start = position.startPosition;
+    const end = position.endPosition;
     this.editor.deleteSelection(start, end);
   }
 

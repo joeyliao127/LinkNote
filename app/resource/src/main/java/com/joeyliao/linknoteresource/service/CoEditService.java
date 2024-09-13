@@ -1,11 +1,13 @@
 package com.joeyliao.linknoteresource.service;
 
+import com.joeyliao.linknoteresource.pojo.coEdit.NoteContent;
 import com.joeyliao.linknoteresource.pojo.websocket.ReceivedOperationMessage;
+import com.joeyliao.linknoteresource.pojo.websocket.SendOperationMessage;
 import java.util.Map;
 
 public interface CoEditService {
-  void getTransformOperation(ReceivedOperationMessage receivedOperationMessage);
+  SendOperationMessage getTransformOperation(ReceivedOperationMessage receivedOperationMessage);
 
-  Map<String, Object> getNoteContentAndVersion(String noteId);
+  NoteContent getNoteContent(String noteId);
 
 }

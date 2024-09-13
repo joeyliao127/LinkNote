@@ -62,7 +62,10 @@ export class CollaborationWebSocket {
     console.log("按下的按鍵: ", message);
     const payload = {
       type: "SEND",
-      position: position,
+      position: {
+        "startPosition": position[0],
+        "endPosition": position[1]
+      },
       operationType: this.operationType.insert,
       content: message,
       email: this.email,
@@ -77,13 +80,18 @@ export class CollaborationWebSocket {
     })
   }
 
-  sendDeleteMessage = (position) => {
+  sendDeleteMessage = (position, versionId) => {
     const payload = {
       type: "SEND",
-      position: position,
+      position: {
+        "startPosition": position[0],
+        "endPosition": position[1]
+      },
       operationType: this.operationType.delete,
       email: this.email,
       username: this.username,
+      noteId: this.noteId,
+      versionId: versionId,
     }
 
     this.stompClient.publish({

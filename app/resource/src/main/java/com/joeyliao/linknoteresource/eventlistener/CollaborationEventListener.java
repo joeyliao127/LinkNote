@@ -1,6 +1,7 @@
 package com.joeyliao.linknoteresource.eventlistener;
 
 import com.joeyliao.linknoteresource.enums.collaboration.BrokerMessageType;
+import com.joeyliao.linknoteresource.pojo.coEdit.NoteContent;
 import com.joeyliao.linknoteresource.pojo.websocket.DisconnectedBrokerMessage;
 import com.joeyliao.linknoteresource.pojo.websocket.SubscribeBrokerMessage;
 import com.joeyliao.linknoteresource.service.CoEditQueueService;
@@ -97,15 +98,15 @@ public class CollaborationEventListener {
     String noteId = user.get("noteId");
     String email = user.get("email");
     String username = user.get("username");
-    Map<String, Object> noteContentAndVersion = this.coEditService.getNoteContentAndVersion(noteId);
+    NoteContent noteContent = this.coEditService.getNoteContent(noteId);
     this.appendUser(email);
 
     message.setUsername(username);
     message.setEmail(user.get("email"));
     message.setType(BrokerMessageType.SUBSCRIBE);
     message.setUsers(this.userList);
-    message.setNoteContent(noteContentAndVersion.get("noteContent").toString());
-    message.setVersionId(noteContentAndVersion.get("versionId").toString());
+    message.setNoteContent(noteContent.getNoteContent());
+    message.setVersionId(noteContent.getVersionId());
 
     messagingTemplate.convertAndSend("/collaboration/" + noteId, message);
     log.info("訂閱事件");
