@@ -1,11 +1,11 @@
 package com.joeyliao.linknoteresource.pojo.coEdit;
 
+import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class EditPositionVersion {
-  private String lastEditPosition;
-  private String nextInsertPosition;
+  private ArrayList<Integer> nextInsertPosition;
 }

@@ -39,8 +39,6 @@ public class CollaborationWebSocketController {
     //TODO 用MQ發送 return 改為void，用ws發送return 改為receivedOperationMessage
 //    this.producer.sendMessage(receivedOperationMessage.getNoteId(), receivedOperationMessage);
 
-    SendOperationMessage message = this.coEditService.getTransformOperation(receivedOperationMessage);
-
-    return message;
+    return this.coEditService.getTransformOperation(receivedOperationMessage);
   }
 }

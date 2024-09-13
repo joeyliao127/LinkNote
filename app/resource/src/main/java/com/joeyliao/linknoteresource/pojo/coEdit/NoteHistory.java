@@ -24,8 +24,8 @@ public class NoteHistory {
 //    "latestVersionId": "versionId",
 //    "editHistory": {
 //      "versionId": {
-//        editPosition: [[1, 2], [1, 2]],
-//        nextInsertPosition: [[1, 2], [2, 3]]
+//        editPosition: [1, 2],
+//        nextInsertPosition: [1, 2]
 //    }
 //  }
 }

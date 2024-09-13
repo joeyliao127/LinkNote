@@ -5,6 +5,7 @@ import com.joeyliao.linknoteresource.dto.note.NoteDTO;
 import com.joeyliao.linknoteresource.enums.collaboration.BrokerMessageType;
 import com.joeyliao.linknoteresource.enums.collaboration.OperationType;
 import com.joeyliao.linknoteresource.pojo.coEdit.EditPosition;
+import com.joeyliao.linknoteresource.pojo.coEdit.EditPositionVersion;
 import com.joeyliao.linknoteresource.pojo.coEdit.NoteContent;
 import com.joeyliao.linknoteresource.pojo.coEdit.NoteHistory;
 import com.joeyliao.linknoteresource.pojo.websocket.ReceivedOperationMessage;
@@ -51,21 +52,17 @@ public class CoEditServiceImpl implements CoEditService{
     if(clientSideVersionId.equals(serverSideVersionId)) {
       editPosition = receivedOperationMessage.getPosition();
     } else {
-      editPosition = this.transformOperationPosition(receivedOperationMessage);
+      editPosition = this.transformOperatingPosition(receivedOperationMessage);
     }
 
     this.merge(receivedOperationMessage);
 //    this.calculateUpdatedPosition(receivedOperationMessage.getContent(), receivedOperationMessage.getPosition());
 
-    return this.generateSendOperationMessage(receivedOperationMessage, editPosition);
+    return this.generateSendOperatingMessage(receivedOperationMessage, editPosition);
   }
 
   private void merge(ReceivedOperationMessage receivedOperationMessage) {
     log.info("執行merge");
-    /*
-     * 先取得更改的row，並在column位址插入字串
-     * 再將該row剩餘的String接在插入的字串上
-     */
     String noteId = receivedOperationMessage.getNoteId();
     OperationType operationType = receivedOperationMessage.getOperationType();
     EditPosition editPosition = receivedOperationMessage.getPosition();
@@ -74,22 +71,28 @@ public class CoEditServiceImpl implements CoEditService{
     ArrayList<String> latestNoteContent = this.noteContainer.get(noteId).getNoteContent();
 
     ArrayList<String> updateContent = null;
-
+    ArrayList<Integer> nextPosition = null;
+    String content = receivedOperationMessage.getContent();
     if(operationType == OperationType.INSERT) {
-      log.info("執行insert");
-      // insert的字串並分割
-      String content = receivedOperationMessage.getContent();
-      updateContent = this.insertOperation(latestNoteContent, content, editPosition);
+      Map<String, Object> result = this.insertText(latestNoteContent, content, editPosition);
+      updateContent = (ArrayList<String>) result.get("latestContent");
+      nextPosition = (ArrayList<Integer>) result.get("nextPosition");
     } else if (operationType == OperationType.DELETE) {
-      updateContent = this.deleteOperation(latestNoteContent, editPosition);
+      Map<String, Object> result = this.deleteText(latestNoteContent, editPosition);
+      updateContent = (ArrayList<String>) result.get("latestContent");
+      nextPosition = (ArrayList<Integer>) result.get("nextPosition");
     }
+
+    this.noteContainer.get(noteId).getEditHistory().get(receivedOperationMessage.getVersionId()).setNextInsertPosition(nextPosition);
+    //TODO 操作完後要更新nextPosition
 
     this.noteContainer.get(noteId).setNoteContent(updateContent);
 
     log.info("更新後的noteContent: " + this.noteContainer.get(noteId).getNoteContent());
   }
 
-  private EditPosition transformOperationPosition(ReceivedOperationMessage receivedOperationMessage) {
+
+  private EditPosition transformOperatingPosition(ReceivedOperationMessage receivedOperationMessage) {
     //TODO 需要根據指定版本更新的position，比較位址是否相同，
     //TODO 如果不同，直接merge，如果相同，就要將位址往後推一位，也要考慮操作的字元總數，如新增ss，那row的position就要加上2 + 1， 2是ss，+ 1才是真正的往後推一位。
     //TODO 但要考慮多行的狀況
@@ -98,39 +101,51 @@ public class CoEditServiceImpl implements CoEditService{
     //TODO 有任何操作，都要更新latestVersionId, noteContent，而concurrentHashMap則是在merge或ot時才需要更新。
     //TODO 有操作的情況 - 1. merge 2.transformation 3. (ok)第一次取得noteContent(產生第一版)
     log.info("執行OT轉換");
+    String noteId = receivedOperationMessage.getNoteId();
+    String versionId = receivedOperationMessage.getVersionId();
     EditPosition editPosition = new EditPosition();
-    this.calculateUpdatedPosition(receivedOperationMessage.getContent(), receivedOperationMessage.getPosition());
+    EditPositionVersion editPositionVersion = this.noteContainer.get(noteId).getEditHistory().get(versionId);
+    editPosition.setStartPosition(editPositionVersion.getNextInsertPosition());
     return editPosition;
   }
 
-  private ArrayList<String> insertOperation(ArrayList<String> latestContent, String content, EditPosition editPosition) {
-    //TODO 想想enter怎麼處裡
-    String[] splitContent = content.split("\n");
+  private Map<String, Object> insertText(ArrayList<String> latestContent, String content, EditPosition editPosition) {
 
-    // 取得更新的座標
+    // 取得插入座標
     Integer rowPosition = editPosition.getStartPosition().get(0);
     Integer columnPosition = editPosition.getStartPosition().get(1);
+    ArrayList<Integer> nextPosition = new ArrayList<>();
 
-    // 取得server最新的content，並取得指定row的String
-    String rowContent = latestContent.get(rowPosition - 1); // 取得row欄的String，-1 是因為前端返回的座標是從1開始，不是0
+    if(content.equals("\n")) {
+      latestContent.add(rowPosition, "");
+      nextPosition.add(0, rowPosition + 1);
+      nextPosition.add(1, columnPosition);
+    } else {
+      ArrayList<String> splitContent = new ArrayList<>(Arrays.asList(content.split("\n")));
+      // 取得server最新的content，並取得row指定index的String
+      String rowContent = latestContent.get(rowPosition - 1); // 取得row欄的String，-1 是因為前端返回的座標是從1開始，不是0
 
-    String newContent = getString(rowContent, splitContent, columnPosition);
+      String newContent = getString(rowContent, splitContent, columnPosition);
+      latestContent.set(rowPosition - 1, newContent);
 
-    latestContent.set(rowPosition, newContent);
-    // 如果是多行，把剩下的都插入
-    for (int i=1; i<splitContent.length; i++) {
-      latestContent.set(rowPosition + 1, splitContent[i]);
+      nextPosition.add(0,rowPosition + splitContent.size());
+      nextPosition.add(1, columnPosition);
+      //TODO 多行插入的nextStartColumn要更新
+//      // 如果是多行，把剩下的都插入
+      for (int i=1; i<splitContent.size(); i++) {
+        latestContent.set(rowPosition + 1, splitContent.get(i));
+      }
     }
 
-    return latestContent;
+    return Map.of("latestContent", latestContent, "nextPosition", nextPosition);
   }
 
-  private static String getString(String rowContent, String[] splitContent,
+  private static String getString(String rowContent, ArrayList<String> splitContent,
       Integer columnPosition) {
     String newContent;
 
     if(rowContent.isEmpty()) {
-      newContent = splitContent[0];
+      newContent = splitContent.get(0);
     } else {
 //      String startSubString = rowContent.substring(0, columnPosition - 1);
 //      String insertString = splitContent[0];
@@ -138,13 +153,12 @@ public class CoEditServiceImpl implements CoEditService{
 //      String res = startSubString + insertString + otherString;
       // 類似這樣 ABCE ，插入D
       // ABC + D + E
-      newContent = rowContent.substring(0, columnPosition - 1) + splitContent[0] + rowContent.substring(
-          rowContent.length() - 1);
+      newContent = rowContent.substring(0, columnPosition - 1) + splitContent.get(0) + rowContent.substring(rowContent.length() - 1);
     }
     return newContent;
   }
 
-  private ArrayList<String> deleteOperation(ArrayList<String> latestContent, EditPosition editPosition) {
+  private Map<String, Object> deleteText(ArrayList<String> latestContent, EditPosition editPosition) {
 
     // 取得更新的座標
     Integer startRowPosition = editPosition.getStartPosition().get(0);
@@ -158,28 +172,24 @@ public class CoEditServiceImpl implements CoEditService{
     // 開始刪除指定欄位
     String updatedContent = "";
 
-    Integer deleteRowCount = startRowPosition - startColumnPosition;
-
     // 比如從中間刪除，後面剩下的就是substring，比如ABC，刪除B，substring就是C。
     String substring = rowContent.substring(startColumnPosition - 1, rowContent.length() - 1);
+    ArrayList<Integer> nextPosition = new ArrayList<>();
     // 如果在同一行
     if(startRowPosition.equals(endRowPosition)) {
       updatedContent = rowContent.substring(0, startColumnPosition - 1) + substring;
+      nextPosition.add(0, endRowPosition);
+      nextPosition.add(1, endColumnPosition);
     }
+
+    //TODO 多行刪除還沒做
     latestContent.set(startRowPosition - 1, updatedContent);
 
-    return latestContent;
+    return Map.of("latestContent", latestContent, "nextPosition", nextPosition);
 
   }
 
-  /*
-   * 根據編輯的內容，計算更新後的座標，讓下一次同版本的操作使用
-   */
-  private EditPosition calculateUpdatedPosition(String text, EditPosition editPosition) {
-    String[] splitText = text.split("\n");
-    return null;
-  }
-  private SendOperationMessage generateSendOperationMessage(ReceivedOperationMessage message, EditPosition position) {
+  private SendOperationMessage generateSendOperatingMessage(ReceivedOperationMessage message, EditPosition position) {
     SendOperationMessage sendOperationMessage = new SendOperationMessage();
     sendOperationMessage.setOperationType(message.getOperationType());
     sendOperationMessage.setUsername(message.getUsername());
@@ -205,6 +215,12 @@ public class CoEditServiceImpl implements CoEditService{
       ArrayList<String> noteContentList = new ArrayList<>(Arrays.asList(splitNoteContent));
       String versionId = this.generateVersionId();
       NoteHistory noteHistory = new NoteHistory(versionId, noteContentList);
+      EditPositionVersion editPositionVersion = new EditPositionVersion();
+      ArrayList<Integer> position = new ArrayList<>();
+      position.add(0, 0);
+      position.add(1, 0);
+      editPositionVersion.setNextInsertPosition(position);
+      noteHistory.getEditHistory().put(versionId, editPositionVersion);
 
       log.info("分割後的content");
       log.info(Arrays.toString(splitNoteContent));
