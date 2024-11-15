@@ -10,8 +10,14 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@toast-ui/editor": "^3.2.2",
     "nuxt": "^3.14.159",
+    "pug": "^3.0.3",
     "vue": "latest",
     "vue-router": "latest"
+  },
+  "devDependencies": {
+    "@vue/language-plugin-pug": "^2.1.10",
+    "tailwindcss": "^3.4.14"
   }
 }
