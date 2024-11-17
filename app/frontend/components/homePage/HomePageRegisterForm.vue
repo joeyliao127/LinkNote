@@ -1,33 +1,58 @@
 <template>
-  <div class="signin-ctn blurry-background">
+  <div class="signup-ctn blurry-background display-none">
     <div class="form-ctn flex">
-      <p id="login-text" class="signin-ctn">SignIn</p>
+      <p id="login-text">SignUp</p>
+      <div class="username flex input-box">
+        <input
+          type="text"
+          name="username"
+          id="username"
+          placeholder="username"
+        />
+        <div class="icon">
+          <img src="~/assets/img/person-black.png" alt="email" />
+        </div>
+      </div>
       <div class="email flex input-box">
-        <input type="email" id="signin-email" value="test@test.com" />
+        <input
+          type="email"
+          name="email"
+          id="signup-email"
+          placeholder="Email"
+        />
         <div class="icon">
           <img src="~/assets/img/email.png" alt="email" />
         </div>
       </div>
+
       <div class="password flex input-box">
         <input
           type="password"
           name="password"
-          id="signin-password"
-          value="abc123"
+          id="signup-password"
+          placeholder="Password"
         />
         <div class="icon">
           <img src="~/assets/img/password.png" alt="password" />
         </div>
       </div>
-      <p id="idsignin-error-msg"></p>
-      <button>SignIn</button>
+      <div class="password flex input-box">
+        <input
+          type="password"
+          name="confirmPassword"
+          id="confirmPassword"
+          placeholder="Confirm Your Password"
+        />
+        <div class="icon">
+          <img src="~/assets/img/password.png" alt="password" />
+        </div>
+      </div>
+      <p id="signup-error-msg"></p>
+      <button>SignUp</button>
 
       <div class="switch-form">
-        <p class="text-light-gray">
-          Don't have an account? Click
-          <span class="text-[#778b86] cursor-pointer" @click="switchFormStatus"
-            >Register
-          </span>
+        <p>
+          Back to <span id="toSignin" @click="switchFormStatus">Sigin</span>
         </p>
       </div>
     </div>
@@ -37,7 +62,7 @@
 const emit = defineEmits(["switchFormStatus"]);
 
 function switchFormStatus() {
-  console.log("點擊signin，切換到signup");
+  console.log("點擊signup，切換到signin");
   emit("switchFormStatus");
 }
 </script>
@@ -107,6 +132,30 @@ function switchFormStatus() {
     transition: all 0.2s ease-in-out;
     &:hover {
       opacity: 0.8;
+    }
+  }
+
+  #signin-error-msg {
+    text-align: center;
+    color: red;
+  }
+  #signup-error-msg {
+    text-align: center;
+    color: rgb(204, 12, 12);
+  }
+
+  .switch-form {
+    text-align: center;
+    p {
+      color: #dddddd;
+    }
+    span {
+      cursor: pointer;
+      text-decoration: underline;
+      color: #778b86;
+      &:hover {
+        opacity: 0.7;
+      }
     }
   }
 }

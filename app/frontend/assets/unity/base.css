@@ -1,8 +1,14 @@
-@import url(/assets/unity/reset.css);
+/* @import url(/assets/unity/reset.css);  tailwind已經自動引入reset*/
 
 body {
   background-image: url(~/assets/img/fugi.jpeg);
   background-repeat: no-repeat;
   background-size: cover;
   overflow: hidden;
+  font-family: kanit;
+}
+
+@font-face {
+  font-family: kanit;
+  src: url(~/assets/font/Kanit-Regular.ttf);
 }
