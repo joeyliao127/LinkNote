@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   nginx:
@@ -20,7 +20,7 @@ services:
       context: ./MySQL
       dockerfile: Dockerfile
     ports:
-      - ${DB_PORT}:3306
+      - ${LOCAL_DB_PORT}:${DB_PORT}
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
@@ -34,7 +34,15 @@ services:
       linknote:
         ipv4_address: 172.20.0.3
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD}"]
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-p${MYSQL_ROOT_PASSWORD}",
+        ]
 
   authentication:
     container_name: app_authentication
@@ -95,11 +103,6 @@ networks:
   linknote:
     driver: bridge
     ipam:
-        driver: default
-        config:
-          - subnet: 172.20.0.0/16
-
-
-
-
-
+      driver: default
+      config:
+        - subnet: 172.20.0.0/16
