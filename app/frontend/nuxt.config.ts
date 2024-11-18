@@ -1,5 +1,17 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  app:{
+    head:{
+      title: 'Linknote',
+      link: [
+        {
+          rel: 'icon',
+          type: 'image/x-icon',
+          href: '/img/LinkNote.png',
+        },
+      ]
+    }
+  },
   compatibilityDate: "2024-04-03",
   devtools: { enabled: true },
   components: true,

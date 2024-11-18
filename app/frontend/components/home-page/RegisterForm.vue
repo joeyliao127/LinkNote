@@ -64,14 +64,23 @@
 </template>
 <script lang="ts" setup>
 const emit = defineEmits(["switchFormStatus"]);
+const authURL = inject("authURL");
 
 const username = ref("");
 const email = ref("");
 const password = ref("");
 const confirmPassword = ref("");
 
-function registerUser() {
-  
+async function registerUser() {
+  try {
+    const res = await $fetch(`${authURL}/api/user/register`, {
+      method: "POST",
+      body: {
+        username: username,
+        email: email,
+      },
+    });
+  } catch (e) {}
 }
 
 function switchFormStatus() {

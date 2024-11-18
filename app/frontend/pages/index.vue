@@ -1,5 +1,4 @@
 <template>
-  <h1 class="hidden">LinkNote</h1>
   <div class="w-screen h-screen">
     <div
       class="flex justify-center w-[100%] m-auto p-[120px] gap-[5vw] pt-[22vh]"
@@ -35,10 +34,11 @@
 import "~/assets/unity/base.css";
 
 const displaySignInForm = ref(true);
+const config = useRuntimeConfig();
+console.log(config.public);
+provide("authURL", config.public.authApiUrl);
 
-const switchForm = () => {
-  displaySignInForm.value = !displaySignInForm.value;
-};
+const switchForm = () => (displaySignInForm.value = !displaySignInForm.value);
 </script>
 
 <style>

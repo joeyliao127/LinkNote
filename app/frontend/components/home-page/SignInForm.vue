@@ -35,23 +35,19 @@
 </template>
 <script lang="ts" setup>
 const emit = defineEmits(["switchFormStatus"]);
-const config = useRuntimeConfig();
-
+const authURL = inject("authURL");
 const email = ref("test@test.com");
 const password = ref("abc123");
 
 async function signIn() {
   try {
-    const res = await $fetch(
-      `${config.public.authApiUrl}/api/auth/user/signin`,
-      {
-        method: "POST",
-        body: {
-          email: email.value,
-          password: password.value,
-        },
-      }
-    );
+    const res = await $fetch(`${authURL}/api/auth/user/signin`, {
+      method: "POST",
+      body: {
+        email: email.value,
+        password: password.value,
+      },
+    });
 
     console.log(res);
   } catch (e) {
