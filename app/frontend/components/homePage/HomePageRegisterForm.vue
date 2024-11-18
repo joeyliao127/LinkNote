@@ -8,6 +8,7 @@
           name="username"
           id="username"
           placeholder="username"
+          v-model="username"
         />
         <div class="icon">
           <img src="~/assets/img/person-black.png" alt="email" />
@@ -19,6 +20,7 @@
           name="email"
           id="signup-email"
           placeholder="Email"
+          v-model="email"
         />
         <div class="icon">
           <img src="~/assets/img/email.png" alt="email" />
@@ -31,6 +33,7 @@
           name="password"
           id="signup-password"
           placeholder="Password"
+          v-model="password"
         />
         <div class="icon">
           <img src="~/assets/img/password.png" alt="password" />
@@ -42,13 +45,14 @@
           name="confirmPassword"
           id="confirmPassword"
           placeholder="Confirm Your Password"
+          v-model="confirmPassword"
         />
         <div class="icon">
           <img src="~/assets/img/password.png" alt="password" />
         </div>
       </div>
       <p id="signup-error-msg"></p>
-      <button>SignUp</button>
+      <button @click="registerUser">SignUp</button>
 
       <div class="switch-form">
         <p>
@@ -60,6 +64,15 @@
 </template>
 <script lang="ts" setup>
 const emit = defineEmits(["switchFormStatus"]);
+
+const username = ref("");
+const email = ref("");
+const password = ref("");
+const confirmPassword = ref("");
+
+function registerUser() {
+  
+}
 
 function switchFormStatus() {
   console.log("點擊signup，切換到signin");

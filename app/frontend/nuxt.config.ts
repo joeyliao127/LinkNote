@@ -10,4 +10,9 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+  runtimeConfig: {
+    public: {
+      authApiUrl: "http://127.0.0.1:8080",
+    },
+  },
 });

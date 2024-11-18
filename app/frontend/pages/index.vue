@@ -34,7 +34,7 @@
 <script lang="ts" setup>
 import "~/assets/unity/base.css";
 
-const displaySignInForm = ref(false);
+const displaySignInForm = ref(true);
 
 const switchForm = () => {
   displaySignInForm.value = !displaySignInForm.value;

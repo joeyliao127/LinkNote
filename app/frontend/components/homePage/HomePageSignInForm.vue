@@ -3,7 +3,7 @@
     <div class="form-ctn flex">
       <p id="login-text" class="signin-ctn">SignIn</p>
       <div class="email flex input-box">
-        <input type="email" id="signin-email" value="test@test.com" />
+        <input type="email" v-model="email" id="signin-email" />
         <div class="icon">
           <img src="~/assets/img/email.png" alt="email" />
         </div>
@@ -11,16 +11,16 @@
       <div class="password flex input-box">
         <input
           type="password"
+          v-model="password"
           name="password"
           id="signin-password"
-          value="abc123"
         />
         <div class="icon">
           <img src="~/assets/img/password.png" alt="password" />
         </div>
       </div>
       <p id="idsignin-error-msg"></p>
-      <button>SignIn</button>
+      <button @click="signIn">SignIn</button>
 
       <div class="switch-form">
         <p class="text-light-gray">
@@ -35,9 +35,31 @@
 </template>
 <script lang="ts" setup>
 const emit = defineEmits(["switchFormStatus"]);
+const config = useRuntimeConfig();
+
+const email = ref("test@test.com");
+const password = ref("abc123");
+
+async function signIn() {
+  try {
+    const res = await $fetch(
+      `${config.public.authApiUrl}/api/auth/user/signin`,
+      {
+        method: "POST",
+        body: {
+          email: email.value,
+          password: password.value,
+        },
+      }
+    );
+
+    console.log(res);
+  } catch (e) {
+    console.log(e);
+  }
+}
 
 function switchFormStatus() {
-  console.log("點擊signin，切換到signup");
   emit("switchFormStatus");
 }
 </script>
