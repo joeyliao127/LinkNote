@@ -35,7 +35,7 @@ import "~/assets/unity/base.css";
 
 const displaySignInForm = ref(true);
 const config = useRuntimeConfig();
-console.log(config.public);
+
 provide("authURL", config.public.authApiUrl);
 
 const switchForm = () => (displaySignInForm.value = !displaySignInForm.value);

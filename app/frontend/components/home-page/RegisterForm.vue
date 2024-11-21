@@ -52,7 +52,7 @@
         </div>
       </div>
       <p id="signup-error-msg"></p>
-      <button @click="registerUser">SignUp</button>
+      <button @click="signup">SignUp</button>
 
       <div class="switch-form">
         <p>
@@ -71,16 +71,24 @@ const email = ref("");
 const password = ref("");
 const confirmPassword = ref("");
 
-async function registerUser() {
+async function signup() {
+  console.log("點擊註冊");
   try {
     const res = await $fetch(`${authURL}/api/user/register`, {
+      // headers: {
+      //   "Content-Type": "application/json",
+      // },
       method: "POST",
       body: {
-        username: username,
-        email: email,
+        username: username.value,
+        email: email.value,
+        password: password.value,
       },
     });
-  } catch (e) {}
+    console.log(res);
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 function switchFormStatus() {
